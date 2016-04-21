@@ -33,9 +33,6 @@ module Kapp10Finishline
     # config.active_record.raise_in_transactional_callbacks = true
     config.encoding = "utf-8"
 
-    config.serve_static_assets = true
-
-    config.assets.enabled = true
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
 
   end
