@@ -267,6 +267,7 @@ body {
 .stat b {
     font-family: MuseoSans-900, sans-serif;
     font-size: 65px;
+    font-weight: 900;
     color: #FFFFFF;
 }
 
