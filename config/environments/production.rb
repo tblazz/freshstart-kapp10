@@ -79,5 +79,7 @@ Rails.application.configure do
 
   Resque.logger.level = MonoLogger::WARN
 
+  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s
+
   ENV["REDIS_URL"] ||= "redis://h:pdrsrc5v6f12a31i5ed1nhsfufd@ec2-46-137-82-111.eu-west-1.compute.amazonaws.com:25929"
 end

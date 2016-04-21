@@ -3,6 +3,8 @@ require 'csv'
 class ProcessResultJob < ActiveJob::Base
   queue_as :default
 
+
+
   def perform(row)
     #on parse la ligne de CSV
 
