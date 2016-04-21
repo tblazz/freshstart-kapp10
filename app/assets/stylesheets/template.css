@@ -190,11 +190,11 @@ body {
 }
 
 .name {
-    font-family: MuseoSans-900, sans-serif;
+    font-family: MuseoSans-700, sans-serif;
     font-size: 60px;
     color: #FFFFFF;
     padding-top: 1.5em;
-    font-weight: 900;
+    font-weight: 700;
 }
 
 .number {
@@ -217,13 +217,13 @@ body {
 }
 
 .date {
-    font-family: MuseoSans-700Italic, sans-serif;
+    font-family: MuseoSans-500Italic, sans-serif;
     font-size: 48px;
     color: #FFFFFF;
     position: fixed;
-    width: 1024px;
+    width: 100%;
     top: 85%;
-    font-weight: 700;
+    font-weight: 500;
     font-style: italic;
 }
 
