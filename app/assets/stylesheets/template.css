@@ -242,7 +242,7 @@ body {
 
 .stats {
     position: fixed;
-    width: 1004px;
+    width: 96%;
     top: 40%;
 }
 
@@ -260,13 +260,13 @@ body {
     margin: 2% 1%;
     text-align: center;
     font-family: MuseoSans-100, sans-serif;
-    font-size: 70px;
+    font-size: 65px;
     color: #FFFFFF;
 }
 
 .stat b {
     font-family: MuseoSans-900, sans-serif;
-    font-size: 70px;
+    font-size: 65px;
     color: #FFFFFF;
 }
 
