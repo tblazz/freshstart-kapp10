@@ -79,9 +79,21 @@ Rails.application.configure do
 
   Resque.logger.level = MonoLogger::WARN
 
-  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s
+  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
 
   ENV["REDIS_URL"] ||= "redis://h:pdrsrc5v6f12a31i5ed1nhsfufd@ec2-46-137-82-111.eu-west-1.compute.amazonaws.com:25929"
   ENV["MIN_PUMA_WORKERS_COUNT"] ||= "1"
   ENV["MAX_PUMA_WORKERS_COUNT"] ||= "8"
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.smtp_settings = {
+      address:              'ssl0.ovh.net',
+      port:                 587,
+      domain:               'kapp10.com',
+      user_name:            'contact@kapp10.com',
+      password:             'footix3@0',
+      authentication:       'plain',
+      enable_starttls_auto: true
+  }
 end

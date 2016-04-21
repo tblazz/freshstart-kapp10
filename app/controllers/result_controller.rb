@@ -39,6 +39,8 @@ class ResultController < ApplicationController
       file = params[:file].read
       filename = params[:file].original_filename
 
+      print "\n\nlocation = "+Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s + "\n\n"
+
       #on enregistre le fichier uploadé dans le répertoire public
       path = File.join Rails.root, 'public', filename
       if path
@@ -78,8 +80,13 @@ class ResultController < ApplicationController
                 #on sauve le HTML dans une image en local
                 kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
                 kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
-                imagepath = File.join Rails.root, 'public', @number+".jpg"
-                File.open(imagepath, 'wb') { |f| f.write kit.to_img(:jpg) }
+                image_file_name = @race_name+"_"+@race_date+"_"+@number+".jpg"
+                image_file_name.gsub!(/\s/, '-')
+                image_path = File.join Rails.root, 'public', image_file_name
+                File.open(image_path, 'wb') { |f| f.write kit.to_img(:jpg) }
+
+                #on envoi un mail récapitulatif si le mail est fourni
+                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path).deliver_later
 
               end
 
