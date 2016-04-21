@@ -194,12 +194,14 @@ body {
     font-size: 60px;
     color: #FFFFFF;
     padding-top: 1.5em;
+    font-weight: 900;
 }
 
 .number {
     font-family: MuseoSans-900, sans-serif;
     font-size: 160px;
     color: #FFFFFF;
+    font-weight: 900;
 }
 
 .race {
@@ -210,6 +212,7 @@ body {
     position: fixed;
     width: 1024px;
     top: 75%;
+    font-weight: 900;
     font-style: italic;
 }
 
@@ -220,6 +223,7 @@ body {
     position: fixed;
     width: 1024px;
     top: 85%;
+    font-weight: 700;
     font-style: italic;
 }
 
@@ -227,6 +231,7 @@ body {
     font-family: MuseoSans-900Italic, sans-serif;
     font-size: 24px;
     color: #FFFFFF;
+    font-weight: 900;
     font-style: italic;
 }
 
@@ -236,6 +241,7 @@ body {
     color: #FFFFFF;
     position: fixed;
     width: 1024px;
+    font-weight: 300;
     top: 95%;
     font-style: italic;
 }
@@ -261,6 +267,7 @@ body {
     text-align: center;
     font-family: MuseoSans-100, sans-serif;
     font-size: 65px;
+    font-weight: 100;
     color: #FFFFFF;
 }
 
