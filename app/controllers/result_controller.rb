@@ -26,7 +26,7 @@ class ResultController < ApplicationController
     @rank_image = root_url+'template/images/ic_medal.png'
     @time_image = root_url+'template/images/ic_timer.png'
     @speed_image = root_url+'template/images/ic_speed.png'
-    render 'result/result_template'
+    render 'result/template'
   end
 
   def new
@@ -45,21 +45,23 @@ class ResultController < ApplicationController
         if File.extname(path) == CSV_EXTENSION
           File.open(path, 'wb') { |f| f.write file }
 
+          #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
+          CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
+            @rank_total = row[RANK_INDEX]
+          end
+
           #on parcours le fichier CSV
-          CSV.foreach(path, :headers => true, :col_sep => ";") do |row|
+          CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
             # ProcessResultJob.perform_now(row.to_hash)
             if row
-
-
               #on génère le HTML contenant ces informations
-              erb_file = "#{Rails.root}/app/views/result/result_template.html.erb"
+              erb_file = "#{Rails.root}/app/views/result/template.html.erb"
               erb_str = File.read(erb_file)
 
               phone = row[PHONE_INDEX]
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
               @rank = row[RANK_INDEX]
-              @rank_total = row[RANK_INDEX]
               @time = row[TIME_INDEX]
               @speed = row[SPEED_INDEX]
               @number = row[NUMBER_INDEX]
@@ -73,15 +75,9 @@ class ResultController < ApplicationController
               renderer = ERB.new(erb_str)
               if renderer
                 rendered_html = renderer.result(binding)
-
-                print "\n"
-                print "\n"
-                renderer.run(binding)
-                print "\n"
-                print "\n"
                 #on sauve le HTML dans une image en local
                 kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
-                kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/result_template.css.erb"
+                kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
                 imagepath = File.join Rails.root, 'public', @number+".jpg"
                 File.open(imagepath, 'wb') { |f| f.write kit.to_img(:jpg) }
 

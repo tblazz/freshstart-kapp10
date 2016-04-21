@@ -8,7 +8,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     margin: 0;
     padding: 0;
     border: 0;
-    font-size: 100%;
     font: inherit;
     vertical-align: baseline;
 }
@@ -28,8 +27,6 @@ blockquote, q {
 }
 
 blockquote:before, blockquote:after, q:before, q:after {
-    content: '';
-    content: none;
 }
 
 table {
@@ -116,70 +113,70 @@ img {
 
 @font-face {
     font-family: 'MuseoSans-100';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100.otf');
     font-weight: 100;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-100Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100Italic');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100Italic.otf');
     font-weight: 100;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-300';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300.otf');
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-300Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300Italic');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300Italic.otf');
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-500';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500.otf');
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-500Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500Italic');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500Italic.otf');
     font-weight: 500;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-700';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700.otf');
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-700Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700Italic');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700Italic.otf');
     font-weight: 700;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-900';
-    src: url(<%= asset_path 'MuseoSans_900.otf' %>);
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-900.otf');
     font-weight: 900;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-900Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-900Italic');
+    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-900Italic.otf');
     font-weight: 900;
     font-style: italic;
 }
@@ -196,14 +193,12 @@ body {
     font-family: MuseoSans-900, sans-serif;
     font-size: 60px;
     color: #FFFFFF;
-    font-weight: 900;
-    padding-top: 1em;
+    padding-top: 1.5em;
 }
 
 .number {
     font-family: MuseoSans-900, sans-serif;
     font-size: 160px;
-    font-weight: 900;
     color: #FFFFFF;
 }
 
@@ -215,7 +210,6 @@ body {
     position: fixed;
     width: 1024px;
     top: 75%;
-    font-weight: 900;
     font-style: italic;
 }
 
@@ -226,7 +220,6 @@ body {
     position: fixed;
     width: 1024px;
     top: 85%;
-    font-weight: 700;
     font-style: italic;
 }
 
@@ -234,7 +227,6 @@ body {
     font-family: MuseoSans-900Italic, sans-serif;
     font-size: 24px;
     color: #FFFFFF;
-    font-weight: 900;
     font-style: italic;
 }
 
@@ -245,18 +237,20 @@ body {
     position: fixed;
     width: 1024px;
     top: 95%;
-    font-weight: 300;
     font-style: italic;
 }
 
 .stats {
     position: fixed;
-    width: 1024px;
+    width: 1004px;
     top: 40%;
 }
 
 .stat img {
-    padding: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+
 }
 
 .stat {
@@ -268,13 +262,11 @@ body {
     font-family: MuseoSans-100, sans-serif;
     font-size: 70px;
     color: #FFFFFF;
-    font-weight: 100;
 }
 
 .stat b {
     font-family: MuseoSans-900, sans-serif;
     font-size: 70px;
     color: #FFFFFF;
-    font-weight: 900;
 }
 
