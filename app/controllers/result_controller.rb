@@ -13,6 +13,21 @@ class ResultController < ApplicationController
   TIME_INDEX = 10
   SPEED_INDEX = 11
 
+  def get
+    @name = "Edouard & Luisa Nascimento "
+    @rank = 43
+    @rank_total = 140
+    @time = "3\"10'3"
+    @speed = 19
+    @number = 666
+    @race_name = "Ahargo Lasterkaz"
+    @race_date = "Barcus 30 avril 2016"
+
+    @rank_image = root_url+'template/images/ic_medal.png'
+    @time_image = root_url+'template/images/ic_timer.png'
+    @speed_image = root_url+'template/images/ic_speed.png'
+    render 'result/result_template'
+  end
 
   def new
   end
@@ -51,18 +66,23 @@ class ResultController < ApplicationController
               @race_name = "Ahargo Lasterkaz"
               @race_date = "Barcus 30 avril 2016"
 
-              @rank_image = ActionController::Base.helpers.image_tag('ic_medal.png')
-              @time_image = ActionController::Base.helpers.image_tag('ic_timer.png')
-              @speed_image = ActionController::Base.helpers.image_tag('ic_speed.png')
+              @rank_image = root_url+'template/images/ic_medal.png'
+              @time_image = root_url+'template/images/ic_timer.png'
+              @speed_image = root_url+'template/images/ic_speed.png'
 
               renderer = ERB.new(erb_str)
               if renderer
                 rendered_html = renderer.result(binding)
 
+                print "\n"
+                print "\n"
+                renderer.run(binding)
+                print "\n"
+                print "\n"
                 #on sauve le HTML dans une image en local
                 kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
                 kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/result_template.css.erb"
-                imagepath = File.join Rails.root, 'public', @race_name+ "-"+ @name+ ".jpg"
+                imagepath = File.join Rails.root, 'public', @number+".jpg"
                 File.open(imagepath, 'wb') { |f| f.write kit.to_img(:jpg) }
 
               end

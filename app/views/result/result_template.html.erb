@@ -1,35 +1,30 @@
 <html>
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Kapp10 - FinishLine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-<!-- cadre général -->
-<div class="main">
-  <!-- cadre de l'image de profil + texte -->
-  <div class="name"><%= @name %></div>
-  <div class="number"><%= @number %></div>
-  <div class="stats">
-    <div class="stat">
-      <%= @rank_image %>
-      <%= @rank %>/<%= @rank_total %>
-    </div>
-    <div class="stat">
-      <%= @rank_image %>
-      <%= @time %>
-    </div>
-    <div class="stat">
-      <%= @rank_image %>
-      <%= @speed %>km/h
-    </div>
+<div class="name"><%= @name %></div>
+<div class="number"><%= @number %></div>
+<div class="stats">
+  <div class="stat">
+    <img src=<%= @rank_image %>>
+    <b><%= @rank %></b>/<%= @rank_total %>
   </div>
-  <div class="race">
-    <%= @race_name %><br/>
-    <%= @race_date %>
+  <div class="stat">
+    <img src=<%= @time_image %>>
+    <b><%= @time %></b>
   </div>
-  <div class="credit">
-    Powered by Kapp10 finishline
+  <div class="stat">
+    <img src=<%= @speed_image %>>
+    <b><%= @speed %></b>km/h
   </div>
+</div>
+<div class="race"><%= @race_name %></div>
+<div class="date"><%= @race_date %></div>
+<div class="credit">
+  Powered by <b>Kapp10 finishline</b>
 </div>
 </body>
 </html>
