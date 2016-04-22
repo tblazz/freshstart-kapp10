@@ -103,6 +103,7 @@ GEM
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     netrc (0.10.3)
+    newrelic_rpm (3.11.1.284)
     nokogiri (1.6.7.2)
       mini_portile2 (~> 2.0.0.rc2)
     pg (0.18.4)
@@ -197,6 +198,7 @@ DEPENDENCIES
   imgkit (~> 1.6.1)
   jbuilder (~> 2.0)
   jquery-rails
+  newrelic_rpm (~> 3.11.1.284)
   pg (~> 0.15)
   puma (~> 3.4.0)
   rails (= 4.2.6)
