@@ -7,10 +7,13 @@ class ResultMailer < ApplicationMailer
     subject = "Résultat Ahargo Lasterkaz"
     @name = name
     @time = time
-    attachments[image_file_name] = File.read(image_path)
-    mail to: mail_address, subject: subject do |format|
-      format.html { render layout: 'result_mailer' }
-      format.text { render layout: 'result_mailer' }
+    response = HTTParty.get(URI(image_path))
+    if response
+      attachments[image_file_name] = response.body
+      mail to: mail_address, subject: subject do |format|
+        format.html { render layout: 'result_mailer' }
+        format.text { render layout: 'result_mailer' }
+      end
     end
   end
 

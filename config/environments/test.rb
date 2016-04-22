@@ -49,6 +49,12 @@ Rails.application.configure do
   ENV["MIN_PUMA_WORKERS_COUNT"] ||= "1"
   ENV["MAX_PUMA_WORKERS_COUNT"] ||= "8"
 
+  #config S3
+  ENV['AWS_REGION'] ||= "eu-west-1"
+  ENV['S3_BUCKET'] ||= "kapp10finishline"
+  ENV['AWS_ACCESS_KEY_ID'] ||= "AKIAIT5MGBQ56BK3QPSQ"
+  ENV['AWS_SECRET_ACCESS_KEY'] ||= "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"
+
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.smtp_settings = {

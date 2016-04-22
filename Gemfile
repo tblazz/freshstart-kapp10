@@ -1,4 +1,6 @@
 source 'https://rubygems.org'
+require 'rubygems'
+ruby '2.3.0'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -19,3 +21,5 @@ gem 'puma', '~> 3.4.0'
 gem 'resque', '~> 1.26.0', require: 'resque/server'
 gem 'imgkit', '~> 1.6.1'
 gem 'wkhtmltoimage-binary', '~> 0.12.2'
+gem 'aws-sdk-rails', '~> 1.0.1'
+gem 'httparty', '~> 0.13.5'

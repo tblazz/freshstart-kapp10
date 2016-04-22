@@ -14,7 +14,7 @@ class ResultController < ApplicationController
   SPEED_INDEX = 11
 
   def get
-    @name = "Edouard & Luisa Nascimento "
+    @name = "test"
     @rank = 43
     @rank_total = 140
     @time = "3\"10'3"
@@ -30,6 +30,7 @@ class ResultController < ApplicationController
   end
 
   def new
+    @message = nil
   end
 
   def create
@@ -38,8 +39,6 @@ class ResultController < ApplicationController
       #on récupère le fichier uploadé
       file = params[:file].read
       filename = params[:file].original_filename
-
-      print "\n\nlocation = "+Rails.root.join('bin', 'wkhtmltoimage-amd64').to_s + "\n\n"
 
       #on enregistre le fichier uploadé dans le répertoire public
       path = File.join Rails.root, 'public', filename
@@ -77,13 +76,16 @@ class ResultController < ApplicationController
               renderer = ERB.new(erb_str)
               if renderer
                 rendered_html = renderer.result(binding)
-                #on sauve le HTML dans une image en local
+                #on convertit le HTML en img
                 kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
                 kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
-                image_file_name = @race_name+"_"+@race_date+"_"+@number+".jpg"
-                image_file_name.gsub!(/\s/, '-')
-                image_path = File.join Rails.root, 'public', image_file_name
-                File.open(image_path, 'wb') { |f| f.write kit.to_img(:jpg) }
+                folder_name = @race_name+"_"+@race_date
+                folder_name = folder_name.gsub!(/\s/, '-')
+                image_file_name = folder_name+"_"+@number+".jpg"
+                image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
+
+                #on envoi l'img sur S3
+                KAPP10_FINISHLINE_BUCKET.object(@race_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
 
                 #on envoi un mail récapitulatif si le mail est fourni
                 ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path).deliver_later
@@ -94,13 +96,13 @@ class ResultController < ApplicationController
           end
           File.delete path
         else
-          #todo redirect
+          redirect_to root_url, alert: "Le fichier envoyé n'est pas au format CSV."
         end
       else
-        #TODO redirect
+        redirect_to root_url, alert: "Aucun fichier envoyé. Veuillez sélectionner un fichier et cliquer sur Envoyer."
       end
     else
-      #TODO redirect
+      redirect_to root_url, alert: "Aucun fichier envoyé. Veuillez sélectionner un fichier et cliquer sur Envoyer."
     end
 
   end

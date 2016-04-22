@@ -6,3 +6,10 @@ Choisissez un fichier CSV à traiter :
       <%= file_field_tag :file %>
       <%= submit_tag "Envoyer" %>
 <% end %>
+
+<div class="flash">
+  <% flash.each do |key, value| %>
+      <%= value %>
+  <% end %>
+  <%= yield %>
+</div>
