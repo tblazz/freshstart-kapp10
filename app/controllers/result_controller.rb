@@ -1,4 +1,5 @@
 require 'csv'
+require 'charlock_holmes'
 
 class ResultController < ApplicationController
 
@@ -45,6 +46,12 @@ class ResultController < ApplicationController
       if path
         if File.extname(path) == CSV_EXTENSION
           File.open(path, 'wb') { |f| f.write file }
+
+          #on transcode le fichier en UTF8 si besoin
+          content = File.read(path)
+          detection = CharlockHolmes::EncodingDetector.detect(content)
+          utf8_encoded_content = CharlockHolmes::Converter.convert content, detection[:encoding], 'UTF-8'
+          File.open(path, 'wb') { |f| f.write utf8_encoded_content }
 
           #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
