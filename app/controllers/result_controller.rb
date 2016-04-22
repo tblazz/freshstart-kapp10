@@ -85,10 +85,10 @@ class ResultController < ApplicationController
                 image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
 
                 #on envoi l'img sur S3
-                KAPP10_FINISHLINE_BUCKET.object(@race_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
+                KAPP10_FINISHLINE_BUCKET.object(folder_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
 
-                #on envoi un mail récapitulatif si le mail est fourni
-                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path).deliver_later
+                #on envoi un mail récapitulatif si le mail est fourni et valide
+                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path).deliver_later if mail =~ MAIL_REGEX
 
               end
 
