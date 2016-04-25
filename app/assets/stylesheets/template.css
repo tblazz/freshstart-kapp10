@@ -184,6 +184,8 @@ img {
 body {
     width: 1024px;
     height: 1024px;
+    max-width: 1024px;
+    max-height: 1024px;
     background: url('https://kapp10-finishline.herokuapp.com/template/images/background.jpg') no-repeat center fixed;
     text-align: center;
     margin: auto;
@@ -193,6 +195,8 @@ body {
     font-family: MuseoSans-900, sans-serif;
     font-size: 70px;
     color: #FFFFFF;
+    overflow-x: hidden;
+    word-wrap: break-word;
     padding-top: 1.5em;
     font-weight: 900;
 }
@@ -221,7 +225,7 @@ body {
     font-size: 48px;
     color: #FFFFFF;
     position: fixed;
-    width: 100%;
+    width: 1024px;
     top: 85%;
     font-weight: 500;
     font-style: italic;
@@ -248,8 +252,8 @@ body {
 
 .stats {
     position: fixed;
-    width: 96%;
-    top: 40%;
+    width: 982px;
+    top: 45%;
 }
 
 .stat img {
@@ -262,7 +266,7 @@ body {
 .stat {
     display: block;
     float: left;
-    width: 31%;
+    width: 306px;
     margin: 2% 1%;
     text-align: center;
     font-family: MuseoSans-100, sans-serif;
