@@ -1,11 +1,12 @@
 class ResultMailer < ApplicationMailer
 
   #Envoi un mail au participant
-  def mail_result(name, time, mail_address, image_file_name, image_path)
+  def mail_result(name, time, mail_address, image_file_name, image_path, short_image_path)
     if image_path && mail_address
       subject = "Résultat Ahargo Lasterkaz"
       @name = name
       @time = time
+      @path = short_image_path
       response = HTTParty.get(image_path)
       if response
         temp_file = Tempfile.new(SecureRandom.hex(20), "/tmp",:encoding => 'ascii-8bit')

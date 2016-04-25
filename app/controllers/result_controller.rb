@@ -15,7 +15,7 @@ class ResultController < ApplicationController
   SPEED_INDEX = 11
 
   def get
-    @name = "test"
+    @name = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
     @rank = 43
     @rank_total = 140
     @time = "3\"10'3"
@@ -60,13 +60,13 @@ class ResultController < ApplicationController
 
           #on parcours le fichier CSV
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-            # ProcessResultJob.perform_now(row.to_hash)
+            # SendSmsJob.perform_now(row.to_hash)
             if row
               #on génère le HTML contenant ces informations
               erb_file = "#{Rails.root}/app/views/result/template.html.erb"
               erb_str = File.read(erb_file)
 
-              phone = row[PHONE_INDEX]
+              phone_number = row[PHONE_INDEX]
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
               @rank = row[RANK_INDEX]
@@ -90,13 +90,16 @@ class ResultController < ApplicationController
                 folder_name = folder_name.gsub!(/\s/, '-')
                 image_file_name = folder_name+"_"+@number+".jpg"
                 image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
+                short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
 
                 #on envoi l'img sur S3
                 KAPP10_FINISHLINE_BUCKET.object(folder_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
 
                 #on envoi un mail récapitulatif si le mail est fourni et valide
-                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path).deliver_later if mail =~ MAIL_REGEX
+                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
+                #on envoi un sms si le numéro de téléphone est valide
+                # SendSmsJob.perform_later(@name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
               end
 
             end

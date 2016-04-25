@@ -1,0 +1,14 @@
+fr:
+  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir les 19km du Trail de Barcus ! %{url}"
+  sms_payload: "{
+                  'DATA': {
+                     'CAMPAIGN_NAME': '%{campain_name}',
+                     'MESSAGE': '%{message}',
+                     'TPOA': '%{sender_name}',
+                     'SMS': [
+                        {
+                        'MOBILEPHONE': '%{phone_number}',
+                        }
+                     ]
+                  }
+               }"
