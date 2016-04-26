@@ -92,14 +92,17 @@ class ResultController < ApplicationController
                 image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
                 short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
 
+                first_names = @name.strip.split /\s+/
+                first_name = first_names[0] if first_names.count > 0
+
                 #on envoi l'img sur S3
                 KAPP10_FINISHLINE_BUCKET.object(folder_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
 
                 #on envoi un mail récapitulatif si le mail est fourni et valide
-                ResultMailer.mail_result(@name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
+                ResultMailer.mail_result(first_name ?  first_name : @name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
                 #on envoi un sms si le numéro de téléphone est valide
-                SendSmsJob.perform_later(@name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
+                # SendSmsJob.perform_later(@name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
               end
 
             end
