@@ -1,14 +1,3 @@
 fr:
   sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir les 19km du Trail de Barcus ! Partage ton résultat sur les réseaux sociaux : %{url}"
-  sms_payload: "{
-                  'DATA': {
-                     'CAMPAIGN_NAME': '%{campain_name}',
-                     'MESSAGE': '%{message}',
-                     'TPOA': '%{sender_name}',
-                     'SMS': [
-                        {
-                        'MOBILEPHONE': '%{phone_number}',
-                        }
-                     ]
-                  }
-               }"
+  sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
