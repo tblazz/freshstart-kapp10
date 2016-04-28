@@ -6,7 +6,7 @@ class ResultMailer < ApplicationMailer
       subject = "Résultat Ahargo Lasterkaz"
       @name = name
       @time = time
-      @path = image_path
+      # @path = short_image_path
       response = HTTParty.get(image_path)
       if response
         temp_file = Tempfile.new(SecureRandom.hex(20), "/tmp",:encoding => 'ascii-8bit')
