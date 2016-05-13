@@ -70,7 +70,7 @@ class ResultController < ApplicationController
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
               @rank = row[RANK_INDEX]
-              @rank += @rank == 1 ? "er" : @rank == 2 ? "nd" : "ème"
+              @rank_total = @rank == "1" ? "er" : @rank == "2" ? "nd" : "ème"
               @time = row[TIME_INDEX]
               @speed = row[SPEED_INDEX]
               @number = row[NUMBER_INDEX]
