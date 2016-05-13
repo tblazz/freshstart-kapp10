@@ -88,7 +88,7 @@ class ResultController < ApplicationController
                 kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
                 kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
                 folder_name = @race_name+"_"+@race_date
-                folder_name = folder_name.gsub!(/\s/, '-')
+                folder_name = ActiveSupport::Inflector.transliterate folder_name.gsub!(/\s/, '-')
                 image_file_name = folder_name+"_"+@number+".jpg"
                 image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
                 short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
