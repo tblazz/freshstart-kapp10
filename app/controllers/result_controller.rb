@@ -69,7 +69,8 @@ class ResultController < ApplicationController
               phone_number = row[PHONE_INDEX]
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
-              @rank = row[RANK_INDEX]
+              # @rank = row[RANK_INDEX]
+              @rank = "30000"
               @rank_total = @rank == "1" ? "er" : @rank == "2" ? "nd" : "ème"
               @time = row[TIME_INDEX]
               @speed = row[SPEED_INDEX]
