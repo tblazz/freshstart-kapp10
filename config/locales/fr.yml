@@ -1,3 +1,3 @@
 fr:
-  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir le Trail de Barcus ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
+  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir la Rond du Pic ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
   sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"

@@ -53,10 +53,10 @@ class ResultController < ApplicationController
           utf8_encoded_content = CharlockHolmes::Converter.convert content, detection[:encoding], 'UTF-8'
           File.open(path, 'wb') { |f| f.write utf8_encoded_content }
 
-          #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
-          CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-            @rank_total = row[RANK_INDEX]
-          end
+          # #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
+          # CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
+          #   @rank_total = row[RANK_INDEX]
+          # end
 
           #on parcours le fichier CSV
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
@@ -70,11 +70,12 @@ class ResultController < ApplicationController
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
               @rank = row[RANK_INDEX]
+              @rank += @rank == 1 ? "er" : @rank == 2 ? "nd" : "ème"
               @time = row[TIME_INDEX]
               @speed = row[SPEED_INDEX]
               @number = row[NUMBER_INDEX]
-              @race_name = "Ahargo Lasterkaz"
-              @race_date = "Barcus 30 avril 2016"
+              @race_name = "Ronde du Pic"
+              @race_date = "Rébénacq 15 mai 2016"
 
               @rank_image = root_url+'template/images/ic_medal.png'
               @time_image = root_url+'template/images/ic_timer.png'

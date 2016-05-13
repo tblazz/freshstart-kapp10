@@ -3,7 +3,7 @@ class ResultMailer < ApplicationMailer
   #Envoi un mail au participant
   def mail_result(name, time, mail_address, image_file_name, image_path, short_image_path)
     if image_path && mail_address
-      subject = "Résultat Ahargo Lasterkaz"
+      subject = "Résultat Ronde du Pic - Rébénacq"
       @name = name
       @time = time
       # @path = short_image_path
