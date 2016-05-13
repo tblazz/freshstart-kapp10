@@ -8,7 +8,7 @@ IMAGE_HEIGHT = 1024
 IMAGE_WIDTH = 1024
 
 #mail
-SENDER_MAIL = "\"Ahargo Lasterkaz & Kapp10\" <contact@kapp10.com>"
+SENDER_MAIL = "\"La Ronde du Pic & Kapp10\" <contact@kapp10.com>"
 MAIL_REGEX = /^.+@.+$/
 PHONE_REGEX = /^(((\+?\s?\d{2}\s?\d)|(0\d))\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})?$/
 
