@@ -8,7 +8,7 @@ IMAGE_HEIGHT = 1024
 IMAGE_WIDTH = 1024
 
 #mail
-MAIL_REGEX = /^.+@.+$/
+MAIL_REGEX = /^(\S+)@(\S+)\.(\w+)$/
 PHONE_REGEX = /^(((\+?\s?\d{2}\s?\d)|(0\d))\s?\d{2}\s?\d{2}\s?\d{2}\s?\d{2})?$/
 
 SMS_MAX_NAME_LENGHT = 15
