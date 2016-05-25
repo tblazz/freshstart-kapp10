@@ -1,3 +1,11 @@
 fr:
-  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir la Ronde du Pic ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
+  mail_subject: "Résultat Lo Petit Aussales"
+  mail_sender: "\"Challenge d'Ossau & Kapp10\" <contact@kapp10.com>"
+  mail_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir Lo Petit Aussales !"
+  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir Lo Petit Aussales ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
   sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
+  first_suffix: "er"
+  second_suffix: "nd"
+  third_suffix: "ème"
+  race_name: "Lo Petit Aussales"
+  race_date: "Dimanche 29 mai 2016"

@@ -21,8 +21,8 @@ class ResultController < ApplicationController
     @time = "3\"10'3"
     @speed = 19
     @number = 666
-    @race_name = "Ahargo Lasterkaz"
-    @race_date = "Barcus 30 avril 2016"
+    @race_name = I18n.t('race_name')
+    @race_date = I18n.t('race_date')
 
     @rank_image = root_url+'template/images/ic_medal.png'
     @time_image = root_url+'template/images/ic_timer.png'
@@ -70,12 +70,12 @@ class ResultController < ApplicationController
               mail = row[MAIL_INDEX]
               @name = row[NAME_INDEX]
               @rank = row[RANK_INDEX]
-              @rank_total = @rank == "1" ? "er" : @rank == "2" ? "nd" : "ème"
+              @rank_total = @rank == "1" ? I18n.t('first_suffix') : @rank == "2" ? I18n.t('second_suffix') : I18n.t('third_suffix')
               @time = row[TIME_INDEX]
               @speed = row[SPEED_INDEX]
               @number = row[NUMBER_INDEX]
-              @race_name = "Ronde du Pic"
-              @race_date = "Rébénacq 15 mai 2016"
+              @race_name = I18n.t('race_name')
+              @race_date = I18n.t('race_date')
 
               @rank_image = root_url+'template/images/ic_medal.png'
               @time_image = root_url+'template/images/ic_timer.png'
@@ -103,7 +103,7 @@ class ResultController < ApplicationController
                 ResultMailer.mail_result(first_name ?  first_name : @name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
                 #on envoi un sms si le numéro de téléphone est valide
-                SendSmsJob.perform_later(first_name ?  first_name : @name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
+                # SendSmsJob.perform_later(first_name ?  first_name : @name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
               end
 
             end
