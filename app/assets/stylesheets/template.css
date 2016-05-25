@@ -202,6 +202,13 @@ body {
 }
 
 .number {
+    font-family: MuseoSans-300Italic, sans-serif;
+    font-size: 120px;
+    color: #FFFFFF;
+    font-weight: 300;
+}
+
+.number b {
     font-family: MuseoSans-900, sans-serif;
     font-size: 120px;
     color: #FFFFFF;
