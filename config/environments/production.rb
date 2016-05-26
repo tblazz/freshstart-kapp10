@@ -81,7 +81,7 @@ Rails.application.configure do
 
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
 
-  ENV['REDIS_URL'] ||= 'redis://h:pdrsrc5v6f12a31i5ed1nhsfufd@ec2-46-137-82-111.eu-west-1.compute.amazonaws.com:25929'
+  ENV['REDIS_URL'] ||= 'redis://h:pc2lj6n5vu31r0fiqf36omi41q8@ec2-54-217-205-248.eu-west-1.compute.amazonaws.com:8139'
   ENV['MIN_PUMA_WORKERS_COUNT'] ||= '1'
   ENV['MAX_PUMA_WORKERS_COUNT'] ||= '8'
 

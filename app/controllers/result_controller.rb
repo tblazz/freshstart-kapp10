@@ -61,51 +61,16 @@ class ResultController < ApplicationController
           #on parcours le fichier CSV
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
             if row
-              printf('row : '+row.to_s+'\n')
 
-              #on génère le HTML contenant ces informations
-              erb_file = "#{Rails.root}/app/views/result/template.html.erb"
-              erb_str = File.read(erb_file)
-
-              phone_number = row[PHONE_INDEX]
+              name = row[NAME_INDEX]
+              rank = row[RANK_INDEX]
+              time = row[TIME_INDEX]
+              speed = row[SPEED_INDEX]
+              number = row[NUMBER_INDEX]
               mail = row[MAIL_INDEX]
-              @name = row[NAME_INDEX]
-              @rank = row[RANK_INDEX]
-              @rank_total = @rank == "1" ? I18n.t('first_suffix') : @rank == "2" ? I18n.t('second_suffix') : I18n.t('third_suffix')
-              @time = row[TIME_INDEX]
-              @speed = row[SPEED_INDEX]
-              @number = row[NUMBER_INDEX]
-              @race_name = I18n.t('race_name')
-              @race_date = I18n.t('race_date')
+              phone_number = row[PHONE_INDEX]
 
-              @rank_image = root_url+'template/images/ic_medal.png'
-              @time_image = root_url+'template/images/ic_timer.png'
-              @speed_image = root_url+'template/images/ic_speed.png'
-
-              renderer = ERB.new(erb_str)
-              if renderer
-                rendered_html = renderer.result(binding)
-                #on convertit le HTML en img
-                kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
-                kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
-                folder_name = @race_name+"_"+@race_date
-                folder_name = ActiveSupport::Inflector.transliterate folder_name.gsub!(/\s/, '-')
-                image_file_name = folder_name+"_"+@number+".jpg"
-                image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
-                short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
-
-                first_names = @name.strip.split /\s+/
-                first_name = first_names[0] if first_names.count > 0
-
-                #on envoi l'img sur S3
-                KAPP10_FINISHLINE_BUCKET.object(folder_name+"/"+image_file_name).put(body: kit.to_img(:jpg))
-
-                #on envoi un mail récapitulatif si le mail est fourni et valide
-                ResultMailer.mail_result(first_name ?  first_name : @name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
-
-                #on envoi un sms si le numéro de téléphone est valide
-                # SendSmsJob.perform_later(first_name ?  first_name : @name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
-              end
+              TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, root_url)
 
             end
           end
