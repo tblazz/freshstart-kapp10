@@ -60,8 +60,9 @@ class ResultController < ApplicationController
 
           #on parcours le fichier CSV
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-            # SendSmsJob.perform_now(row.to_hash)
             if row
+              printf('row : '+row+'\n')
+
               #on génère le HTML contenant ces informations
               erb_file = "#{Rails.root}/app/views/result/template.html.erb"
               erb_str = File.read(erb_file)
@@ -103,7 +104,7 @@ class ResultController < ApplicationController
                 ResultMailer.mail_result(first_name ?  first_name : @name, @time, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
                 #on envoi un sms si le numéro de téléphone est valide
-                SendSmsJob.perform_later(first_name ?  first_name : @name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
+                # SendSmsJob.perform_later(first_name ?  first_name : @name, @time, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
               end
 
             end
