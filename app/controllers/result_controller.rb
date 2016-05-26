@@ -61,7 +61,7 @@ class ResultController < ApplicationController
           #on parcours le fichier CSV
           CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
             if row
-              printf('row : '+row+'\n')
+              printf('row : '+row.to_s+'\n')
 
               #on génère le HTML contenant ces informations
               erb_file = "#{Rails.root}/app/views/result/template.html.erb"
