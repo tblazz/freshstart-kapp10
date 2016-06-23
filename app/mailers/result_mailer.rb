@@ -6,6 +6,7 @@ class ResultMailer < ApplicationMailer
       subject = I18n.t 'mail_subject'
       @name = name
       @time = time
+      @url = short_image_path
       # @path = short_image_path
       response = HTTParty.get(image_path)
       if response

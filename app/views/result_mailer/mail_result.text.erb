@@ -1,15 +1,1 @@
-Bravo <%= @name %> !
-
-Tu as mis <%= @time %> pour parcourir Lo Petit Aussales !
-
-En pièce jointe, tu trouveras une image présentant ton résultat de course à partager avec tes amis et sur les réseaux sociaux (Kapp10, Facebook, Twitter ou Instagram) !
-
-#kapp10
-#challengedossau
-
-L'équipe d'organisation
-
-
-Télécharger Kapp10 sur iOS : https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526
-
-Télécharger Kapp10 sur Android : https://play.google.com/store/apps/details?id=com.kappsports.kapp10
+<%= I18n.t 'mail_message_template', name: @name, time: @time, url: @path%>
