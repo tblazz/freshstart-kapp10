@@ -1,1 +1,1 @@
-<% raw I18n.t 'mail_message_template', name: @name, time: @time, url: @url, html_tag: "<br>"%>
+<%= I18n.t('mail_message_template', name: @name, time: @time, url: @url, html_tag: "<br>").html_safe %>
