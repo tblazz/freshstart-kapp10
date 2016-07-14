@@ -16,7 +16,7 @@ fr:
                           %{html_tag}%{html_tag}
                           Télécharger Kapp10 sur iOS : https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526
                           Télécharger Kapp10 sur Android : https://play.google.com/store/apps/details?id=com.kappsports.kapp10"
-  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir %{race_name_mail} ! Partage votre résultat sur les réseaux sociaux : %{url} #kapp10"
+  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir %{race_name_mail} ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
   sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
   first_suffix: "er"
   second_suffix: "nd"
