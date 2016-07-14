@@ -71,7 +71,16 @@ class ResultController < ApplicationController
                 mail = row[MAIL_INDEX]
                 phone_number = row[PHONE_INDEX]
 
-                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], params[:sender_mail], params[:race_name_mail], params[:hash_tag], root_url)
+                #on parse le champ hashtag pour découper les hashtags présents
+                complete_hash_tag = ''
+                if params[:hash_tag]
+                  hash_tags = params[:hash_tag].strip.split /\s+/
+                  #on ajoute un # si absent du hashtag
+                  hash_tags.each do |hash_tag|
+                      complete_hash_tag = complete_hash_tag+"#{hash_tag.start_with?('#') ? '' : '#'}#{hash_tag} "
+                    end
+                end
+                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], params[:sender_mail], params[:race_name_mail], complete_hash_tag, root_url)
 
               end
             end
