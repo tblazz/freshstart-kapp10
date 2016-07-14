@@ -1,11 +1,14 @@
 class ResultMailer < ApplicationMailer
 
   #Envoi un mail au participant
-  def mail_result(name, time, mail_address, image_file_name, image_path, short_image_path)
+  def mail_result(name, time, sender_mail, race_name, race_name_mail, hash_tag, mail_address, image_file_name, image_path, short_image_path)
     if image_path && mail_address
-      subject = I18n.t 'mail_subject'
+      subject = I18n.t('mail_subject', race_name_mail: race_name_mail)
       @name = name
       @time = time
+      @race_name = race_name
+      @race_name_mail = race_name_mail
+      @hash_tag = hash_tag
       @url = short_image_path
       # @path = short_image_path
       response = HTTParty.get(image_path)
@@ -15,7 +18,7 @@ class ResultMailer < ApplicationMailer
 
         attachments[image_file_name] = File.read(temp_file)
 
-        mail to: mail_address, subject: subject do |format|
+        mail to: mail_address, from: I18n.t('mail_sender', sender_mail: sender_mail), subject: subject do |format|
           format.html { render layout: 'result_mailer' }
           format.text { render layout: 'result_mailer' }
         end

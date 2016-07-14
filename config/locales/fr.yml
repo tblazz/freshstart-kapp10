@@ -1,24 +1,22 @@
 fr:
-  race_name: "L'Ossaloise"
-  race_date: "Dimanche 26 juin 2016"
-  mail_subject: "Résultat L'Ossaloise"
-  mail_sender: "\"Challenge de l'Ossau\" <contact@kapp10.com>"
+  mail_subject: "Résultat %{race_name_mail}"
+  mail_sender: "\"%{sender_mail}\" <contact@kapp10.com>"
   mail_message_template: "Bravo %{name} !
                           %{html_tag}%{html_tag}
-                          Tu as mis %{time} pour parcourir L'Ossaloise !
+                          Tu as mis %{time} pour parcourir %{race_name_mail}
                           %{html_tag}%{html_tag}
                           En pièce jointe, tu trouveras une image présentant ton résultat de course à partager avec tes amis et sur les réseaux sociaux (Kapp10, Facebook, Twitter ou Instagram) !
                           %{html_tag}
                           Tu peux également télécharger cette image à cette adresse : %{url}
                           %{html_tag}%{html_tag}
                           #kapp10
-                          #lossaloise
+                          %{hash_tag}
                           %{html_tag}%{html_tag}
-                          L'équipe du Challenge de l'Ossau
+                          L'équipe du %{race_name}
                           %{html_tag}%{html_tag}
                           Télécharger Kapp10 sur iOS : https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526
                           Télécharger Kapp10 sur Android : https://play.google.com/store/apps/details?id=com.kappsports.kapp10"
-  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir L'Ossaloise ! Partage votre résultat sur les réseaux sociaux : %{url} #kapp10"
+  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir %{race_name_mail} ! Partage votre résultat sur les réseaux sociaux : %{url} #kapp10"
   sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
   first_suffix: "er"
   second_suffix: "nd"

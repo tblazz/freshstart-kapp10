@@ -37,49 +37,53 @@ class ResultController < ApplicationController
   def create
     #si on a un fichier
     if params[:file]
-      #on récupère le fichier uploadé
-      file = params[:file].read
-      filename = params[:file].original_filename
+      if params[:race_name] && params[:race_date] && params[:sender_mail] && params[:race_date_mail] && params[:hash_tag]
+        #on récupère le fichier uploadé
+        file = params[:file].read
+        filename = params[:file].original_filename
 
-      #on enregistre le fichier uploadé dans le répertoire public
-      path = File.join Rails.root, 'public', filename
-      if path
-        if File.extname(path) == CSV_EXTENSION
-          File.open(path, 'wb') { |f| f.write file }
+        #on enregistre le fichier uploadé dans le répertoire public
+        path = File.join Rails.root, 'public', filename
+        if path
+          if File.extname(path) == CSV_EXTENSION
+            File.open(path, 'wb') { |f| f.write file }
 
-          #on transcode le fichier en UTF8 si besoin
-          content = File.read(path)
-          detection = CharlockHolmes::EncodingDetector.detect(content)
-          utf8_encoded_content = CharlockHolmes::Converter.convert content, detection[:encoding], 'UTF-8'
-          File.open(path, 'wb') { |f| f.write utf8_encoded_content }
+            #on transcode le fichier en UTF8 si besoin
+            content = File.read(path)
+            detection = CharlockHolmes::EncodingDetector.detect(content)
+            utf8_encoded_content = CharlockHolmes::Converter.convert content, detection[:encoding], 'UTF-8'
+            File.open(path, 'wb') { |f| f.write utf8_encoded_content }
 
-          # #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
-          # CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-          #   @rank_total = row[RANK_INDEX]
-          # end
+            # #on parcours une premère fois le CSV pour déterminer le nombre total de concurrents
+            # CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
+            #   @rank_total = row[RANK_INDEX]
+            # end
 
-          #on parcours le fichier CSV
-          CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-            if row
+            #on parcours le fichier CSV
+            CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
+              if row
 
-              name = row[NAME_INDEX]
-              rank = row[RANK_INDEX]
-              time = row[TIME_INDEX]
-              speed = row[SPEED_INDEX]
-              number = row[NUMBER_INDEX]
-              mail = row[MAIL_INDEX]
-              phone_number = row[PHONE_INDEX]
+                name = row[NAME_INDEX]
+                rank = row[RANK_INDEX]
+                time = row[TIME_INDEX]
+                speed = row[SPEED_INDEX]
+                number = row[NUMBER_INDEX]
+                mail = row[MAIL_INDEX]
+                phone_number = row[PHONE_INDEX]
 
-              TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, root_url)
+                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], params[:sender_mail], params[:race_name_mail], params[:hash_tag], root_url)
 
+              end
             end
+            File.delete path
+          else
+            redirect_to root_url, alert: "Le fichier envoyé n'est pas au format CSV."
           end
-          File.delete path
         else
-          redirect_to root_url, alert: "Le fichier envoyé n'est pas au format CSV."
+          redirect_to root_url, alert: "Aucun fichier envoyé. Veuillez sélectionner un fichier et cliquer sur Envoyer."
         end
       else
-        redirect_to root_url, alert: "Aucun fichier envoyé. Veuillez sélectionner un fichier et cliquer sur Envoyer."
+        redirect_to root_url, alert: "Veuillez saisir le nom et la date de la course, ainsi que les paramètres pour l'envoi d'email"
       end
     else
       redirect_to root_url, alert: "Aucun fichier envoyé. Veuillez sélectionner un fichier et cliquer sur Envoyer."
