@@ -28,8 +28,10 @@ class TreatResultJob < ActiveJob::Base
       #on convertit le HTML en img
       kit = IMGKit.new(rendered_html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
       kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
-      folder_name = @race_name+"_"+@race_date
-      folder_name = ActiveSupport::Inflector.transliterate folder_name.gsub!(/\s/, '-')
+      folder_name = "#{@race_name}_#{@race_date}"
+      Rails.logger.info("folder name : #{folder_name}")
+      folder_name.gsub!(/\s/, '-')
+      folder_name = ActiveSupport::Inflector.transliterate folder_name if folder_name
       image_file_name = folder_name+"_"+@number+".jpg"
       image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
       short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
@@ -44,7 +46,7 @@ class TreatResultJob < ActiveJob::Base
       ResultMailer.mail_result(first_name ? first_name : @name, @time, sender_mail, race_name, race_name_mail, hash_tag, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
       #on envoi un sms si le numéro de téléphone est valide
-      SendSmsJob.perform_later(first_name ?  first_name : @name, @time, race_name_mail, hash_tag, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
+      SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
     end
   end
 end
