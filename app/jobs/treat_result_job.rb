@@ -13,8 +13,6 @@ class TreatResultJob < ActiveJob::Base
     @time = time
     @speed = speed
     @number = number
-    mail = mail
-    phone_number = phone_number
 
     @rank_total = @rank == "1" ? I18n.t('first_suffix') : @rank == "2" ? I18n.t('second_suffix') : I18n.t('third_suffix')
     @race_name = race_name
