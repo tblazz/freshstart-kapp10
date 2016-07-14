@@ -37,7 +37,7 @@ class ResultController < ApplicationController
   def create
     #si on a un fichier
     if params[:file]
-      if params[:race_name] && params[:race_date] && params[:sender_mail] && params[:race_date_mail]
+      if params[:race_name] && params[:race_date] && params[:sender_mail] && params[:race_name_mail]
         #on récupère le fichier uploadé
         file = params[:file].read
         filename = params[:file].original_filename
