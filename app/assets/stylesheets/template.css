@@ -215,6 +215,17 @@ body {
     font-weight: 900;
 }
 
+.race_detail {
+    font-family: MuseoSans-700Italic, sans-serif;
+    font-size: 70px;
+    color: #FFFFFF;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    width: 1024px;
+    font-weight: 500;
+    font-style: italic;
+}
+
 .race {
     font-family: MuseoSans-900Italic, sans-serif;
     font-size: 72px;
@@ -233,7 +244,7 @@ body {
     color: #FFFFFF;
     position: fixed;
     width: 1024px;
-    top: 85%;
+    top: 96%;
     font-weight: 500;
     font-style: italic;
 }

@@ -13,9 +13,12 @@ class ResultController < ApplicationController
   NUMBER_INDEX = 5
   TIME_INDEX = 10
   SPEED_INDEX = 11
+  MESSAGE_INDEX = 12
+  RACE_DETAIL_INDEX = 13
 
   def get
     @name = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    @message = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
     @rank = 43
     @rank_total = 140
     @time = "3\"10'3"
@@ -23,6 +26,7 @@ class ResultController < ApplicationController
     @number = 666
     @race_name = I18n.t('race_name')
     @race_date = I18n.t('race_date')
+    @race_detail = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
     @rank_image = root_url+'template/images/ic_medal.png'
     @time_image = root_url+'template/images/ic_timer.png'
@@ -70,6 +74,8 @@ class ResultController < ApplicationController
                 number = row[NUMBER_INDEX]
                 mail = row[MAIL_INDEX]
                 phone_number = row[PHONE_INDEX]
+                message = row[MESSAGE_INDEX]
+                race_detail = row[RACE_DETAIL_INDEX]
 
                 #on parse le champ hashtag pour découper les hashtags présents
                 complete_hash_tag = ''
@@ -80,7 +86,7 @@ class ResultController < ApplicationController
                       complete_hash_tag = complete_hash_tag+"#{hash_tag.start_with?('#') ? '' : '#'}#{hash_tag} "
                     end
                 end
-                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], params[:sender_mail], params[:race_name_mail], complete_hash_tag, root_url)
+                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, root_url)
 
               end
             end
