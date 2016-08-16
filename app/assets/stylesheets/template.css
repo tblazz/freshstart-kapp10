@@ -233,7 +233,7 @@ body {
     text-align: center;
     position: fixed;
     width: 1024px;
-    top: 70%;
+    top: 75%;
     font-weight: 900;
     font-style: italic;
 }
@@ -241,11 +241,11 @@ body {
 
 .race_detail {
     font-family: MuseoSans-500Italic, sans-serif;
-    font-size: 40px;
+    font-size: 36px;
     color: #FFFFFF;
     position: fixed;
     width: 1024px;
-    top: 80%;
+    top: 81%;
     font-weight: 500;
     font-style: italic;
 }
@@ -256,7 +256,7 @@ body {
     color: #FFFFFF;
     position: fixed;
     width: 1024px;
-    top: 90%;
+    top: 86%;
     font-weight: 500;
     font-style: italic;
 }
@@ -276,7 +276,7 @@ body {
     position: fixed;
     width: 1024px;
     font-weight: 300;
-    top: 95%;
+    top: 96%;
     font-style: italic;
 }
 
