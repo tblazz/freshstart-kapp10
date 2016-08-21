@@ -48,7 +48,7 @@ class TreatResultJob < ActiveJob::Base
       ResultMailer.mail_result(first_name ? first_name : @name, @time, sender_mail, race_name, race_name_mail, hash_tag, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
       #on envoi un sms si le numéro de téléphone est valide
-      # SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
+      SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name) if phone_number =~ PHONE_REGEX
     end
   end
 end
