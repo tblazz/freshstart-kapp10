@@ -103,7 +103,7 @@ Rails.application.configure do
       port:                 587,
       domain:               'kapp10.com',
       user_name:            'contact@kapp10.com',
-      password:             'footix3@0',
+      password:             '@Barkoxe$1',
       authentication:       'plain',
       enable_starttls_auto: true
   }
