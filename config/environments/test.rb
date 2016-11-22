@@ -45,29 +45,4 @@ Rails.application.configure do
 
   WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
 
-  ENV['REDIS_URL'] ||= 'redis://h:pdrsrc5v6f12a31i5ed1nhsfufd@ec2-46-137-82-111.eu-west-1.compute.amazonaws.com:25929'
-  ENV['MIN_PUMA_WORKERS_COUNT'] ||= '1'
-  ENV['MAX_PUMA_WORKERS_COUNT'] ||= '8'
-
-  #config S3
-  ENV['AWS_REGION'] ||= 'eu-west-1'
-  ENV['S3_BUCKET'] ||= 'kapp10finishline'
-  ENV['AWS_ACCESS_KEY_ID'] ||= 'AKIAIT5MGBQ56BK3QPSQ'
-  ENV['AWS_SECRET_ACCESS_KEY'] ||= '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'
-
-  ENV['ALLMYSMS_LOGIN'] ||= 'kappsports1'
-  ENV['ALLMYSMS_API_KEY'] ||= '26796fefc15acae'
-  ENV['BITLY_API_TOKEN'] ||='56535209c321e128c3569d1eceaefed77e375b7a'
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-      address:              'ssl0.ovh.net',
-      port:                 587,
-      domain:               'kapp10.com',
-      user_name:            'contact@kapp10.com',
-      password:             '@Barkoxe$1',
-      authentication:       'plain',
-      enable_starttls_auto: true
-  }
 end

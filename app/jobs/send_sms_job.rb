@@ -1,7 +1,7 @@
 require 'csv'
 
 class SendSmsJob < ActiveJob::Base
-  queue_as :default
+  queue_as :normal
 
   def perform(name, time, race_name_mail, phone_number, short_image_path, campain_name)
     #on réduit le nom à 40 caractère max. si besoin

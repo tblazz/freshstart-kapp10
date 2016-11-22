@@ -1,0 +1,6 @@
+:concurrency: 10
+:verbose: true
+:queues:
+  - [expedited, 10]
+  - [mailers, 1]
+  - [normal, 1]

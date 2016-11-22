@@ -1,10 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
-require "active_job/railtie"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_view/railtie"
-require "sprockets/railtie"
+require 'rails/all'
+
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -15,6 +12,8 @@ module Kapp10Finishline
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    config.autoload_paths += %W(#{config.root}/lib)
+
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -32,5 +31,22 @@ module Kapp10Finishline
 
     config.middleware.use ActionDispatch::Flash
 
+    #config mail
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.smtp_settings = {
+        address: ENV['SMTP_ADDRESS'],
+        port: ENV['SMTP_PORT'].to_i,
+        domain: ENV['SMTP_DOMAIN'],
+        user_name: ENV['SMTP_USERNAME'],
+        password: ENV['SMTP_PASSWORD'],
+        authentication: 'plain',
+        enable_starttls_auto: true
+    }
+
+    # Use SQL instead of Active Record's schema dumper when creating the database.
+    # This is necessary if your schema can't be completely dumped by the schema dumper,
+    # like if you have constraints or database-specific column types
+    config.active_record.schema_format = :ruby
   end
 end

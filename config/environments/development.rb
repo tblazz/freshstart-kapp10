@@ -41,34 +41,11 @@ Rails.application.configure do
 
   #configuration des loggers
   config.log_level = :debug
-  Resque.logger.level = MonoLogger::DEBUG
+  Sidekiq::Logging.logger.level = Logger::DEBUG
 
   WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
 
-  ENV['REDIS_URL'] ||= 'redis://h:pc2lj6n5vu31r0fiqf36omi41q8@ec2-54-217-205-248.eu-west-1.compute.amazonaws.com:8139'
-  ENV['MIN_PUMA_WORKERS_COUNT'] ||= '1'
-  ENV['MAX_PUMA_WORKERS_COUNT'] ||= '8'
+  #parameter for HTTParty to check the authenticity of SSL certificate
+  VERIFY_SSL = false
 
-  #config S3
-  ENV['AWS_REGION'] ||= 'eu-west-1'
-  ENV['S3_BUCKET'] ||= 'kapp10finishline'
-  ENV['AWS_ACCESS_KEY_ID'] ||= 'AKIAIT5MGBQ56BK3QPSQ'
-  ENV['AWS_SECRET_ACCESS_KEY'] ||= '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'
-
-  ENV['ALLMYSMS_LOGIN'] ||= 'kappsports1'
-  ENV['ALLMYSMS_API_KEY'] ||= '26796fefc15acae'
-
-  ENV['BITLY_API_TOKEN'] ||='56535209c321e128c3569d1eceaefed77e375b7a'
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-      address: 'ssl0.ovh.net',
-      port: 587,
-      domain: 'kapp10.com',
-      user_name: 'contact@kapp10.com',
-      password: '@Barkoxe$1',
-      authentication: 'plain',
-      enable_starttls_auto: true
-  }
 end

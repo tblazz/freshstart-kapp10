@@ -46,13 +46,13 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :warn
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
   # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
+  config.logger = Logger.new(STDOUT)
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -77,34 +77,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 
-  Resque.logger.level = MonoLogger::WARN
-
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
 
-  ENV['REDIS_URL'] ||= 'redis://h:pc2lj6n5vu31r0fiqf36omi41q8@ec2-54-217-205-248.eu-west-1.compute.amazonaws.com:8139'
-  ENV['MIN_PUMA_WORKERS_COUNT'] ||= '1'
-  ENV['MAX_PUMA_WORKERS_COUNT'] ||= '8'
-
-  #config S3
-  ENV['AWS_REGION'] ||= 'eu-west-1'
-  ENV['S3_BUCKET'] ||= 'kapp10finishline'
-  ENV['AWS_ACCESS_KEY_ID'] ||= 'AKIAIT5MGBQ56BK3QPSQ'
-  ENV['AWS_SECRET_ACCESS_KEY'] ||= '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'
-
-  ENV['ALLMYSMS_LOGIN'] ||= 'kappsports1'
-  ENV['ALLMYSMS_API_KEY'] ||= '26796fefc15acae'
-
-  ENV['BITLY_API_TOKEN'] ||='56535209c321e128c3569d1eceaefed77e375b7a'
-
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.smtp_settings = {
-      address:              'ssl0.ovh.net',
-      port:                 587,
-      domain:               'kapp10.com',
-      user_name:            'contact@kapp10.com',
-      password:             '@Barkoxe$1',
-      authentication:       'plain',
-      enable_starttls_auto: true
-  }
 end
