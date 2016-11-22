@@ -49,7 +49,7 @@ class TreatResultJob < ActiveJob::Base
 
       #on envoi un sms et un message Facebook si le numéro de téléphone est valide
       if phone_number =~ PHONE_REGEX
-        # SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name)
+        SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name)
         SendMessengerMessageJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, image_path)
       end
 
