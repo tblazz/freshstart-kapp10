@@ -44,7 +44,7 @@ FAIL_SLEEP_DELAY = (rand(1..5)).seconds
 
 #Facebook & Messenger
 DEFAULT_FACEBOOK_LOCALE = 'fr'
-FACEBOOK_USER_FIELDS = 'first_name,last_name,locale,email'
+FACEBOOK_USER_FIELDS = 'first_name,last_name,locale'
 MESSENGER_AUDIO = 'audio'
 MESSENGER_TIME_PREFIX = '_seq_'
 
