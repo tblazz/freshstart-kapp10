@@ -107,7 +107,7 @@ class MessengerHandler
           options[:buttons].each do |button_key|
             button_hash = MessengerHandler.button(button_key, options[:locale])
             if button_hash
-              if button_hash[:title]
+              if button_hash[:payload]
                 template.build_button(:postback) do |button|
                   button.title = button_hash[:title]
                   button.payload = button_hash[:payload]
