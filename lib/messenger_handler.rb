@@ -104,8 +104,8 @@ class MessengerHandler
 
           template.text = I18n.t(key, options)
 
-          options[:buttons].each do |button_key|
-            button_hash = MessengerHandler.button(button_key, options[:locale])
+          options[:buttons].each do |button_hash|
+            button_hash = MessengerHandler.button(button_hash, options[:locale]) unless button_hash.is_a? Hash
             if button_hash
               if button_hash[:payload]
                 template.build_button(:postback) do |button|
