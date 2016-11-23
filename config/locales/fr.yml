@@ -26,4 +26,4 @@ fr:
   optin_0: "Bonjour je suis le bot Messenger de Kapp10 FreshStart !"
   optin_1: "Je vous enverrais dorénavant le résultats de vos courses ici sur Messenger ! A très vite !"
   problem: "Je suis désolé, je rencontre un petit souci technique pour le moment. Merci de réessayer un peu plus tard"
-  default: "Désolé, à ce stade, je m'occupe uniquement de vous envoyer vos résultats de course. En attendant, tu peux toujours suivre l'actualité Trail & Running avec l'application Kapp10."
+  default: "Désolé, à ce stade, je m'occupe uniquement de vous envoyer vos résultats de course. En attendant, vous pouvez toujours suivre l'actualité Trail & Running avec l'application Kapp10."
