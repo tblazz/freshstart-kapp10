@@ -25,7 +25,12 @@ class MessageReceivedCallback < MessageQuickly::Callback
 
         begin
 
-          BaseActions.send_message(:default, user, {locale: user.language})
+          BaseActions.send_button_template_message(:default, user, {locale: user.language,
+                                                                    buttons: [
+                                                                        {url: 'https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526', title: 'Kapp10 iOS'},
+                                                                        {url: 'https://play.google.com/store/apps/details?id=com.kappsports.kapp10', title: 'Kapp10 Android'},
+                                                                        {url: 'https://www.messenger.com/t/kapptenfr', title: 'Kapp10 Messenger'}
+                                                                    ]})
 
         rescue Exception => exception
           Rails.logger.error(exception.inspect)
