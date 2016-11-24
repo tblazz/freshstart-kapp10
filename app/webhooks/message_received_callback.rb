@@ -23,14 +23,23 @@ class MessageReceivedCallback < MessageQuickly::Callback
         #sending a waiting message
         BaseActions.send_waiting_message(user)
 
+        BaseActions.send_message(:default, user, {locale: user.language})
+
         begin
 
-          BaseActions.send_message(:default, user, {locale: user.language,
-                                                                    buttons: [
-                                                                        {url: 'https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526', title: 'Kapp10 iOS'},
-                                                                        {url: 'https://play.google.com/store/apps/details?id=com.kappsports.kapp10', title: 'Kapp10 Android'},
-                                                                        {url: 'https://www.messenger.com/t/kapptenfr', title: 'Kapp10 Messenger'}
-                                                                    ]})
+          elements = [{
+                          title: I18n.t(:kapp10_title, {locale: user.language}),
+                          subtitle: I18n.t(:kapp10_subtitle, {locale: user.language}),
+                          image_url: "https://kapp10-finishline.herokuapp.com/kapp10_ad.png",
+                          buttons: [
+                              {url: 'https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526', title: 'Kapp10 iOS'},
+                              {url: 'https://play.google.com/store/apps/details?id=com.kappsports.kapp10', title: 'Kapp10 Android'},
+                              {url: 'https://www.messenger.com/t/kapptenfr', title: 'Kapp10 Messenger'}
+                          ]
+                      }]
+
+
+          BaseActions.send_generic_template(elements, user)
 
         rescue Exception => exception
           Rails.logger.error(exception.inspect)
