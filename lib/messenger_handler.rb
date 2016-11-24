@@ -148,9 +148,16 @@ class MessengerHandler
               element.image_url = element_json[:image_url]
 
               element_json[:buttons].each do |button_hash|
-                element.build_button(:postback) do |button|
-                  button.title = button_hash[:title]
-                  button.payload = button_hash[:payload]
+                if button_hash[:payload]
+                  element.build_button(:postback) do |button|
+                    button.title = button_hash[:title]
+                    button.payload = button_hash[:payload]
+                  end
+                elsif button_hash[:url]
+                  element.build_button(:web_url) do |button|
+                    button.title = button_hash[:title]
+                    button.url = button_hash[:url]
+                  end
                 end
               end
             end
