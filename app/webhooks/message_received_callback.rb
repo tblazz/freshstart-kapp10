@@ -23,23 +23,36 @@ class MessageReceivedCallback < MessageQuickly::Callback
         #sending a waiting message
         BaseActions.send_waiting_message(user)
 
-        BaseActions.send_message(:default, user, {locale: user.language})
+        # BaseActions.send_message(:default, user, {locale: user.language})
 
         begin
 
-          elements = [{
-                          title: I18n.t(:kapp10_title, {locale: user.language}),
-                          subtitle: I18n.t(:kapp10_subtitle, {locale: user.language}),
-                          image_url: "https://kapp10-finishline.herokuapp.com/kapp10_ad.png",
-                          buttons: [
-                              {url: 'https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526', title: 'Kapp10 iOS'},
-                              {url: 'https://play.google.com/store/apps/details?id=com.kappsports.kapp10', title: 'Kapp10 Android'},
-                              {url: 'https://www.messenger.com/t/kapptenfr', title: 'Kapp10 Messenger'}
-                          ]
-                      }]
+          if event.text.eql?(I18n.t(:receive))
+            BaseActions.send_message(:receive_message, user)
+
+          elsif event.text.eql?(I18n.t(:dont_receive))
+            BaseActions.send_message(:dont_receive_message, user)
+          else
+
+            #si l'utilisateur n'est pas inscrit, on lui demande alors si il souhaite recevoir les infos par Messenger
+            BaseActions.send_message(:intro, user, {quick_replies: [:receive, :dont_receive]})
 
 
-          BaseActions.send_generic_template(elements, user)
+            #
+            # elements = [{
+            #                 title: I18n.t(:kapp10_title, {locale: user.language}),
+            #                 subtitle: I18n.t(:kapp10_subtitle, {locale: user.language}),
+            #                 image_url: "https://kapp10-finishline.herokuapp.com/kapp10_ad.png",
+            #                 buttons: [
+            #                     {url: 'https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526', title: 'Kapp10 iOS'},
+            #                     {url: 'https://play.google.com/store/apps/details?id=com.kappsports.kapp10', title: 'Kapp10 Android'},
+            #                     {url: 'https://www.messenger.com/t/kapptenfr', title: 'Kapp10 Messenger'}
+            #                 ]
+            #             }]
+
+
+            # BaseActions.send_generic_template(elements, user)
+          end
 
         rescue Exception => exception
           Rails.logger.error(exception.inspect)

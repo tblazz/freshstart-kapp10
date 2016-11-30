@@ -29,3 +29,8 @@ fr:
   default: "Désolé, à ce stade, je m'occupe uniquement de vous envoyer vos résultats de course. En attendant, nous vous invitons à découvrir et suivre l'actualité Trail & Running avec nos applications Kapp10."
   kapp10_title: "Kapp10"
   kapp10_subtitle: "Le Média Trail & Running fait par et pour les coureurs"
+  receive: "Recevoir"
+  dont_receive: "Ne pas recevoir"
+  intro: "Bienvenue sur le Bot Fresh start. Souhaitez-vous recevoir vos résultats de course ?"
+  receive_message: "C'est noté ! Nous vous enverrons aussi sur Messenger les résultats de vos prochaines courses prises en charge par Fresh Start !"
+  dont_receive_message: "C'est noté ! Nous ne vous enverrons plus sur Messenger les résultats de vos prochaines courses."

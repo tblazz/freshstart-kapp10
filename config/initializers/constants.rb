@@ -47,6 +47,7 @@ DEFAULT_FACEBOOK_LOCALE = 'fr'
 FACEBOOK_USER_FIELDS = 'first_name,last_name,locale'
 MESSENGER_AUDIO = 'audio'
 MESSENGER_TIME_PREFIX = '_seq_'
+LOCATION = 'location'
 
 #Messenger callback payloads
 TEXT = 'text'
