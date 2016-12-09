@@ -1,13 +1,9 @@
 fr:
   mail_subject: "Résultat %{race_name_mail}"
   mail_sender: "\"%{sender_mail}\" <contact@kapp10.com>"
-  mail_message_template: "Bravo %{name} !
+  mail_message_template: "%{sms_message}
                           %{html_tag}%{html_tag}
-                          Tu as mis %{time} pour parcourir %{race_name_mail}
-                          %{html_tag}%{html_tag}
-                          En pièce jointe, tu trouveras une image présentant ton résultat de course à partager avec tes amis et sur les réseaux sociaux (Kapp10, Facebook, Twitter ou Instagram) !
-                          %{html_tag}
-                          Tu peux également télécharger cette image à cette adresse : %{url}
+                          Partage les avec tes amis et sur les réseaux sociaux (Kapp10, Facebook, Twitter ou Instagram) !
                           %{html_tag}%{html_tag}
                           #kapp10
                           %{hash_tag}
@@ -16,8 +12,8 @@ fr:
                           %{html_tag}%{html_tag}
                           Télécharger Kapp10 sur iOS : https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526
                           Télécharger Kapp10 sur Android : https://play.google.com/store/apps/details?id=com.kappsports.kapp10"
-  sms_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir %{race_name_mail} ! Partage ton résultat sur les réseaux sociaux : %{url} #kapp10"
-  messenger_message_template: "Bravo %{name} ! Tu as mis %{time} pour parcourir %{race_name_mail} ! Partage ton résultat sur les réseaux sociaux :"
+  sms_message_template: "%{name}, %{race_name_mail} te félicite. Tu finis %{rank} en %{time} ! Partage ton diplôme : %{url}. Voici tous les résultats ! %{results_url}"
+  messenger_message_template: "%{name}, %{race_name_mail} te félicite. Tu finis %{rank} en %{time} ! Partage ton diplôme : "
   sms_payload: "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campain_name}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
   first_suffix: "er"
   second_suffix: "nd"
@@ -26,11 +22,11 @@ fr:
   optin_0: "Bonjour je suis le bot Messenger de Kapp10 FreshStart !"
   optin_1: "Je vous enverrais dorénavant le résultats de vos courses ici sur Messenger ! A très vite !"
   problem: "Je suis désolé, je rencontre un petit souci technique pour le moment. Merci de réessayer un peu plus tard"
-  default: "Désolé, à ce stade, je m'occupe uniquement de vous envoyer vos résultats de course. En attendant, nous vous invitons à découvrir et suivre l'actualité Trail & Running avec nos applications Kapp10."
+  default: "Bonjour %{first_name}. Ma mission consiste uniquement à vous envoyer vos résultats lorsque vous franchissez la ligne d'arrivée. Vous verrez, c'est très sympa ! En attendant votre prochaine course, vous me feriez drôlement plaisir si vous alliez découvrir nos applications Kapp10 pour suivre l'actualité Trail & Running. Bonne course et à bientôt !"
   kapp10_title: "Kapp10"
   kapp10_subtitle: "Le Média Trail & Running fait par et pour les coureurs"
-  receive: "Recevoir"
-  dont_receive: "Ne pas recevoir"
-  intro: "Bienvenue sur le Bot Fresh start. Souhaitez-vous recevoir vos résultats de course ?"
-  receive_message: "C'est noté ! Nous vous enverrons aussi sur Messenger les résultats de vos prochaines courses prises en charge par Fresh Start !"
-  dont_receive_message: "C'est noté ! Nous ne vous enverrons plus sur Messenger les résultats de vos prochaines courses."
+#  receive: "Recevoir"
+#  dont_receive: "Ne pas recevoir"
+#  intro: "Bienvenue sur le Bot Fresh start. Souhaitez-vous recevoir vos résultats de course ?"
+#  receive_message: "C'est noté ! Nous vous enverrons aussi sur Messenger les résultats de vos prochaines courses prises en charge par Fresh Start !"
+#  dont_receive_message: "C'est noté ! Nous ne vous enverrons plus sur Messenger les résultats de vos prochaines courses."

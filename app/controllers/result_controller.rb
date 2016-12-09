@@ -86,7 +86,7 @@ class ResultController < ApplicationController
                       complete_hash_tag = complete_hash_tag+"#{hash_tag.start_with?('#') ? '' : '#'}#{hash_tag} "
                     end
                 end
-                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, root_url)
+                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, params[:all_results_uri], params[:sms_message], root_url)
 
               end
             end

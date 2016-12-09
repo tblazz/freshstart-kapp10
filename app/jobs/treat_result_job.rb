@@ -3,7 +3,7 @@ require 'csv'
 class TreatResultJob < ActiveJob::Base
   queue_as :normal
 
-  def perform(name, rank, time, speed, number, mail, phone_number, race_name, race_date, message, race_detail, sender_mail, race_name_mail, hash_tag, root_url)
+  def perform(name, rank, time, speed, number, mail, phone_number, race_name, race_date, message, race_detail, sender_mail, race_name_mail, hash_tag, results_url, sms_message_template, root_url)
     #on génère le HTML contenant ces informations
     erb_file = "#{Rails.root}/app/views/result/template.html.erb"
     erb_str = File.read(erb_file)
@@ -41,15 +41,19 @@ class TreatResultJob < ActiveJob::Base
       first_names = @name.strip.split /\s+/
       first_name = first_names[0] if first_names.count > 0
 
+      sms_template = sms_message_template.nil? || sms_message_template.eql?("") ? I18n.t('sms_message_template') : sms_message_template
+
+      Rails.logger.info("sms template #{sms_template}")
+
       #on envoi l'img sur S3
       KAPP10_FINISHLINE_BUCKET.object(folder_name+"/"+image_file_name).put(content_type: 'image/jpeg', body: kit.to_img(:jpg))
 
       #on envoi un mail récapitulatif si le mail est fourni et valide
-      ResultMailer.mail_result(first_name ? first_name : @name, @time, sender_mail, race_name, race_name_mail, hash_tag, mail, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
+      ResultMailer.mail_result(first_name ? first_name : @name, @time, sender_mail, race_name, race_name_mail, hash_tag, mail, @rank+@rank_total, results_url, sms_template, image_file_name, image_path, short_image_path).deliver_later if mail =~ MAIL_REGEX
 
       #on envoi un sms et un message Facebook si le numéro de téléphone est valide
       if phone_number =~ PHONE_REGEX
-        SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, short_image_path, folder_name)
+        SendSmsJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, @rank+@rank_total, results_url, sms_template, short_image_path, folder_name)
         # SendMessengerMessageJob.perform_later(first_name ? first_name : @name, @time, race_name_mail, phone_number, image_path)
       end
 

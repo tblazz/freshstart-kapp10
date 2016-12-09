@@ -12,6 +12,11 @@ Choisissez un fichier CSV à traiter :
       <input id="race_date" name="race_date" type="text" />
     <p><label for="hash_tag">Hashtag (optionnel): </label>
       <input id="hash_tag" name="hash_tag" type="text" />
+    <p><label for="hash_tag">URL des résultats (optionnel): </label>
+      <input id="all_results_uri" name="all_results_uri" type="text" />
+    <p><label for="hash_tag">Message SMS (optionnel) : </label>
+      <p class="subtitle" >%{name}, %{race_name_mail} te félicite. Tu finis %{rank} en %{time} ! Partage ton diplôme : %{url}. Voici tous les résultats ! %{results_url}</p>
+      <input id="sms_message" name="sms_message" type="text" />
     <p><label for="upload_file">Fichier CSV : </label>
       <%= file_field_tag :file %>
       <%= submit_tag "Envoyer" %>
