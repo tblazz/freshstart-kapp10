@@ -14,3 +14,7 @@
 /tmp
 .idea
 /dump.rdb
+
+.ruby-gemset
+
+.ruby-version
