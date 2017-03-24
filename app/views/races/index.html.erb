@@ -5,6 +5,7 @@
     <tr>
       <td>Nom</td>
       <td>Date</td>
+      <td>NB Resultats</td>
       <td>&nbsp;</td>
     </tr>
   </thead>
@@ -13,6 +14,7 @@
       <tr>
         <td><%=link_to race.name, race_path(race)%></td>
         <td><%=race.date%></td>
+        <td><%=race.results.count%></td>
         <td><%=link_to "Editer", edit_race_path(race)%></td>
       </tr>
     <%end%>

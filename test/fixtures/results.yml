@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  race_id: 
+  phone: MyString
+  mail: MyString
+  rank: 1
+  name: MyString
+  country: MyString
+  bib: MyString
+  categ_rank: 1
+  categ: MyString
+  sex_rank: 1
+  sex: MyString
+  time: MyString
+  speed: MyString
+  message: MyString
+  race_detail: MyString
+
+two:
+  race_id: 
+  phone: MyString
+  mail: MyString
+  rank: 1
+  name: MyString
+  country: MyString
+  bib: MyString
+  categ_rank: 1
+  categ: MyString
+  sex_rank: 1
+  sex: MyString
+  time: MyString
+  speed: MyString
+  message: MyString
+  race_detail: MyString

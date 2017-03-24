@@ -17,15 +17,35 @@
   </tr>
   <tr>
     <th>Fichier</th>
-    <td><%= link_to "Télécharger le fichier CSV", @race.raw_results.url, class: 'btn'%>
-      <%=@race.raw_results.url%>
+    <td>
+      <%= link_to "Télécharger le fichier CSV", @race.raw_results.url, class: 'btn'%>
     </td>
 
   </tr>
 </table>
-
-
 <hr>
 <%=link_to "Editer", edit_race_path(@race), class: 'btn' %>
 <%= link_to "Supprimer", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
 <%=link_to "Liste", races_path, class: 'btn' %>
+<hr>
+<%unless @race.results.empty?%>
+<p><%=@race.results.length%> résultats</p>
+<table class='results'%>
+  <thead>
+    <tr>
+      <th class='center'>Tel.</th>
+      <th class='center'>Class.<br>Gen.</th>
+      <th class='left'> Nom</th>
+      <th class='center'>Sexe</th>
+      <th class='center'>Class.<br>Sexe</th>
+      <th class='center'>Categ.</th>
+      <th class='center'>Class.<br>Categ.</th>
+      <th class='center'>Temps</th>
+      <th class='center'>Vitesse</th>
+      <th class='center'>Detail<br>Course</th>
+      <th class='center'>Message</th>
+    </tr>
+  </thead>
+  <%= render partial: 'result', collection: @race.results%>
+</table>
+<%end%>

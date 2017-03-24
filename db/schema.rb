@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324070230) do
+ActiveRecord::Schema.define(version: 20170324085623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,28 @@ ActiveRecord::Schema.define(version: 20170324070230) do
     t.datetime "raw_results_updated_at"
   end
 
+  create_table "results", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "race_id"
+    t.string   "phone"
+    t.string   "mail"
+    t.integer  "rank"
+    t.string   "name"
+    t.string   "country"
+    t.string   "bib"
+    t.integer  "categ_rank"
+    t.string   "categ"
+    t.integer  "sex_rank"
+    t.string   "sex"
+    t.string   "time"
+    t.string   "speed"
+    t.string   "message"
+    t.string   "race_detail"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "results", ["race_id"], name: "index_results_on_race_id", using: :btree
+
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "token"
     t.string   "first_name"
@@ -48,4 +70,5 @@ ActiveRecord::Schema.define(version: 20170324070230) do
 
   add_index "users", ["token"], name: "index_users_on_token", using: :btree
 
+  add_foreign_key "results", "races"
 end
