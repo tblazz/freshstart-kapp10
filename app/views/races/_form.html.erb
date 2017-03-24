@@ -1,0 +1,11 @@
+<%= simple_form_for @race do |f| %>
+  <%= f.input :name %>
+  <%= f.input :date, as: :date %>
+  <%= f.input :email_sender %>
+  <%= f.input :email_name %>
+  <%= f.input :hashtag %>
+  <%= f.input :results_url %>
+  <%= f.input :sms_message %>
+  <hr>
+  <%= f.button :submit , class: 'btn'%>
+<% end %>

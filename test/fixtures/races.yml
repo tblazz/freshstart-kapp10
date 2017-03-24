@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email_sender: MyString
+  email_name: MyString
+  date: 2017-03-24
+  hashtag: MyString
+  results_url: MyString
+  sms_message: MyString
+
+two:
+  name: MyString
+  email_sender: MyString
+  email_name: MyString
+  date: 2017-03-24
+  hashtag: MyString
+  results_url: MyString
+  sms_message: MyString

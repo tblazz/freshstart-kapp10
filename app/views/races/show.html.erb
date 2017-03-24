@@ -1,0 +1,24 @@
+<table class='horizontal'>
+  <tr>
+    <th>Nom</th>
+    <td><%= @race.name%></td>
+  </tr>
+  <tr>
+    <th>Date</th>
+    <td><%= I18n.l @race.date unless @race.date.nil?%></td>
+  </tr>
+  <tr>
+    <th>Email Sender</th>
+    <td><%= @race.email_sender%></td>
+  </tr>
+  <tr>
+    <th>Email Name</th>
+    <td><%= @race.email_name%></td>
+  </tr>
+</table>
+
+
+<hr>
+<%=link_to "Editer", edit_race_path(@race), class: 'btn' %>
+
+<%=link_to "Liste", races_path, class: 'btn' %>

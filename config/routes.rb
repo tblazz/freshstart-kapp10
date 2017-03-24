@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'result/new', to: 'result#new'
   post 'result', to: 'result#create'
+  resources :races
 
   root :to => 'result#new'
 
