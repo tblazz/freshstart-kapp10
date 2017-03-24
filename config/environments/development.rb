@@ -43,7 +43,9 @@ Rails.application.configure do
   config.log_level = :debug
   Sidekiq::Logging.logger.level = Logger::DEBUG
 
-  WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
+  # WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
+  WKHTMLTOIMAGE_PATH = '/usr/local/bin/wkhtmltoimage'
+  PERFORM_SENDING = false
 
   #parameter for HTTParty to check the authenticity of SSL certificate
   VERIFY_SSL = false

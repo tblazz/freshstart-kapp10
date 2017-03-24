@@ -38,7 +38,8 @@ class TreatResultJob < ActiveJob::Base
       image_path = AWS_ROOT+KAPP10_BUCKET_NAME+"/"+folder_name+"/"+image_file_name
       short_image_path = Bitly.client.shorten(image_path, history: 1).jmp_url
 
-      first_names = @name.strip.split /\s+/
+      # SMS
+      first_names = @name.strip.split(/\s+/)
       first_name = first_names[0] if first_names.count > 0
 
       sms_template = sms_message_template.nil? || sms_message_template.eql?("") ? I18n.t('sms_message_template') : sms_message_template

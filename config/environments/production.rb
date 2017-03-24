@@ -78,5 +78,6 @@ Rails.application.configure do
   # config.active_record.dump_schema_after_migration = false
 
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
+  PERFORM_SENDING = true
 
 end

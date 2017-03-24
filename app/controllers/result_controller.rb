@@ -5,16 +5,7 @@ class ResultController < ApplicationController
 
   protect_from_forgery with: :exception
 
-  #définition des index pour le parsing CSV
-  PHONE_INDEX = 0
-  MAIL_INDEX = 1
-  RANK_INDEX = 2
-  NAME_INDEX = 3
-  NUMBER_INDEX = 5
-  TIME_INDEX = 10
-  SPEED_INDEX = 11
-  MESSAGE_INDEX = 12
-  RACE_DETAIL_INDEX = 13
+
 
   def get
     @name = "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -62,11 +53,10 @@ class ResultController < ApplicationController
             # CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
             #   @rank_total = row[RANK_INDEX]
             # end
-
+            @table = []
             #on parcours le fichier CSV
             CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
               if row
-
                 name = row[NAME_INDEX]
                 rank = row[RANK_INDEX]
                 time = row[TIME_INDEX]
@@ -80,14 +70,16 @@ class ResultController < ApplicationController
                 #on parse le champ hashtag pour découper les hashtags présents
                 complete_hash_tag = ''
                 if params[:hash_tag]
-                  hash_tags = params[:hash_tag].strip.split /\s+/
+                  hash_tags = params[:hash_tag].strip.split(/\s+/)
                   #on ajoute un # si absent du hashtag
                   hash_tags.each do |hash_tag|
                       complete_hash_tag = complete_hash_tag+"#{hash_tag.start_with?('#') ? '' : '#'}#{hash_tag} "
                     end
                 end
-                TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, params[:all_results_uri], params[:sms_message], root_url)
-
+                if PERFORM_SENDING
+                  TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, params[:all_results_uri], params[:sms_message], root_url)
+                end
+                @table << row
               end
             end
             File.delete path
