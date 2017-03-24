@@ -17,7 +17,7 @@ gem 'redis', '~> 3.2.2'
 gem 'puma', '~> 3.4.0'
 gem 'imgkit', '~> 1.6.1'
 gem 'wkhtmltoimage-binary', '~> 0.12.2'
-gem 'aws-sdk-rails', '~> 1.0.1'
+gem 'aws-sdk', '~> 2.3.0'
 gem 'httparty', '~> 0.13.5'
 gem 'newrelic_rpm', '~> 3.11.1.284'
 gem 'charlock_holmes_bundle_icu', '~> 0.6.9.2'
@@ -28,3 +28,4 @@ gem 'sidekiq-scheduler', '~> 2.0.8' # planificateur de tâche pr Sidekiq
 gem 'message_quickly', '~> 1.1.2' #correspondance avec la plateforme Messenger
 gem 'dotenv-rails', '~> 2.1.1', :groups => [:development, :test] # parsing du fichier ENV en dev
 gem 'simple_form'
+gem "paperclip", "~> 5.0.0"

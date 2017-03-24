@@ -4,7 +4,7 @@ require 'charlock_holmes'
 class ResultController < ApplicationController
 
   protect_from_forgery with: :exception
-
+  layout 'apptelier'
 
 
   def get

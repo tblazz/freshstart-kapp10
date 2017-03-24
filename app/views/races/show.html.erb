@@ -15,10 +15,17 @@
     <th>Email Name</th>
     <td><%= @race.email_name%></td>
   </tr>
+  <tr>
+    <th>Fichier</th>
+    <td><%= link_to "Télécharger le fichier CSV", @race.raw_results.url, class: 'btn'%>
+      <%=@race.raw_results.url%>
+    </td>
+
+  </tr>
 </table>
 
 
 <hr>
 <%=link_to "Editer", edit_race_path(@race), class: 'btn' %>
-
+<%= link_to "Supprimer", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
 <%=link_to "Liste", races_path, class: 'btn' %>

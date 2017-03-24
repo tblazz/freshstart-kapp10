@@ -11,5 +11,6 @@
 // about supported directives.
 //
 //= require jquery2
-//= require_tree .
+//= require jquery_ujs
+//= require retina.js
 

@@ -67,7 +67,8 @@ class RacesController < ApplicationController
       :email_name,
       :hashtag,
       :results_url,
-      :sms_message
+      :sms_message,
+      :raw_results
     )
   end
 
