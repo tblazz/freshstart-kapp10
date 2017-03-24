@@ -4,7 +4,7 @@ development:
   host: localhost
   database: freshstart_dev
   pool: 20
-  username: IBI
+  username: <%=ENV["DATABASE_USER"]%>
   password:
 
 test:
@@ -13,7 +13,7 @@ test:
   host: localhost
   database: freshstart_test
   pool: 20
-  username: IBI
+  username: <%=ENV["DATABASE_USER"]%>
   password:
 
 production:

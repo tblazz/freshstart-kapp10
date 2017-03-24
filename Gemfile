@@ -26,4 +26,4 @@ gem 'sidekiq', '~> 4.1.4' #gestionnaire de tâche de fond
 gem 'sinatra', :require => false #for sidekiq
 gem 'sidekiq-scheduler', '~> 2.0.8' # planificateur de tâche pr Sidekiq
 gem 'message_quickly', '~> 1.1.2' #correspondance avec la plateforme Messenger
-gem 'dotenv-rails', '~> 2.1.1', :groups => [:development] # parsing du fichier ENV en dev
+gem 'dotenv-rails', '~> 2.1.1', :groups => [:development, :test] # parsing du fichier ENV en dev
