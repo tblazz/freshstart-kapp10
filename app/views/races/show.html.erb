@@ -26,6 +26,7 @@
 <hr>
 <%=link_to "Editer", edit_race_path(@race), class: 'btn' %>
 <%= link_to "Supprimer", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
+<%= link_to "Envoyer", send_results_race_path(@race), class: "btn", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post -%>
 <%=link_to "Liste", races_path, class: 'btn' %>
 <hr>
 <%unless @race.results.empty?%>
@@ -34,6 +35,7 @@
   <thead>
     <tr>
       <th class='center'>Tel.</th>
+      <th class='center'>Email</th>
       <th class='center'>Class.<br>Gen.</th>
       <th class='left'> Nom</th>
       <th class='center'>Sexe</th>

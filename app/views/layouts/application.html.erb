@@ -18,6 +18,11 @@
     <a href="/races"><%= image_tag_with_at2x "logo_kapp10.png" %></a>
   </div>
   <!-- cadre du contenu sous le média -->
+  <div>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+  </div>
   <div class="content_frame">
 
     <%= yield %>

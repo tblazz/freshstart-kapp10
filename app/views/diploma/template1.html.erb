@@ -1,4 +1,10 @@
-/*
+<html>
+<head>
+  <title>Kapp10 - FinishLine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+  /*
 Author: L'Apptelier
 Author URL: http://www.lapptelier.com
 */
@@ -113,82 +119,79 @@ img {
 
 @font-face {
     font-family: 'MuseoSans-100';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-100.otf");
     font-weight: 100;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-100Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-100Italic.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-100Italic.otf");
     font-weight: 100;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-300';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-300.otf");
     font-weight: 300;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-300Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-300Italic.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-300Italic.otf");
     font-weight: 300;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-500';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-500.otf");
     font-weight: 500;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-500Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-500Italic.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-500Italic.otf");
     font-weight: 500;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-700';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-700.otf");
     font-weight: 700;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-700Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-700Italic.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-700Italic.otf");
     font-weight: 700;
     font-style: italic;
 }
 
 @font-face {
     font-family: 'MuseoSans-900';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-900.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-900.otf");
     font-weight: 900;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'MuseoSans-900Italic';
-    src: url('https://kapp10-finishline.herokuapp.com/template/fonts/MuseoSans-900Italic.otf');
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-900Italic.otf");
     font-weight: 900;
     font-style: italic;
 }
 
+
 body {
-    width: 1024px;
-    height: 1024px;
-    max-width: 1024px;
-    max-height: 1024px;
-    background: url('https://dl.dropboxusercontent.com/u/282647329/background.jpg') no-repeat center fixed;
-    text-align: center;
-    margin: auto;
+  width: 1024px;
+  height: 1024px;
+
 }
 
 .name {
@@ -312,3 +315,45 @@ body {
     color: #FFFFFF;
 }
 
+.content {
+    width: 1024px;
+    height: 1024px;
+    max-width: 1024px;
+    max-height: 1024px;
+    background: url('https://dl.dropboxusercontent.com/u/282647329/background.jpg') no-repeat center fixed;
+    text-align: center;
+    margin: auto;
+
+}
+
+
+  </style>
+</head>
+<body>
+<div class='content'>
+  <div class="name"><%= @name %></div>
+  <div class="number">N°<b><%= @number %></b></div>
+  <div class="message"><%= @message %></div>
+  <div class="stats">
+    <div class="stat">
+      <img src="<%=DOMAIN_URL %>/template/images/ic_medal.png">
+      <b><%= @rank %></b><%= @rank_total %>
+    </div>
+    <div class="stat">
+      <img src="<%=DOMAIN_URL %>/template/images/ic_timer.png">
+      <b><%= @time %></b>
+    </div>
+    <div class="stat">
+      <img src="<%=DOMAIN_URL %>/template/images/ic_speed.png">
+      <b><%= @speed %></b>km/h
+    </div>
+  </div>
+  <div class="race"><%= @race_name %></div>
+  <div class="race_detail"><%= @race_detail %></div>
+  <div class="date"><%= @race_date %></div>
+  <div class="credit">
+    Powered by <b>Kapp10 Freshstart</b>
+  </div>
+</div>
+</body>
+</html>

@@ -3,6 +3,321 @@
   <title>Kapp10 - FinishLine</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <style>
+  /*
+Author: L'Apptelier
+Author URL: http://www.lapptelier.com
+*/
+
+/* reset */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.txt-rt {
+    text-align: right;
+}
+
+/* text align right */
+.txt-lt {
+    text-align: left;
+}
+
+/* text align left */
+.txt-center {
+    text-align: center;
+}
+
+/* text align center */
+.float-rt {
+    float: right;
+}
+
+/* float right */
+.float-lt {
+    float: left;
+}
+
+/* float left */
+.clear {
+    clear: both;
+}
+
+/* clear float */
+.pos-relative {
+    position: relative;
+}
+
+/* Position Relative */
+.pos-absolute {
+    position: absolute;
+}
+
+/* Position Absolute */
+.vertical-base {
+    vertical-align: baseline;
+}
+
+/* vertical align baseline */
+.vertical-top {
+    vertical-align: top;
+}
+
+/* vertical align top */
+.underline {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+    margin: 0 0 20px 0;
+}
+
+/* Add 5px bottom padding and a underline */
+nav.vertical ul li {
+    display: block;
+}
+
+/* vertical menu */
+nav.horizontal ul li {
+    display: inline-block;
+}
+
+/* horizontal menu */
+img {
+    max-width: 100%;
+}
+
+/*end reset*/
+
+@font-face {
+    font-family: 'MuseoSans-100';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-100.otf");
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans-100Italic';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-100Italic.otf");
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'MuseoSans-300';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-300.otf");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans-300Italic';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-300Italic.otf");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'MuseoSans-500';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-500.otf");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans-500Italic';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-500Italic.otf");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'MuseoSans-700';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-700.otf");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans-700Italic';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-700Italic.otf");
+    font-weight: 700;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'MuseoSans-900';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-900.otf");
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'MuseoSans-900Italic';
+    src: url("<%=DOMAIN_URL%>/template/fonts/MuseoSans-900Italic.otf");
+    font-weight: 900;
+    font-style: italic;
+}
+
+body {
+    width: 1024px;
+    height: 1024px;
+    max-width: 1024px;
+    max-height: 1024px;
+    background: url('https://dl.dropboxusercontent.com/u/282647329/background.jpg') no-repeat center fixed;
+    text-align: center;
+    margin: auto;
+}
+
+.name {
+    font-family: MuseoSans-900, sans-serif;
+    font-size: 70px;
+    color: #FFFFFF;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    padding-top: 1.5em;
+    font-weight: 900;
+}
+
+.number {
+    font-family: MuseoSans-100Italic, sans-serif;
+    font-size: 120px;
+    color: #FFFFFF;
+    font-weight: 100;
+}
+
+.number b {
+    font-family: MuseoSans-900, sans-serif;
+    font-size: 120px;
+    color: #FFFFFF;
+    font-weight: 900;
+}
+
+.message {
+    font-family: MuseoSans-700Italic, sans-serif;
+    font-size: 70px;
+    color: #FFFFFF;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    width: 1024px;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.race {
+    font-family: MuseoSans-900Italic, sans-serif;
+    font-size: 72px;
+    color: #FFFFFF;
+    text-align: center;
+    position: fixed;
+    width: 1024px;
+    top: 75%;
+    font-weight: 900;
+    font-style: italic;
+}
+
+
+.race_detail {
+    font-family: MuseoSans-500Italic, sans-serif;
+    font-size: 36px;
+    color: #FFFFFF;
+    position: fixed;
+    width: 1024px;
+    top: 84%;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.date {
+    font-family: MuseoSans-500Italic, sans-serif;
+    font-size: 48px;
+    color: #FFFFFF;
+    position: fixed;
+    width: 1024px;
+    top: 89%;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.credit b {
+    font-family: MuseoSans-900Italic, sans-serif;
+    font-size: 24px;
+    color: #FFFFFF;
+    font-weight: 900;
+    font-style: italic;
+}
+
+.credit {
+    font-family: MuseoSans-300Italic, sans-serif;
+    font-size: 24px;
+    color: #FFFFFF;
+    position: fixed;
+    width: 1024px;
+    font-weight: 300;
+    top: 96%;
+    font-style: italic;
+}
+
+.stats {
+    position: fixed;
+    width: 982px;
+    top: 45%;
+}
+
+.stat img {
+    padding-bottom: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+
+}
+
+.stat {
+    display: block;
+    float: left;
+    width: 306px;
+    margin: 2% 1%;
+    text-align: center;
+    font-family: MuseoSans-100, sans-serif;
+    font-size: 65px;
+    font-weight: 100;
+    color: #FFFFFF;
+}
+
+.stat b {
+    font-family: MuseoSans-900, sans-serif;
+    font-size: 65px;
+    font-weight: 900;
+    color: #FFFFFF;
+}
+  </style>
 </head>
 <body>
 <div class="name"><%= @name %></div>
@@ -10,15 +325,15 @@
 <div class="message"><%= @message %></div>
 <div class="stats">
   <div class="stat">
-    <img src=<%= @rank_image %>>
+    <img src="<%=DOMAIN_URL %>/template/images/ic_medal.png">
     <b><%= @rank %></b><%= @rank_total %>
   </div>
   <div class="stat">
-    <img src=<%= @time_image %>>
+    <img src="<%=DOMAIN_URL %>/template/images/ic_timer.png">
     <b><%= @time %></b>
   </div>
   <div class="stat">
-    <img src=<%= @speed_image %>>
+    <img src="<%=DOMAIN_URL %>/template/images/ic_speed.png">
     <b><%= @speed %></b>km/h
   </div>
 </div>

@@ -1,5 +1,6 @@
 <tr>
-<td class='center'><%=result.phone%></td>
+  <td class='center'><%=result.phone%></td>
+  <td class='left'><%=result.mail%></td>
   <td class='center'><%=result.rank%></td>
   <td class='left'>  <%=result.name%></td>
   <td class='center'><%=result.sex%></td>
@@ -10,6 +11,7 @@
   <td class='center'><%=result.speed%></td>
   <td class='center'><%=result.race_detail%></td>
   <td class='center'><%=result.message%></td>
+  <td><%= link_to "diplome", result_diploma_path(result, format: 'jpg'), class:'btn'%></td>
 </tr>
 
 

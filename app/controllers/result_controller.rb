@@ -53,7 +53,7 @@ class ResultController < ApplicationController
             # CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
             #   @rank_total = row[RANK_INDEX]
             # end
-            @table = []
+
             #on parcours le fichier CSV
             CSV.foreach(path, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
               if row
@@ -79,7 +79,6 @@ class ResultController < ApplicationController
                 if PERFORM_SENDING
                   TreatResultJob.perform_later(name, rank, time, speed, number, mail, phone_number, params[:race_name], params[:race_date], message, race_detail, params[:sender_mail], params[:race_name_mail], complete_hash_tag, params[:all_results_uri], params[:sms_message], root_url)
                 end
-                @table << row
               end
             end
             File.delete path

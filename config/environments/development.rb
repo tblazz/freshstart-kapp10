@@ -45,11 +45,14 @@ Rails.application.configure do
 
   # WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
   WKHTMLTOIMAGE_PATH = '/usr/local/bin/wkhtmltoimage'
-  PERFORM_SENDING = false
+  PERFORM_SENDING = true
+
+  Rails.application.config.active_job.queue_adapter = :sidekiq
 
   #parameter for HTTParty to check the authenticity of SSL certificate
   VERIFY_SSL = false
-
+  # DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
+  DOMAIN_URL = "http://localhost:5100"
   config.paperclip_defaults = {
   storage: :s3,
   s3_credentials: {

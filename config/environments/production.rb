@@ -74,10 +74,11 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  Rails.application.config.active_job.queue_adapter = :sidekiq
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
 
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
   PERFORM_SENDING = true
-
+  DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
 end

@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
 
   protect_from_forgery with: :exception
-  before_action :set_race, only: [:show, :edit, :update, :destroy]
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :send_results]
 
   def index
     @races = Race.all
@@ -33,9 +33,6 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1.json
   def update
     respond_to do |format|
-      Rails.logger.debug  "l-------------"
-        Rails.logger.debug race_params[:raw_results]
-        Rails.logger.debug  "l-------------"
       if @race.update(race_params)
         decode_results if race_params[:raw_results]
         format.html { redirect_to @race, notice: 'race was successfully updated.' }
@@ -55,6 +52,47 @@ class RacesController < ApplicationController
       format.html { redirect_to races_url, notice: 'race was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def send_results
+    if PERFORM_SENDING
+      #on parse le champ hashtag pour découper les hashtags présents
+      complete_hash_tag = ''
+      if @race.hashtag
+        hash_tags = @race.hashtag.strip.split(/\s+/)
+        #on ajoute un # si absent du hashtag
+        hash_tags.each do |hash_tag|
+            complete_hash_tag = complete_hash_tag+"#{hash_tag.start_with?('#') ? '' : '#'}#{hash_tag} "
+          end
+      end
+
+      @race.results.find_each do |result|
+        SendResultJob.perform_later(result.id)
+        # TreatResultJob.perform_later(
+        #   result.name,
+        #   result.rank,
+        #   result.time,
+        #   result.speed,
+        #   result.bib,
+        #   result.mail,
+        #   result.phone,
+        #   @race.name,
+        #   I18n.l(@race.date),
+        #   result.message,
+        #   result.race_detail,
+        #   @race.email_sender,
+        #   @race.email_name,
+        #   complete_hash_tag,
+        #   @race.results_url,
+        #   @race.sms_message,
+        #   root_url)
+
+      end
+      redirect_to races_url, notice: "#{@race.results.count} résultats en cours d'envoi." and return
+    else
+      redirect_to races_url, alert: "L'envoi des résutats est bloqué sur l'environnement de #{Rails.env}"
+    end
+
   end
 
   private
