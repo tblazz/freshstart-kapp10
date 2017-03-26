@@ -119,6 +119,7 @@ GEM
     pg (0.18.4)
     puma (3.4.0)
     rack (1.6.4)
+    rack-cors (0.4.1)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
@@ -216,6 +217,7 @@ DEPENDENCIES
   paperclip (~> 5.0.0)
   pg (~> 0.18.4)
   puma (~> 3.4.0)
+  rack-cors
   rails (= 4.2.6)
   redis (~> 3.2.2)
   sass-rails (~> 5.0)

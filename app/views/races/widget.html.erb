@@ -1,0 +1,79 @@
+<style>
+body {
+  font-family: "Avenir", "Arial", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-size: 0.8em !important;
+  font-weight: 500 !important;
+  line-height: 1.8em !important;
+}
+
+table.results {
+  width: 100%;
+}
+
+h1 {
+  padding: 20px;
+  text-align:left;
+}
+
+
+h2 {
+  background-color:  #bbb;
+  padding: 20px;
+  text-align:center;
+}
+
+table.results thead {
+  background-color: #EEEEEE;
+  font-weight: bold;
+  line-height: 15px;
+  font-size: 12px;
+}
+
+table.results tbody {
+  line-height: 15px;
+  font-size: 12px;
+}
+
+table.results tbody td.right{
+    text-align: right;
+}
+table.results tbody td.left{
+    text-align: left;
+}
+
+table.results tbody td.center{
+    text-align: center;
+}
+
+
+table.results tbody tr:nth-child(even){
+  background-color: #EEEEEE;
+}
+
+</style>
+
+
+<body>
+<h1> <%=@race.name%></h1>
+<% @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
+<h2><%=race%></h2>
+  <table class='results'>
+    <thead>
+      <tr>
+        <th>Class.<br>Scratch</th>
+        <th>Nom</th>
+        <th>Temps</th>
+        <th>Sexe</th>
+        <th>Class.<br>Sexe</th>
+        <th>Catégorie</th>
+        <th>Class.<br>Categ.</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: 'result_widget', collection: results%>
+    </tbody>
+  </table>
+<%end%>
+
+<p style='text-align: center;'>Résultats fournis par <%=image_tag('logo_kapp10.png', style:'height: 15px')%></p>
+</body>

@@ -29,3 +29,4 @@ gem 'message_quickly', '~> 1.1.2' #correspondance avec la plateforme Messenger
 gem 'dotenv-rails', '~> 2.1.1', :groups => [:development, :test] # parsing du fichier ENV en dev
 gem 'simple_form'
 gem "paperclip", "~> 5.0.0"
+gem 'rack-cors', :require => 'rack/cors'

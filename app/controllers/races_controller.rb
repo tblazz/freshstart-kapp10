@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
 
-  protect_from_forgery with: :exception
-  before_action :set_race, only: [:show, :edit, :update, :destroy, :send_results]
+  protect_from_forgery with: :exception,  except: :widget
+  before_action :set_race, only: [:show, :edit, :update, :destroy, :send_results, :widget]
 
   def index
     @races = Race.all
@@ -12,6 +12,10 @@ class RacesController < ApplicationController
   end
 
   def show
+  end
+
+  def widget
+    render layout: false
   end
 
   def create
