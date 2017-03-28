@@ -1,7 +1,10 @@
-<table class='horizontal'>
+<table class='horizontal' style='width: 100%;'>
   <tr>
     <th>Nom</th>
     <td><%= @race.name%></td>
+    <td rowspan="5" style='vertical-align: top; text-align: right;' >
+      <%=image_tag @race.background_image.url(:medium)%>
+    </td>
   </tr>
   <tr>
     <th>Date</th>

@@ -15,6 +15,7 @@ class GenerateDiploma
     @race_name = @result.race.name
     @race_date = I18n.l @result.race.date
     @race_detail = @result.race_detail
+    @background_image_url = @result.race.background_image.url(:standard)
   end
 
   def html
@@ -28,9 +29,7 @@ class GenerateDiploma
   end
 
   def image_kit(height, width)
-    #on convertit le HTML en img
     kit = IMGKit.new(html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
-    # kit.stylesheets << "#{Rails.root}/app/assets/stylesheets/template.css"
     kit
   end
 end

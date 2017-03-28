@@ -96,7 +96,8 @@ class RacesController < ApplicationController
       :hashtag,
       :results_url,
       :sms_message,
-      :raw_results
+      :raw_results,
+      :background_image
     )
   end
 

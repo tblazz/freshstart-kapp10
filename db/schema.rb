@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324085623) do
+ActiveRecord::Schema.define(version: 20170328140548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,12 +27,16 @@ ActiveRecord::Schema.define(version: 20170324085623) do
     t.string   "hashtag"
     t.string   "results_url"
     t.string   "sms_message"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "raw_results_file_name"
     t.string   "raw_results_content_type"
     t.integer  "raw_results_file_size"
     t.datetime "raw_results_updated_at"
+    t.string   "background_image_file_name"
+    t.string   "background_image_content_type"
+    t.integer  "background_image_file_size"
+    t.datetime "background_image_updated_at"
   end
 
   create_table "results", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
