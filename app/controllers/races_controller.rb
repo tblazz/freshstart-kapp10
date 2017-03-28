@@ -72,25 +72,6 @@ class RacesController < ApplicationController
 
       @race.results.find_each do |result|
         SendResultJob.perform_later(result.id)
-        # TreatResultJob.perform_later(
-        #   result.name,
-        #   result.rank,
-        #   result.time,
-        #   result.speed,
-        #   result.bib,
-        #   result.mail,
-        #   result.phone,
-        #   @race.name,
-        #   I18n.l(@race.date),
-        #   result.message,
-        #   result.race_detail,
-        #   @race.email_sender,
-        #   @race.email_name,
-        #   complete_hash_tag,
-        #   @race.results_url,
-        #   @race.sms_message,
-        #   root_url)
-
       end
       redirect_to races_url, notice: "#{@race.results.count} résultats en cours d'envoi." and return
     else
@@ -131,7 +112,7 @@ class RacesController < ApplicationController
             phone: row[PHONE_INDEX],
             mail: row[MAIL_INDEX],
             rank: row[RANK_INDEX],
-            name: row[NAME_INDEX],
+            name: Utils.titlecase(row[NAME_INDEX]),
             country: row[COUNTRY_INDEX],
             bib: row[NUMBER_INDEX],
             categ_rank: row[CATEG_RANK_INDEX],
