@@ -1,11 +1,18 @@
-<%= simple_form_for @race do |f| %>
+<%= simple_form_for @race , html: { class: 'form-horizontal' },
+  wrapper: :horizontal_form,
+  wrapper_mappings: {
+    check_boxes: :horizontal_radio_and_checkboxes,
+    radio_buttons: :horizontal_radio_and_checkboxes,
+    file: :horizontal_file_input,
+    boolean: :horizontal_boolean
+  } do |f| %>
   <%= f.input :name %>
   <%= f.input :date, as: :date %>
   <%= f.input :email_sender %>
   <%= f.input :email_name %>
   <%= f.input :hashtag %>
   <%= f.input :results_url %>
-  <%= f.input :sms_message %>
+  <%= f.input :sms_message, as: :text , input_html: {rows: 6}, style: 'width: 100%'%>
   <%= f.input :raw_results, as: :file %>
   <%= f.input :background_image, as: :file %>
   <hr>

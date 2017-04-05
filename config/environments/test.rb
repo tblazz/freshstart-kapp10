@@ -41,7 +41,9 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
   #configuration des loggers
   config.log_level = :debug
-  Resque.logger.level = MonoLogger::DEBUG
+  # Resque.logger.level = MonoLogger::DEBUG
+
+  config.active_record.raise_in_transactional_callbacks = true
 
   WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
 

@@ -31,6 +31,12 @@ module Kapp10Finishline
 
     config.middleware.use ActionDispatch::Flash
 
+    # Use Minitest for testing. Fabrication instead of fixtures.
+    config.generators do |g|
+      g.test_framework      :minitest, spec: true#, fixture_replacement: :fabrication
+      # g.fixture_replacement :fabrication, dir: "test/fabricators"
+    end
+
     #config mail
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.perform_deliveries = true

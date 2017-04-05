@@ -8,7 +8,7 @@ class RacesController < ApplicationController
   end
 
   def new
-    @race = Race.new
+    @race = Race.new(sms_message: I18n.t('sms_message_template'))
   end
 
   def show
