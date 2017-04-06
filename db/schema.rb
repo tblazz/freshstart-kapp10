@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328140548) do
+ActiveRecord::Schema.define(version: 20170406074947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,7 +18,7 @@ ActiveRecord::Schema.define(version: 20170328140548) do
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
 
-  create_table "races", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+  create_table "races", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string   "name"
     t.string   "email_sender"
     t.string   "email_name"
@@ -39,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170328140548) do
     t.datetime "background_image_updated_at"
   end
 
-  create_table "results", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+  create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid     "race_id"
     t.string   "phone"
     t.string   "mail"
@@ -57,22 +56,8 @@ ActiveRecord::Schema.define(version: 20170328140548) do
     t.string   "race_detail"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
-
-  add_index "results", ["race_id"], name: "index_results_on_race_id", using: :btree
-
-  create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "token"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "language"
-    t.string   "email"
-    t.string   "phone"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "users", ["token"], name: "index_users_on_token", using: :btree
 
   add_foreign_key "results", "races"
 end

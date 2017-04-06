@@ -43,8 +43,6 @@ Rails.application.configure do
   config.log_level = :debug
   # Resque.logger.level = MonoLogger::DEBUG
 
-  config.active_record.raise_in_transactional_callbacks = true
-
   WKHTMLTOIMAGE_PATH = '/Users/IBI/.rvm/gems/ruby-2.3.0/bin/wkhtmltoimage'
 
 end
