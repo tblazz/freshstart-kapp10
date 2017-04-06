@@ -1,5 +1,4 @@
 #Liste de constantes utilisées sur l'app
-REDIS_URL_VAR = "REDIS_URL"
 
 #CSV
 CSV_EXTENSION = ".csv"
