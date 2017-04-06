@@ -29,6 +29,7 @@ gem 'simple_form'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'rollbar'
+gem 'bootstrap-sass'
 
 group :development, :test do
   gem 'minitest-rails'

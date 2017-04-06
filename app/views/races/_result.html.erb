@@ -1,17 +1,17 @@
 <tr>
-  <td class='center'><%=result.phone%></td>
-  <td class='left'><%=result.mail%></td>
-  <td class='center'><%=result.rank%></td>
-  <td class='left'>  <%=result.name%></td>
-  <td class='center'><%=result.sex%></td>
-  <td class='center'><%=result.sex_rank%></td>
-  <td class='center'><%=result.categ%></td>
-  <td class='center'><%=result.categ_rank%></td>
-  <td class='center'><%=result.time%></td>
-  <td class='center'><%=result.speed%></td>
-  <td class='center'><%=result.race_detail%></td>
-  <td class='center'><%=result.message%></td>
-  <td><%= link_to "diplome", result_diploma_path(result, format: 'jpg'), class:'btn'%></td>
+  <td class='text-center'><%=result.phone%></td>
+  <td><%=result.mail%></td>
+  <td class='text-center'><%=result.rank%></td>
+  <td>  <%=result.name%></td>
+  <td class='text-center'><%=result.sex%></td>
+  <td class='text-center'><%=result.sex_rank%></td>
+  <td class='text-center'><%=result.categ%></td>
+  <td class='text-center'><%=result.categ_rank%></td>
+  <td class='text-center'><%=result.time%></td>
+  <td class='text-center'><%=result.speed%></td>
+  <td class='text-center'><span class="label label-primary"><%=result.race_detail%></span></td>
+  <td class='text-center'><%=result.message%></td>
+  <td><%= link_to "diplome", result_diploma_path(result, format: 'jpg'), class:'btn btn-default btn-xs'%></td>
 </tr>
 
 

@@ -1,54 +1,69 @@
-<table class='horizontal' style='width: 100%;'>
-  <tr>
-    <th>Nom</th>
-    <td><%= @race.name%></td>
-    <td rowspan="5" style='vertical-align: top; text-align: right;' >
-      <%=image_tag @race.background_image.url(:medium)%>
-    </td>
-  </tr>
-  <tr>
-    <th>Date</th>
-    <td><%= I18n.l @race.date unless @race.date.nil?%></td>
-  </tr>
-  <tr>
-    <th>Email Sender</th>
-    <td><%= @race.email_sender%></td>
-  </tr>
-  <tr>
-    <th>Email Name</th>
-    <td><%= @race.email_name%></td>
-  </tr>
-  <tr>
-    <th>Fichier</th>
-    <td>
-      <%= link_to "Télécharger le fichier CSV", @race.raw_results.url, class: 'btn'%>
-    </td>
+<div class='col-sm-6'>
+  <table class='table table-striped table-bordered' >
+    <tr>
+      <th>Nom</th>
+      <td><%= @race.name%></td>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <td><%= I18n.l @race.date unless @race.date.nil?%></td>
+    </tr>
+    <tr>
+      <th>Email Sender</th>
+      <td><%= @race.email_sender%></td>
+    </tr>
+    <tr>
+      <th>Email Name</th>
+      <td><%= @race.email_name%></td>
+    </tr>
+    <tr>
+      <th>Fichier</th>
+      <td>
+        <%= link_to "Télécharger le fichier CSV", @race.raw_results.url, class: 'btn btn-default'%>
+      </td>
+    </tr>
+    <tr>
+      <th>Nombre de coureurs</th>
+      <td><%=@race.runners_count%></td>
+    </tr>
+    <tr>
+      <th>Courses</th>
+      <td><%=@race.races_count%> Courses<br>
+      <%@race.races.each do |race|%>
+        <span class="label label-primary"><%=race%></span>
+      <%end%>
+      </td>
+    </tr>
+  </table>
+</div>
+<div class='col-sm-6'>
+  <%=image_tag @race.background_image.url(:medium), class:'pull-right' %>
+</div>
 
-  </tr>
-</table>
-<hr>
-<%=link_to "Editer", edit_race_path(@race), class: 'btn' %>
-<%= link_to "Supprimer", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
-<%= link_to "Envoyer", send_results_race_path(@race), class: "btn", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post -%>
-<%=link_to "Liste", races_path, class: 'btn' %>
-<hr>
+<div class='col-sm-12'>
+  <%= link_to "Editer", edit_race_path(@race), class: 'btn btn-default' %>
+  <%= link_to "Supprimer", race_path(@race), class: "btn btn-danger  pull-right", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
+  <%= link_to "Envoyer", send_results_race_path(@race), class: "btn btn-warning pull-right", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post -%>
+  <%= link_to "Retour à la Liste", races_path, class: 'btn btn-default' %>
+</div>
+
 <%unless @race.results.empty?%>
-<p><%=@race.results.length%> résultats</p>
-<table class='results'%>
+<h2 class='text-center'><%=@race.runners_count%> résultats</h2>
+<table class='table table-default table-striped'%>
   <thead>
     <tr>
-      <th class='center'>Tel.</th>
-      <th class='center'>Email</th>
-      <th class='center'>Class.<br>Gen.</th>
-      <th class='left'> Nom</th>
-      <th class='center'>Sexe</th>
-      <th class='center'>Class.<br>Sexe</th>
-      <th class='center'>Categ.</th>
-      <th class='center'>Class.<br>Categ.</th>
-      <th class='center'>Temps</th>
-      <th class='center'>Vitesse</th>
-      <th class='center'>Detail<br>Course</th>
-      <th class='center'>Message</th>
+      <th class='text-center'>Tel.</th>
+      <th class='text-center'>Email</th>
+      <th class='text-center'>Class.<br>Gen.</th>
+      <th > Nom</th>
+      <th class='text-center'>Sexe</th>
+      <th class='text-center'>Class.<br>Sexe</th>
+      <th class='text-center'>Categ.</th>
+      <th class='text-center'>Class.<br>Categ.</th>
+      <th class='text-center'>Temps</th>
+      <th class='text-center'>Vitesse</th>
+      <th class='text-center'>Detail<br>Course</th>
+      <th class='text-center'>Message</th>
     </tr>
   </thead>
   <%= render partial: 'result', collection: @race.results%>
