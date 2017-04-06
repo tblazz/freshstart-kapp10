@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root :to => 'result#new'
+  root :to => 'races#index'
 
   # config/routes.rb
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
