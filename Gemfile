@@ -28,6 +28,7 @@ gem 'sidekiq-scheduler' # planificateur de tâche pr Sidekiq
 gem 'simple_form'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
+gem 'rollbar'
 
 group :development, :test do
   gem 'minitest-rails'
