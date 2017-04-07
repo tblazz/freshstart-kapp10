@@ -1,0 +1,23 @@
+<%if @race.results.empty?%>
+  <p> Aucun résultat n'a encore été fourni</p>
+<%else%>
+  <table class='table table-default table-striped table-condensed'%>
+    <thead>
+      <tr>
+        <th class='text-center'>Tel.</th>
+        <th class='text-center'>Email</th>
+        <th class='text-center'>Class.<br>Gen.</th>
+        <th > Nom</th>
+        <th class='text-center'>Sexe</th>
+        <th class='text-center'>Class.<br>Sexe</th>
+        <th class='text-center'>Categ.</th>
+        <th class='text-center'>Class.<br>Categ.</th>
+        <th class='text-center'>Temps</th>
+        <th class='text-center'>Vitesse</th>
+        <th class='text-center'>Detail<br>Course</th>
+        <th class='text-center'>Message</th>
+      </tr>
+    </thead>
+    <%= render partial: 'result', collection: @race.results%>
+  </table>
+<%end%>

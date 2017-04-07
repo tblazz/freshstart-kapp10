@@ -16,4 +16,11 @@ class Race < ActiveRecord::Base
   def races
     @races ||= results.select(:race_detail).uniq.pluck(:race_detail)
   end
+
+  def emails_count
+    @emails_count ||= results.pluck(:mail).select{|mail| mail =~ MAIL_REGEX}.length
+  end
+  def phones_count
+    @phones_count ||= results.pluck(:phone).select{|phone| phone =~ PHONE_REGEX}.length
+  end
 end
