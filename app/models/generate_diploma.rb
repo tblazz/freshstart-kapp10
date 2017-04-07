@@ -2,7 +2,7 @@ include Rails.application.routes.url_helpers
 
 class GenerateDiploma
 
-  def initialize(result, template='template1')
+  def initialize(result, template='template1', photo_format=:standard)
     @result = (result.class == String) ? Result.find(result) : result
     @template = template
     @name = @result.name
@@ -15,7 +15,7 @@ class GenerateDiploma
     @race_name = @result.race.name
     @race_date = I18n.l @result.race.date
     @race_detail = @result.race_detail
-    @background_image_url = @result.race.background_image.url(:standard)
+    @background_image_url = @result.race.background_image.url(photo_format)
   end
 
   def html
