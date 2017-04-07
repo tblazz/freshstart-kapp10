@@ -35,6 +35,17 @@
         <%end%>
         </td>
       </tr>
+      <% unless @race.results.empty?
+        runner = @race.results.order("RANDOM()").limit(1).first
+      %>
+      <tr>
+        <th>Message</th>
+        <td>
+          <%= runner.sent_message%>
+        </td>
+      </tr>
+      <%end%>
+
     </table>
   </div>
   <div class='col-md-6'>
