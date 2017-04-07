@@ -97,7 +97,8 @@ class RacesController < ApplicationController
       :results_url,
       :sms_message,
       :raw_results,
-      :background_image
+      :background_image,
+      :template
     )
   end
 

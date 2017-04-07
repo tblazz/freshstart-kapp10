@@ -3,7 +3,7 @@ class ResultsController < ApplicationController
   protect_from_forgery with: :exception
 
   def diploma
-    diploma = GenerateDiploma.new(params[:id], 'texte-ombre')
+    diploma = GenerateDiploma.new(params[:id])
     respond_to do |format|
       format.html {
         render inline: diploma.html

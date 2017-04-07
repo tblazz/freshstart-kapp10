@@ -2,9 +2,10 @@ include Rails.application.routes.url_helpers
 
 class GenerateDiploma
 
-  def initialize(result, template='template1', photo_format=:standard)
+  def initialize(result, photo_format=:standard)
     @result = (result.class == String) ? Result.find(result) : result
-    @template = template
+    @template =  @result.race.template
+    Rails.logger.debug @template
     @name = @result.name
     @rank = @result.rank
     @time = @result.time

@@ -5,6 +5,10 @@ class Race < ActiveRecord::Base
   validates_attachment_content_type :raw_results, :content_type => ["text/plain", "text/csv"]
   validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
 
+
+  TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
+  # ['template1', 'texte-ombre']
+
   before_save do |race|
     self.sms_message = I18n.t('sms_message_template') if self.sms_message.blank?
   end

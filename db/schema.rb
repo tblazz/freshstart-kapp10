@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406074947) do
+ActiveRecord::Schema.define(version: 20170407134418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170406074947) do
     t.string   "background_image_content_type"
     t.integer  "background_image_file_size"
     t.datetime "background_image_updated_at"
+    t.string   "template"
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -54,8 +55,12 @@ ActiveRecord::Schema.define(version: 20170406074947) do
     t.string   "speed"
     t.string   "message"
     t.string   "race_detail"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.datetime "uploaded_at"
+    t.datetime "diploma_generated_at"
+    t.datetime "email_sent_at"
+    t.datetime "sms_sent_at"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 
