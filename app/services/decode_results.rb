@@ -1,6 +1,8 @@
 require 'charlock_holmes'
 require 'irb'
 class DecodeResults
+
+  Rails.logger.debug "DECODERESULTS"
   #définition des index pour le parsing CSV
   PHONE_INDEX = 0
   MAIL_INDEX = 1

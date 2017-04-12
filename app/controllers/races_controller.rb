@@ -103,32 +103,6 @@ class RacesController < ApplicationController
   end
 
   def decode_results
-    content = race_params[:raw_results].read
-    detection = CharlockHolmes::EncodingDetector.detect(content)
-    utf8_encoded_content = CharlockHolmes::Converter.convert content, detection[:encoding], 'UTF-8'
-    if utf8_encoded_content
-      @race.results.delete_all
-      CSV.parse(utf8_encoded_content, :headers => true, :col_sep => CSV_SEPARATOR) do |row|
-        if row
-          @race.results.create(
-            phone: row[PHONE_INDEX],
-            mail: row[MAIL_INDEX],
-            rank: row[RANK_INDEX],
-            name: Utils.titlecase(row[NAME_INDEX]),
-            country: row[COUNTRY_INDEX],
-            bib: row[NUMBER_INDEX],
-            categ_rank: row[CATEG_RANK_INDEX],
-            categ: row[CATEG_INDEX],
-            sex_rank: row[SEX_RANK_INDEX],
-            sex: row[SEX_INDEX],
-            time: row[TIME_INDEX],
-            speed: row[SPEED_INDEX],
-            message: row[MESSAGE_INDEX],
-            race_detail: row[RACE_DETAIL_INDEX]
-          )
-        end
-      end
-    end
+    DecodeResults.new.call(@race,race_params[:raw_results]) if race_params[:raw_results]
   end
-
 end
