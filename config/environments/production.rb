@@ -80,5 +80,5 @@ Rails.application.configure do
 
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
   PERFORM_SENDING = true
-  DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
+  DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
 end
