@@ -61,6 +61,7 @@ module Kapp10Finishline
         secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
         s3_region: ENV.fetch('AWS_REGION'),
       }
+    }
 
     # Use SQL instead of Active Record's schema dumper when creating the database.
     # This is necessary if your schema can't be completely dumped by the schema dumper,

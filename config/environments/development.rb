@@ -53,5 +53,4 @@ Rails.application.configure do
   VERIFY_SSL = false
   # DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
   DOMAIN_URL = "http://localhost:3000"
-}
 end
