@@ -39,4 +39,5 @@ group :development, :test do
   gem 'guard-bundler'
   gem 'guard-rails'
   gem 'guard-minitest'
+  gem 'timecop'
 end
