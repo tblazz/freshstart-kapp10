@@ -15,6 +15,7 @@ class RacesController < ApplicationController
   end
 
   def widget
+    response.headers.except! 'X-Frame-Options'
     render layout: false
   end
 
