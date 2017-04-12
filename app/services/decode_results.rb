@@ -1,5 +1,6 @@
 require 'charlock_holmes'
 require 'irb'
+require 'utils'
 class DecodeResults
 
   Rails.logger.debug "DECODERESULTS"
