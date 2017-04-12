@@ -53,14 +53,5 @@ Rails.application.configure do
   VERIFY_SSL = false
   # DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
   DOMAIN_URL = "http://localhost:3000"
-  config.paperclip_defaults = {
-  storage: :s3,
-  s3_credentials: {
-    bucket: ENV.fetch('S3_BUCKET'),
-    s3_protocol: 'https',
-    access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
-    secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
-    s3_region: ENV.fetch('AWS_REGION'),
-  }
 }
 end
