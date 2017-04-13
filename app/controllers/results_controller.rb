@@ -1,6 +1,7 @@
 class ResultsController < ApplicationController
 
   protect_from_forgery with: :exception
+  http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD']
 
   def diploma
     diploma = GenerateDiploma.new(params[:id])
