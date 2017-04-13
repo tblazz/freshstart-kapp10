@@ -100,28 +100,25 @@
 <script>
 function participant_filter() {
   // Declare variables
-  var input, filter, table, tr, td, i;
+  var input, filter, table, tr, name, i, n;
   input = document.getElementById("kapp10-filter");
   filter = input.value.toUpperCase();
   tr = document.getElementsByTagName("tr");
 
   // Loop through all table rows, and hide those who don't match the search query
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+  n = tr.length;
+  for (i = 0; i < n ; i++) {
+    name = tr[i].getElementsByTagName("td")[1];
+    if (name) {
+      bib = tr[i].getElementsByTagName("td")[2].innerHTML;
+      if ((name.innerHTML.toUpperCase().indexOf(filter) > -1) || (bib.indexOf(filter) > -1)){
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
       }
     }
   }
-  if (filter) {
-    parentIFrame.size(200);
-  }
-  else {
-    parentIFrame.size();
-  }
+  parentIFrame.size();
 
 }
 </script>
@@ -143,6 +140,7 @@ function participant_filter() {
         <tr>
           <th>Class.<br>Scratch</th>
           <th>Nom</th>
+          <th>Dossard</th>
           <th>Temps</th>
           <th>Sexe</th>
           <th>Class.<br>Sexe</th>
