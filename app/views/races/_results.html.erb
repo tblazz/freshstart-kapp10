@@ -1,7 +1,7 @@
 <%if @race.results.empty?%>
   <p> Aucun résultat n'a encore été fourni</p>
 <%else%>
-  <table class='table table-default table-striped table-condensed'%>
+  <table class='table table-default table-striped table-condensed small' %>
     <thead>
       <tr>
         <th class='text-center'>Tel.</th>
@@ -19,6 +19,8 @@
         <th class='text-center'>MAJ le</th>
       </tr>
     </thead>
-    <%= render partial: 'result', collection: @race.results%>
+    <% @results = @race.results.page params[:page]%>
+    <%= render partial: 'result', collection: @results%>
   </table>
+  <div class='text-center'><%= paginate @results %></div>
 <%end%>

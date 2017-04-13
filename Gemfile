@@ -28,10 +28,11 @@ gem 'sidekiq-scheduler' # planificateur de tâche pr Sidekiq
 gem 'simple_form'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
-gem 'rollbar'
+gem 'rollbar' # reporting des erreurs
 gem 'bootstrap-sass'
-gem 'htmlentities'
-gem 'htmlcompressor'
+gem 'htmlentities' # permet de transformer les accents en entités HTML ex: &eacute;
+gem 'htmlcompressor' # permet de compresser le HTML  des widgets
+gem 'kaminari' # pagination
 
 group :development, :test do
   gem 'minitest-rails'
