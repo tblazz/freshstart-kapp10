@@ -5,7 +5,7 @@ describe DecodeResults do
   describe "It loads a new file for the first time" do
     before do
       @race = Race.create(name: 'test')
-      DecodeResults.new.call(@race, File.new("#{Rails.root}/test/fixtures/results.csv"))
+      DecodeResults.new.call(@race, "#{Rails.root}/test/fixtures/results.csv")
       @runner = @race.results.where(name: 'Adeline Leydet').first
     end
     it "loads all the rows" do
@@ -58,8 +58,8 @@ describe DecodeResults do
   describe "It loads a twice the same file" do
     it "it loads all the rows" do
       race = Race.create(name: 'test')
-      DecodeResults.new.call(race, File.new("#{Rails.root}/test/fixtures/results.csv"))
-      DecodeResults.new.call(race, File.new("#{Rails.root}/test/fixtures/results.csv"))
+      DecodeResults.new.call(race, "#{Rails.root}/test/fixtures/results.csv")
+      DecodeResults.new.call(race, "#{Rails.root}/test/fixtures/results.csv")
       race.results.count.must_equal 10
     end
   end
@@ -68,11 +68,11 @@ describe DecodeResults do
     before do
 
       @race = Race.create(name: 'test')
-      DecodeResults.new.call(@race, File.new("#{Rails.root}/test/fixtures/results.csv"))
+      DecodeResults.new.call(@race, "#{Rails.root}/test/fixtures/results.csv")
       @adeline_before_update = @race.results.where(name: 'Adeline Leydet').first
       @adrien_before_update = @race.results.where(name: 'Adrien Peigne').first
       Timecop.travel(@adrien_before_update.updated_at + 5.minutes)
-      DecodeResults.new.call(@race, File.new("#{Rails.root}/test/fixtures/results_updated_and_new_times.csv"))
+      DecodeResults.new.call(@race, "#{Rails.root}/test/fixtures/results_updated_and_new_times.csv")
     end
     it "loads all the rows" do
       @race.results.count.must_equal 11
@@ -89,7 +89,6 @@ describe DecodeResults do
       @adrien = @race.results.where(name: 'Adrien Peigne').first
       @adrien.uploaded_at.must_equal @adrien_before_update.uploaded_at
     end
-
   end
 
 end
