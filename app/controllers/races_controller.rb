@@ -61,7 +61,7 @@ class RacesController < ApplicationController
   end
 
   def generate_widget
-    GenerateWidgetJob.perform_later(@race_id.id)
+    GenerateWidgetJob.perform_later(@race.id)
   end
 
   def send_results
