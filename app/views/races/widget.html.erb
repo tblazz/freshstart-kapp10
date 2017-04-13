@@ -118,7 +118,7 @@ function participant_filter() {
 }
 </script>
 <body>
-<h1> <%=@race.name%></h1>
+<h1><%=@race.name%> - <%=I18n.l @race.date%></h1>
 
 <% first = true
 @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
