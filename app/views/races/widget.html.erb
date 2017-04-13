@@ -92,7 +92,7 @@
   }
 
   <%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
-  "#tab_#{race}:checked ~ #content_#{race}"}.join(',')%>  {
+  "#tab_#{race.parameterize}:checked ~ #content_#{race.parameterize}"}.join(',')%>  {
     display: block;
   }
 </style>
@@ -221,16 +221,16 @@ function participant_filter() {
 
 <% first = true
 @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
-<input id="tab_<%=race%>" class='tab' type="radio" name="tabs" <%if first%>checked<% first=false; end%>>
-  <label for="tab_<%=race%>"><%=race%></label>
+  <input id="tab_<%=race.parameterize%>" class='tab' type="radio" name="tabs" <%if first%>checked<% first=false; end%>>
+  <label for="tab_<%=race.parameterize%>"><%=race%></label>
 <%end%>
 <input type="text" id="kapp10-filter" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
 
 
-<% @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
-   coder = HTMLEntities.new
+<% coder = HTMLEntities.new
+  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
 %>
-  <section id="content_<%=race%>">
+  <section id="content_<%=race.parameterize%>">
     <table class='results'>
       <thead>
         <tr>
