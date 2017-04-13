@@ -39,7 +39,7 @@ class Race < ActiveRecord::Base
 
   def widget_gist
     %(
-<script async src="//results-widget.kapp10.com.s3.amazonaws.com/widget.js" charset="utf-8"></script>
-<iframe class='kapp10-embed' src="//results-widget.kapp10.com.s3.amazonaws.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 100%"></iframe>)
+<script async src="http://results-widget.kapp10.com.s3.amazonaws.com/widget.js" charset="utf-8"></script>
+<iframe class='kapp10-embed' src="http://results-widget.kapp10.com.s3.amazonaws.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 100%"></iframe>)
   end
 end
