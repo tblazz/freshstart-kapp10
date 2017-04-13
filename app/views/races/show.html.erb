@@ -84,7 +84,9 @@
       <%= render partial: 'statistics'%>
     </div>
     <div role="tabpanel" class="tab-pane" id="widget">
+    <h4>Code pour afficher le widget</h4>
     <textarea style='width: 100%;' rows=10><%=@race.widget_gist%></textarea>
+    <h4>Widget </h4>
     <%=@race.widget_gist.html_safe%>
     </div>
   </div>
