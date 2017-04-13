@@ -2,6 +2,7 @@ require 'htmlentities'
 require 'htmlcompressor'
 
 class GenerateWidgetJob < ActiveJob::Base
+  queue_as :normal
 
   def perform(race_id)
     @race = Race.find(race_id)
