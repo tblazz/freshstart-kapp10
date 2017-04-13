@@ -98,11 +98,25 @@
 </style>
 
 <script>
+function RemoveAccents(str) {
+  var accents    = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÕÖØòóôõöøÈÉÊËèéêëðÇçÐÌÍÎÏìíîïÙÚÛÜùúûüÑñŠšŸÿýŽž';
+  var accentsOut = "AAAAAAaaaaaaOOOOOOOooooooEEEEeeeeeCcDIIIIiiiiUUUUuuuuNnSsYyyZz";
+  str = str.split('');
+  var strLen = str.length;
+  var i, x;
+  for (i = 0; i < strLen; i++) {
+    if ((x = accents.indexOf(str[i])) != -1) {
+      str[i] = accentsOut[x];
+    }
+  }
+  return str.join('');
+}
+
 function participant_filter() {
   // Declare variables
   var input, filter, table, tr, name, i, n;
   input = document.getElementById("kapp10-filter");
-  filter = input.value.toUpperCase();
+  filter = RemoveAccents(input.value).toUpperCase();
   tr = document.getElementsByTagName("tr");
 
   // Loop through all table rows, and hide those who don't match the search query
@@ -111,7 +125,7 @@ function participant_filter() {
     name = tr[i].getElementsByTagName("td")[1];
     if (name) {
       bib = tr[i].getElementsByTagName("td")[2].innerHTML;
-      if ((name.innerHTML.toUpperCase().indexOf(filter) > -1) || (bib.indexOf(filter) > -1)){
+      if ((RemoveAccents(name.innerHTML).toUpperCase().indexOf(filter) > -1) || (bib.indexOf(filter) > -1)){
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
@@ -155,7 +169,7 @@ function participant_filter() {
   </section>
 <%end%>
 
-<p style='text-align: center;'>Résultats fournis par <%=image_tag('logo_kapp10.png', style:'height: 1em')%></p>
+<p style='text-align: center;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Résultats fournis par <%=image_tag('logo_kapp10.png', style:'height: 1em')%></a></p>
 </body>
 
 <script>
