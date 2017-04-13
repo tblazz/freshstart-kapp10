@@ -62,6 +62,7 @@ class RacesController < ApplicationController
 
   def generate_widget
     GenerateWidgetJob.perform_later(@race.id)
+    redirect_to @race, notice: "Le widget est en cours de génération."
   end
 
   def send_results
