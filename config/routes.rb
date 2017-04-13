@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :races do
     member do
       post 'send_results'
+      post 'generate_widget'
       get 'diploma'
       get 'widget'
     end

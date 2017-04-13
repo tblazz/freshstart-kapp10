@@ -60,6 +60,10 @@ class RacesController < ApplicationController
     end
   end
 
+  def generate_widget
+    GenerateWidgetJob.perform_later(@race_id.id)
+  end
+
   def send_results
     if PERFORM_SENDING
       #on parse le champ hashtag pour découper les hashtags présents
@@ -79,7 +83,6 @@ class RacesController < ApplicationController
     else
       redirect_to races_url, alert: "L'envoi des résutats est bloqué sur l'environnement de #{Rails.env}"
     end
-
   end
 
   private

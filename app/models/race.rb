@@ -32,4 +32,14 @@ class Race < ActiveRecord::Base
   def phones_count
     @phones_count ||= results.pluck(:phone).select{|phone| phone =~ PHONE_REGEX}.length
   end
+
+  def widget_storage_name
+    "#{self.date.year}/#{self.date.month}/#{self.id}"
+  end
+
+  def widget_gist
+    %(
+<script async src="//results-widget.kapp10.com.s3.amazonaws.com/widget.js" charset="utf-8"></script>
+<iframe class='kapp10-embed' src="//results-widget.kapp10.com.s3.amazonaws.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 100%"></iframe>)
+  end
 end
