@@ -1,81 +1,150 @@
 <style>
-body {
-  font-family: "Avenir", "Arial", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 0.8em !important;
-  font-weight: 500 !important;
-  line-height: 1.8em !important;
-}
+  body {
+    font-family: "Avenir", "Arial", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 0.8em !important;
+    font-weight: 500 !important;
+    line-height: 1.8em !important;
+  }
 
-table.results {
-  width: 100%;
-}
+  table.results {
+    width: 100%;
+  }
 
-h1 {
-  padding: 20px;
-  text-align:left;
-}
+  h1 {
+    padding-top: 1em;
+    text-align:left;
+    font-size: 1.5em;
+  }
 
+  table.results thead {
+    background-color: #EEEEEE;
+    font-weight: bold;
+    line-height: 1em;
+    font-size: .9em;
+  }
 
-h2 {
-  background-color:  #bbb;
-  padding: 20px;
-  text-align:center;
-}
+  table.results tbody {
+    line-height: 1em;
+    font-size: .9em;
+  }
+  table.results tbody td {
+    padding: 5px 5px;
+  }
 
-table.results thead {
-  background-color: #EEEEEE;
-  font-weight: bold;
-  line-height: 15px;
-  font-size: 12px;
-}
+  table.results tbody td.right{
+      text-align: right;
+  }
+  table.results tbody td.left{
+      text-align: left;
+  }
 
-table.results tbody {
-  line-height: 15px;
-  font-size: 12px;
-}
+  table.results tbody td.center{
+      text-align: center;
+  }
 
-table.results tbody td.right{
-    text-align: right;
-}
-table.results tbody td.left{
-    text-align: left;
-}
-
-table.results tbody td.center{
-    text-align: center;
-}
-
-
-table.results tbody tr:nth-child(even){
-  background-color: #EEEEEE;
-}
-
+  table.results tbody tr:nth-child(even){
+    background-color: #EEEEEE;
+  }
 </style>
 
+<style>
+  section {
+    display: none;
+    padding: 20px 0 0;
+    border-top: 1px solid #ddd;
+  }
 
+  input.tab {
+    display: none;
+  }
+  input#kapp10-filter {
+    font-weight: 600;
+    padding: 10px 25px;
+    float: right;
+  }
+
+  label {
+    display: inline-block;
+    margin: 0 0 -1px;
+    padding: 10px 25px 5px;
+    font-weight: 600;
+    text-align: center;
+    color: #bbb;
+    border: 1px solid transparent;
+  }
+
+  label:hover {
+    color: #888;
+    cursor: pointer;
+  }
+
+  input:checked + label {
+    color: #555;
+    border: 1px solid #ddd;
+    border-top: 4px solid orange;
+    border-bottom: 1px solid #fff;
+  }
+
+  <%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
+  "#tab_#{race}:checked ~ #content_#{race}"}.join(',')%>  {
+    display: block;
+  }
+</style>
+
+<script>
+function participant_filter() {
+  // Declare variables
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("kapp10-filter");
+  filter = input.value.toUpperCase();
+  tr = document.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 <body>
 <h1> <%=@race.name%></h1>
+
+<% first = true
+@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
+<input id="tab_<%=race%>" class='tab' type="radio" name="tabs" <%if first%>checked<% first=false; end%>>
+  <label for="tab_<%=race%>"><%=race%></label>
+<%end%>
+<input type="text" id="kapp10-filter" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
+
+
 <% @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
-<h2><%=race%></h2>
-  <table class='results'>
-    <thead>
-      <tr>
-        <th>Class.<br>Scratch</th>
-        <th>Nom</th>
-        <th>Temps</th>
-        <th>Sexe</th>
-        <th>Class.<br>Sexe</th>
-        <th>Catégorie</th>
-        <th>Class.<br>Categ.</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render partial: 'result_widget', collection: results%>
-    </tbody>
-  </table>
+  <section id="content_<%=race%>">
+    <table class='results'>
+      <thead>
+        <tr>
+          <th>Class.<br>Scratch</th>
+          <th>Nom</th>
+          <th>Temps</th>
+          <th>Sexe</th>
+          <th>Class.<br>Sexe</th>
+          <th>Catégorie</th>
+          <th>Class.<br>Categ.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render partial: 'result_widget', collection: results%>
+      </tbody>
+    </table>
+  </section>
 <%end%>
 
-<p style='text-align: center;'>Résultats fournis par <%=image_tag('logo_kapp10.png', style:'height: 15px')%></p>
+<p style='text-align: center;'>Résultats fournis par <%=image_tag('logo_kapp10.png', style:'height: 1em')%></p>
 </body>
 
 <script>
