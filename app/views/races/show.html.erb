@@ -85,7 +85,7 @@
     <div role="tabpanel" class="tab-pane" id="widget">
       <div class='col-sm-12'>
         <h4>Code pour afficher le widget</h4>
-        <textarea style='width: 100%;' rows=5><%=@race.widget_gist%></textarea>
+        <textarea class='form-control' rows=5><%=@race.widget_gist%></textarea>
       </div>
       <div class='col-sm-12 top-buffer text-center'>
         <%= link_to "Générer le widget", generate_widget_race_path(@race), class: "btn btn-primary", "data-method" => :post -%>
