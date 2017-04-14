@@ -1,25 +1,35 @@
 <h1>Courses</h1>
 
-<table class='table table-default table-striped'>
+<table class='table table-bordered table-default table-striped'>
   <thead>
     <tr>
-      <th>Nom</th>
-      <th>Date</th>
-      <th>NB Resultats</th>
-      <th>&nbsp;</th>
+      <th class='text-center'>Nom</th>
+      <th class='text-center'>Date</th>
+      <th class='text-center'>NB Resultats</th>
+      <th class='text-center'>Widget</th>
+      <th class='text-center'>&nbsp;</th>
     </tr>
   </thead>
   <tbody>
     <%@races.each do |race|%>
       <tr>
         <td><%=link_to race.name, race_path(race)%></td>
-        <td><%=race.date%></td>
-        <td><%=race.results.count%></td>
-        <td><%=link_to "Editer", edit_race_path(race), class: 'btn btn-default btn-sm'%></td>
+        <td class='text-center'><%=race.date%></td>
+        <td class='text-right'><%=number_with_precision(race.results.count, precision: 0 , delimiter: ' ')%></td>
+        <td class='text-center'>
+        <% if race.widget_generated_at%>
+          <%=I18n.l race.widget_generated_at, format: :short%>
+        <%else%>
+          <%= link_to "Générer", generate_widget_race_path(race), class: "btn btn-default btn-sm", "data-method" => :post -%>
+        <%end%>
+        </td>
+
+        <td class='text-center'><%=link_to "Editer", edit_race_path(race), class: 'btn btn-default btn-sm'%></td>
       </tr>
     <%end%>
   </tbody>
 </table>
 
-<hr>
+<div class='text-center'><%= paginate @races %></div>
+
 <%= link_to "Nouvelle course", new_race_path(), class:'btn btn-default'%>
