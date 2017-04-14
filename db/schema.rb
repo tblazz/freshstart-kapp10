@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407134418) do
+ActiveRecord::Schema.define(version: 20170414121237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20170407134418) do
     t.integer  "background_image_file_size"
     t.datetime "background_image_updated_at"
     t.string   "template"
+    t.datetime "widget_generated_at"
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
