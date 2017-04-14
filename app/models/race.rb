@@ -62,6 +62,10 @@ class Race < ActiveRecord::Base
     "#{self.date.year}/#{self.date.month}/#{self.id}"
   end
 
+  def widget_url
+    "https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/#{widget_storage_name}"
+  end
+
   def widget_gist
     %(
 <script async src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.js" charset="utf-8"></script>

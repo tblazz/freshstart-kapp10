@@ -18,6 +18,7 @@
   <%= f.input :background_image, as: :file %>
   <hr>
   <%= f.button :submit , "Enregistrer", class: 'btn btn-standard' %>
+  <span class='pull-right'>
     <%= link_to "Supprimer la course" , race_path(@race), method: :delete, class: 'btn btn-danger',data: { confirm: I18n.t('sure?') } if @race.persisted?%>
-
+  </span>
 <% end %>
