@@ -24,7 +24,6 @@ class DecodeResults
     @race = race
     @filename = import_filename
     nb = 0
-    p @filename
     open(@filename) do |file|
       file.each_line do |line|
         nb += 1

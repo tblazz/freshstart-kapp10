@@ -9,49 +9,49 @@ describe DecodeResults do
       @runner = @race.results.where(name: 'Adeline Leydet').first
     end
     it "loads all the rows" do
-      @race.results.count.must_equal 10
+      assert_equal 10, @race.results.count
     end
     it "loads all the name" do
-      @runner.country.must_equal 'FRA'
+      assert_equal 'FRA', @runner.country
     end
     it "loads all the phone" do
-      @runner.phone.must_equal '33682568000'
+      assert_equal '33682568000', @runner.phone
     end
     it "loads all the mail" do
-      @runner.mail.must_equal 'adeline.leydet@example.com'
+      assert_equal 'adeline.leydet@example.com', @runner.mail
     end
     it "loads all the rank" do
-      @runner.rank.must_equal 145
+      assert_equal 145, @runner.rank
     end
     it "loads all the bib" do
-      @runner.bib.must_equal '2'
+      assert_equal '2', @runner.bib
     end
     it "loads all the categ_rank" do
-      @runner.categ_rank.must_equal 23
+      assert_equal 23, @runner.categ_rank
     end
     it "loads all the categ" do
-      @runner.categ.must_equal 'SE'
+      assert_equal 'SE', @runner.categ
     end
     it "loads all the sex" do
-      @runner.sex.must_equal 'F'
+      assert_equal 'F', @runner.sex
     end
     it "loads all the sex_rank" do
-      @runner.sex_rank.must_equal 38
+      assert_equal 38, @runner.sex_rank
     end
     it "loads all the time" do
-      @runner.time.must_equal '01:29:44'
+      assert_equal '01:29:44', @runner.time
     end
     it "loads all the speed" do
-      @runner.speed.must_equal '8,02'
+      assert_equal '8,02', @runner.speed
     end
     it "loads all the message" do
-      @runner.message.must_equal nil
+      assert_nil @runner.message
     end
     it "loads all the race_detail" do
-      @runner.race_detail.must_equal "12"
+      assert_equal "12", @runner.race_detail
     end
     it "sets uploaded_at" do
-      @runner.uploaded_at.wont_be_nil
+      refute_nil @runner.uploaded_at
     end
   end
 
@@ -60,7 +60,7 @@ describe DecodeResults do
       race = Race.create(name: 'test')
       DecodeResults.new.call(race, "#{Rails.root}/test/fixtures/results.csv")
       DecodeResults.new.call(race, "#{Rails.root}/test/fixtures/results.csv")
-      race.results.count.must_equal 10
+      assert_equal 10, race.results.count
     end
   end
 
@@ -75,19 +75,19 @@ describe DecodeResults do
       DecodeResults.new.call(@race, "#{Rails.root}/test/fixtures/results_updated_and_new_times.csv")
     end
     it "loads all the rows" do
-      @race.results.count.must_equal 11
+      assert_equal 11, @race.results.count
     end
     it "updates times for Adeline" do
       @adeline = @race.results.where(name: 'Adeline Leydet').first
-      @adeline.time.wont_equal @adeline_before_update.time
+      refute_equal @adeline_before_update.time, @adeline.time
     end
     it "updates uploaded_at for adeline" do
       @adeline = @race.results.where(name: 'Adeline Leydet').first
-      @adeline.time.wont_equal @adeline_before_update.time
+      refute_equal @adeline_before_update.time, @adeline.time
     end
     it "doesn't change uploaded_at for adrien" do
       @adrien = @race.results.where(name: 'Adrien Peigne').first
-      @adrien.uploaded_at.must_equal @adrien_before_update.uploaded_at
+      assert_equal @adrien_before_update.uploaded_at, @adrien.uploaded_at
     end
   end
 
