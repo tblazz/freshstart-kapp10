@@ -29,19 +29,34 @@
 class Result < ActiveRecord::Base
   belongs_to :race
 
+  def sent_message
+    sms.message
+  end
+
   def rank_total
     rank == 1 ? I18n.t('first_suffix') : rank == 2 ? I18n.t('second_suffix') : I18n.t('third_suffix')
   end
 
-  def sent_message
-    race.sms_message % {
-      name: name,
+  def sms
+    @sms ||=  SMS.new(
+      name: first_name,
       time: time,
-      url: "image_path",
-      race_name_mail: race.email_name ,
-      rank: rank,
+      race_name_mail: race.email_name,
+      rank: "#{rank}#{rank_total}",
+      template: race.sms_message,
       race_detail: race_detail,
-      results_url: race.results_url
-    }
+      results_url: race.results_url,
+      phone_number: phone,
+      campaign: "#{race.name.parameterize}-#{race.date}"
+    )
   end
+
+  def first_name
+    @first_name ||= (first_names.count > 0) ? first_names[0] : name
+  end
+
+  def first_names
+    @first_names ||= name.strip.split(/\s+/)
+  end
+
 end
