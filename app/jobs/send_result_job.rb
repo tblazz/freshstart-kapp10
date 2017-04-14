@@ -30,16 +30,16 @@ class SendResultJob < ActiveJob::Base
       short_image_path).deliver_later if @result.mail =~ MAIL_REGEX
 
      #on envoi un sms et un message Facebook si le numéro de téléphone est valide
-    # if @result.phone =~ PHONE_REGEX
-    #   SendSmsJob.perform_later(first_name ? first_name : @result.name,
-    #     @result.time,
-    #     @result.race.email_name,
-    #     @result.phone,
-    #     @result.rank_total,
-    #     @result.race.results_url,
-    #     sms_template,
-    #     short_image_path,
-    #     image[:folder_name])
-    # end
+    if @result.phone =~ PHONE_REGEX
+      SendSmsJob.perform_later(first_name ? first_name : @result.name,
+        @result.time,
+        @result.race.email_name,
+        @result.phone,
+        @result.rank_total,
+        @result.race.results_url,
+        sms_template,
+        short_image_path,
+        image[:folder_name])
+    end
   end
 end
