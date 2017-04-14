@@ -2,7 +2,6 @@ class SaveImageToS3
   def initialize(race_name,race_date,bib, image)
     @image = image
     @folder_name = "#{race_name}_#{I18n.l(race_date)}".gsub('/', '-')
-    Rails.logger.info("folder name : #{@folder_name}")
     @folder_name.gsub!(/\s/, '-')
     @folder_name = ActiveSupport::Inflector.transliterate @folder_name if @folder_name
     @image_file_name = "#{@folder_name}_#{bib}.jpg"

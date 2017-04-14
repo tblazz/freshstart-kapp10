@@ -2,9 +2,6 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
-
-  get 'result/new', to: 'result#new'
-  post 'result', to: 'result#create'
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   resources :races do
     member do

@@ -19,10 +19,7 @@ class ResultMailer < ApplicationMailer
 
         attachments[image_file_name] = File.read(temp_file)
 
-        mail to: mail_address, from: I18n.t('mail_sender', sender_mail: sender_mail), subject: subject do |format|
-          format.html { render layout: 'result_mailer' }
-          format.text { render layout: 'result_mailer' }
-        end
+        mail to: mail_address, from: I18n.t('mail_sender', sender_mail: sender_mail), subject: subject
 
         temp_file.unlink
       end

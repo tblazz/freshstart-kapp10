@@ -44,3 +44,7 @@ group :development, :test do
   gem 'guard-minitest'
   gem 'timecop'
 end
+
+group :development do
+  gem "letter_opener"
+end

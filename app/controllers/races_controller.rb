@@ -25,7 +25,7 @@ class RacesController < ApplicationController
 
     respond_to do |format|
       if @race.save
-        # decode_results if race_params[:raw_results]
+        decode_results if race_params[:raw_results]
         format.html { redirect_to @race, notice: 'race was successfully created.' }
         format.json { render :show, status: :created, location: @race }
       else
@@ -40,7 +40,7 @@ class RacesController < ApplicationController
   def update
     respond_to do |format|
       if @race.update(race_params)
-        # decode_results if race_params[:raw_results]
+        decode_results if race_params[:raw_results]
         format.html { redirect_to @race, notice: 'race was successfully updated.' }
         format.json { render :show, status: :ok, location: @race }
       else

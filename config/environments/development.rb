@@ -15,6 +15,7 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :letter_opener
 
   # Print deprecation notices to the Rails logger.
   # config.active_support.deprecation = :log
@@ -47,7 +48,7 @@ Rails.application.configure do
   WKHTMLTOIMAGE_PATH = '/usr/local/bin/wkhtmltoimage'
   PERFORM_SENDING = true
 
-  Rails.application.config.active_job.queue_adapter = :sidekiq
+  Rails.application.config.active_job.queue_adapter = :inline
 
   #parameter for HTTParty to check the authenticity of SSL certificate
   VERIFY_SSL = false
