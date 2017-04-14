@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
 
   protect_from_forgery with: :exception,  except: :widget
-  before_action :set_race, only: [:show, :edit, :update, :destroy, :generate_widget, :send_results, :widget]
+  before_action :set_race, except: :index
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
   def index
@@ -63,6 +63,23 @@ class RacesController < ApplicationController
   def generate_widget
     GenerateWidgetJob.perform_later(@race.id)
     redirect_to @race, notice: "Le widget est en cours de génération."
+  end
+
+  def delete_results
+    @race.results.delete_all
+    redirect_to @race, notice: "Les résultats ont été supprimés"
+  end
+
+  def duplicate
+    @new_race = Race.create( name: @race.name + "_dup",
+      date: @race.date,
+      email_sender: @race.email_sender,
+      email_name: @race.email_name,
+      hashtag: @race.hashtag,
+      results_url: @race.results_url,
+      sms_message: @race.sms_message
+    )
+    redirect_to @new_race, notice: "La course est dupliquée."
   end
 
   def send_results

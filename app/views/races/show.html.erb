@@ -60,8 +60,11 @@
 <div class='col-sm-12'>
   <%= link_to "Editer", edit_race_path(@race), class: 'btn btn-default' %>
   <%= link_to "Retour à la Liste", races_path, class: 'btn btn-default' %>
+  <%= link_to "Dupliquer la course", duplicate_race_path(@race), class: 'btn btn-info', "data-method" => :post %>
   <div class='pull-right'>
-    <%= link_to "Supprimer", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
+      <%= link_to "Supprimer les résultats", delete_results_race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
+
+    <%= link_to "Supprimer la course", race_path(@race), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete -%>
     <%= link_to "Envoyer", send_results_race_path(@race), class: "btn btn-warning", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post -%>
   </div>
 </div>

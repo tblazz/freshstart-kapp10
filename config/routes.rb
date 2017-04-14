@@ -6,9 +6,11 @@ Rails.application.routes.draw do
   resources :races do
     member do
       post 'send_results'
+      post 'duplicate'
       post 'generate_widget'
       get 'diploma'
       get 'widget'
+      delete 'delete_results'
     end
   end
 
