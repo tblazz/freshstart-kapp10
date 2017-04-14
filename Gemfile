@@ -13,7 +13,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.5'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'redis', '~> 3.2.2'
+gem 'redis', '~> 3.3.3'
 gem 'puma', '~> 3.4.0'
 gem 'imgkit', '~> 1.6.1'
 gem 'wkhtmltoimage-binary', '~> 0.12.2'
