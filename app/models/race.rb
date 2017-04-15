@@ -31,6 +31,7 @@ class Race < ActiveRecord::Base
   validates_attachment_content_type :raw_results, :content_type => ["text/plain", "text/csv", "application/vnd.ms-excel", "text/comma-separated-values",  Paperclip::ContentTypeDetector::SENSIBLE_DEFAULT]
   validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
   validates_presence_of :name, :date, :template
+  validates :date, uniqueness: { scope: :name }
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']

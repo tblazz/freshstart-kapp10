@@ -6,6 +6,7 @@
       <th class='text-center'>Nom</th>
       <th class='text-center'>Date</th>
       <th class='text-center'>NB Resultats</th>
+      <th class='text-center'>SMS</th>
       <th class='text-center'>Widget</th>
       <th class='text-center'>&nbsp;</th>
     </tr>
@@ -14,8 +15,9 @@
     <%@races.each do |race|%>
       <tr>
         <td><%=link_to race.name, race_path(race)%></td>
-        <td class='text-center'><%=race.date%></td>
+        <td class='text-center'><%=I18n.l race.date%></td>
         <td class='text-right'><%=number_with_precision(race.results.count, precision: 0 , delimiter: ' ')%></td>
+        <td><%=race.results.where("sms_sent_at > uploaded_at").count%></td>
         <td class='text-center'>
         <% if race.widget_generated_at%>
           <%=I18n.l race.widget_generated_at, format: :short%>
