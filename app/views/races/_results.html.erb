@@ -23,5 +23,5 @@
     <% @results = @race.results.page params[:page]%>
     <%= render partial: 'result', collection: @results%>
   </table>
-  <div class='text-center'><%= paginate @results %></div>
+  <div class='text-center'><%= paginate @race.results %></div>
 <%end%>
