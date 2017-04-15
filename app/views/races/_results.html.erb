@@ -23,5 +23,12 @@
     <% @results = @race.results.paginate(:page => params[:page])%>
     <%= render partial: 'result', collection: @results%>
   </table>
-  <div class='text-center'><%= will_paginate @results, renderer: BootstrapPagination::Rails, inner_window: 1, outer_window: 0 %></div>
+  <% params[:page] = 1 if params[:page].nil?
+  params[:page] = params[:page].to_i
+  if params[:page]> 1 %>
+    <%= link_to "<-", race_path(@race, page: params[:page] - 1), class: 'btn btn-default'%>
+  <%end%>
+  <%if   params[:page]  < @results.total_pages && @results.total_pages > 1%>
+    <%= link_to "->", race_path(@race, page: params[:page] + 1), class: 'btn btn-default'%>
+  <%end%>
 <%end%>
