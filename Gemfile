@@ -32,7 +32,7 @@ gem 'rollbar' # reporting des erreurs
 gem 'bootstrap-sass'
 gem 'htmlentities' # permet de transformer les accents en entités HTML ex: &eacute;
 gem 'htmlcompressor' # permet de compresser le HTML  des widgets
-gem 'kaminari' # pagination
+gem 'will_paginate-bootstrap' # pagination
 
 group :development, :test do
   gem 'minitest-rails'

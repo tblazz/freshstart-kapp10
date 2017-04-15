@@ -5,7 +5,7 @@ class RacesController < ApplicationController
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
   def index
-    @races = Race.page params[:page]
+    @races = Race.paginate(:page => params[:page])
   end
 
   def new

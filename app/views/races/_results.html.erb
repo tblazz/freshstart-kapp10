@@ -20,8 +20,8 @@
         <th class='text-center'>Diplôme</th>
       </tr>
     </thead>
-    <% @results = @race.results.page params[:page]%>
+    <% @results = @race.results.paginate(:page => params[:page])%>
     <%= render partial: 'result', collection: @results%>
   </table>
-  <div class='text-center'><%= paginate @results %></div>
+  <div class='text-center'><%= will_paginate @results, renderer: BootstrapPagination::Rails, inner_window: 1, outer_window: 0 %></div>
 <%end%>
