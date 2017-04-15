@@ -5,9 +5,12 @@ class SendResultJob < ActiveJob::Base
     @result = Result.find(result)
 
     # Envoi du mail
-    ResultMailer.mail_result(@result).deliver_later if @result.mail =~ MAIL_REGEX && @result.sms_sent_at.nil?
+    ResultMailer.mail_result(@result).deliver_later if @result.mail =~ MAIL_REGEX && @result.email_sent_at.nil?
 
     # Envoi du SMS
-    @result.sms.send unless @result.sms_sent_at
+    unless @result.sms_sent_at
+      @result.sms.send
+      @result.update_attribute(:sms_sent_at, Time.now)
+    end
   end
 end

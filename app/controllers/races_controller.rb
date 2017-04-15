@@ -75,14 +75,16 @@ class RacesController < ApplicationController
   end
 
   def duplicate
-    @new_race = Race.create( name: @race.name + "_dup",
+    @new_race = Race.create( name: @race.name + "_#{Time.now}",
       date: @race.date,
       email_sender: @race.email_sender,
       email_name: @race.email_name,
       hashtag: @race.hashtag,
+      template: @race.template,
       results_url: @race.results_url,
       sms_message: @race.sms_message
     )
+    Rails.logger.debug @new_race.errors.to_json
     redirect_to @new_race, notice: "La course est dupliquée."
   end
 

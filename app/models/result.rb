@@ -32,7 +32,6 @@ class Result < ActiveRecord::Base
 
   def sent_message
     sms.message
-    update_attribute(:sms_sent_at, Time.now)
   end
 
   def rank_total
