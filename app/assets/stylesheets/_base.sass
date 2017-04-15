@@ -1,3 +1,11 @@
+$primary-color: #4A4A4A
+
+@font-face
+  font-family: 'MuseoSans-900'
+  src: url("/templates/template1/fonts/MuseoSans-900.otf")
+  font-weight: 100
+  font-style: normal
+
 .top-buffer
   margin-top: 20px
 
@@ -7,8 +15,10 @@
   padding: 5px
   span
     font-size: 2.5em
+    font-family: MuseoSans-900, sans-serif
     font-weight: bold
     font-style: italic
+    color: #4A4A4A
 
 
 table.small
@@ -20,9 +30,14 @@ table.small
 .alert-notice
   @extend .alert-success
 
+h1
+  font-family: MuseoSans-900, sans-serif
+  color: orange
+
 table.table
   thead
     th
-      background-color: orange
+      background-color: #4A4A4A
       color: white
+      font-family: MuseoSans-900, sans-serif
       vertical-align: middle
