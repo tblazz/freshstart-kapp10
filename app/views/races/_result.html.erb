@@ -11,9 +11,9 @@
   <td class='text-center'><%=result.speed%></td>
   <td class='text-center'><span class="label label-primary"><%=result.race_detail%></span></td>
   <td class='text-center'><%=result.message%></td>
-  <td class='text-center'><%=result.uploaded_at%></td>
+  <td class='text-center'><%=I18n.l result.uploaded_at unless result.uploaded_at.nil? %></td>
   <td><%= link_to "diplome", result_diploma_path(result, format: 'jpg'), class:'btn btn-default btn-xs'%>
-      <%= link_to "diplome html", result_diploma_path(result, format: 'html'), class:'btn btn-default btn-xs'%>
+      <%# link_to "diplome html", result_diploma_path(result, format: 'html'), class:'btn btn-default btn-xs'%>
   </td>
 </tr>
 

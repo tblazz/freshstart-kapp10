@@ -16,12 +16,12 @@
         <th class='text-center'>Vitesse</th>
         <th class='text-center'>Detail<br>Course</th>
         <th class='text-center'>Message</th>
-        <th class='text-center'>MAJ le</th>
+        <th class='text-center'>Chargé le</th>
         <th class='text-center'>Diplôme</th>
       </tr>
     </thead>
     <% @results = @race.results.page params[:page]%>
     <%= render partial: 'result', collection: @results%>
   </table>
-  <div class='text-center'><%= paginate @race.results %></div>
+  <div class='text-center'><%= paginate @results %></div>
 <%end%>
