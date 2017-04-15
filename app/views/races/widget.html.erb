@@ -91,10 +91,12 @@
     border-bottom: 1px solid #fff;
   }
 
-  <%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
-  "#tab_#{race.parameterize}:checked ~ #content_#{race.parameterize}"}.join(',')%>  {
-    display: block;
-  }
+    <% if @race.races_count >0 %>
+    <%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
+    "#tab_#{race.parameterize}:checked ~ #content_#{race.parameterize}"}.join(',')%>  {
+      display: block;
+    }
+    <%end%>
 </style>
 
 <script>
@@ -219,10 +221,12 @@ function participant_filter() {
 <body>
 <h1><%=@race.name%> - <%=I18n.l @race.date%></h1>
 
-<% first = true
-@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
-  <input id="tab_<%=race.parameterize%>" class='tab' type="radio" name="tabs" <%if first%>checked<% first=false; end%>>
-  <label for="tab_<%=race.parameterize%>"><%=race%></label>
+<% if @race.races_count>0%>
+  <% first = true
+  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
+    <input id="tab_<%=race.parameterize%>" class='tab' type="radio" name="tabs" <%if first%>checked<% first=false; end%>>
+    <label for="tab_<%=race.parameterize%>"><%=race%></label>
+  <%end%>
 <%end%>
 <input type="text" id="kapp10-filter" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
 
@@ -230,7 +234,7 @@ function participant_filter() {
 <% coder = HTMLEntities.new
   @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
 %>
-  <section id="content_<%=race.parameterize%>">
+  <section id="content_<%=race.parameterize unless race.nil?%>">
     <table class='results'>
       <thead>
         <tr>
