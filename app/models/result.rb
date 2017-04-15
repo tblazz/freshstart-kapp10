@@ -24,6 +24,7 @@
 #  diploma_generated_at :datetime
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
+#  diploma_url          :string
 #
 
 class Result < ActiveRecord::Base
@@ -47,6 +48,7 @@ class Result < ActiveRecord::Base
       race_detail: race_detail,
       results_url: race.results_url,
       phone_number: phone,
+      image_path: diploma_url,
       campaign: "#{race.name.parameterize}-#{race.date}"
     )
   end

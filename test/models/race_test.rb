@@ -21,6 +21,7 @@
 #  background_image_file_size    :integer
 #  background_image_updated_at   :datetime
 #  template                      :string
+#  widget_generated_at           :datetime
 #
 
 require 'test_helper'

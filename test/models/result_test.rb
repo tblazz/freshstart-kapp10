@@ -24,6 +24,7 @@
 #  diploma_generated_at :datetime
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
+#  diploma_url          :string
 #
 
 require 'test_helper'

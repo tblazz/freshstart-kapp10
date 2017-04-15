@@ -3,7 +3,7 @@ class SMS
 
   PAYLOAD_FORMAT = "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campaign}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
 
-  def initialize(name: ,time: , image_path: 'image_path', race_name_mail: , rank:, race_detail: , results_url:, template:, phone_number:, campaign:)
+  def initialize(name: ,time: , image_path: , race_name_mail: , rank:, race_detail: , results_url:, template:, phone_number:, campaign:)
     @name = name
     @time = time
     @image_path = image_path
@@ -28,8 +28,7 @@ class SMS
     }
   end
 
-  def send(image_path)
-    @image_path = image_path
+  def send
     SendSmsJob.perform_later(payload) if phone_number =~ PHONE_REGEX
   end
 

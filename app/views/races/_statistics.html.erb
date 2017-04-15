@@ -1,2 +1,3 @@
 <p><%= number_to_percentage (@race.emails_count * 100.0 / @race.runners_count) , precision: 1%> mails OK</p>
 <p><%= number_to_percentage (@race.phones_count * 100.0 / @race.runners_count) , precision: 1%> phones OK</p>
+<p><%= number_to_percentage ( 100 - (@race.results.where("diploma_generated_at < uploaded_at or diploma_generated_at is null").count * 100.0 / @race.results.count))  , precision: 1%> Diplômes générés et à jour</p>

@@ -64,6 +64,10 @@ class RacesController < ApplicationController
     GenerateWidgetJob.perform_later(@race.id)
     redirect_to @race, notice: "Le widget est en cours de génération."
   end
+  def generate_diplomas
+    @race.generate_diplomas
+    redirect_to @race, notice: "Les diplômes sont en cours de génération."
+  end
 
   def delete_results
     @race.results.delete_all

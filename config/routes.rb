@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post 'send_results'
       post 'duplicate'
       post 'generate_widget'
+      post 'generate_diplomas'
       get 'diploma'
       get 'widget'
       delete 'delete_results'

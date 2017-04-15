@@ -24,6 +24,7 @@
 #  diploma_generated_at :datetime
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
+#  diploma_url          :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

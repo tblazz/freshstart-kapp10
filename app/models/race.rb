@@ -21,6 +21,7 @@
 #  background_image_file_size    :integer
 #  background_image_updated_at   :datetime
 #  template                      :string
+#  widget_generated_at           :datetime
 #
 
 class Race < ActiveRecord::Base
@@ -29,7 +30,7 @@ class Race < ActiveRecord::Base
   has_many :results, dependent: :destroy
   validates_attachment_content_type :raw_results, :content_type => ["text/plain", "text/csv", "application/vnd.ms-excel", "text/comma-separated-values",  Paperclip::ContentTypeDetector::SENSIBLE_DEFAULT]
   validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
-
+  validates_presence_of :name, :date, :template
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']
@@ -70,5 +71,11 @@ class Race < ActiveRecord::Base
     %(
 <script async src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.js" charset="utf-8"></script>
 <iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 100%"></iframe>)
+  end
+
+  def generate_diplomas
+    results.where("diploma_generated_at < uploaded_at or diploma_generated_at is null").pluck(:id).each do |id|
+      GenerateDiplomaJob.perform_later(id)
+    end
   end
 end
