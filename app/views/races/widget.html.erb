@@ -219,7 +219,8 @@ function participant_filter() {
 }
 </script>
 <body>
-<h1><%=@race.name%> - <%=I18n.l @race.date%></h1>
+<%coder = HTMLEntities.new%>
+<h1><%=coder.encode(@race.name, :named).html_safe%> - <%=I18n.l @race.date%></h1>
 
 <% if @race.races_count>0%>
   <% first = true
@@ -231,7 +232,7 @@ function participant_filter() {
 <input type="text" id="kapp10-filter" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
 
 
-<% coder = HTMLEntities.new
+<%
   @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
 %>
   <section id="content_<%=race.parameterize unless race.nil?%>">
