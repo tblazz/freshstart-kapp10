@@ -16,6 +16,7 @@
   <%= f.input :sms_message, as: :text , input_html: {rows: 6}, style: 'width: 100%'%>
   <%= f.input :raw_results, as: :file %>
   <%= f.input :background_image, as: :file %>
+  <%= f.input :photos, input_html: { multiple: 'multiple' }, as: :file , label: "Photos individuelles", name: "race[photo]"%>
   <hr>
   <%= f.button :submit , "Enregistrer", class: 'btn btn-standard' %>
   <span class='pull-right'>

@@ -12,8 +12,11 @@ Rails.application.routes.draw do
       get 'diploma'
       get 'widget'
       delete 'delete_results'
+      get 'pairing', to: 'photos#index'
     end
   end
+
+  resources :photos
 
   root :to => 'races#index'
 

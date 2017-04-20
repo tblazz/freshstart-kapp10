@@ -1,11 +1,9 @@
 include Rails.application.routes.url_helpers
 
 class GenerateDiploma
-
   def initialize(result, photo_format=:standard)
     @result = (result.class == String) ? Result.find(result) : result
     @template =  @result.race.template
-    Rails.logger.debug @template
     @name = @result.name
     @rank = @result.rank
     @time = @result.time
@@ -16,7 +14,13 @@ class GenerateDiploma
     @race_name = @result.race.name
     @race_date = I18n.l @result.race.date
     @race_detail = @result.race_detail
-    @background_image_url = @result.race.background_image.url(photo_format)
+    if @result.photo == :no_photo
+      @background_image_url = @result.race.background_image.url(photo_format)
+    else
+      @background_image_url = @result.photo.image.url
+    end
+    Rails.logger.debug "width = #{IMAGE_WIDTH[@template]}"
+    Rails.logger.debug "heigit = #{IMAGE_HEIGHT[@template]}"
   end
 
   def html
@@ -30,7 +34,7 @@ class GenerateDiploma
   end
 
   def image_kit(height, width)
-    kit = IMGKit.new(html, height: IMAGE_HEIGHT, width: IMAGE_WIDTH)
+    kit = IMGKit.new(html, height: IMAGE_HEIGHT[@template], width: IMAGE_WIDTH[@template])
     kit
   end
 end

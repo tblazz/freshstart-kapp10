@@ -61,4 +61,10 @@ class Result < ActiveRecord::Base
     @first_names ||= name.strip.split(/\s+/)
   end
 
+  def photo
+    photo = Photo.where(bib: bib, race_id: race_id)
+    return :no_photo if photo.empty?
+    photo.first
+  end
+
 end

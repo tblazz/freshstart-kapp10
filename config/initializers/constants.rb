@@ -3,8 +3,14 @@
 #CSV
 CSV_EXTENSION = ".csv"
 CSV_SEPARATOR = ";"
-IMAGE_HEIGHT = 1024
-IMAGE_WIDTH = 1024
+IMAGE_HEIGHT = {
+  'template1' => 1024,
+  'texte-ombre' => 668
+}
+IMAGE_WIDTH = {
+  'template1' => 1024,
+  'texte-ombre' => 1000
+}
 
 #mail
 MAIL_REGEX = /^(\S+)@(\S+)\.(\w+)$/
