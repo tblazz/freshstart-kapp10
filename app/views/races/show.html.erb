@@ -49,6 +49,7 @@
           <%= runner.sent_message%>
         </td>
       </tr>
+      <% if @race.photos.count >0%>
       <tr>
         <th>Photos individuelles</th>
         <td>
@@ -57,6 +58,7 @@
           <%= link_to 'Associer les photos', pairing_race_path(@race), class: 'btn btn-default'%>
         </td>
       </tr>
+      <%end%>
       <tr>
         <th>Coureurs sans diplômes</th>
         <td>
