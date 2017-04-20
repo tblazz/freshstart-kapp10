@@ -22,6 +22,7 @@
 #  background_image_updated_at   :datetime
 #  template                      :string
 #  widget_generated_at           :datetime
+#  user_id                       :integer
 #
 
 require 'test_helper'

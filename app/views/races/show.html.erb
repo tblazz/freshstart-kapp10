@@ -49,6 +49,20 @@
           <%= runner.sent_message%>
         </td>
       </tr>
+      <tr>
+        <th>Photos individuelles</th>
+        <td>
+          <%= @race.photos.count%>
+          <%=image_tag @race.photos.order("random()").limit(1).first.image.url, width: '200px'%>
+          <%= link_to 'Associer les photos', pairing_race_path(@race), class: 'btn btn-default'%>
+        </td>
+      </tr>
+      <tr>
+        <th>Coureurs sans diplômes</th>
+        <td>
+          <%= @race.results.where(diploma_url: nil).count%>
+        </td>
+      </tr>
       <%end%>
 
     </table>

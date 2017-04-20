@@ -23,9 +23,18 @@ class RacesController < ApplicationController
   def create
     @race = Race.new(race_params)
 
+    @photos = params[:race][:photos]  || []
+    params[:race].delete(:photos)
+
     respond_to do |format|
       if @race.save
+
         decode_results if race_params[:raw_results]
+
+        @photos.each do |photo|
+          @race.photos.create({image: photo})
+        end
+
         format.html { redirect_to @race, notice: 'race was successfully created.' }
         format.json { render :show, status: :created, location: @race }
       else
@@ -38,9 +47,17 @@ class RacesController < ApplicationController
   # PATCH/PUT /races/1
   # PATCH/PUT /races/1.json
   def update
+
+    @photos = params[:race][:photos] || []
+    params[:race].delete(:photos)
+
     respond_to do |format|
       if @race.update(race_params)
         decode_results if race_params[:raw_results]
+        @photos.each do |photo|
+          @race.photos.create({image: photo})
+        end
+
         format.html { redirect_to @race, notice: 'race was successfully updated.' }
         format.json { render :show, status: :ok, location: @race }
       else

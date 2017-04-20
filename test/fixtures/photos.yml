@@ -1,0 +1,27 @@
+# == Schema Information
+#
+# Table name: photos
+#
+#  id                 :integer          not null, primary key
+#  race_id            :uuid
+#  suggested_bibs     :string
+#  bib                :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  image_file_name    :string
+#  image_content_type :string
+#  image_file_size    :integer
+#  image_updated_at   :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  race: one
+  suggested_bibs: MyString
+  bib: MyString
+
+two:
+  race: two
+  suggested_bibs: MyString
+  bib: MyString

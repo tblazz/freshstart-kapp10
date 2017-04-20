@@ -10,7 +10,8 @@ class ResultsController < ApplicationController
         render inline: diploma.html
       }
       format.jpg {
-        send_data(diploma.image_kit(1024,1024).to_img(:jpg), type: "image/jpeg", disposition:'inline')
+        @result = Result.find(params[:id])
+        send_data(diploma.image_kit(IMAGE_HEIGHT[@result.race.template],IMAGE_WIDTH[@result.race.template]).to_img(:jpg), type: "image/jpeg", disposition:'inline')
       }
     end
   end

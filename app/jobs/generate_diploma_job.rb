@@ -5,7 +5,7 @@ class GenerateDiplomaJob < ActiveJob::Base
 
   def perform(result_id)
     result = Result.find(result_id)
-    diploma = GenerateDiploma.new(result).image_kit(IMAGE_HEIGHT,IMAGE_WIDTH)
+    diploma = GenerateDiploma.new(result).image_kit(IMAGE_HEIGHT[result.race.template],IMAGE_WIDTH[result.race.template])
     image = SaveImageToS3.new(result.race.name, result.race.date, result.bib, diploma.to_img(:jpg)).call
     # Rails.logger.debug image[:image_path]
     # Google::UrlShortener::Base.api_key = ENV['GOOGLE_API_KEY']

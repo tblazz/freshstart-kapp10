@@ -14,8 +14,9 @@
   <td class='text-center'><%=I18n.l result.uploaded_at unless result.uploaded_at.nil? %></td>
   <td class='text-center'><%=I18n.l result.email_sent_at unless result.email_sent_at.nil? %></td>
   <td class='text-center'><%=I18n.l result.sms_sent_at unless result.sms_sent_at.nil? %></td>
-  <td><%= link_to "diplome", result.diploma_url, class:'btn btn-default btn-xs', target: '_diploma' unless result.diploma_url.nil?%>
-      <%# link_to "diplome html", result_diploma_path(result, format: 'html'), class:'btn btn-default btn-xs'%>
+  <td><%=result.bib%></td>
+  <td><%= link_to "Diplôme généré", result.diploma_url, class:'btn btn-default btn-xs', target: '_diploma' unless result.diploma_url.nil?%>
+      <%= link_to "Diplôme ", result_diploma_path(result, format: 'jpg'), class:'btn btn-default btn-xs'%>
   </td>
 </tr>
 
