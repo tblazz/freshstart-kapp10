@@ -91,6 +91,11 @@ class RacesController < ApplicationController
     redirect_to @race, notice: "Les résultats ont été supprimés"
   end
 
+  def delete_diplomas
+    @race.delete_diplomas
+    redirect_to race_path(@race.id), notice: "Les diplômes ont été supprimés."
+  end
+
   def duplicate
     @new_race = Race.create( name: @race.name + "_#{Time.now}",
       date: @race.date,
