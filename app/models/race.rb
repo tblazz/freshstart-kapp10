@@ -81,4 +81,10 @@ class Race < ActiveRecord::Base
       GenerateDiplomaJob.perform_later(id)
     end
   end
+
+  def delete_diplomas
+    results.each do |result|
+      result.update_attributes({diploma_generated_at: nil, diploma_url: nil})
+    end
+  end
 end
