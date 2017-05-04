@@ -6,6 +6,23 @@ class GenerateWidgetJob < ActiveJob::Base
 
   def perform(race_id)
     @race = Race.find(race_id)
+		@categories = @race.results.pluck(:categ).uniq
+		@categories_sorted = Hash.new
+		@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
+			female_sorted = results.select do |result|
+				result['sex'] == "F"
+			end
+			male_sorted = results.select do |result|
+				result['sex'] == "M"
+			end
+			all_sorted = results.select do |result|
+				result['sex'] == "M" || result['sex'] == "F"
+			end
+			female_categories = female_sorted.map { |f| f['categ'] }.uniq
+			male_categories = male_sorted.map { |m| m['categ'] }.uniq
+			all_categories = all_sorted.map { |a| a['categ'] }.uniq
+			@categories_sorted[race] = { F: female_categories, M: male_categories, ALL: all_categories }
+		end
     @generated_at = Time.now
     erb_file = "#{Rails.root}/app/views/races/widget.html.erb"
     erb_str = File.read(erb_file)
