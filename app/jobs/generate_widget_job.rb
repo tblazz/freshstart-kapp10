@@ -21,7 +21,7 @@ class GenerateWidgetJob < ActiveJob::Base
 			female_categories = female_sorted.map { |f| f['categ'] }.uniq
 			male_categories = male_sorted.map { |m| m['categ'] }.uniq
 			all_categories = all_sorted.map { |a| a['categ'] }.uniq
-			@categories_sorted[race] = { F: female_categories, M: male_categories, ALL: all_categories }
+			@categories_sorted[race.parameterize] = { F: female_categories, M: male_categories, ALL: all_categories }
 		end
     @generated_at = Time.now
     erb_file = "#{Rails.root}/app/views/races/widget.html.erb"
