@@ -208,8 +208,7 @@ function resize_results_section(count) {
 }
 
 function update_categories(selectedSection, filters) {
-	var categoriesSorted, categoriesForSelected, categoryFilterTag, optionsForCategories;
-	categoriesSorted = [<%= @categories_sorted.to_json %>];
+	var categoriesForSelected, categoryFilterTag, optionsForCategories;
 	categoriesForSelected = categoriesSorted[0][selectedSection.replace(/(tab_)/, '')][filters.sexe_filter];
 	if (categoriesForSelected) {
 		categoryFilterTag = document.getElementById("filterCategory");
@@ -393,7 +392,9 @@ function moveScrollThumb(pos) {
 }
 
 $(document).ready(function(){
+	var filters = get_filters();
 	var selectedSection = $("input:radio.tab:checked")[0].id;
+	update_categories(selectedSection, filters);
 	currentSelectedWrapper = '#tableWrapper_'+selectedSection;
 	currentSelectedSection = "#" + selectedSection.replace(/(tab_)/, 'content_');
 	var $currentWrapper = $(currentSelectedWrapper);
