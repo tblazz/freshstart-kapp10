@@ -8,10 +8,12 @@ Rails.application.routes.draw do
       post 'send_results'
       post 'duplicate'
       post 'generate_widget'
+			post 'generate_photos_widget'
       post 'generate_diplomas'
       delete 'delete_diplomas'
       get 'diploma'
       get 'widget'
+			get 'photos_widget'
       delete 'delete_results'
       get 'pairing', to: 'photos#index'
     end
