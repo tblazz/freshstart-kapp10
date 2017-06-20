@@ -71,9 +71,8 @@ class Race < ActiveRecord::Base
   end
 
   def widget_gist
-    %(
-<script async src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.js" charset="utf-8"></script>
-<iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 100%"></iframe>)
+%(
+	<iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>)
   end
 
   def generate_diplomas
