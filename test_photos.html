@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<title>Test photos</title>
+		<style media="screen">
+
+		body {
+			font-family: "Avenir", "Arial", Helvetica, Arial, "Lucida Grande", sans-serif;
+			font-size: 0.8em !important;
+			font-weight: 500 !important;
+			line-height: 1.8em !important;
+		}
+
+		.iframeWrapper {
+			width: 1000px;
+			height: 1000px;
+			border: 1px solid grey;
+		}
+
+		h1 {
+			padding-top: 1em;
+			text-align:left;
+			font-size: 1.5em;
+			height: 42px;
+		}
+		/*
+		**	Races tabs
+		*/
+
+		input.tab {
+			display: none;
+		}
+
+		.tabRacesCount {
+			height: 23px;
+		}
+
+		label {
+			display: inline-block;
+			margin: 0 0 -1px;
+			padding: 10px 25px 5px;
+			font-weight: 600;
+			text-align: center;
+			color: #bbb;
+			border: 1px solid transparent;
+		}
+
+		label:hover {
+			color: #888;
+			cursor: pointer;
+		}
+
+		input + label {
+			border-bottom: 4px solid #fff;
+		}
+
+		input:checked + label {
+			color: #555;
+			border: 1px solid #fff;
+			border-top: 1px solid #fff;
+			border-bottom: 4px solid orange;
+		}
+
+		.photosWrapper {
+			/*width: 100%;*/
+			/*height: 100%;*/
+			margin-top: 20px;
+			padding: 20px 20px;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+		}
+
+		.photoBloc {
+			/*max-width: 200px;*/
+			width: 300px;
+			position: relative;
+			margin-bottom: 10px;
+		}
+
+		.photoBloc img {
+			width: inherit;
+			height: 100%;
+		}
+
+		.overlay {
+		  position: absolute;
+		  bottom: 0;
+		  left: 0;
+		  right: 0;
+		  background-color: rgba(0, 0, 0, 0.5);
+		  overflow: hidden;
+		  width: 100%;
+		  height: 0;
+		  transition: .5s ease;
+		}
+
+		.photoBloc:hover .overlay {
+  		height: 100%;
+		}
+
+		.overlay-text {
+			height: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.photoDownloadButton {
+			background-color: orange;
+	    width: 100px;
+	    border: none;
+	    border-radius: 15px;
+	    font-size: 13px;
+	    min-height: 35px;
+	    color: #777777;
+	    font-weight: 600;
+		}
+
+		.photoDownloadButton:hover {
+			cursor: pointer;
+		}
+
+		</style>
+	</head>
+	<body>
+		<div class="iframeWrapper">
+			<h1>Trail Montanaspe - 10/06/2017</h1>
+			<input id="tab_13km" class='tab' type="radio" name="tabs" checked>
+			<label for="tab_13km" class="tabRacesCount">13km</label>
+			<input id="tab_29km" class='tab' type="radio" name="tabs" checked>
+			<label for="tab_29km" class="tabRacesCount">29km</label>
+			<input id="tab_53km" class='tab' type="radio" name="tabs" checked>
+			<label for="tab_53km" class="tabRacesCount">53km</label>
+
+			<div class="photosWrapper">
+				<div class="photoBloc">
+					<img src="http://www.runnersworld.com/sites/runnersworld.com/files/styles/article_main_image_2200px/public/articles/2016/10/runnerrunning.jpg?itok=TttAfCiD">
+					<div class="overlay">
+						<div class="overlay-text">
+							<button type="button" name="button" class="photoDownloadButton">Télécharger</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var wrapper = $(".photosWrapper");
+			for (var i = 0; i < 10; i++) {
+				wrapper.append( '<div class="photoBloc"><img src="http://www.runnersworld.com/sites/runnersworld.com/files/styles/article_main_image_2200px/public/articles/2016/10/runnerrunning.jpg?itok=TttAfCiD"><div class="overlay"><div class="overlay-text"><button type="button" name="button" class="photoDownloadButton">Télécharger</button></div></div></div>' );
+			}
+		});
+		</script>
+	</body>
+</html>

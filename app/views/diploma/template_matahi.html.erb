@@ -1,0 +1,283 @@
+<html>
+<head>
+  <title>Kapp10 - FinishLine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style>
+
+		html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		    margin: 0;
+		    padding: 0;
+		    border: 0;
+		    font: inherit;
+		    vertical-align: baseline;
+		}
+
+		img {
+		    max-width: 100%;
+		}
+
+		@font-face {
+		    font-family: 'HelveticaNeueLTStd-ThCn';
+		    src: url("<%=DOMAIN_URL%>/templates/template_base1000x666/fonts/HelveticaNeueLTStd-ThCn.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+		    font-family: 'Antonio-Bold';
+				src: url("<%=DOMAIN_URL%>/templates/template_base1000x666/fonts/Antonio-Bold.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+		    font-family: 'Helvetica-Roman';
+		    src: url("<%=DOMAIN_URL%>/templates/template_base1000x666/fonts/Helvetica-Roman.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'HelveticaLTStd-BlkCond';
+			src: url("<%=DOMAIN_URL%>/templates/template_base1000x666/fonts/HelveticaLTStd-BlkCond.ttf")  format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+
+		body {
+		  width: 1000px;
+		  height: 666px;
+
+		}
+
+		.content {
+			min-width: 1000px;
+			min-height: 666px;
+			width: 1000px;
+	    height: 666px;
+	    max-width: 1000px;
+	    max-height: 666px;
+	    background: url('<%=@background_image_url%>') no-repeat fixed;
+			background-size: 1000px 666px;
+	    margin: auto;
+			color: white;
+			text-shadow: 1px 1px 1px black;
+			text-transform: uppercase;
+		}
+
+		.shadow {
+			width: 1000px;
+		  height: 666px;
+			position: absolute;
+			top: 0px;
+		  background-image: url("<%=DOMAIN_URL%>/templates/template_base1000x666/images/shadow.png");
+			opacity: 0.98;
+		  z-index: 1;
+		}
+
+		.race, .race_detail, .rank, .rank_total, .chrono_caption, .chrono, .speed_caption, .speed {
+			font-family: 'Antonio-Bold';
+		}
+
+		.race {
+			position: fixed;
+			left: 42px;
+			top: 18px;
+			font-size: 45px;
+			letter-spacing: -0.8px;
+		}
+
+		.race img {
+			display: block;
+			width: 202px;
+			height: 109px;
+		}
+
+		.race_detail {
+			position: relative;
+			width: auto;
+			display: inline-block;
+			font-size: <%= ((@race_detail.length - 4) * -5 + 109).to_s + 'px' %>;
+			padding-top: <%= case @race_detail.length
+				when 6
+					'3px'
+				when 7..8
+					'5px'
+				when 9..12
+					'10px'
+				end %>;
+			letter-spacing: -3px;
+		}
+
+		.race_detail::after {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 0;
+			left: 0;
+			top: 6px;
+			border-top: 12px solid white;
+		}
+
+		.date {
+			margin-left: 25px;
+			font-family: 'Helvetica-Roman';
+			width: 100%;
+			font-size: 16px;
+			display: block;
+		}
+
+		.matahi_sponsor {
+			position: fixed;
+			left: 830px;
+	    top: 35px;
+	    font-family: 'Helvetica-Roman';
+	    font-size: 15px;
+		}
+
+		.matahi_logo {
+			position: fixed;
+			left: 703px;
+			top: 40px;
+    	width: 262px;
+		}
+
+		.score {
+	    position: absolute;
+	    top: 388px;
+	    left: 42px;
+	    width: 454px;
+	    height: 133px;
+			display: flex;
+			display: -webkit-flex;
+			display: -webkit-box;
+			align-items: center;
+			-webkit-align-items: center;
+			-webkit-box-align: start;
+		}
+
+		.score_left {
+			position: relative;
+			height: 100%;
+			margin-top: -27px;
+		}
+
+		.score_right {
+			width: 100%;
+			margin-left: 18px;
+			-webkit-box-flex: 1;
+  		-webkit-flex: 1;
+  		flex: 1;
+		}
+
+		.rank {
+			font-size: 116px;
+			letter-spacing: -4px;
+
+		}
+
+		.rank_total {
+			font-size: 27px;
+			margin-bottom: 4px;
+		}
+
+		.rank_separator {
+			width: 100%;
+			height: 10px;
+			background-color: white;
+			box-shadow: 1px 1px 1px black;
+		}
+
+		.name {
+			font-family: 'HelveticaLTStd-BlkCond';
+			font-size: 20px;
+			margin-top: 14px;
+		}
+
+		.number {
+			font-family: 'HelveticaNeueLTStd-ThCn';
+			font-size: 22px;
+		}
+
+		.chrono_logo {
+			position: fixed;
+			left: 41px;
+			top: 526px;
+		}
+
+		.chrono_caption {
+			position: fixed;
+			left: 128px;
+			top: 546px;
+			font-size: 12px;
+		}
+
+		.chrono {
+			position: fixed;
+			left: 128px;
+			top: 553px;
+			font-size: 46px;
+			letter-spacing: -2px;
+		}
+
+		.speed_logo {
+			position: fixed;
+			left: 295px;
+			top: 550px;
+		}
+
+		.speed_caption {
+			position: fixed;
+			left: 375px;
+			top: 546px;
+			font-size: 12px;
+		}
+
+		.speed {
+			position: fixed;
+			left: 375px;
+			top: 553px;
+			font-size: 46px;
+			letter-spacing: -2px;
+			width: 100%;
+		}
+
+		.speed span {
+			font-size: 29px;
+    	text-transform: lowercase;
+		}
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div class="shadow">
+			<div class="race">
+				<img src="<%=DOMAIN_URL %>/templates/template_matahi/images/Kilians's_Classik_logo_blanc.png" class="killian_logo" id="killian_logo">
+				<div class="race_detail" id="race_detail"><%= @race_detail %></div>
+				<div class="date"><%= I18n.localize(@result.race.date, format: '%A %e %B %Y') %></div>
+			</div>
+			<div class="matahi_sponsor">Sponsorisé par</div>
+			<img src="<%=DOMAIN_URL %>/templates/template_matahi/images/matahi_weblogo_retina.png" class="matahi_logo">
+			<div class="score">
+				<div class="score_left">
+					<div class="rank"><%= @rank %></div>
+				</div>
+				<div class="score_right">
+					<div class="rank_total"><%= @rank_total %></div>
+					<div class="rank_separator"></div>
+					<div class="name"><%= @name %></div>
+					<div class="number">Dossard n° <%= @number %></div>
+				</div>
+			</div>
+			<img src="<%=DOMAIN_URL %>/templates/template_base1000x666/images/chrono.png" alt="chrono" class="chrono_logo">
+			<div class="chrono_caption">Temps réalisé</div>
+			<div class="chrono"><%= @time %></div>
+			<img src="<%=DOMAIN_URL %>/templates/template_base1000x666/images/horloge.png" alt="horloge" class="speed_logo">
+			<div class="speed_caption">Vitesse moyenne</div>
+			<div class="speed"><%= @speed %><span>km/h</span></div>
+		</div>
+	</div>
+</body>
+</html>

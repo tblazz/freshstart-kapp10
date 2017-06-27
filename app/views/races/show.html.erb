@@ -94,6 +94,7 @@
     <li role="presentation" class="active"><a href="#results" aria-controls="results" role="tab" data-toggle="tab">Résultats</a></li>
     <li role="presentation"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Statistiques</a></li>
     <li role="presentation"><a href="#widget" aria-controls="widget" role="tab" data-toggle="tab">Widget</a></li>
+		<li role="presentation"><a href="#widget-photo" aria-controls="widget-photo" role="tab" data-toggle="tab">Widget Photos</a></li>
   </ul>
 
     <!-- Tab panes -->
@@ -128,6 +129,27 @@
         </div>
         <%end%>
     </div>
+		<div role="tabpanel" class="tab-pane" id="widget-photo">
+			<%if @race.photos_widget_generated_at.nil?%>
+				Le widget n'a pas encore été généré.
+			<%else%>
+				Widget généré le <%= I18n.l @race.photos_widget_generated_at%>.
+			<%end%>
+			</p>
+			<%= link_to "Générer le widget", generate_photos_widget_race_path(@race), class: "btn btn-primary", "data-method" => :post -%>
+			<%= link_to "Afficher le widget", @race.photos_widget_url, class: "btn btn-default", target: "_widget" unless @race.photos_widget_generated_at.nil?-%>
+		</div>
+		<%unless @race.photos_widget_generated_at.nil?%>
+			<div class='col-sm-12'>
+				<h4>Code pour afficher le widget</h4>
+				<textarea class='form-control' rows=5><%=@race.photos_widget_gist%></textarea>
+			</div>
+
+			<div class='col-sm-12 top-buffer'>
+				<h4>Widget </h4>
+				<%=@race.photos_widget_gist.html_safe%>
+			</div>
+			<%end%>
+		</div>
   </div>
 </div>
-
