@@ -222,6 +222,13 @@ input#kapp10-filter::-ms-clear {
 ** Results table
 */
 
+.tableCaption {
+	font-style: italic;
+  color: grey;
+  margin-top: 10px;
+	font-size: 12px;
+}
+
 section {
 	display: none;
 	margin: 3px 0 0;
