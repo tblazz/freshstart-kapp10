@@ -95,14 +95,13 @@
 			left: 42px;
 			top: 86px;
 			font-size: <%= ((@race_detail.length - 4) * -5 + 109).to_s + 'px' %>;
-			padding-top: <%= case @race_detail.length
-				when 6
-					'3px'
-				when 7..8
-					'5px'
-				when 9..12
-					'10px'
-				end %>;
+			padding-top: <%= if @race_detail.length == 6
+				'3px'
+			elsif @race_detail.length == 7 || @race_detail.length == 8
+				'5px'
+			elsif @race_detail.length >= 9
+				'10px'
+			end %>;
 			letter-spacing: -3px;
 		}
 
