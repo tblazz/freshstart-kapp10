@@ -162,7 +162,7 @@ function display_no_participants(sectionId, count, filters) {
 	} else {
 		$("#"+sectionId + " .noResults")[0].style.display = "none";
 		if (mobileDevice() == true) {
-			$(currentSelectedWrapper).css("height", "600px");
+			$(currentSelectedWrapper).css("height", "575px");
 		}
 	}
 }
@@ -202,8 +202,8 @@ function resize_results_section(count) {
 			$(currentSelectedWrapper).css("height", "auto");
 		}
 	} else {
-		$("section").css("height", "600px");
-		$("#resultsContainer").css("height", "600px");
+		$("section").css("height", "575px");
+		$("#resultsContainer").css("height", "575px");
 	}
 }
 
@@ -317,6 +317,7 @@ function updateSelectedRaces() {
 		displayArrowOnScrollPosition();
 	}
 	update_participants_style(filters);
+	setScrollbarThumbHeight();
 	var $table = $(currentSelectedSection + ' table.results');
 	if ($table.hasClass("floatThead-table") == false) {
 		$table.floatThead({
@@ -377,6 +378,20 @@ function resizeTableHead() {
 	}
 }
 
+function setScrollbarThumbHeight() {
+	var containerHeight = $(currentSelectedSection)[0].clientHeight;
+	var containerTotalHeight = $(currentSelectedSection)[0].scrollHeight;
+	var maxPos = 0;
+	while (maxPos + containerHeight <= containerTotalHeight) {
+		maxPos += 14;
+	}
+	var containerMaxRatio = maxPos / (containerTotalHeight / containerHeight);
+	var thumbHeight = containerHeight - containerMaxRatio;
+	var selectedSection = $("input:radio.tab:checked")[0].id;
+	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSection.replace(/(tab_)/, '');
+	$(currentScrollbarThumb).css("height", thumbHeight+'px');
+}
+
 function moveScrollThumb(pos) {
 	var containerHeight = $(currentSelectedSection)[0].clientHeight;
 	var containerTotalHeight = $(currentSelectedSection)[0].scrollHeight;
@@ -385,7 +400,7 @@ function moveScrollThumb(pos) {
 	var topPos = parseInt($(currentScrollbarThumb).css("top").replace(/[^-\d\.]/g, ''));
 	topPos = prevPos < pos ? topPos + 2 : topPos - 2;
 	var containerRatio = pos / (containerTotalHeight / containerHeight);
-	if (topPos >= 0 && topPos <= containerHeight) {
+	if (containerRatio >= 0 && topPos <= containerHeight) {
 		$(currentScrollbarThumb).css("top", containerRatio + 'px');
 	}
 	prevPos = pos;
@@ -420,8 +435,8 @@ $(document).ready(function(){
 		$("div").removeClass("tableWrapper");
 		$("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
 		$("table.results tbody td").addClass("mobileView");
-		$("table.results tbody").css("height", "600px");
-		$("table.results").closest("div").css({"height" : "600px",
+		$("table.results tbody").css("height", "575px");
+		$("table.results").closest("div").css({"height" : "575px",
 																					"overflow" : "auto",
 																					"margin-top" : "5px"});
 		$table.floatThead({
@@ -437,10 +452,11 @@ $(document).ready(function(){
 	}
 	resizeTableHead();
 	if (mobileDevice() == false) {
-		$('#resultsContainer').height('600px');
+		$('#resultsContainer').height('575px');
 	}
 	resultsContainerHeight = $('#resultsContainer').height();
 	displayScrollingBar();
+	setScrollbarThumbHeight();
 	if ($currentWrapper[0].clientWidth >= $currentWrapper[0].scrollWidth) {
 		hideArrows();
 	}
