@@ -53,6 +53,9 @@ class DecodeResults
                 )
               end
             else
+							if row[NUMBER_INDEX].nil?
+								row[NUMBER_INDEX] = -nb
+							end
               @race.results.create(
                 phone: row[PHONE_INDEX],
                 mail: row[MAIL_INDEX],

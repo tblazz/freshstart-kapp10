@@ -10,13 +10,13 @@ class GenerateWidgetJob < ActiveJob::Base
 		@categories_sorted = Hash.new
 		@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
 			female_sorted = results.select do |result|
-				result['sex'] == "F"
+				result['sex'] && result['sex'] == "F"
 			end
 			male_sorted = results.select do |result|
-				result['sex'] == "M"
+				result['sex'] && result['sex'] == "M"
 			end
 			all_sorted = results.select do |result|
-				result['sex'] == "M" || result['sex'] == "F"
+				result['sex'] && (result['sex'] == "M" || result['sex'] == "F" || result['sex'] == "")
 			end
 			female_categories = female_sorted.map { |f| f['categ'] }.uniq
 			male_categories = male_sorted.map { |m| m['categ'] }.uniq

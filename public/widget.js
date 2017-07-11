@@ -124,9 +124,21 @@ function display_filtered_participants(filters, tr, i) {
 		} else {
 			sexe_filter_ok = -1;
 		}
+	} else if ((!search_sexe || search_sexe == "") && $('th[name=sex]').length != 0) {
+		if (filters.sexe_filter == "ALL" || filters.sexe_filter == "") {
+			sexe_filter_ok = 0;
+		} else {
+			sexe_filter_ok = -1;
+		}
 	}
 	if (search_category) {
 		if (filters.category_filter == "ALL" || filters.category_filter == "" || search_category.indexOf(filters.category_filter) > -1) {
+			category_filter_ok = 0;
+		} else {
+			category_filter_ok = -1;
+		}
+	} else if ((!search_category || search_category == "") && $('th[name=categ]').length != 0) {
+		if (filters.category_filter == "ALL" || filters.category_filter == "") {
 			category_filter_ok = 0;
 		} else {
 			category_filter_ok = -1;
@@ -217,11 +229,13 @@ function update_categories(selectedSection, filters) {
 		}
 		optionsForCategories = '<option value="all">Toutes les cat&eacute;gories</option>';
 		for (var i = 0; i < categoriesForSelected.length; i++) {
-			optionsForCategories += '<option value="'+categoriesForSelected[i]+'" ';
-			if (categoriesForSelected[i] == filters.category_filter) {
-				optionsForCategories += 'selected';
+			if (categoriesForSelected[i] != null) {
+				optionsForCategories += '<option value="'+categoriesForSelected[i]+'" ';
+				if (categoriesForSelected[i] == filters.category_filter) {
+					optionsForCategories += 'selected';
+				}
+				optionsForCategories += '>'+categoriesForSelected[i]+'</option>';
 			}
-			optionsForCategories += '>'+categoriesForSelected[i]+'</option>';
 		}
 		categoryFilterTag.innerHTML = optionsForCategories;
 	}
