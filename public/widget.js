@@ -331,6 +331,7 @@ function updateSelectedRaces() {
 		displayArrowOnScrollPosition();
 	}
 	update_participants_style(filters);
+	setLinesHeight();
 	setScrollbarThumbHeight();
 	var $table = $(currentSelectedSection + ' table.results');
 	if ($table.hasClass("floatThead-table") == false) {
@@ -420,12 +421,29 @@ function moveScrollThumb(pos) {
 	prevPos = pos;
 }
 
+function getLineHeightMax() {
+	var maxHeight = 0, lines;
+	lines = $(currentSelectedSection + " td.fixedColumnWithMargin");
+	for (var i = 0; i < lines.length; i++) {
+		if (lines[i].scrollHeight > maxHeight) {
+			maxHeight = lines[i].scrollHeight;
+		}
+	}
+	return maxHeight;
+}
+function setLinesHeight() {
+	var maxHeight = getLineHeightMax();
+	lines = $(currentSelectedSection + " td");
+	lines.innerHeight(maxHeight);
+}
+
 $(document).ready(function(){
 	var filters = get_filters();
 	var selectedSection = $("input:radio.tab:checked")[0].id;
 	update_categories(selectedSection, filters);
 	currentSelectedWrapper = '#tableWrapper_'+selectedSection;
 	currentSelectedSection = "#" + selectedSection.replace(/(tab_)/, 'content_');
+	setLinesHeight();
 	var $currentWrapper = $(currentSelectedWrapper);
 	var sections = $("section");
 	var allSections = "#" + selectedSection.replace(/(tab_)/, 'content_');
@@ -480,6 +498,7 @@ $(document).ready(function(){
 
 	/* Events */
 	$(window).on('resize', function(){
+		setLinesHeight();
 		var currentWrapper = $(currentSelectedWrapper)[0];
 		if (currentWrapper.clientWidth < currentWrapper.scrollWidth) {
 			if (mobileDevice() == false) {
