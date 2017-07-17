@@ -347,12 +347,14 @@ table.results tbody td.fixedColumnWithMargin {
 }
 
 tr:nth-of-type(even) td.fixedColumn,
-tr:nth-of-type(even) td.fixedColumnWithMargin {
+tr:nth-of-type(even) td.fixedColumnWithMargin,
+tr:nth-of-type(even) {
 	background-color: #EEEEEE;
 }
 
 tr:nth-of-type(odd) td.fixedColumn,
-tr:nth-of-type(odd) td.fixedColumnWithMargin {
+tr:nth-of-type(odd) td.fixedColumnWithMargin,
+tr:nth-of-type(odd) {
 	background-color: white;
 }
 
