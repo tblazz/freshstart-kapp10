@@ -105,11 +105,6 @@ private
   end
 
   def utf8_encoded_content(line)
-		# Condition rajoutée car pour encoding = 'IBM424_ltr', erreur U_FILE_ACCESS_ERROR
-		encoding = detection(line)[:encoding]
-		if encoding == 'IBM424_ltr'
-			encoding = 'ISO-8859-1'
-		end
-    CharlockHolmes::Converter.convert line, encoding, 'UTF-8'
+    CharlockHolmes::Converter.convert line, detection(line)[:encoding], 'UTF-8'
   end
 end
