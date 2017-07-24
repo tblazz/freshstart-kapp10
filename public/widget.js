@@ -331,7 +331,6 @@ function updateSelectedRaces() {
 		displayArrowOnScrollPosition();
 	}
 	update_participants_style(filters);
-	setLinesHeight();
 	setScrollbarThumbHeight();
 	var $table = $(currentSelectedSection + ' table.results');
 	if ($table.hasClass("floatThead-table") == false) {
@@ -421,20 +420,12 @@ function moveScrollThumb(pos) {
 	prevPos = pos;
 }
 
-function getLineHeightMax() {
-	var maxHeight = 0, lines;
-	lines = $(currentSelectedSection + " td.fixedColumnWithMargin");
-	for (var i = 0; i < lines.length; i++) {
-		if (lines[i].scrollHeight > maxHeight) {
-			maxHeight = lines[i].scrollHeight;
-		}
+function displaySection() {
+	if ($('#mainResultsContent')) {
+		$('#mainResultsContent').css('visibility', 'visible');
+	} if ($('.loading')) {
+		$('.loading').hide();
 	}
-	return maxHeight;
-}
-function setLinesHeight() {
-	var maxHeight = getLineHeightMax();
-	lines = $(currentSelectedSection + " td");
-	lines.innerHeight(maxHeight);
 }
 
 $(document).ready(function(){
@@ -443,7 +434,6 @@ $(document).ready(function(){
 	update_categories(selectedSection, filters);
 	currentSelectedWrapper = '#tableWrapper_'+selectedSection;
 	currentSelectedSection = "#" + selectedSection.replace(/(tab_)/, 'content_');
-	setLinesHeight();
 	var $currentWrapper = $(currentSelectedWrapper);
 	var sections = $("section");
 	var allSections = "#" + selectedSection.replace(/(tab_)/, 'content_');
@@ -487,6 +477,21 @@ $(document).ready(function(){
 		$('#resultsContainer').height('575px');
 	}
 	resultsContainerHeight = $('#resultsContainer').height();
+	/* Resize lines to contain long names */
+	if (typeof longestName !== 'undefined') {
+		var labels = $('label').toArray();
+		labels.forEach(function(element) {
+			var label = element.innerHTML;
+			var maxLength = longestName[0][label] + 10;
+			if (maxLength < 30) {
+				maxLength = 30;
+			}
+			var section = "#" + element.getAttribute('for').replace(/(tab_)/, 'content_');
+			$(section + ' tbody tr').css('height', maxLength + 'px');
+			$(section + ' td.fixedColumn').css('height', maxLength);
+			$(section + ' td.fixedColumnWithMargin').css('height', maxLength);
+		});
+	}
 	displayScrollingBar();
 	setScrollbarThumbHeight();
 	if ($currentWrapper[0].clientWidth >= $currentWrapper[0].scrollWidth) {
@@ -495,10 +500,10 @@ $(document).ready(function(){
 	else {
 		displayArrowOnScrollPosition();
 	}
+	displaySection();
 
 	/* Events */
 	$(window).on('resize', function(){
-		setLinesHeight();
 		var currentWrapper = $(currentSelectedWrapper)[0];
 		if (currentWrapper.clientWidth < currentWrapper.scrollWidth) {
 			if (mobileDevice() == false) {

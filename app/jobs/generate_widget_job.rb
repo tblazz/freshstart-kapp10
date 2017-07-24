@@ -8,7 +8,9 @@ class GenerateWidgetJob < ActiveJob::Base
     @race = Race.find(race_id)
 		@categories = @race.results.pluck(:categ).uniq
 		@categories_sorted = Hash.new
+		@race_longest_name = Hash.new
 		@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
+			@race_longest_name[race] = results.pluck(:name).group_by(&:size).max.last[0].length
 			female_sorted = results.select do |result|
 				result['sex'] && result['sex'] == "F"
 			end

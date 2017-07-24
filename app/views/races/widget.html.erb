@@ -1,15 +1,16 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.min.js"></script>
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.min.css">
-
 <script>
 	categoriesSorted = [<%= @categories_sorted.to_json %>];
+	longestName = [<%= @race_longest_name.to_json %>];
 </script>
 <style>
 	<% if @race.races_count > 0 %>
 		<%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
-			"#tab_#{race.parameterize}:checked ~ #resultsContainer #content_#{race.parameterize}"}.join(',')%>  {
+			"#tab_#{race.parameterize}:checked ~ #mainResultsContent #resultsContainer #content_#{race.parameterize}"}.join(',')%>  {
 				display: block;
 			}
 	<%end%>
@@ -57,104 +58,107 @@
 	<div class="tableCaption">
 		Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
 	</div>
-	<div class="headTableContainer desktop-only">
-		<div class="headTableWrapper">
-			<div class="horizontalScrollContainer">
-				<div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
-				<div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
+		<div class="headTableContainer desktop-only">
+			<div class="headTableWrapper">
+				<div class="horizontalScrollContainer">
+					<div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
+					<div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
+				</div>
+				<table id="resultsHead">
+					<thead>
+						<tr>
+							<th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
+							<th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
+							<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
+							<th>Temps</th>
+							<%= "<th>Sexe</th>"  if results_sex_any %>
+							<%= "<th>Class.<br>Sexe</th>" if results_sex_rank_any %>
+							<%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
+							<%= "<th>Class.<br>Categ.</th>" if results_categ_rank_any %>
+						</tr>
+					</thead>
+				</table>
 			</div>
-			<table id="resultsHead">
-				<thead>
-					<tr>
-						<th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
-						<th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
-						<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
-						<th>Temps</th>
-						<%= "<th>Sexe</th>"  if results_sex_any %>
-						<%= "<th>Class.<br>Sexe</th>" if results_sex_rank_any %>
-						<%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
-						<%= "<th>Class.<br>Categ.</th>" if results_categ_rank_any %>
-					</tr>
-				</thead>
-			</table>
+		</div>
+		<div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/loading.gif"></div>
+		<div id="mainResultsContent">
+			<div id="resultsContainer">
+			<%
+			  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
+			%>
+			  <section id="content_<%=race.parameterize unless race.nil?%>">
+					<div class="scrollbar desktop-only" id="scrollbar_<%=race.parameterize unless race.nil?%>">
+						<div class="scrollbar-track" id="scrollbarTrack_<%=race.parameterize unless race.nil?%>"></div>
+							<div class="scrollbar-thumb" id="scrollbarThumb_<%=race.parameterize unless race.nil?%>"></div>
+					</div>
+					<div class="fixedTable">
+						<div class="tableWrapper" id="tableWrapper_tab_<%=race.parameterize unless race.nil?%>" onscroll="onTableWrapperScroll()">
+					    <table class='results' id='widgetResults'>
+								<thead class="mobileOnly">
+									<tr>
+										<th name="rank">Class.<br>Scratch</th>
+										<th name="name">Nom</th>
+										<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
+										<th name="time">Temps</th>
+										<%= '<th name="sex">Sexe</th>'  if results_sex_any %>
+										<%= '<th name="sex_rank">Class.<br>Sexe</th>' if results_sex_rank_any %>
+										<%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
+										<%= '<th name="categ_rank">Class.<br>Categ.</th>' if results_categ_rank_any %>
+									</tr>
+								</thead>
+					      <tbody>
+					      <%results.each do |result|%>
+					        <tr class='<%=result.sex%>'  data-search='<%=  I18n.transliterate(result.name).upcase%>' data-sexe-search='<%= result.sex %>' data-category-search='<%= result.categ %>'>
+										<td class='center fixedColumn'><%=result.rank%></td>
+										<td class='left fixedColumnWithMargin'><%= coder.encode(result.name, :named).html_safe%> </td>
+										<% unless results_bib_any.empty? %>
+											<% unless result.bib.to_i < 0 %>
+												<td class='center'><%=result.bib%></td>
+											<% else %>
+												<td class="center">-</td>
+											<% end %>
+										<% end %>
+					          <td class='center'><%=result.time%></td>
+										<% if results_sex_any %>
+											<% unless result.sex.nil? %>
+													<%= '<td class="center">'+result.sex+'</td>' %>
+											<% else %>
+													<td class="center">-</td>
+											<% end %>
+										<% end %>
+										<% if results_sex_rank_any %>
+											<% unless result.sex_rank.nil? %>
+												<%= '<td class="center">'+result.sex_rank.to_s+'</td>' %>
+											<% else %>
+												<td class="center">-</td>
+											<% end %>
+										<% end %>
+										<% if results_categ_any %>
+											<% unless result.categ.nil? %>
+												<%= '<td class="center">'+result.categ.to_s+'</td>' %>
+											<% else %>
+												<td class="center">-</td>
+											<% end %>
+										<% end %>
+										<% if results_categ_rank_any %>
+											<% unless result.categ_rank.nil? %>
+												<%= '<td class="center">'+result.categ_rank.to_s+'</td>' %>
+											<% else %>
+												<td class="center">-</td>
+											<% end %>
+										<% end %>
+					        </tr>
+					      <%end%>
+					      </tbody>
+					    </table>
+						</div>
+					</div>
+					<p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
+			  </section>
+			<%end%>
 		</div>
 	</div>
-
-	<div id="resultsContainer">
-		<%
-		  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
-		%>
-		  <section id="content_<%=race.parameterize unless race.nil?%>">
-				<div class="scrollbar desktop-only" id="scrollbar_<%=race.parameterize unless race.nil?%>">
-					<div class="scrollbar-track" id="scrollbarTrack_<%=race.parameterize unless race.nil?%>"></div>
-						<div class="scrollbar-thumb" id="scrollbarThumb_<%=race.parameterize unless race.nil?%>"></div>
-				</div>
-				<div class="fixedTable">
-					<div class="tableWrapper" id="tableWrapper_tab_<%=race.parameterize unless race.nil?%>" onscroll="onTableWrapperScroll()">
-				    <table class='results' id='widgetResults'>
-							<thead class="mobileOnly">
-								<tr>
-									<th name="rank">Class.<br>Scratch</th>
-									<th name="name">Nom</th>
-									<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
-									<th name="time">Temps</th>
-									<%= '<th name="sex">Sexe</th>'  if results_sex_any %>
-									<%= '<th name="sex_rank">Class.<br>Sexe</th>' if results_sex_rank_any %>
-									<%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
-									<%= '<th name="categ_rank">Class.<br>Categ.</th>' if results_categ_rank_any %>
-								</tr>
-							</thead>
-				      <tbody>
-				      <%results.each do |result|%>
-				        <tr class='<%=result.sex%>'  data-search='<%=  I18n.transliterate(result.name).upcase%>' data-sexe-search='<%= result.sex %>' data-category-search='<%= result.categ %>'>
-									<td class='center fixedColumn'><%=result.rank%></td>
-									<td class='left fixedColumnWithMargin'><%= coder.encode(result.name, :named).html_safe%> </td>
-									<% unless results_bib_any.empty? %>
-										<% unless result.bib.to_i < 0 %>
-											<td class='center'><%=result.bib%></td>
-										<% else %>
-											<td class="center">-</td>
-										<% end %>
-									<% end %>
-				          <td class='center'><%=result.time%></td>
-									<% if results_sex_any %>
-										<% unless result.sex.nil? %>
-												<%= '<td class="center">'+result.sex+'</td>' %>
-										<% else %>
-												<td class="center">-</td>
-										<% end %>
-									<% end %>
-									<% if results_sex_rank_any %>
-										<% unless result.sex_rank.nil? %>
-											<%= '<td class="center">'+result.sex_rank.to_s+'</td>' %>
-										<% else %>
-											<td class="center">-</td>
-										<% end %>
-									<% end %>
-									<% if results_categ_any %>
-										<% unless result.categ.nil? %>
-											<%= '<td class="center">'+result.categ.to_s+'</td>' %>
-										<% else %>
-											<td class="center">-</td>
-										<% end %>
-									<% end %>
-									<% if results_categ_rank_any %>
-										<% unless result.categ_rank.nil? %>
-											<%= '<td class="center">'+result.categ_rank.to_s+'</td>' %>
-										<% else %>
-											<td class="center">-</td>
-										<% end %>
-									<% end %>
-				        </tr>
-				      <%end%>
-				      </tbody>
-				    </table>
-					</div>
-				</div>
-				<p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
-		  </section>
-		<%end%>
-	</div>
 	<p style="color:black;height:23px;"><em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%=I18n.l @generated_at%>.</em></p>
-	<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>R&eacute;sultats fournis par <img src='http://results-widget.kapp10.com.s3.amazonaws.com/logo_kapp10.png' style='height: 1em'></a></p>
+	<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>R&eacute;sultats fournis par <img src='https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/logo_kapp10.png' style='height: 1em'></a></p>
+
 </body>

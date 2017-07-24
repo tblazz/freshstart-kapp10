@@ -32,7 +32,6 @@ class DecodeResults
           if row
             existing_row_in_db = @race.results.where( bib: row[NUMBER_INDEX],race_detail: row[RACE_DETAIL_INDEX] )
             if existing_row_in_db.any?
-
               if there_are_differences?(existing_row_in_db.first, row)
                 existing_row_in_db.first.update_attributes(
                   phone: row[PHONE_INDEX],
@@ -105,6 +104,10 @@ private
   end
 
   def utf8_encoded_content(line)
-    CharlockHolmes::Converter.convert line, detection(line)[:encoding], 'UTF-8'
+		encoding = detection(line)[:encoding]
+		if encoding == 'IBM424_ltr'
+			encoding = 'ISO-8859-1'
+		end
+    CharlockHolmes::Converter.convert line, encoding, 'UTF-8'
   end
 end
