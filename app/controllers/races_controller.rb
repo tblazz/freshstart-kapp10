@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
 
   protect_from_forgery with: :exception,  except: :widget
-  before_action :set_race, except: [:index, :new, :create]
+  before_action :set_race, except: [:index, :new, :create, :regenerate_all_widgets]
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
   def index
@@ -81,6 +81,17 @@ class RacesController < ApplicationController
     GenerateWidgetJob.perform_later(@race.id)
     redirect_to @race, notice: "Le widget est en cours de génération."
   end
+
+	# Generate all widgets already generated
+	def regenerate_all_widgets
+		races = Race.all
+		races.each do |race|
+			unless race.widget_generated_at.nil?
+				GenerateWidgetJob.perform_later(race.id)
+			end
+		end
+		redirect_to races_path, notice: "Les widgets sont en cours de génération."
+	end
 
 	def generate_photos_widget
 		GeneratePhotosWidgetJob.perform_later(@race.id)

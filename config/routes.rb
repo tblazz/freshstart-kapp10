@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post 'generate_widget'
 			post 'generate_photos_widget'
       post 'generate_diplomas'
+			get 'regenerate_all_widgets'
       delete 'delete_diplomas'
       get 'diploma'
       get 'widget'
