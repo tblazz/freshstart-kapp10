@@ -9,16 +9,17 @@ class GenerateWidgetJob < ActiveJob::Base
 		@categories = @race.results.pluck(:categ).uniq
 		@categories_sorted = Hash.new
 		@race_longest_name = Hash.new
+		@race_lines = Hash.new
 		@race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
 			@race_longest_name[race] = results.pluck(:name).group_by(&:size).max.last[0].length
 			female_sorted = results.select do |result|
 				result['sex'] && result['sex'] == "F"
 			end
 			male_sorted = results.select do |result|
-				result['sex'] && result['sex'] == "M"
+				result['sex'] && (result['sex'] == "M" || result['sex'] == 'H')
 			end
 			all_sorted = results.select do |result|
-				result['sex'] && (result['sex'] == "M" || result['sex'] == "F" || result['sex'] == "")
+				result['sex'] && (result['sex'] == "M" || result['sex'] == "F" || result['sex'] == "" || result['sex'] == 'H')
 			end
 			female_categories = female_sorted.map { |f| f['categ'] }.uniq
 			male_categories = male_sorted.map { |m| m['categ'] }.uniq

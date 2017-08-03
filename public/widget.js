@@ -98,100 +98,111 @@ function removeDiacritics (str) {
 function get_filters() {
 	var sexe_filter, sexe_filter_value, category_filter, category_filter_value, name_filter, name_filter_value;
 	sexe_filter = document.getElementById("filterSexe")
-	sexe_filter_value = sexe_filter != null ? removeDiacritics(sexe_filter.value).toUpperCase() : "";
+	sexe_filter_value = sexe_filter != null ? sexe_filter.value.toUpperCase() : "";
 	category_filter = document.getElementById("filterCategory");
-	category_filter_value = category_filter != null ? removeDiacritics(category_filter.value).toUpperCase() : "";
+	category_filter_value = category_filter != null ? category_filter.value.toUpperCase() : "";
 	name_filter = document.getElementById("kapp10-filter");
 	name_filter_value = name_filter != null ? removeDiacritics(name_filter.value).toUpperCase() : "";
 	return {sexe_filter: sexe_filter_value, category_filter: category_filter_value, name_filter: name_filter_value};
 }
 
-function display_all_participants(tr, n) {
-	for (i = 0; i < n ; i++) {
-		tr[i].style.display = "";
-	}
-}
-
 function display_filtered_participants(filters, tr, i) {
-	var sexe_filter_ok = 0, category_filter_ok = 0, name_filter_ok = 0;
-	var search_name, search_sexe, search_category;
-	search_name = tr[i].getAttribute("data-search");
-	search_sexe = tr[i].getAttribute("data-sexe-search");
-	search_category = tr[i].getAttribute("data-category-search");
+	var sexe_filter_ok = 0, category_filter_ok = 0, name_filter_ok = 0, search_name = null, search_sexe = null, search_category = null;
+	var name_value = /data-search="(.*?)"/g.exec(tr[i]);
+	var sexe_value = /data-sexe-search="(.*?)"/g.exec(tr[i]);
+	var category_value = /data-category-search="(.*?)"/g.exec(tr[i]);
+	var bib_value = /data-bib-search="(.*?)"/g.exec(tr[i]);
+	if (name_value && name_value[1])
+		search_name = name_value[1];
+	if (sexe_value && sexe_value[1])
+		search_sexe = sexe_value[1];
+	if (category_value && category_value[1])
+		search_category = category_value[1];
 	if (search_sexe) {
-		if (filters.sexe_filter == "ALL" || filters.sexe_filter == "" || search_sexe.indexOf(filters.sexe_filter) > -1) {
+		if (filters.sexe_filter == "ALL" || filters.sexe_filter == "" || search_sexe.indexOf(filters.sexe_filter) > -1)
 			sexe_filter_ok = 0;
-		} else {
+		else
 			sexe_filter_ok = -1;
-		}
 	} else if ((!search_sexe || search_sexe == "") && $('th[name=sex]').length != 0) {
-		if (filters.sexe_filter == "ALL" || filters.sexe_filter == "") {
+		if (filters.sexe_filter == "ALL" || filters.sexe_filter == "")
 			sexe_filter_ok = 0;
-		} else {
+		else
 			sexe_filter_ok = -1;
-		}
 	}
 	if (search_category) {
-		if (filters.category_filter == "ALL" || filters.category_filter == "" || search_category.indexOf(filters.category_filter) > -1) {
+		if (filters.category_filter == "ALL" || filters.category_filter == "" || search_category.toUpperCase().indexOf(filters.category_filter) > -1)
 			category_filter_ok = 0;
-		} else {
+		else
 			category_filter_ok = -1;
-		}
 	} else if ((!search_category || search_category == "") && $('th[name=categ]').length != 0) {
-		if (filters.category_filter == "ALL" || filters.category_filter == "") {
+		if (filters.category_filter == "ALL" || filters.category_filter == "")
 			category_filter_ok = 0;
-		} else {
+		else
 			category_filter_ok = -1;
-		}
 	}
 	if (search_name) {
-		var bib = tr[i].getElementsByTagName("td")[2].innerHTML;
-		if (filters.name_filter == "" || search_name.indexOf(filters.name_filter) > -1 || bib.indexOf(filters.name_filter) > -1) {
+		if (bib_value && bib_value[1])
+			var bib = bib_value[1];
+		else
+			var bib = "";
+		if (filters.name_filter == "" || search_name.indexOf(filters.name_filter) > -1 || bib.indexOf(filters.name_filter) > -1)
 			name_filter_ok = 0;
-		} else {
+		else
 			name_filter_ok = -1;
-		}
 	}
-	if (sexe_filter_ok > -1 && category_filter_ok > -1 && name_filter_ok > -1) {
-		tr[i].style.display = "";
-	} else {
-		tr[i].style.display = "none";
-	}
+	if (sexe_filter_ok > -1 && category_filter_ok > -1 && name_filter_ok > -1)
+			return tr[i];
+	return "";
 }
 
-function display_no_participants(sectionId, count, filters) {
+function display_no_participants(filters) {
 	if (count == 0) {
 		if (mobileDevice() == true) {
 			$(currentSelectedWrapper).css("height", "60px");
-
 		}
 		if (filters.name_filter != "") {
-			$("#"+sectionId + " .noResults")[0].style.display = "";
+			$(currentSelectedSection + " .noResults")[0].style.display = "";
 		}
 		else {
 			$('select[name="filterCategory"]').val('all').trigger('change');
 		}
 	} else {
-		$("#"+sectionId + " .noResults")[0].style.display = "none";
+		$(currentSelectedSection + " .noResults")[0].style.display = "none";
 		if (mobileDevice() == true) {
-			$(currentSelectedWrapper).css("height", "575px");
+			$(currentSelectedWrapper).css("height", "545px");
 		}
 	}
 }
 
+function reset_participant_filter() {
+	input = document.getElementById("kapp10-filter");
+	input.value = "";
+	participant_filter();
+}
+
 function participant_filter() {
-	var input, tr, i, n, reset_filter, filters;
+	var input, tr, i, n, reset_filter, filters, linesToDisplay = "", lines;
 	filters = get_filters();
 	input = document.getElementById("kapp10-filter");
 	reset_filter = document.getElementById("closingCircleResearch");
 	input.value == "" ? reset_filter.style.visibility = "hidden" : reset_filter.style.visibility = "visible";
-	tr = document.getElementsByTagName("tr");
+	if (typeof race_lines === 'undefined')
+		return ;
+	tr = race_lines[currentSelectedSection];
 	n = tr.length;
 	for (i = 1; i < n ; i++) {
-		display_filtered_participants(filters, tr, i);
+		linesToDisplay += display_filtered_participants(filters, tr, i - 1);
 	}
+	$(currentSelectedSection + ' .results tbody')[0].innerHTML = linesToDisplay;
+	lines = $(currentSelectedSection + ' tbody tr');
+	filteredLines = [];
+	for (var i = 0; i < lines.length; i++) {
+		filteredLines[i] = String(lines[i].outerHTML);
+	}
+	$('#pagination_container').twbsPagination('destroy');
+	setPagination();
+	setLineHeight();
 	update_participants_style(filters);
-	tr = document.getElementById("widgetResults").getElementsByTagName("tr");
 }
 
 /*
@@ -199,13 +210,8 @@ function participant_filter() {
 */
 
 function resize_results_section(count) {
-	var selectedSection = $("input:radio.tab:checked")[0].id;
-	var sectionId = selectedSection.replace(/(tab_)/, 'content_');
-	var trHeight = 0;
-	var tr = $(currentSelectedSection + " table.results tbody tr:visible")[0];
-	if (tr) {
-		trHeight = tr.clientHeight;
-	}
+	var tr = $(currentSelectedSection + " .results tbody tr")[0];
+	var trHeight = tr ? setLineHeight() + 2 : 0;
 	var linesHeight = count * trHeight + 60;
 	if (linesHeight < resultsContainerHeight) {
 		$("section").css("height", "auto");
@@ -214,14 +220,14 @@ function resize_results_section(count) {
 			$(currentSelectedWrapper).css("height", "auto");
 		}
 	} else {
-		$("section").css("height", "575px");
-		$("#resultsContainer").css("height", "575px");
+		$("section").css("height", "545px");
+		$("#resultsContainer").css("height", "545px");
 	}
 }
 
-function update_categories(selectedSection, filters) {
+function update_categories(filters) {
 	var categoriesForSelected, categoryFilterTag, optionsForCategories;
-	categoriesForSelected = categoriesSorted[0][selectedSection.replace(/(tab_)/, '')][filters.sexe_filter];
+	categoriesForSelected = categoriesSorted[0][selectedSectionId.replace(/(tab_)/, '')][filters.sexe_filter];
 	if (categoriesForSelected) {
 		categoryFilterTag = document.getElementById("filterCategory");
 		if (categoryFilterTag == null) {
@@ -231,7 +237,7 @@ function update_categories(selectedSection, filters) {
 		for (var i = 0; i < categoriesForSelected.length; i++) {
 			if (categoriesForSelected[i] != null) {
 				optionsForCategories += '<option value="'+categoriesForSelected[i]+'" ';
-				if (categoriesForSelected[i] == filters.category_filter) {
+				if (categoriesForSelected[i].toUpperCase() == filters.category_filter) {
 					optionsForCategories += 'selected';
 				}
 				optionsForCategories += '>'+categoriesForSelected[i]+'</option>';
@@ -241,7 +247,7 @@ function update_categories(selectedSection, filters) {
 	}
 }
 
-function display_line_color_styles(sectionId) {
+function display_line_color_styles() {
 	var tr, n, fixedColumn,fixedColumnWithMargin;
 	count = 0;
 	tr = $(currentSelectedSection + " table.results tbody tr");
@@ -269,21 +275,11 @@ function display_line_color_styles(sectionId) {
 }
 
 function update_participants_style(filters) {
-	var selectedSection, sectionId;
-	selectedSection = $("input:radio.tab:checked")[0].id;
-	sectionId = selectedSection.replace(/(tab_)/, 'content_');
-	update_categories(selectedSection, filters);
-	display_line_color_styles(sectionId);
-	display_no_participants(sectionId, count, filters);
+	update_categories(filters);
+	display_line_color_styles();
+	display_no_participants(filters);
 	resize_results_section(count);
-	displayScrollingBar();
 	resizeTableHead();
-}
-
-function reset_participant_filter() {
-	input = document.getElementById("kapp10-filter");
-	input.value = "";
-	participant_filter();
 }
 
 /*
@@ -319,10 +315,10 @@ function displayArrowOnScrollPosition() {
 /* Update results container when changing race for scrolling and style */
 function updateSelectedRaces() {
 	var filters = get_filters();
-	var selectedSection = $("input:radio.tab:checked")[0].id;
-	var sectionId = selectedSection.replace(/(tab_)/, 'content_');
+	selectedSectionId = $("input:radio.tab:checked")[0].id;
+	var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
 	currentSelectedSection = "#" + sectionId;
-	currentSelectedWrapper = '#tableWrapper_'+selectedSection;
+	currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
 	var $currentWrapper = $(currentSelectedWrapper);
 	var pos = $currentWrapper.scrollLeft();
 	$(".headTableWrapper").scrollLeft(pos);
@@ -330,8 +326,15 @@ function updateSelectedRaces() {
 		showArrows();
 		displayArrowOnScrollPosition();
 	}
-	update_participants_style(filters);
-	setScrollbarThumbHeight();
+	if (typeof race_lines === 'undefined')
+		return ;
+	if (filters.category_filter == "ALL" && filters.sexe_filter == "ALL" && filters.name_filter == "") {
+		filteredLines = race_lines[currentSelectedSection];
+		$('#pagination_container').twbsPagination('destroy');
+		setPagination();
+	} else {
+		participant_filter();
+	}
 	var $table = $(currentSelectedSection + ' table.results');
 	if ($table.hasClass("floatThead-table") == false) {
 		$table.floatThead({
@@ -363,7 +366,7 @@ function onTableWrapperScroll() {
 	displayArrowOnScrollPosition();
 }
 
-function displayScrollingBar() {
+function displayScrollingBar(scrollHeight) {
 	if (mobileDevice() == true) {
 		return;
 	}
@@ -401,16 +404,14 @@ function setScrollbarThumbHeight() {
 	}
 	var containerMaxRatio = maxPos / (containerTotalHeight / containerHeight);
 	var thumbHeight = containerHeight - containerMaxRatio;
-	var selectedSection = $("input:radio.tab:checked")[0].id;
-	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSection.replace(/(tab_)/, '');
+	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
 	$(currentScrollbarThumb).css("height", thumbHeight+'px');
 }
 
 function moveScrollThumb(pos) {
 	var containerHeight = $(currentSelectedSection)[0].clientHeight;
 	var containerTotalHeight = $(currentSelectedSection)[0].scrollHeight;
-	var selectedSection = $("input:radio.tab:checked")[0].id;
-	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSection.replace(/(tab_)/, '');
+	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
 	var topPos = parseInt($(currentScrollbarThumb).css("top").replace(/[^-\d\.]/g, ''));
 	topPos = prevPos < pos ? topPos + 2 : topPos - 2;
 	var containerRatio = pos / (containerTotalHeight / containerHeight);
@@ -428,20 +429,93 @@ function displaySection() {
 	}
 }
 
+function getTableContent(page, currentSelectedSection) {
+	var start, end, lines, linesToDisplay = "";
+	start = ((page - 1) * 500);
+	end = start + 500;
+	lines = filteredLines.slice(start, end);
+	for (var i = 0; i < lines.length; i++) {
+		linesToDisplay += lines[i];
+	}
+	return linesToDisplay;
+}
+
+function displaySectionContent(page) {
+	var content = getTableContent(page, currentSelectedSection);
+	$(currentSelectedSection + ' .results tbody')[0].innerHTML = content;
+	setLineHeight();
+	displayScrollingBar(0);
+	setScrollbarThumbHeight();
+	var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
+	$(currentScrollbarThumb).css('top', '0px');
+	$(currentSelectedSection).scrollTop(0);
+}
+
+function setPagination() {
+	var nbLines, nbPages;
+	if (typeof filteredLines === 'undefined') {
+		if (typeof race_lines !== 'undefined')
+			filteredLines = race_lines[currentSelectedSection];
+		else
+			filteredLines = [];
+	}
+	nbLines = filteredLines.length;
+	nbPages = Math.ceil(nbLines / 500);
+	if (nbPages > 1) {
+		$('#pagination_container').show();
+		$('#pagination_container').twbsPagination({
+				 totalPages: nbPages,
+				 visiblePages: 4,
+				 hideOnlyOnePage: true,
+				 last: '>>',
+				 first: '<<',
+				 onPageClick: function (event, page) {
+					displaySectionContent(page);
+				 }
+		 });
+	} else {
+		$('#pagination_container').hide();
+		displaySectionContent(1);
+	}
+
+}
+
+function setLineHeight() {
+	var returnedMaxLength = 0;
+	if (typeof longestName !== 'undefined') {
+		var labels = $('label').toArray();
+		labels.forEach(function(element) {
+			var label = element.innerHTML;
+			var maxLength = longestName[0][label] + 10;
+			if (maxLength < 30) {
+				maxLength = 30;
+			}
+			var section = "#" + element.getAttribute('for').replace(/(tab_)/, 'content_');
+			if (section == currentSelectedSection)
+				returnedMaxLength = maxLength;
+			$(section + ' tbody tr').css('height', maxLength + 'px');
+			$(section + ' td.fixedColumn').css('height', maxLength);
+			$(section + ' td.fixedColumnWithMargin').css('height', maxLength);
+		});
+		return returnedMaxLength;
+	}
+	return 0;
+}
+
 $(document).ready(function(){
 	var filters = get_filters();
-	var selectedSection = $("input:radio.tab:checked")[0].id;
-	update_categories(selectedSection, filters);
-	currentSelectedWrapper = '#tableWrapper_'+selectedSection;
-	currentSelectedSection = "#" + selectedSection.replace(/(tab_)/, 'content_');
+	selectedSectionId = $("input:radio.tab:checked")[0].id;
+	currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
+	currentSelectedSection = "#" + selectedSectionId.replace(/(tab_)/, 'content_');
 	var $currentWrapper = $(currentSelectedWrapper);
 	var sections = $("section");
-	var allSections = "#" + selectedSection.replace(/(tab_)/, 'content_');
+	var allSections = "#" + selectedSectionId.replace(/(tab_)/, 'content_');
+	update_categories(filters);
 	for (var i = 0; i < sections.length; i++) {
 		allSections += ", #" + $(sections[i]).attr('id');
 	}
 	var scrollbars = $(".scrollbar-thumb");
-	var scrollbarThumbs = "#scrollbarThumb_" + selectedSection.replace(/(tab_)/, '');
+	var scrollbarThumbs = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
 	for (var i = 1; i < scrollbars.length; i++) {
 		scrollbarThumbs += ", #" + $(scrollbars[i]).attr('id');
 	}
@@ -449,7 +523,6 @@ $(document).ready(function(){
 	onSectionDiv = 0;
 	onContainerClick = 0;
 	count = 1;
-
 	if (mobileDevice() == true) {
 		var $table = $(currentSelectedSection + ' table.results');
 		$(".desktop-only").hide();
@@ -457,8 +530,8 @@ $(document).ready(function(){
 		$("div").removeClass("tableWrapper");
 		$("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
 		$("table.results tbody td").addClass("mobileView");
-		$("table.results tbody").css("height", "575px");
-		$("table.results").closest("div").css({"height" : "575px",
+		$("table.results tbody").css("height", "545px");
+		$("table.results").closest("div").css({"height" : "545px",
 																					"overflow" : "auto",
 																					"margin-top" : "5px"});
 		$table.floatThead({
@@ -474,26 +547,10 @@ $(document).ready(function(){
 	}
 	resizeTableHead();
 	if (mobileDevice() == false) {
-		$('#resultsContainer').height('575px');
+		$('#resultsContainer').height('545px');
 	}
 	resultsContainerHeight = $('#resultsContainer').height();
-	/* Resize lines to contain long names */
-	if (typeof longestName !== 'undefined') {
-		var labels = $('label').toArray();
-		labels.forEach(function(element) {
-			var label = element.innerHTML;
-			var maxLength = longestName[0][label] + 10;
-			if (maxLength < 30) {
-				maxLength = 30;
-			}
-			var section = "#" + element.getAttribute('for').replace(/(tab_)/, 'content_');
-			$(section + ' tbody tr').css('height', maxLength + 'px');
-			$(section + ' td.fixedColumn').css('height', maxLength);
-			$(section + ' td.fixedColumnWithMargin').css('height', maxLength);
-		});
-	}
-	displayScrollingBar();
-	setScrollbarThumbHeight();
+	setPagination();
 	if ($currentWrapper[0].clientWidth >= $currentWrapper[0].scrollWidth) {
 		hideArrows();
 	}
@@ -632,3 +689,13 @@ $(document).ready(function(){
 */
 /* @preserve jQuery.floatThead 2.0.3 - http://mkoryak.github.io/floatThead/ - Copyright (c) 2012 - 2017 Misha Koryak **/
 !function(t){function e(t,e){if(8==f){var o=v.width(),n=s.debounce(function(){var t=v.width();o!=t&&(o=t,e())},1);v.on(t,n)}else v.on(t,s.debounce(e,1))}function o(e){var o=e[0],n=o.parentElement;do{var r=window.getComputedStyle(n).getPropertyValue("overflow");if("visible"!=r)break}while(n=n.parentElement);return t(n==document.body?[]:n)}function n(t){window&&window.console&&window.console.error&&window.console.error("jQuery.floatThead: "+t)}function r(t){var e=t.getBoundingClientRect();return e.width||e.right-e.left}function a(){var t=document.createElement("scrolltester");t.style.cssText="width:100px;height:100px;overflow:scroll!important;position:absolute;top:-9999px;display:block",document.body.appendChild(t);var e=t.offsetWidth-t.clientWidth;return document.body.removeChild(t),e}function i(t){if(t.dataTableSettings)for(var e=0;e<t.dataTableSettings.length;e++){var o=t.dataTableSettings[e].nTable;if(t[0]==o)return!0}return!1}function l(t,e,o){var n=o?"outerWidth":"width";if(p&&t.css("max-width")){var r=0;o&&(r+=parseInt(t.css("borderLeft"),10),r+=parseInt(t.css("borderRight"),10));for(var a=0;a<e.length;a++)r+=e.get(a).offsetWidth;return r}return t[n]()}t.floatThead=t.floatThead||{},t.floatThead.defaults={headerCellSelector:"tr:visible:first>*:visible",zIndex:1001,position:"auto",top:0,bottom:0,scrollContainer:function(){return t([])},responsiveContainer:function(){return t([])},getSizingRow:function(t){return t.find("tbody tr:visible:first>*:visible")},floatTableClass:"floatThead-table",floatWrapperClass:"floatThead-wrapper",floatContainerClass:"floatThead-container",copyTableClass:!0,autoReflow:!1,debug:!1,support:{bootstrap:!0,datatables:!0,jqueryUI:!0,perfectScrollbar:!0}};var s=window._||function(){var e={},o=Object.prototype.hasOwnProperty,n=["Arguments","Function","String","Number","Date","RegExp"];e.has=function(t,e){return o.call(t,e)},e.keys=Object.keys||function(t){if(t!==Object(t))throw new TypeError("Invalid object");var o=[];for(var n in t)e.has(t,n)&&o.push(n);return o};var r=0;return e.uniqueId=function(t){var e=++r+"";return t?t+e:e},t.each(n,function(){var t=this;e["is"+t]=function(e){return Object.prototype.toString.call(e)=="[object "+t+"]"}}),e.debounce=function(t,e,o){var n,r,a,i,l;return function(){a=this,r=arguments,i=new Date;var s=function(){var d=new Date-i;e>d?n=setTimeout(s,e-d):(n=null,o||(l=t.apply(a,r)))},d=o&&!n;return n||(n=setTimeout(s,e)),d&&(l=t.apply(a,r)),l}},e}(),d="undefined"!=typeof MutationObserver,f=function(){for(var t=3,e=document.createElement("b"),o=e.all||[];t=1+t,e.innerHTML="<!--[if gt IE "+t+"]><i><![endif]-->",o[0];);return t>4?t:document.documentMode}(),c=/Gecko\//.test(navigator.userAgent),u=/WebKit\//.test(navigator.userAgent);f||c||u||(f=11);var p=function(){if(u){var e=t("<div>").css("width",0).append(t("<table>").css("max-width","100%").append(t("<tr>").append(t("<th>").append(t("<div>").css("min-width",100).text("X")))));t("body").append(e);var o=0==e.find("table").width();return e.remove(),o}return!1},h=!c&&!f,v=t(window);if(!window.matchMedia){var b=window.onbeforeprint,w=window.onafterprint;window.onbeforeprint=function(){b&&b(),v.triggerHandler("beforeprint")},window.onafterprint=function(){w&&w(),v.triggerHandler("afterprint")}}t.fn.floatThead=function(c){if(c=c||{},8>f)return this;var b=null;if(s.isFunction(p)&&(p=p()),s.isString(c)){var w=c,g=Array.prototype.slice.call(arguments,1),m=this;return this.filter("table").each(function(){var e=t(this),o=e.data("floatThead-lazy");o&&e.floatThead(o);var n=e.data("floatThead-attached");if(n&&s.isFunction(n[w])){var r=n[w].apply(this,g);void 0!==r&&(m=r)}}),m}var y=t.extend({},t.floatThead.defaults||{},c);if(t.each(c,function(e){e in t.floatThead.defaults||!y.debug||n("Used ["+e+"] key to init plugin, but that param is not an option for the plugin. Valid options are: "+s.keys(t.floatThead.defaults).join(", "))}),y.debug){var T=t.fn.jquery.split(".");1==parseInt(T[0],10)&&parseInt(T[1],10)<=7&&n("jQuery version "+t.fn.jquery+" detected! This plugin supports 1.8 or better, or 1.7.x with jQuery UI 1.8.24 -> http://jqueryui.com/resources/download/jquery-ui-1.8.24.zip")}return this.filter(":not(."+y.floatTableClass+")").each(function(){function c(t){return t+".fth-"+R+".floatTHead"}function p(){var e=0;if(k.children("tr:visible").each(function(){e+=t(this).outerHeight(!0)}),"collapse"==M.css("border-collapse")){var o=parseInt(M.css("border-top-width"),10),n=parseInt(M.find("thead tr:first").find(">*:first").css("border-top-width"),10);o>n&&(e-=o/2)}st.outerHeight(e),dt.outerHeight(e)}function w(){var t=l(M,ut,!0),e=V?P:U,o=e.width()||t,n="hidden"!=e.css("overflow-y")?o-N.vertical:o;if(at.width(n),G){var r=100*t/n;tt.css("width",r+"%")}else tt.outerWidth(t)}function g(){D=(s.isFunction(y.top)?y.top(M):y.top)||0,O=(s.isFunction(y.bottom)?y.bottom(M):y.bottom)||0}function m(){var e,o=k.find(y.headerCellSelector);if(nt?e=ot.find("col").length:(e=0,o.each(function(){e+=parseInt(t(this).attr("colspan")||1,10)})),e!=Q){Q=e;for(var n,r=[],a=[],i=[],l=0;e>l;l++)n=o.eq(l).text(),r.push('<th class="floatThead-col" aria-label="'+n+'"/>'),a.push("<col/>"),i.push(t("<fthtd>").css({display:"table-cell",height:0,width:"auto"}));a=a.join(""),r=r.join(""),h&&(rt.empty(),rt.append(i),ut=rt.find("fthtd")),st.html(r),dt=st.find("th"),nt||ot.html(a),ft=ot.find("col"),et.html(a),ct=et.find("col")}return e}function T(){if(!F){if(F=!0,X){var t=l(M,ut,!0),e=J.width();t>e&&M.css("minWidth",t)}M.css(vt),tt.css(vt),tt.append(k),E.before(lt),p()}}function C(){F&&(F=!1,X&&M.width(wt),lt.detach(),M.prepend(k),M.css(bt),tt.css(bt),M.css("minWidth",gt),M.css("minWidth",l(M,ut)))}function x(t){mt!=t&&(mt=t,M.triggerHandler("floatThead",[t,at]))}function j(t){X!=t&&(X=t,at.css({position:X?"absolute":"fixed"}))}function S(t,e,o,n){return h?o:n?y.getSizingRow(t,e,o):e}function z(){var t,e=m();return function(){var o=at.scrollLeft();ft=ot.find("col");var n=S(M,ft,ut,f);if(n.length==e&&e>0){if(!nt)for(t=0;e>t;t++)ft.eq(t).css("width","");C();var a=[];for(t=0;e>t;t++)a[t]=r(n.get(t));for(t=0;e>t;t++)ct.eq(t).width(a[t]),ft.eq(t).width(a[t]);T()}else tt.append(k),M.css(bt),tt.css(bt),p();at.scrollLeft(o),M.triggerHandler("reflowed",[at])}}function I(t){var e=U.css("border-"+t+"-width"),o=0;return e&&~e.indexOf("px")&&(o=parseInt(e,10)),o}function L(){return"auto"==P.css("overflow-x")}function W(){var t,e=U.scrollTop(),o=0,n=B?Y.outerHeight(!0):0,r=K?n:-n,a=at.height(),i=M.offset(),l=0,s=0;if(G){var d=U.offset();o=i.top-d.top+e,B&&K&&(o+=n),l=I("left"),s=I("top"),o-=s}else t=i.top-D-a+O+N.horizontal;var f=v.scrollTop(),c=v.scrollLeft(),p=function(){return(L()?P:U).scrollLeft()||0},h=p();return function(d){V=L();var b=M[0].offsetWidth<=0&&M[0].offsetHeight<=0;if(!b&&it)return it=!1,setTimeout(function(){M.triggerHandler("reflow")},1),null;if(b&&(it=!0,!X))return null;if("windowScroll"==d)f=v.scrollTop(),c=v.scrollLeft();else if("containerScroll"==d)if(P.length){if(!V)return;h=P.scrollLeft()}else e=U.scrollTop(),h=U.scrollLeft();else"init"!=d&&(f=v.scrollTop(),c=v.scrollLeft(),e=U.scrollTop(),h=p());if(!u||!(0>f||0>c)){if(Z)j("windowScrollDone"==d?!0:!1);else if("windowScrollDone"==d)return null;i=M.offset(),B&&K&&(i.top+=n);var w,g,m=M.outerHeight();if(G&&X){if(o>=e){var y=o-e+s;w=y>0?y:0,x(!1)}else w=_?s:e,x(!0);g=l}else!G&&X?(f>t+m+r?w=m-a+r:i.top>=f+D?(w=0,C(),x(!1)):(w=D+f-i.top+o+(K?n:0),T(),x(!0)),g=h):G&&!X?(o>e||e-o>m?(w=i.top-f,C(),x(!1)):(w=i.top+e-f-o,T(),x(!0)),g=i.left+h-c):G||X||(f>t+m+r?w=m+D-f+t+r:i.top>f+D?(w=i.top-f,T(),x(!1)):(w=D,x(!0)),g=i.left+h-c);return{top:Math.round(w),left:Math.round(g)}}}}function H(){var t=null,e=null,o=null;return function(n,r,a){if(null!=n&&(t!=n.top||e!=n.left)){if(8===f)at.css({top:n.top,left:n.left});else{var i="translateX("+n.left+"px) translateY("+n.top+"px)";at.css({"-webkit-transform":i,"-moz-transform":i,"-ms-transform":i,"-o-transform":i,transform:i,top:0,left:0})}t=n.top,e=n.left}r&&w(),a&&p();var l=(V?P:U).scrollLeft();X&&o==l||(at.scrollLeft(l),o=l)}}function q(){if(U.length)if(y.support&&y.support.perfectScrollbar&&U.data().perfectScrollbar)N={horizontal:0,vertical:0};else{if("scroll"==U.css("overflow-x"))N.horizontal=A;else{var t=U.width(),e=l(M,ut),o=r>n?A:0;N.horizontal=e>t-o?A:0}if("scroll"==U.css("overflow-y"))N.vertical=A;else{var n=U.height(),r=M.height(),a=e>t?A:0;N.vertical=r>n-a?A:0}}}var R=s.uniqueId(),M=t(this);if(M.data("floatThead-attached"))return!0;if(!M.is("table"))throw new Error('jQuery.floatThead must be run on a table element. ex: $("table").floatThead();');d=y.autoReflow&&d;var k=M.children("thead:first"),E=M.children("tbody:first");if(0==k.length||0==E.length)return y.debug&&n(0==k.length?"The thead element is missing.":"The tbody element is missing."),M.data("floatThead-lazy",y),void M.unbind("reflow").one("reflow",function(){M.floatThead(y)});M.data("floatThead-lazy")&&M.unbind("reflow"),M.data("floatThead-lazy",!1);var D,O,F=!0,N={vertical:0,horizontal:0},A=a(),Q=0;y.scrollContainer===!0&&(y.scrollContainer=o);var U=y.scrollContainer(M)||t([]),G=U.length>0,P=G?t([]):y.responsiveContainer(M)||t([]),V=L(),X=null;"auto"==y.position?X=null:"fixed"==y.position?X=!1:"absolute"==y.position?X=!0:y.debug&&n('Invalid value given to "position" option, valid is "fixed", "absolute" and "auto". You passed: ',y.position),null==X&&(X=G);var Y=M.find("caption"),B=1==Y.length;if(B)var K="top"===(Y.css("caption-side")||Y.attr("align")||"top");var $=t("<fthfoot>").css({display:"table-footer-group","border-spacing":0,height:0,"border-collapse":"collapse",visibility:"hidden"}),_=!1,J=t([]),Z=9>=f&&!G&&X,tt=t("<table/>"),et=t("<colgroup/>"),ot=M.children("colgroup:first"),nt=!0;0==ot.length&&(ot=t("<colgroup/>"),nt=!1);var rt=t("<fthtr>").css({display:"table-row","border-spacing":0,height:0,"border-collapse":"collapse"}),at=t("<div>").css("overflow","hidden").attr("aria-hidden","true"),it=!1,lt=t("<thead/>"),st=t('<tr class="size-row" aria-hidden="true"/>'),dt=t([]),ft=t([]),ct=t([]),ut=t([]);lt.append(st),M.prepend(ot),h&&($.append(rt),M.append($)),tt.append(et),at.append(tt),y.copyTableClass&&tt.attr("class",M.attr("class")),tt.attr({cellpadding:M.attr("cellpadding"),cellspacing:M.attr("cellspacing"),border:M.attr("border")});var pt=M.css("display");if(tt.css({borderCollapse:M.css("borderCollapse"),border:M.css("border"),display:pt}),G||tt.css("width","auto"),"none"==pt&&(it=!0),tt.addClass(y.floatTableClass).css({margin:0,"border-bottom-width":0}),X){var ht=function(e,o){var n=e.css("position"),r="relative"==n||"absolute"==n,a=e;if(!r||o){var i={paddingLeft:e.css("paddingLeft"),paddingRight:e.css("paddingRight")};at.css(i),a=e.data("floatThead-containerWrap")||e.wrap(t("<div>").addClass(y.floatWrapperClass).css({position:"relative",clear:"both"})).parent(),e.data("floatThead-containerWrap",a),_=!0}return a};G?(J=ht(U,!0),J.prepend(at)):(J=ht(M),M.before(at))}else M.before(at);at.css({position:X?"absolute":"fixed",marginTop:0,top:X?0:"auto",zIndex:y.zIndex,willChange:"transform"}),at.addClass(y.floatContainerClass),g();var vt={"table-layout":"fixed"},bt={"table-layout":M.css("tableLayout")||"auto"},wt=M[0].style.width||"",gt=M.css("minWidth")||"",mt=!1;q();var yt,Tt=function(){(yt=z())()};Tt();var Ct=W(),xt=H();xt(Ct("init"),!0);var jt,St=s.debounce(function(){xt(Ct("windowScrollDone"),!1)},1),zt=function(){xt(Ct("windowScroll"),!1),Z&&St()},It=function(){xt(Ct("containerScroll"),!1)},Lt=function(){M.is(":hidden")||(g(),q(),Tt(),Ct=W(),(xt=H())(Ct("resize"),!0,!0))},Wt=s.debounce(function(){M.is(":hidden")||(q(),g(),Tt(),Ct=W(),xt(Ct("reflow"),!0))},1),Ht=function(){C()},qt=function(){T()},Rt=function(t){t.matches?Ht():qt()};if(window.matchMedia&&window.matchMedia("print").addListener?(jt=window.matchMedia("print"),jt.addListener(Rt)):(v.on("beforeprint",Ht),v.on("afterprint",qt)),G?X?U.on(c("scroll"),It):(U.on(c("scroll"),It),v.on(c("scroll"),zt)):(P.on(c("scroll"),It),v.on(c("scroll"),zt)),v.on(c("load"),Wt),e(c("resize"),Lt),M.on("reflow",Wt),y.support&&y.support.datatables&&i(M)&&M.on("filter",Wt).on("sort",Wt).on("page",Wt),y.support&&y.support.bootstrap&&v.on(c("shown.bs.tab"),Wt),y.support&&y.support.jqueryUI&&v.on(c("tabsactivate"),Wt),d){var Mt=null;s.isFunction(y.autoReflow)&&(Mt=y.autoReflow(M,U)),Mt||(Mt=U.length?U[0]:M[0]),b=new MutationObserver(function(t){for(var e=function(t){return t&&t[0]&&("THEAD"==t[0].nodeName||"TD"==t[0].nodeName||"TH"==t[0].nodeName)},o=0;o<t.length;o++)if(!e(t[o].addedNodes)&&!e(t[o].removedNodes)){Wt();break}}),b.observe(Mt,{childList:!0,subtree:!0})}M.data("floatThead-attached",{destroy:function(){var t=".fth-"+R;return C(),M.css(bt),ot.remove(),h&&$.remove(),lt.parent().length&&lt.replaceWith(k),x(!1),d&&(b.disconnect(),b=null),M.off("reflow reflowed"),U.off(t),P.off(t),_&&(U.length?U.unwrap():M.unwrap()),G?U.data("floatThead-containerWrap",!1):M.data("floatThead-containerWrap",!1),M.css("minWidth",gt),at.remove(),M.data("floatThead-attached",!1),v.off(t),jt&&jt.removeListener(Rt),Ht=qt=function(){},function(){return M.floatThead(y)}},reflow:function(){Wt()},setHeaderHeight:function(){p()},getFloatContainer:function(){return at},getRowGroups:function(){return F?at.find(">table>thead").add(M.children("tbody,tfoot")):M.children("thead,tbody,tfoot")}})}),this}}(function(){var t=window.jQuery;return"undefined"!=typeof module&&module.exports&&!t&&(t=require("jquery")),t}());
+
+/*
+ * jQuery Bootstrap Pagination v1.4.1
+ * https://github.com/esimakin/twbs-pagination
+ *
+ * Copyright 2014-2016, Eugene Simakin <john-24@list.ru>
+ * Released under Apache-2.0 license
+ * http://apache.org/licenses/LICENSE-2.0.html
+ */
+!function(a,b,c,d){"use strict";var e=a.fn.twbsPagination,f=function(b,c){if(this.$element=a(b),this.options=a.extend({},a.fn.twbsPagination.defaults,c),this.options.startPage<1||this.options.startPage>this.options.totalPages)throw new Error("Start page option is incorrect");if(this.options.totalPages=parseInt(this.options.totalPages),isNaN(this.options.totalPages))throw new Error("Total pages option is not correct!");if(this.options.visiblePages=parseInt(this.options.visiblePages),isNaN(this.options.visiblePages))throw new Error("Visible pages option is not correct!");if(this.options.onPageClick instanceof Function&&this.$element.first().on("page",this.options.onPageClick),this.options.hideOnlyOnePage&&1==this.options.totalPages)return this.$element.trigger("page",1),this;this.options.totalPages<this.options.visiblePages&&(this.options.visiblePages=this.options.totalPages),this.options.href&&(this.options.startPage=this.getPageFromQueryString(),this.options.startPage||(this.options.startPage=1));var d="function"==typeof this.$element.prop?this.$element.prop("tagName"):this.$element.attr("tagName");return"UL"===d?this.$listContainer=this.$element:this.$listContainer=a("<ul></ul>"),this.$listContainer.addClass(this.options.paginationClass),"UL"!==d&&this.$element.append(this.$listContainer),this.options.initiateStartPageClick?this.show(this.options.startPage):(this.currentPage=this.options.startPage,this.render(this.getPages(this.options.startPage)),this.setupEvents()),this};f.prototype={constructor:f,destroy:function(){return this.$element.empty(),this.$element.removeData("twbs-pagination"),this.$element.off("page"),this},show:function(a){if(a<1||a>this.options.totalPages)throw new Error("Page is incorrect.");return this.currentPage=a,this.render(this.getPages(a)),this.setupEvents(),this.$element.trigger("page",a),this},enable:function(){this.show(this.currentPage)},disable:function(){var b=this;this.$listContainer.off("click").on("click","li",function(a){a.preventDefault()}),this.$listContainer.children().each(function(){var c=a(this);c.hasClass(b.options.activeClass)||a(this).addClass(b.options.disabledClass)})},buildListItems:function(a){var b=[];if(this.options.first&&b.push(this.buildItem("first",1)),this.options.prev){var c=a.currentPage>1?a.currentPage-1:this.options.loop?this.options.totalPages:1;b.push(this.buildItem("prev",c))}for(var d=0;d<a.numeric.length;d++)b.push(this.buildItem("page",a.numeric[d]));if(this.options.next){var e=a.currentPage<this.options.totalPages?a.currentPage+1:this.options.loop?1:this.options.totalPages;b.push(this.buildItem("next",e))}return this.options.last&&b.push(this.buildItem("last",this.options.totalPages)),b},buildItem:function(b,c){var d=a("<li></li>"),e=a("<a></a>"),f=this.options[b]?this.makeText(this.options[b],c):c;return d.addClass(this.options[b+"Class"]),d.data("page",c),d.data("page-type",b),d.append(e.attr("href",this.makeHref(c)).addClass(this.options.anchorClass).html(f)),d},getPages:function(a){var b=[],c=Math.floor(this.options.visiblePages/2),d=a-c+1-this.options.visiblePages%2,e=a+c;d<=0&&(d=1,e=this.options.visiblePages),e>this.options.totalPages&&(d=this.options.totalPages-this.options.visiblePages+1,e=this.options.totalPages);for(var f=d;f<=e;)b.push(f),f++;return{currentPage:a,numeric:b}},render:function(b){var c=this;this.$listContainer.children().remove();var d=this.buildListItems(b);a.each(d,function(a,b){c.$listContainer.append(b)}),this.$listContainer.children().each(function(){var d=a(this),e=d.data("page-type");switch(e){case"page":d.data("page")===b.currentPage&&d.addClass(c.options.activeClass);break;case"first":d.toggleClass(c.options.disabledClass,1===b.currentPage);break;case"last":d.toggleClass(c.options.disabledClass,b.currentPage===c.options.totalPages);break;case"prev":d.toggleClass(c.options.disabledClass,!c.options.loop&&1===b.currentPage);break;case"next":d.toggleClass(c.options.disabledClass,!c.options.loop&&b.currentPage===c.options.totalPages)}})},setupEvents:function(){var b=this;this.$listContainer.off("click").on("click","li",function(c){var d=a(this);return!d.hasClass(b.options.disabledClass)&&!d.hasClass(b.options.activeClass)&&(!b.options.href&&c.preventDefault(),void b.show(parseInt(d.data("page"))))})},makeHref:function(a){return this.options.href?this.generateQueryString(a):"#"},makeText:function(a,b){return a.replace(this.options.pageVariable,b).replace(this.options.totalPagesVariable,this.options.totalPages)},getPageFromQueryString:function(a){var b=this.getSearchString(a),c=new RegExp(this.options.pageVariable+"(=([^&#]*)|&|#|$)"),d=c.exec(b);return d&&d[2]?(d=decodeURIComponent(d[2]),d=parseInt(d),isNaN(d)?null:d):null},generateQueryString:function(a,b){var c=this.getSearchString(b),d=new RegExp(this.options.pageVariable+"=*[^&#]*");return c?"?"+c.replace(d,this.options.pageVariable+"="+a):""},getSearchString:function(a){var c=a||b.location.search;return""===c?null:(0===c.indexOf("?")&&(c=c.substr(1)),c)},getCurrentPage:function(){return this.currentPage}},a.fn.twbsPagination=function(b){var c,e=Array.prototype.slice.call(arguments,1),g=a(this),h=g.data("twbs-pagination"),i="object"==typeof b?b:{};return h||g.data("twbs-pagination",h=new f(this,i)),"string"==typeof b&&(c=h[b].apply(h,e)),c===d?g:c},a.fn.twbsPagination.defaults={totalPages:1,startPage:1,visiblePages:5,initiateStartPageClick:!0,hideOnlyOnePage:!1,href:!1,pageVariable:"{{page}}",totalPagesVariable:"{{total_pages}}",page:null,first:"First",prev:"Previous",next:"Next",last:"Last",loop:!1,onPageClick:null,paginationClass:"pagination",nextClass:"page-item next",prevClass:"page-item prev",lastClass:"page-item last",firstClass:"page-item first",pageClass:"page-item",activeClass:"active",disabledClass:"disabled",anchorClass:"page-link"},a.fn.twbsPagination.Constructor=f,a.fn.twbsPagination.noConflict=function(){return a.fn.twbsPagination=e,this},a.fn.twbsPagination.version="1.4.1"}(window.jQuery,window,document);
