@@ -67,4 +67,11 @@ class Result < ActiveRecord::Base
     photo.first
   end
 
+	def self.search(search)
+	  if search
+			where "lower(name) LIKE ? OR bib LIKE ?", "%#{search.downcase}%", "%#{search}%"
+	  else
+	    where nil
+	  end
+	end
 end

@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
-
   protect_from_forgery with: :exception,  except: :widget
   before_action :set_race, except: [:index, :new, :create, :regenerate_all_widgets]
+	helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
   def index
@@ -13,6 +13,7 @@ class RacesController < ApplicationController
   end
 
   def show
+		@results = @race.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])
   end
 
   def widget
@@ -172,5 +173,13 @@ class RacesController < ApplicationController
 
   def decode_results
     DecodeResultsFileJob.perform_later(@race.id)
+  end
+
+	def sort_column
+		@race.results.column_names.include?(params[:sort]) ? params[:sort] : "rank"
+  end
+
+  def sort_direction
+		%w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
   end
 end

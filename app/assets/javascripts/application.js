@@ -14,3 +14,14 @@
 //= require jquery_ujs
 //= require retina.js
 //= require bootstrap-sprockets
+
+
+$(function () {
+	$(document).on('click', '#results_table th a, .pagination a', function(){
+		$.getScript(this.href);
+    return false;
+	});
+	$(document).on('keyup', '#results_search input', function(){
+		$.get($('#results_search').attr('action'), $('#results_search').serialize(), null, 'script');
+	});
+});

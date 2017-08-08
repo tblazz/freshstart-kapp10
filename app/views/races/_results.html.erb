@@ -1,37 +1,26 @@
-<%if @race.results.empty?%>
-  <p> Aucun résultat n'a encore été fourni</p>
-<%else%>
-  <table class='table table-default table-striped table-condensed small' %>
-    <thead>
-      <tr>
-        <th class='text-center'>Tel.</th>
-        <th class='text-center'>Email</th>
-        <th class='text-center'>Class.<br>Gen.</th>
-        <th>Nom</th>
-        <th class='text-center'>Sexe</th>
-        <th class='text-center'>Class.<br>Sexe</th>
-        <th class='text-center'>Categ.</th>
-        <th class='text-center'>Class.<br>Categ.</th>
-        <th class='text-center'>Temps</th>
-        <th class='text-center'>Vitesse</th>
-        <th class='text-center'>Detail<br>Course</th>
-        <th class='text-center'>Message</th>
-        <th class='text-center'>Chargé le</th>
-        <th class='text-center'>Mail</th>
-        <th class='text-center'>SMS</th>
-        <th class='text-center'>Dossard</th>
-        <th class='text-center'>Diplôme</th>
-      </tr>
-    </thead>
-    <% @results = @race.results.paginate(:page => params[:page])%>
-    <%= render partial: 'result', collection: @results%>
-  </table>
-  <% params[:page] = 1 if params[:page].nil?
-  params[:page] = params[:page].to_i
-  if params[:page]> 1 %>
-    <%= link_to "<-", race_path(@race, page: params[:page] - 1), class: 'btn btn-default'%>
-  <%end%>
-  <%if   params[:page]  < @results.total_pages && @results.total_pages > 1%>
-    <%= link_to "->", race_path(@race, page: params[:page] + 1), class: 'btn btn-default'%>
-  <%end%>
-<%end%>
+<table class='results table table-default table-striped table-condensed small' %>
+  <thead>
+    <tr>
+			<th class='text-center'>Tel.</th>
+			<th class='text-center'>Email</th>
+			<th class='text-center'><%= sortable "bib", "Dossard" %></th>
+			<th class='text-center'><%= sortable "rank", "Class. Gen." %></th>
+			<th ><%= sortable "name", "Nom" %></th>
+			<th class='text-center'><%= sortable "sex", "Sexe" %></th>
+			<th class='text-center'><%= sortable "sex_rank", "Class. Sexe" %></th>
+			<th class='text-center'><%= sortable "categ", "Categ" %></th>
+			<th class='text-center'><%= sortable "categ_rank", "Class. Categ" %></th>
+			<th class='text-center'><%= sortable "time", "Temps" %></th>
+			<th class='text-center'><%= sortable "speed", "Vitesse" %></th>
+			<th class='text-center'><%= sortable "race_detail", "Détail course" %></th>
+			<th class='text-center'>Message</th>
+			<th class='text-center'>Chargé le</th>
+			<th class='text-center'>Mail</th>
+			<th class='text-center'>SMS</th>
+			<th class='text-center'>Diplôme</th>
+    </tr>
+  </thead>
+  <%= render partial: 'result', collection: @results%>
+</table>
+
+<%= will_paginate @results %>
