@@ -23,4 +23,13 @@
   <%= render partial: 'result', collection: @results%>
 </table>
 
-<%= will_paginate @results %>
+<div class="pagination">
+	<% params[:page] = 1 if params[:page].nil?
+	params[:page] = params[:page].to_i
+	if params[:page]> 1 %>
+		<%= link_to "<-", race_path(@race, page: params[:page] - 1), class: 'btn btn-default'%>
+	<%end%>
+	<%if   params[:page]  < @results.total_pages && @results.total_pages > 1%>
+		<%= link_to "->", race_path(@race, page: params[:page] + 1), class: 'btn btn-default'%>
+	<%end%>
+</div>
