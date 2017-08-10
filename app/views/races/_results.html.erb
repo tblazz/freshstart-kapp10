@@ -3,16 +3,16 @@
     <tr>
 			<th class='text-center'>Tel.</th>
 			<th class='text-center'>Email</th>
-			<th class='text-center'><%= sortable "bib", "Dossard" %></th>
-			<th class='text-center'><%= sortable "rank", "Class. Gen." %></th>
-			<th ><%= sortable "name", "Nom" %></th>
-			<th class='text-center'><%= sortable "sex", "Sexe" %></th>
-			<th class='text-center'><%= sortable "sex_rank", "Class. Sexe" %></th>
-			<th class='text-center'><%= sortable "categ", "Categ" %></th>
-			<th class='text-center'><%= sortable "categ_rank", "Class. Categ" %></th>
-			<th class='text-center'><%= sortable "time", "Temps" %></th>
-			<th class='text-center'><%= sortable "speed", "Vitesse" %></th>
-			<th class='text-center'><%= sortable "race_detail", "Détail course" %></th>
+			<th class='text-center'><%= sortable "bib", "Dossard", @race %></th>
+			<th class='text-center'><%= sortable "rank", "Class. Gen.", @race %></th>
+			<th ><%= sortable "name", "Nom", @race %></th>
+			<th class='text-center'><%= sortable "sex", "Sexe", @race %></th>
+			<th class='text-center'><%= sortable "sex_rank", "Class. Sexe", @race %></th>
+			<th class='text-center'><%= sortable "categ", "Categ", @race %></th>
+			<th class='text-center'><%= sortable "categ_rank", "Class. Categ", @race %></th>
+			<th class='text-center'><%= sortable "time", "Temps", @race %></th>
+			<th class='text-center'><%= sortable "speed", "Vitesse", @race %></th>
+			<th class='text-center'><%= sortable "race_detail", "Détail course", @race %></th>
 			<th class='text-center'>Message</th>
 			<th class='text-center'>Chargé le</th>
 			<th class='text-center'>Mail</th>
