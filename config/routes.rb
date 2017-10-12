@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   end
 
   resources :photos
+  resources :results, only: :show
 
   root :to => 'races#index'
 

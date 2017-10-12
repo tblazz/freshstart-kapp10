@@ -167,7 +167,8 @@ class RacesController < ApplicationController
       :sms_message,
       :raw_results,
       :background_image,
-      :template
+      :template,
+      :external_link
     )
   end
 

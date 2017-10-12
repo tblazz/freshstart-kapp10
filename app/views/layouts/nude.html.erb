@@ -1,0 +1,36 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <%= if content_for?(:title) then yield(:title) + ' | ' end %>
+    Kapp10 - FreshStart
+  </title>
+  <meta property="og:url"           content='<%= yield_meta_tag(:url, 'http://www.kapp10.com') %>' />
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content='<%= yield_meta_tag(:title, 'Mes résultats') %>' />
+  <meta property="og:description"   content='<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>' />
+  <meta property="og:image"         content='<%= yield_meta_tag(:image, 'http://kapp10.com/wp-content/uploads/2014/09/themo-logo-01.png') %>' />
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@google">
+  <meta name="twitter:title" content="<%= yield_meta_tag(:title, 'Mes résultats') %>">
+  <meta name="twitter:description" content="<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>">
+  <meta name="twitter:creator" content="Kapp 10">
+  <meta name="twitter:image" content="<%= yield_meta_tag(:image, 'http://kapp10.com/wp-content/uploads/2014/09/themo-logo-01.png') %>">
+  <meta name="twitter:domain" content="freshstart-kapp10-dev.herokuapp.com">
+
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="content_frame">
+      <%= yield %>
+    </div>
+  </div>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <!-- javascript_include_tag '//platform.twitter.com/widgets.js', :async => true %>-->
+</body>
+</html>
+

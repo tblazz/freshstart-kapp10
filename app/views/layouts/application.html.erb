@@ -2,7 +2,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kapp10 - FreshStart</title>
+    <title>
+      <%= if content_for?(:title) then yield(:title) + ' | ' end %>
+      Kapp10 - FreshStart
+    </title>
+
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
@@ -27,3 +31,4 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   </body>
 </html>
+

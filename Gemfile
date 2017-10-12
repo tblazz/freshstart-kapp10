@@ -14,7 +14,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.5'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'redis', '~> 3.3.3'
-gem 'puma', '~> 3.4.0'
+gem 'puma', '~> 3.7.1'
 gem 'imgkit', '~> 1.6.1'
 gem 'wkhtmltoimage-binary', '~> 0.12.2'
 gem 'aws-sdk', '~> 2.3.0'
@@ -34,6 +34,9 @@ gem 'htmlentities' # permet de transformer les accents en entités HTML ex: &eac
 gem 'htmlcompressor' # permet de compresser le HTML  des widgets
 gem 'will_paginate-bootstrap' # pagination
 gem 'google_url_shortener'
+
+gem 'slim'
+gem 'font-awesome-sass', '~> 4.7.0'
 
 group :development, :test do
   gem 'minitest-rails'

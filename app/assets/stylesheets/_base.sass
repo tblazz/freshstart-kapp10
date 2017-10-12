@@ -1,57 +1,81 @@
 $primary-color: #4A4A4A
 
 @font-face
-	font-family: 'MuseoSans-900'
-	src: url("/templates/template1/fonts/MuseoSans-900.otf")
-	font-weight: 100
-	font-style: normal
+  font-family: 'MuseoSans-900'
+  src: url("/templates/template1/fonts/MuseoSans-900.otf")
+  font-weight: 100
+  font-style: normal
 
 .top-buffer
-	margin-top: 20px
+  margin-top: 20px
 
 .logo
-	font-size: 2em
-	font-family: MuseoSans-900, sans-serif
-	font-weight: bold
-	font-style: italic
-	color: #4A4A4A
-	a
-		color: #4A4A4A
-		text-decoration: none
-		span
-			color: orange
-
+  font-size: 2em
+  font-family: MuseoSans-900, sans-serif
+  font-weight: bold
+  font-style: italic
+  color: #4A4A4A
+  a
+    color: #4A4A4A
+    text-decoration: none
+    span
+      color: orange
 
 table.small
-	font-size: .85em
+  font-size: .85em
 
 .alert-alert
-	@extend .alert-danger
+  @extend .alert-danger
 
 .alert-notice
-	@extend .alert-success
+  @extend .alert-success
 
 h1
-	font-family: MuseoSans-900, sans-serif
-	color: orange
+  font-family: MuseoSans-900, sans-serif
+  color: orange
 
 table.table
-	thead
-		th
-			background-color: #4A4A4A
-			color: white
-			font-family: MuseoSans-900, sans-serif
-			vertical-align: middle
+  thead
+    th
+      background-color: #4A4A4A
+      color: white
+      font-family: MuseoSans-900, sans-serif
+      vertical-align: middle
 table.results
-	thead
-		a
-			color: white
-		a.asc::after
-			content: '▲'
-		a.desc::after
-			content: '▼'
+  thead
+    a
+      color: white
+    a.asc::after
+      content: '▲'
+    a.desc::after
+      content: '▼'
 
 .search_results
-	height: 34px
-	border-radius: 4px
-	margin-top: 10px
+  height: 34px
+  border-radius: 4px
+  margin-top: 10px
+
+.button-line
+  padding: 15px 0
+  margin: 15px 0
+
+.btn-full
+  width: 100%
+
+.fb-share-button
+  color: #730E15
+
+.fb-button
+  background-color: #4267b2
+  color: #FFFFFF
+
+.fb-button:hover
+  background-color: #365899
+  color: #FFFFFF
+
+.twitter-button,
+  background-color: #1b95e0
+  color: #fff
+.twitter-button:hover
+  background-color: #0c7abf
+  color: #fff

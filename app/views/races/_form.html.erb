@@ -17,6 +17,7 @@
   <%= f.input :raw_results, as: :file %>
   <%= f.input :background_image, as: :file %>
   <%= f.input :photos, input_html: { multiple: 'multiple' }, as: :file , label: "Photos individuelles", name: "race[photo]"%>
+  <%= f.input :external_link %>
   <hr>
   <%= f.button :submit , "Enregistrer", class: 'btn btn-standard' %>
   <span class='pull-right'>

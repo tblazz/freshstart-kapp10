@@ -66,6 +66,12 @@
           <%= @race.results.where(diploma_url: nil).count%>
         </td>
       </tr>
+      <tr>
+        <th>Lien externe</th>
+        <td>
+          <%= @race.external_link %>
+        </td>
+      </tr>
       <%end%>
 
     </table>

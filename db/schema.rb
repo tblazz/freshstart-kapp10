@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170620144535) do
+ActiveRecord::Schema.define(version: 20171012204504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,9 +51,8 @@ ActiveRecord::Schema.define(version: 20170620144535) do
     t.datetime "background_image_updated_at"
     t.string   "template"
     t.datetime "widget_generated_at"
-    t.integer  "user_id"
     t.datetime "photos_widget_generated_at"
-    t.index ["user_id"], name: "index_races_on_user_id", using: :btree
+    t.string   "external_link"
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -80,31 +79,6 @@ ActiveRecord::Schema.define(version: 20170620144535) do
     t.datetime "sms_sent_at"
     t.string   "diploma_url"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",     null: false
-    t.string   "encrypted_password",     default: "",     null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,      null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.string   "role",                   default: "user", null: false
-    t.string   "name",                   default: "",     null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["name"], name: "index_users_on_name", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   add_foreign_key "photos", "races"
