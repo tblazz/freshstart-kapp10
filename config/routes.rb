@@ -3,6 +3,7 @@ require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
+  get 'results/:id/download', to: 'results#download', as: 'download_diploma'
   resources :races do
     member do
       post 'send_results'
