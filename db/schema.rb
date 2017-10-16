@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20171012204504) do
     t.datetime "widget_generated_at"
     t.datetime "photos_widget_generated_at"
     t.string   "external_link"
+    t.string   "external_link_button"
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|

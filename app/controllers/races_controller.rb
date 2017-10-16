@@ -168,7 +168,8 @@ class RacesController < ApplicationController
       :raw_results,
       :background_image,
       :template,
-      :external_link
+      :external_link,
+      :external_link_button
     )
   end
 

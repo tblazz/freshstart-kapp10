@@ -16,8 +16,8 @@
   .col-md-10.col-md-offset-1.text-center
     h2= "#{@result.name} - N° #{@result.bib}"
 
-#fb-root
-#twitter-wjs
+/#fb-root
+/#twitter-wjs
 
 .row
   .col-md-10.col-md-offset-1.text-center
@@ -47,10 +47,16 @@
           i.fa.fa-facebook-square>
           ' Partager
 
+      /.col-md-4
+      /  = link_to @twitter_link, target: '_blank', class: 'btn btn-default btn-full twitter-button' do
+      /    i.fa.fa-twitter>
+      /    ' Twitter
+
       .col-md-4
-        = link_to @twitter_link, target: '_blank', class: 'btn btn-default btn-full twitter-button' do
+        = link_to "http://twitter.com/share?text=#{@twitter_message}&url=#{@page_url}", target: '_blank', class: 'btn btn-default btn-full twitter-button' do
           i.fa.fa-twitter>
           ' Twitter
+
 
       .col-md-4
         = link_to download_diploma_path(@result.id, format: :jpg), class: 'btn btn-warning btn-full' do
@@ -59,7 +65,7 @@
 
 .row.button-line
   .col-md-4.col-md-offset-4.text-center
-    = link_to 'Lien partenaire', @result.race.external_link, target: '_blank', class: 'btn btn-warning btn-full' if @result.race.external_link.present?
+    = link_to @result.race.external_link_button, @result.race.external_link, target: '_blank', class: 'btn btn-warning btn-full' if @result.race.external_link.present?
 
 
 //javascript:
