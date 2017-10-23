@@ -48,9 +48,17 @@ group :development, :test do
   gem 'guard-rails'
   gem 'guard-minitest'
   gem 'timecop'
+  gem 'ffaker'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails', '~> 3.0'
 end
 
 group :development do
   gem "letter_opener"
   gem 'annotate'
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
 end

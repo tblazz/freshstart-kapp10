@@ -21,6 +21,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :events do
+    resources :editions
+  end
   resources :photos
   resources :results, only: :show
 

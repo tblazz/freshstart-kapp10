@@ -22,7 +22,10 @@
 #  background_image_updated_at   :datetime
 #  template                      :string
 #  widget_generated_at           :datetime
-#  user_id                       :integer
+#  photos_widget_generated_at    :datetime
+#  external_link                 :string
+#  external_link_button          :string
+#  edition_id                    :integer
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

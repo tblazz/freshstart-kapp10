@@ -2,7 +2,7 @@
 #
 # Table name: photos
 #
-#  id                 :integer          not null, primary key
+#  id                 :uuid             not null, primary key
 #  race_id            :uuid
 #  suggested_bibs     :string
 #  bib                :string

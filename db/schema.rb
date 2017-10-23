@@ -10,13 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012204504) do
+ActiveRecord::Schema.define(version: 20171020195838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
+
+  create_table "editions", force: :cascade do |t|
+    t.date     "date"
+    t.string   "description"
+    t.integer  "event_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string   "name"
+    t.string   "place"
+    t.string   "website"
+    t.string   "facebook"
+    t.string   "twitter"
+    t.string   "instagram"
+    t.string   "contact"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "photos", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid     "race_id"
@@ -54,6 +76,8 @@ ActiveRecord::Schema.define(version: 20171012204504) do
     t.datetime "photos_widget_generated_at"
     t.string   "external_link"
     t.string   "external_link_button"
+    t.integer  "edition_id"
+    t.index ["edition_id"], name: "index_races_on_edition_id", using: :btree
   end
 
   create_table "results", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|

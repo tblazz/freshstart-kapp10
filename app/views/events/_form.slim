@@ -1,0 +1,13 @@
+= simple_form_for @event, html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { check_boxes: :horizontal_radio_and_checkboxes, radio_buttons: :horizontal_radio_and_checkboxes, file: :horizontal_file_input, boolean: :horizontal_boolean } do |f|
+  = f.input :name
+  = f.input :place, label: 'Lieu'
+  = f.input :website
+  = f.input :facebook
+  = f.input :twitter
+  = f.input :instagram
+  = f.input :contact
+  = f.input :email
+  hr
+  = f.button :submit , 'Enregistrer', class: 'btn btn-standard'
+  span.pull-right
+    = link_to "Supprimer l'évènement", event_path(@event), method: :delete, class: 'btn btn-danger',data: { confirm: I18n.t('sure?') } if @event.persisted?

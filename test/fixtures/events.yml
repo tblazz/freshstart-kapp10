@@ -1,0 +1,43 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id         :integer          not null, primary key
+#  name       :string
+#  place      :string
+#  website    :string
+#  facebook   :string
+#  twitter    :string
+#  instagram  :string
+#  contact    :string
+#  email      :string
+#  phone      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  place: MyString
+  edition_id: 1
+  website: MyString
+  facebook: MyString
+  twitter: MyString
+  instagram: MyString
+  contact: MyString
+  email: MyString
+  phone: MyString
+
+two:
+  name: MyString
+  place: MyString
+  edition_id: 1
+  website: MyString
+  facebook: MyString
+  twitter: MyString
+  instagram: MyString
+  contact: MyString
+  email: MyString
+  phone: MyString

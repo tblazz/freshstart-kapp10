@@ -22,7 +22,10 @@
 #  background_image_updated_at   :datetime
 #  template                      :string
 #  widget_generated_at           :datetime
-#  user_id                       :integer
+#  photos_widget_generated_at    :datetime
+#  external_link                 :string
+#  external_link_button          :string
+#  edition_id                    :integer
 #
 
 class Race < ActiveRecord::Base
@@ -30,6 +33,7 @@ class Race < ActiveRecord::Base
   has_attached_file :background_image, styles: { medium: "300x300", standard: "1024x1024" }
   has_many :results, dependent: :destroy
   has_many :photos
+  belongs_to :edition
   validates_attachment_content_type :raw_results, :content_type => ["text/plain", "text/csv", "application/vnd.ms-excel", "text/comma-separated-values",  Paperclip::ContentTypeDetector::SENSIBLE_DEFAULT]
   validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
   validates_presence_of :name, :date, :template
