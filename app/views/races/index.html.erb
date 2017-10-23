@@ -1,5 +1,8 @@
 <h1>Courses</h1>
-
+<div class="pull-right">
+  <%= link_to 'Les évènements', events_path, class:'btn btn-warning'%>
+</div>
+<br/>
 <table class='table table-bordered table-default table-striped'>
   <thead>
     <tr>
@@ -34,6 +37,7 @@
 
 <%= link_to "Nouvel évènement", new_event_path, class:'btn btn-default'%>
 <%= link_to "Nouvelle course", new_race_path(), class:'btn btn-default'%>
+<%= link_to "Importer des évènements", upload_events_path, class:'btn btn-default'%>
 <div class="pull-right">
 	<%= link_to "Re-générer tous les widgets", regenerate_all_widgets_race_path(@races), class:'btn btn-default'%>
 </div>

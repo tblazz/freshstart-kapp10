@@ -1,0 +1,33 @@
+= simple_form_for @race , html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { check_boxes: :horizontal_radio_and_checkboxes, radio_buttons: :horizontal_radio_and_checkboxes, file: :horizontal_file_input, boolean: :horizontal_boolean } do |f|
+  - if @event
+    = f.input :event, as: :select, collection: Event.all.map {|e| [e.name, e.id] }, label: 'Evènement', selected: @event.id
+    = f.input :edition_id, as: :select, collection: @event.editions.map {|e| [e.date.year, e.id] }
+  - else
+    = f.input :event, as: :select, collection: Event.all.map {|e| [e.name, e.id] }, label: 'Evènement'
+    = f.input :edition_id, as: :select, disabled: true
+  = f.input :name 
+  = f.input :date, as: :date, wrapper: :horizontal_form, html5: true 
+  = f.input :email_sender 
+  = f.input :email_name 
+  = f.input :hashtag 
+  = f.input :template, as: :select, collection: Race::TEMPLATES  
+  = f.input :results_url 
+  = f.input :sms_message, as: :text , input_html: {rows: 6}, style: 'width: 100%'
+  = f.input :raw_results, as: :file 
+  = f.input :background_image, as: :file 
+  = f.input :photos, input_html: { multiple: 'multiple' }, as: :file , label: "Photos individuelles", name: "race[photo]"
+  = f.input :external_link 
+  = f.input :external_link_button, label: 'Texte du boutton partenaire' 
+  hr
+  = f.button :submit , "Enregistrer", class: 'btn btn-standard' 
+  span.pull-right
+    = link_to "Supprimer la course" , race_path(@race), method: :delete, class: 'btn btn-danger',data: { confirm: I18n.t('sure?') } if @race.persisted?
+
+= form_tag(edit_race_path(@race), method: :get, class: 'hidden-form') do
+  = hidden_field_tag :event_id, '', class: 'event-field'
+
+javascript:
+  $('#race_event').on('change', function() {
+    $('#event_id').val($('#race_event').val());
+    $('.hidden-form').submit();
+  });

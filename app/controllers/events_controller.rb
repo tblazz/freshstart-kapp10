@@ -1,8 +1,9 @@
 class EventsController < ApplicationController
+  require 'csv'
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   def index
-    @events = Event.order('date desc')
+    @events = Event.order('created_at desc')
   end
 
   def new
@@ -36,6 +37,19 @@ class EventsController < ApplicationController
     @event.destroy
     respond_to do |format|
       format.html { redirect_to events_path, notice: "Evènement effacé." }
+    end
+  end
+
+  def upload
+  end
+
+  def import
+    begin
+      Event.import(params['file'])
+      redirect_to root_path, notice: 'Evènements importés'
+    rescue StandardError => e
+      p e
+      redirect_to root_path, notice: "Erreur: impossible d'importer les évènements"
     end
   end
 

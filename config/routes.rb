@@ -21,9 +21,13 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'events/upload', to: 'events#upload', as: 'upload_events'
+  post 'events/import', to: 'events#import', as: 'import_events'
+
   resources :events do
     resources :editions
   end
+
   resources :photos
   resources :results, only: :show
 

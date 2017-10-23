@@ -12,6 +12,11 @@ class RacesController < ApplicationController
     @race = Race.new(sms_message: I18n.t('sms_message_template'))
   end
 
+  def edit
+    @event = @race.edition.event unless @race.edition.nil?
+    @event = Event.find(params[:event_id]) if params[:event_id]
+  end
+
   def show
 		@results = @race.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])
   end
@@ -169,7 +174,8 @@ class RacesController < ApplicationController
       :background_image,
       :template,
       :external_link,
-      :external_link_button
+      :external_link_button,
+      :edition_id
     )
   end
 

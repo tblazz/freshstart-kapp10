@@ -1,0 +1,27 @@
+h1 Evènements
+table.table.table-bordered.table-default.table-striped
+  thead
+    tr
+      th.text-center ID
+      th.text-center Nom
+      th.text-center Lieu
+      th.text-center Contact
+      th.text-center Email
+      th.text-center Téléphone
+      th.text-center Facebook
+      th.text-center Twitter
+      th.text-center Instagram
+      th.text-center  
+  tbody
+    - @events.each do |event|
+      tr
+        td= event.id
+        td= link_to event.name, event_path(event)
+        td= event.place
+        td= event.contact
+        td= event.email
+        td= event.phone
+        td= event.facebook
+        td= event.twitter
+        td= event.instagram
+        td.text-center= link_to 'Editer', edit_event_path(event), class: 'btn btn-default btn-sm'

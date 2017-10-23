@@ -1,0 +1,30 @@
+.upload.col-sm-10.col-sm-offset-1
+  .row
+    .col-md-12
+      h1 Importer des évènements
+  .row
+    .col-md-6
+      = form_tag(import_events_path, multipart: true) do
+        .form-group
+          = file_field_tag :file, class: 'file-button'
+          /= label :file, 'Fichier CSV', class: 'col-sm-3'
+          .col-sm-6
+            = link_to '#', class: 'fake-file-button btn btn-full btn-info' do
+              i.fa.fa-cloud-upload>
+              span.text-upload Télécharger
+            .hint
+              ' Fichier CSV
+
+        .form-group
+          = submit_tag 'Importer', class: 'btn btn-success btn-full'
+
+javascript:
+  $('.fake-file-button').click(function (event) {
+    event.preventDefault();
+    $('.file-button').click();
+  });
+
+  $('.file-button').change(function (e) {
+    var file_name = $(this).val().split('\\').pop();
+    $('.text-upload').html(file_name);
+  });
