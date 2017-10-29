@@ -9,7 +9,7 @@ class RacesController < ApplicationController
   end
 
   def new
-    @race = Race.new(sms_message: I18n.t('sms_message_template'))
+    @race = Race.new(edition_id: params[:edition_id])
   end
 
   def edit
@@ -29,21 +29,12 @@ class RacesController < ApplicationController
   def create
     @race = Race.new(race_params)
 
-    @photos = params[:race][:photos]  || []
-    params[:race].delete(:photos)
-
     respond_to do |format|
       if @race.save
-
-        decode_results if race_params[:raw_results]
-
-        @photos.each do |photo|
-          @race.photos.create({image: photo})
-        end
-
-        format.html { redirect_to @race, notice: 'race was successfully created.' }
+        format.html { redirect_to event_edition_path(@race.event, @race.edition), notice: 'Course créée.' }
         format.json { render :show, status: :created, location: @race }
       else
+        p @race.errors
         format.html { render :new }
         format.json { render json: @Race.errors, status: :unprocessable_entity }
       end
@@ -164,17 +155,6 @@ class RacesController < ApplicationController
     params.require(:race).permit(
       :id,
       :name,
-      :date,
-      :email_sender,
-      :email_name,
-      :hashtag,
-      :results_url,
-      :sms_message,
-      :raw_results,
-      :background_image,
-      :template,
-      :external_link,
-      :external_link_button,
       :edition_id
     )
   end

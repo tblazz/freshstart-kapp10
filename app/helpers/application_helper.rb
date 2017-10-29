@@ -4,11 +4,11 @@ module ApplicationHelper
     image_tag(name_at_1x, options.merge("data-at2x" => asset_path(name_at_2x)))
   end
 
-	def sortable(column, title = nil, race)
+	def sortable(column, title = nil, edition)
     title ||= column.titleize
 		css_class = (column == sort_column) ? "current #{sort_direction}" : nil
     direction = (column == sort_column && sort_direction == "asc") ? "desc" : "asc"
-		link_to title, race_path(race,
+		link_to title, results_event_edition_path(edition.event, edition,
   		params.merge(
     	:sort => column,
     	:direction => direction,

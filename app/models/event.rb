@@ -23,9 +23,9 @@ class Event < ApplicationRecord
 
   # Validations
   validates :name, presence: true, length: { in: 2..30 }
-  validates :place, presence: true, length: { in: 2..30 }
-  validates :contact, presence: true
-  validates :email, presence: true, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
+  # validates :place, presence: true, length: { in: 2..30 }
+  # validates :contact, presence: true
+  # validates :email, presence: true, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
 
   def self.import(file)
     CSV.foreach(file.path, col_sep: ';', row_sep: :auto, headers: true) do |row|

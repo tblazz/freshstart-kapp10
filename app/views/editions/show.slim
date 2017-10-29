@@ -1,0 +1,51 @@
+h1 Info Course
+.event.col-sm-10.col-sm-offset-1
+  .row
+    .col-md-12.text-center
+      h2= @edition.event.name
+  .row
+    .col-md-12
+      = link_to 'Info course', event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+      = link_to 'Resultats', results_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+  .row
+    .col-md-9
+      table.table.table-striped.table-bordered.table-compacted
+        tr
+          th Date
+          td= @edition.id
+        tr
+          th Descriptif
+          td= @edition.description
+
+    .col-md-3
+      div= link_to 'Générer le widget', generate_widget_race_path(@edition), class: 'btn btn-primary', 'data-method' => :post
+      div= link_to 'Diffuser les infos', send_results_race_path(@edition), class: 'btn btn-warning', 'data-confirm' => 'Etes-vous sûr ?', 'data-method' => :post
+      div= link_to 'Valider', '', class: 'btn btn-warning'
+
+
+  .row
+    .col-md-12
+      = link_to 'Ajouter une course', new_race_path(edition_id: @edition), class: 'btn btn-success'
+  hr
+  .row
+    .col-md-12
+      - if @edition.races.blank?
+        p Il n'y pas encore de courses pour cette édition
+      - else
+        ul.nav.nav-tabs
+          - @edition.races.each_with_index do |race, i|
+            - if i == 0
+              li.active= link_to race.name, "##{i}", data: {toggle: 'tab'}
+            - else
+              li= link_to race.name, "##{i}", data: {toggle: 'tab'}
+
+
+        .tab-content
+          - @edition.races.each_with_index do |race, i|
+            - if i == 0
+              = content_tag :div, class: 'tab-pane fade in active', id: i do
+                = render 'race_tab', race: race
+            - else
+              = content_tag :div, class: 'tab-pane fade in', id: i do
+                = render 'race_tab', race: race
+

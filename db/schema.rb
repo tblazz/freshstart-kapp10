@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171020195838) do
+ActiveRecord::Schema.define(version: 20171027121556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,26 @@ ActiveRecord::Schema.define(version: 20171020195838) do
     t.date     "date"
     t.string   "description"
     t.integer  "event_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "email_sender"
+    t.string   "email_name"
+    t.string   "hashtag"
+    t.string   "results_url"
+    t.string   "sms_message"
+    t.string   "template"
+    t.datetime "widget_generated_at"
+    t.datetime "photos_widget_generated_at"
+    t.string   "external_link"
+    t.string   "external_link_button"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.string   "raw_results_file_name"
+    t.string   "raw_results_content_type"
+    t.integer  "raw_results_file_size"
+    t.datetime "raw_results_updated_at"
+    t.string   "background_image_file_name"
+    t.string   "background_image_content_type"
+    t.integer  "background_image_file_size"
+    t.datetime "background_image_updated_at"
   end
 
   create_table "events", force: :cascade do |t|
@@ -50,6 +68,7 @@ ActiveRecord::Schema.define(version: 20171020195838) do
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
+    t.integer  "edition_id"
     t.index ["race_id"], name: "index_photos_on_race_id", using: :btree
   end
 
@@ -103,6 +122,7 @@ ActiveRecord::Schema.define(version: 20171020195838) do
     t.datetime "email_sent_at"
     t.datetime "sms_sent_at"
     t.string   "diploma_url"
+    t.integer  "edition_id"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 

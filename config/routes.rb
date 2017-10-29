@@ -25,13 +25,29 @@ Rails.application.routes.draw do
   post 'events/import', to: 'events#import', as: 'import_events'
 
   resources :events do
-    resources :editions
+    resources :editions do
+      member do
+        get 'results'
+        post 'send_results'
+        post 'duplicate'
+        post 'generate_widget'
+        post 'generate_photos_widget'
+        post 'generate_diplomas'
+        get 'regenerate_all_widgets'
+        delete 'delete_diplomas'
+        get 'diploma'
+        get 'widget'
+        get 'photos_widget'
+        delete 'delete_results'
+        get 'pairing', to: 'photos#index'
+      end
+    end
   end
 
   resources :photos
   resources :results, only: :show
 
-  root :to => 'races#index'
+  root :to => 'events#index'
 
   # config/routes.rb
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

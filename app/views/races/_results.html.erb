@@ -3,16 +3,16 @@
     <tr>
 			<th class='text-center'>Tel.</th>
 			<th class='text-center'>Email</th>
-			<th class='text-center'><%= sortable "bib", "Dossard", @race %></th>
-			<th class='text-center'><%= sortable "rank", "Class. Gen.", @race %></th>
-			<th ><%= sortable "name", "Nom", @race %></th>
-			<th class='text-center'><%= sortable "sex", "Sexe", @race %></th>
-			<th class='text-center'><%= sortable "sex_rank", "Class. Sexe", @race %></th>
-			<th class='text-center'><%= sortable "categ", "Categ", @race %></th>
-			<th class='text-center'><%= sortable "categ_rank", "Class. Categ", @race %></th>
-			<th class='text-center'><%= sortable "time", "Temps", @race %></th>
-			<th class='text-center'><%= sortable "speed", "Vitesse", @race %></th>
-			<th class='text-center'><%= sortable "race_detail", "Détail course", @race %></th>
+			<th class='text-center'><%= sortable "bib", "Dossard", @edition %></th>
+			<th class='text-center'><%= sortable "rank", "Class. Gen.", @edition %></th>
+			<th ><%= sortable "name", "Nom", @edition %></th>
+			<th class='text-center'><%= sortable "sex", "Sexe", @edition %></th>
+			<th class='text-center'><%= sortable "sex_rank", "Class. Sexe", @edition %></th>
+			<th class='text-center'><%= sortable "categ", "Categ", @edition %></th>
+			<th class='text-center'><%= sortable "categ_rank", "Class. Categ", @edition %></th>
+			<th class='text-center'><%= sortable "time", "Temps", @edition %></th>
+			<th class='text-center'><%= sortable "speed", "Vitesse", @edition %></th>
+			<th class='text-center'><%= sortable "race_detail", "Détail course", @edition %></th>
 			<th class='text-center'>Message</th>
 			<th class='text-center'>Chargé le</th>
 			<th class='text-center'>Mail</th>
@@ -20,16 +20,18 @@
 			<th class='text-center'>Diplôme</th>
     </tr>
   </thead>
-  <%= render partial: 'result', collection: @results%>
+  <% @results.each do |result| %>
+    <%= render 'races/result', result: result %>
+  <% end %>
 </table>
 
 <div class="pagination">
 	<% params[:page] = 1 if params[:page].nil?
 	params[:page] = params[:page].to_i
 	if params[:page]> 1 %>
-		<%= link_to "<-", race_path(@race, page: params[:page] - 1), class: 'btn btn-default'%>
+		<%= link_to "<-", results_event_edition_path(@edition, page: params[:page] - 1), class: 'btn btn-default'%>
 	<%end%>
 	<%if   params[:page]  < @results.total_pages && @results.total_pages > 1%>
-		<%= link_to "->", race_path(@race, page: params[:page] + 1), class: 'btn btn-default'%>
+		<%= link_to "->", results_event_edition_path(@edition, page: params[:page] + 1), class: 'btn btn-default'%>
 	<%end%>
 </div>

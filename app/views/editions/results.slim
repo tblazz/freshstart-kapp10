@@ -1,0 +1,95 @@
+h1 Résultats
+.event.col-sm-10.col-sm-offset-1
+  .row
+    .col-md-12.text-center
+      h2= @edition.event.name
+  .row
+    .col-md-12
+      = link_to 'Info course', event_edition_path(@edition), class: 'btn btn-default'
+      = link_to 'Resultats', results_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+  .row
+    .col-md-9
+      table.table.table-striped.table-bordered.table-compacted
+        tr
+          th Date
+          td= @edition.id
+        tr
+          th Email
+          td= @edition.email_sender
+        tr
+          th Email nom
+          td= @edition.email_name
+        tr
+          th Template
+          td= @edition.template
+        tr
+          th Nombre de coureurs
+          td= @edition.runners_count
+        tr
+          th Courses
+          td
+            - @edition.races.each do |race|
+              span.label.label-primary= race.name
+        tr
+          th Message
+          td= @runner.sent_message
+        tr
+          th Coureurs sans diplôme
+          td= @edition.runners_count
+
+
+    .col-md-3
+      = image_tag @edition.background_image.url(:medium), class:'pull-right'
+
+  .row
+    .col-md-12
+      = link_to "Editer", edit_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+      = link_to "Retour à l'évènement", event_path(@edition.event), class: 'btn btn-default'
+      = link_to "Générer les diplômes", generate_diplomas_event_edition_path(@edition.event, @edition), class: "btn btn-primary", "data-method" => :post
+      = link_to "Supprimer les diplômes", delete_diplomas_event_edition_path(@edition.event, @edition), class: "btn btn-warning", "data-method" => :delete
+      .pull-right
+        = link_to "Supprimer les résultats", delete_results_event_edition_path(@edition.event, @edition), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete
+  hr
+  .row
+    .col-sm-12.top-buffer
+      /! Nav tabs
+      ul.nav.nav-tabs role="tablist" 
+        li.active role="presentation" 
+          a aria-controls="results" data-toggle="tab" href="#results" role="tab"  Résultats
+        li role="presentation" 
+          a aria-controls="stats" data-toggle="tab" href="#stats" role="tab"  Statistiques
+        li role="presentation" 
+          a aria-controls="widget" data-toggle="tab" href="#widget" role="tab"  Widget
+      /! Tab panes
+      .tab-content
+        #results.tab-pane.active role="tabpanel" 
+          - if @edition.results.empty?
+            p Aucun résultat n'a encore été fourni
+          - else
+            = form_tag event_edition_path(@edition), :method => 'get', :id => 'results_search' do
+              = hidden_field_tag :direction, params[:direction]
+              = hidden_field_tag :sort, params[:sort]
+              p
+                = text_field_tag :search, params[:search], placeholder: 'Rechercher un coureur', class: 'search_results'
+                = submit_tag "Search", :name => nil, class: 'btn btn-warning'
+            #results_table
+              = render 'races/results'
+        #stats.tab-pane role="tabpanel" 
+          = render partial: 'races/statistics'
+        #widget.tab-pane role="tabpanel" 
+          .col-sm-12.top-buffer.text-center
+            p
+              - if @edition.widget_generated_at.nil?
+                | Le widget n'a pas encore été généré.
+              - else
+                | Widget généré le #{I18n.l @edition.widget_generated_at}.
+            = link_to "Générer le widget", generate_widget_race_path(@edition), class: "btn btn-primary", "data-method" => :post
+            = link_to "Afficher le widget", @edition.widget_url, class: "btn btn-default", target: "_widget" unless @edition.widget_generated_at.nil?
+          - unless @edition.widget_generated_at.nil?
+            .col-sm-12
+              h4 Code pour afficher le widget
+              textarea.form-control rows="5" = @edition.widget_gist
+            .col-sm-12.top-buffer
+              h4 Widget
+              = @edition.widget_gist.html_safe
+      

@@ -9,10 +9,10 @@
         td= edition.races.pluck(:name).join(', ')
       tr
         th Nombre de participants:
-        td= edition.races.map{|r| r.results.count}.sum
+        td= edition.results.count
 
   .col-md-3
-    div= link_to "Voir édition #{edition.date.year}", '#', class: 'btn btn-success'
+    div= link_to "Voir édition #{edition.date.year}", event_edition_path(edition.event, edition), class: 'btn btn-success'
     div= link_to "Editer édition #{edition.date.year}", edit_event_edition_path(edition.event.id, edition.id), class: 'btn btn-default'
-    div= link_to 'Dupliquer', new_event_edition_path(edition.event, date: edition.date, description: edition.description), class: 'btn btn-info'
+    div= link_to 'Dupliquer', new_event_edition_path(edition.event, edition: edition.attributes), class: 'btn btn-info'
     div= link_to 'Supprimer', event_edition_path(edition.event.id, edition.id), class: 'btn btn-danger', method: :delete

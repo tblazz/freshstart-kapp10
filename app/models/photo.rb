@@ -15,15 +15,15 @@
 #
 
 class Photo < ApplicationRecord
-  belongs_to :race
+  belongs_to :edition
   has_attached_file :image
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
-  validates :image_file_name, uniqueness: { scope: :race_id }
+  validates :image_file_name, uniqueness: { scope: :edition_id }
 
   def runner
     return @runner unless @runner.nil?
     return :not_paired if bib.blank?
-    runner = race.results.where(bib: bib)
+    runner = edition.results.where(bib: bib)
     return :invalid_bib if runner.empty?
     runner.first
   end

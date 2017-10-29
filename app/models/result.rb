@@ -28,7 +28,7 @@
 #
 
 class Result < ActiveRecord::Base
-  belongs_to :race
+  belongs_to :edition
 
   def sent_message
     sms.message
@@ -42,14 +42,14 @@ class Result < ActiveRecord::Base
     @sms ||=  SMS.new(
       name: first_name,
       time: time,
-      race_name_mail: race.email_name,
+      edition_name_mail: edition.email_name,
       rank: "#{rank}#{rank_total}",
-      template: race.sms_message,
-      race_detail: race_detail,
-      results_url: race.results_url,
+      template: edition.sms_message,
+      edition_detail: race_detail,
+      results_url: edition.results_url,
       phone_number: phone,
       image_path: diploma_url,
-      campaign: "#{race.name.parameterize}-#{race.date}"
+      campaign: "#{edition.event.name.parameterize}-#{edition.date}"
     )
   end
 
@@ -62,7 +62,7 @@ class Result < ActiveRecord::Base
   end
 
   def photo
-    photo = Photo.where(bib: bib, race_id: race_id)
+    photo = Photo.where(bib: bib, edition_id: edition_id)
     return :no_photo if photo.empty?
     photo.first
   end

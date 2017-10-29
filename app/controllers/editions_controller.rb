@@ -1,9 +1,15 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results]
+  helper_method :sort_column, :sort_direction
+  http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
   def new
     @event = Event.find(params[:event_id])
-    @edition = @event.editions.new(date: params[:date], description: params[:description])
+    if params[:edition].blank?
+      @edition = @event.editions.new(sms_message: I18n.t('sms_message_template'))
+    else
+      @edition = @event.editions.new(edition_params)
+    end
   end
 
   def create
@@ -14,6 +20,26 @@ class EditionsController < ApplicationController
     else
       render :new
     end
+
+    # @photos = params[:race][:photos]  || []
+    # params[:race].delete(:photos)
+    #
+    # respond_to do |format|
+    #   if @race.save
+    #
+    #     decode_results if race_params[:raw_results]
+    #
+    #     @photos.each do |photo|
+    #       @race.photos.create({image: photo})
+    #     end
+    #
+    #     format.html { redirect_to @race, notice: 'race was successfully created.' }
+    #     format.json { render :show, status: :created, location: @race }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @Race.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   def show
@@ -37,6 +63,16 @@ class EditionsController < ApplicationController
     end
   end
 
+  def results
+    # raise @edition.inspect
+    @runner = @edition.results.empty? ? Result.last : @edition.results.order("RANDOM()").limit(1).first
+    @results = @edition.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])
+    p @results.count
+    # p @results.count
+    # p @results.count
+    # raise @results.inspect
+  end
+
   private
   def set_edition
     @edition = Edition.find(params[:id])
@@ -46,7 +82,26 @@ class EditionsController < ApplicationController
     params.require(:edition).permit(
         :id,
         :date,
-        :description
+        :description,
+        :email_sender,
+        :email_name,
+        :hashtag,
+        :results_url,
+        :sms_message,
+        :raw_results,
+        :background_image,
+        :template,
+        :external_link,
+        :external_link_button,
+        :event_id
     )
+  end
+
+  def sort_column
+    @edition.results.column_names.include?(params[:sort]) ? params[:sort] : "rank"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
   end
 end
