@@ -29,9 +29,9 @@
 	<% params[:page] = 1 if params[:page].nil?
 	params[:page] = params[:page].to_i
 	if params[:page]> 1 %>
-		<%= link_to "<-", results_event_edition_path(@edition, page: params[:page] - 1), class: 'btn btn-default'%>
+		<%= link_to "<-", results_event_edition_path(@edition.event, @edition, page: params[:page] - 1), class: 'btn btn-default'%>
 	<%end%>
 	<%if   params[:page]  < @results.total_pages && @results.total_pages > 1%>
-		<%= link_to "->", results_event_edition_path(@edition, page: params[:page] + 1), class: 'btn btn-default'%>
+		<%= link_to "->", results_event_edition_path(@edition.event, @edition, page: params[:page] + 1), class: 'btn btn-default'%>
 	<%end%>
 </div>

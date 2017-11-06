@@ -5,7 +5,7 @@ h1 Résultats
       h2= @edition.event.name
   .row
     .col-md-12
-      = link_to 'Info course', event_edition_path(@edition), class: 'btn btn-default'
+      = link_to 'Info course', event_edition_path(@edition.event, @edition), class: 'btn btn-default'
       = link_to 'Resultats', results_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
   .row
     .col-md-9
@@ -66,7 +66,7 @@ h1 Résultats
           - if @edition.results.empty?
             p Aucun résultat n'a encore été fourni
           - else
-            = form_tag event_edition_path(@edition), :method => 'get', :id => 'results_search' do
+            = form_tag event_edition_path(@edition.event, @edition), :method => 'get', :id => 'results_search' do
               = hidden_field_tag :direction, params[:direction]
               = hidden_field_tag :sort, params[:sort]
               p
