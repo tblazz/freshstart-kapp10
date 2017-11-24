@@ -6,15 +6,13 @@ class Runner < ApplicationRecord
   validates :first_name, presence: true, length: { in: 2..30 }
   validates :last_name, presence: true, length: { in: 2..30 }
   validates :dob, presence: true
-  validates :id_key, presence: true, uniqueness: true
+  validates :id_key, uniqueness: true
   validates :sex, inclusion: { in: %w(M F) }, allow_nil: true
 
-  before_validation :create_id_key
+  after_validation :generate_id_key, on: :create
   
   private
-  def create_id_key
-    if self.id_key.blank?
-      self.id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
-    end
+  def generate_id_key
+    id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
   end
 end

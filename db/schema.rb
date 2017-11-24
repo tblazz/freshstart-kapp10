@@ -135,7 +135,7 @@ ActiveRecord::Schema.define(version: 20171116104520) do
   end
 
   create_table "runners", force: :cascade do |t|
-    t.string   "id_key",     null: false
+    t.string   "id_key"
     t.string   "first_name"
     t.string   "last_name"
     t.datetime "dob"

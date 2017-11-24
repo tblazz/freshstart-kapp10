@@ -1,7 +1,7 @@
 class CreateRunners < ActiveRecord::Migration[5.0]
   def change
     create_table :runners do |t|
-      t.string :id_key, null: false
+      t.string :id_key
       t.string :first_name
       t.string :last_name
       t.datetime :dob

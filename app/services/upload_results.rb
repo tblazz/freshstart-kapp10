@@ -1,0 +1,142 @@
+require 'charlock_holmes'
+require 'irb'
+require 'utils'
+require 'open-uri'
+
+class UploadResults
+  #définition des index pour le parsing CSV
+  PHONE_INDEX = 0
+  MAIL_INDEX = 1
+  RANK_INDEX = 2
+  FIRST_NAME_INDEX = 3
+  LAST_NAME_INDEX = 4
+  DOB_INDEX = 5
+  COUNTRY_INDEX = 6
+  NUMBER_INDEX = 7
+  CATEG_RANK_INDEX = 8
+  CATEG_INDEX = 9
+  SEX_RANK_INDEX = 10
+  SEX_INDEX = 11
+  TIME_INDEX = 12
+  SPEED_INDEX = 13
+  RACE_DETAIL_INDEX = 14
+  MESSAGE_INDEX = 15
+
+  def initialize(edition_id)
+    @edition = Edition.find(edition_id)
+    @filename = @edition.raw_results.url
+  end
+
+  def call
+    nb = 0
+    open(@filename) do |file|
+      file.each_line do |line|
+        nb += 1
+        next if nb == 1
+        CSV.parse(utf8_encoded_content(line), col_sep: CSV_SEPARATOR) do |row|
+          if row
+            existing_row_in_db = @edition.results.where( bib: row[NUMBER_INDEX],race_detail: row[RACE_DETAIL_INDEX] )
+            if existing_row_in_db.any?
+              if there_are_differences?(existing_row_in_db.first, row)
+                existing_row_in_db.first.update_attributes(
+                    phone: row[PHONE_INDEX],
+                    mail: row[MAIL_INDEX],
+                    rank: row[RANK_INDEX],
+                    first_name: Utils.titlecase(row[FIRST_NAME_INDEX]),
+                    last_name: Utils.titlecase(row[LAST_NAME_INDEX]),
+                    dob: Date.parse(row[DOB_INDEX]),
+                    country: row[COUNTRY_INDEX],
+                    bib: row[NUMBER_INDEX],
+                    categ_rank: row[CATEG_RANK_INDEX],
+                    categ: row[CATEG_INDEX],
+                    sex_rank: row[SEX_RANK_INDEX],
+                    sex: row[SEX_INDEX],
+                    time: row[TIME_INDEX],
+                    speed: row[SPEED_INDEX],
+                    message: row[MESSAGE_INDEX],
+                    uploaded_at: Time.now,
+                    race_detail: row[RACE_DETAIL_INDEX]
+                )
+              end
+            else
+              if row[NUMBER_INDEX].nil?
+                row[NUMBER_INDEX] = -nb
+              end
+
+              if row[FIRST_NAME_INDEX].present? && row[LAST_NAME_INDEX].present? && row[DOB_INDEX].present?
+                id_key = "#{I18n.transliterate(row[FIRST_NAME_INDEX]).downcase}-#{I18n.transliterate(row[LAST_NAME_INDEX]).downcase}-#{Date.parse(row[DOB_INDEX]).strftime('%d-%m-%Y')}"
+                runner = Runner.find_or_create_by(id_key: id_key) do |runner|
+                  runner.first_name = row[FIRST_NAME_INDEX]
+                  runner.last_name = row[LAST_NAME_INDEX]
+                  runner.dob = Date.parse(row[DOB_INDEX])
+                  runner.sex = row[SEX_INDEX] == 'M' ? 'M' : 'F'
+                end
+                p runner.id
+                p runner.id
+                p runner.id
+                p runner.id
+              else
+                runner = nil
+              end
+
+              @edition.results.create(
+                  phone: row[PHONE_INDEX],
+                  mail: row[MAIL_INDEX],
+                  rank: row[RANK_INDEX],
+                  first_name: Utils.titlecase(row[FIRST_NAME_INDEX]),
+                  last_name: Utils.titlecase(row[LAST_NAME_INDEX]),
+                  dob: Date.parse(row[DOB_INDEX]),
+                  country: row[COUNTRY_INDEX],
+                  bib: row[NUMBER_INDEX],
+                  categ_rank: row[CATEG_RANK_INDEX],
+                  categ: row[CATEG_INDEX],
+                  sex_rank: row[SEX_RANK_INDEX],
+                  sex: row[SEX_INDEX],
+                  time: row[TIME_INDEX],
+                  speed: row[SPEED_INDEX],
+                  message: row[MESSAGE_INDEX],
+                  uploaded_at: Time.now,
+                  race_detail: row[RACE_DETAIL_INDEX],
+                  runner_id: runner.try(:id)
+              )
+            end
+          end
+        end
+      end
+    end
+  end
+
+  private
+
+  def there_are_differences?(old, row)
+    changes = []
+    changes << :phone if (old.phone != row[PHONE_INDEX])
+    changes << :mail if (old.mail != row[MAIL_INDEX])
+    changes << :rank if (old.rank != Integer(row[RANK_INDEX]) rescue nil)
+    changes << :first_name if (old.first_name != Utils.titlecase(row[FIRST_NAME_INDEX]))
+    changes << :last_name if (old.first_name != Utils.titlecase(row[LAST_NAME_INDEX]))
+    changes << :dob if (old.dob != Date.parse(row[DOB_INDEX]))
+    changes << :contry if (old.country != row[COUNTRY_INDEX])
+    changes << :categ_rank if (old.categ_rank != Integer(row[CATEG_RANK_INDEX]) rescue nil)
+    changes << :categ if (old.categ != row[CATEG_INDEX])
+    changes << :sex_rank if (old.sex_rank != Integer(row[SEX_RANK_INDEX]) rescue nil)
+    changes << :sex if (old.sex != row[SEX_INDEX])
+    changes << :time if (old.time != row[TIME_INDEX])
+    changes << :speed if (old.speed != row[SPEED_INDEX])
+    changes << :message if (old.message != row[MESSAGE_INDEX])
+    changes.any?
+  end
+
+
+  def detection(line)
+    CharlockHolmes::EncodingDetector.detect(line)
+  end
+
+  def utf8_encoded_content(line)
+    encoding = detection(line)[:encoding]
+    if encoding == 'IBM424_ltr'
+      encoding = 'ISO-8859-1'
+    end
+    CharlockHolmes::Converter.convert line, encoding, 'UTF-8'
+  end
+end

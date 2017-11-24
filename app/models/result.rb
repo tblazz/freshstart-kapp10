@@ -53,13 +53,13 @@ class Result < ActiveRecord::Base
     )
   end
 
-  def first_name
-    @first_name ||= (first_names.count > 0) ? first_names[0] : name
-  end
-
-  def first_names
-    @first_names ||= name.strip.split(/\s+/)
-  end
+  # def first_name
+  #   @first_name ||= (first_names.count > 0) ? first_names[0] : name
+  # end
+  #
+  # def first_names
+  #   @first_names ||= name.strip.split(/\s+/)
+  # end
 
   def photo
     photo = Photo.where(bib: bib, edition_id: edition_id)
