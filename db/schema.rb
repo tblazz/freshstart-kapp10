@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171027121556) do
+ActiveRecord::Schema.define(version: 20171116104520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,9 @@ ActiveRecord::Schema.define(version: 20171027121556) do
     t.string   "external_link"
     t.string   "external_link_button"
     t.integer  "edition_id"
+    t.integer  "coef"
+    t.string   "category"
+    t.string   "department"
     t.index ["edition_id"], name: "index_races_on_edition_id", using: :btree
   end
 
@@ -123,7 +126,33 @@ ActiveRecord::Schema.define(version: 20171027121556) do
     t.datetime "sms_sent_at"
     t.string   "diploma_url"
     t.integer  "edition_id"
+    t.integer  "runner_id"
+    t.integer  "points"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "dob"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
+  end
+
+  create_table "runners", force: :cascade do |t|
+    t.string   "id_key",     null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.datetime "dob"
+    t.string   "department"
+    t.string   "sex"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id_key"], name: "index_runners_on_id_key", unique: true, using: :btree
+  end
+
+  create_table "totals", force: :cascade do |t|
+    t.integer  "runner_id"
+    t.integer  "points"
+    t.datetime "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["runner_id"], name: "index_totals_on_runner_id", using: :btree
   end
 
   add_foreign_key "photos", "races"

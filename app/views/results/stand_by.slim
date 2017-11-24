@@ -1,0 +1,37 @@
+h1 Résultats non attribués
+
+.row
+  .col-sm-10.col-sm-offset-1
+    #results_table
+      table.results.table.table-default.table-striped.table-condensed.small
+        thead
+          tr
+            th.text-center Tel.
+            th.text-center Email
+            th.text-center Bib
+            th.text-center Class.Gen.
+            th Nom
+            th.text-center Sexe
+            th.text-center Class.Sexe
+            th.text-center Categ
+            th.text-center Class.Categ
+            th.text-center Temps
+            th.text-center Vitesse
+            th.text-center Détail course
+            th.text-center Chargé le
+        - @results.each do |result|
+          tr
+            td.text-center= result.phone
+            td= result.mail
+            td= result.bib
+            td.text-center= result.rank
+            td= result.name
+            td.text-center= result.sex
+            td.text-center= result.sex_rank
+            td.text-center= result.categ
+            td.text-center= result.categ_rank
+            td.text-center= result.time
+            td.text-center= result.speed
+            td.text-center
+              span.label.label-primary= result.race_detail
+            td.text-center= I18n.l result.uploaded_at unless result.uploaded_at.nil?

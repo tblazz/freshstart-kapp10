@@ -33,4 +33,8 @@ class ResultsController < ApplicationController
                     disposition: 'attachment') }
     end
   end
+
+  def stand_by
+    @results = Result.where(runner_id: nil)
+  end
 end

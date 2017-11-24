@@ -4,6 +4,7 @@ require 'sidekiq-scheduler/web'
 Rails.application.routes.draw do
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
+  get 'results_stand_by', to: 'results#stand_by', as: 'stand_by'
   resources :races do
     member do
       post 'send_results'
@@ -46,6 +47,7 @@ Rails.application.routes.draw do
 
   resources :photos
   resources :results, only: :show
+  resources :runners, only: [:index, :show]
 
   root :to => 'events#index'
 
