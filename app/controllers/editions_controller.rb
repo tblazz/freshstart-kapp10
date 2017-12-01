@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results]
   helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
@@ -72,6 +72,11 @@ class EditionsController < ApplicationController
     # p @results.count
     # p @results.count
     # raise @results.inspect
+  end
+
+  def delete_results
+    @edition.results.delete_all
+    redirect_to event_path(@edition.event), notice: "Les résultats ont été supprimés"
   end
 
   private

@@ -4,3 +4,10 @@
       tr
         th Nom:
         td= race.name
+      tr
+        th Coef:
+        td= race.coef
+
+  .col-md-3
+    div= link_to "Editer course #{race.name}", edit_race_path(race), class: 'btn btn-default'
+    div= link_to 'Supprimer', race_path(race), class: 'btn btn-danger', method: :delete

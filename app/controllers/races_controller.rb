@@ -55,7 +55,7 @@ class RacesController < ApplicationController
           @race.photos.create({image: photo})
         end
 
-        format.html { redirect_to @race, notice: 'race was successfully updated.' }
+        format.html { redirect_to event_edition_path(@race.edition.event, @race.edition), notice: 'Course mise à jour.' }
         format.json { render :show, status: :ok, location: @race }
       else
         format.html { render :edit }
@@ -155,7 +155,10 @@ class RacesController < ApplicationController
     params.require(:race).permit(
       :id,
       :name,
-      :edition_id
+      :edition_id,
+      :coef,
+      :category,
+      :department
     )
   end
 

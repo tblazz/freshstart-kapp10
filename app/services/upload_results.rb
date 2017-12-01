@@ -19,8 +19,10 @@ class UploadResults
   SEX_INDEX = 11
   TIME_INDEX = 12
   SPEED_INDEX = 13
-  RACE_DETAIL_INDEX = 14
-  MESSAGE_INDEX = 15
+  LENGTH_INDEX = 14
+  RACE_DETAIL_INDEX = 15
+  MESSAGE_INDEX = 16
+  RACE_NAME_INDEX = 17
 
   def initialize(edition_id)
     @edition = Edition.find(edition_id)
@@ -35,6 +37,9 @@ class UploadResults
         next if nb == 1
         CSV.parse(utf8_encoded_content(line), col_sep: CSV_SEPARATOR) do |row|
           if row
+            race = @edition.races.where(name: row[LENGTH_INDEX]).first
+            return unless race
+
             existing_row_in_db = @edition.results.where( bib: row[NUMBER_INDEX],race_detail: row[RACE_DETAIL_INDEX] )
             if existing_row_in_db.any?
               if there_are_differences?(existing_row_in_db.first, row)
@@ -97,7 +102,8 @@ class UploadResults
                   message: row[MESSAGE_INDEX],
                   uploaded_at: Time.now,
                   race_detail: row[RACE_DETAIL_INDEX],
-                  runner_id: runner.try(:id)
+                  runner_id: runner.try(:id),
+                  race_id: race.id
               )
             end
           end

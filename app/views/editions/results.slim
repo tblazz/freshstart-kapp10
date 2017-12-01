@@ -32,7 +32,8 @@ h1 Résultats
               span.label.label-primary= race.name
         tr
           th Message
-          td= @runner.sent_message
+          td
+          /td=# @edition.sent_message
         tr
           th Coureurs sans diplôme
           td= @edition.runners_count
