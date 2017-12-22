@@ -15,13 +15,13 @@ Rails.application.routes.draw do
       post 'send_results'
       post 'duplicate'
       post 'generate_widget'
-			post 'generate_photos_widget'
+      post 'generate_photos_widget'
       post 'generate_diplomas'
-			get 'regenerate_all_widgets'
+      get 'regenerate_all_widgets'
       delete 'delete_diplomas'
       get 'diploma'
       get 'widget'
-			get 'photos_widget'
+      get 'photos_widget'
       delete 'delete_results'
       get 'pairing', to: 'photos#index'
     end
@@ -75,6 +75,43 @@ Rails.application.routes.draw do
       get 'generate_widget'
     end
   end
+
+  #############################
+  # Routes pour l'API
+  #############################
+
+  use_doorkeeper do
+    # it accepts :authorizations, :tokens, :applications and :authorized_applications
+    controllers :applications => 'freshstart_applications'
+  end
+
+  namespace :api, :defaults => {:format => :json} do
+    namespace :v1 do
+
+      concern :result_attachable do
+        resources :results
+      end
+
+      concern :photo_attachable do
+        resources :photos
+      end
+
+      resources :events do
+        resources :editions, shallow: true
+      end
+
+      resources :editions, concerns: [:result_attachable, :photo_attachable] do
+        resources :races, shallow: true, concerns: [:result_attachable, :photo_attachable]
+      end
+
+      resources :runners, concerns: [:result_attachable]
+
+    end
+  end
+
+  #############################
+  # /Routes pour l'API
+  #############################
 
   root :to => 'events#index'
 

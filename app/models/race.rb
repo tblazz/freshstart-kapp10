@@ -44,6 +44,9 @@ class Race < ActiveRecord::Base
   belongs_to :edition
   has_many :scores
   has_many :runners, through: :scores
+  has_many :results
+  has_many :photos
+
   delegate :event, to: :edition, allow_nil: true
 
   #
