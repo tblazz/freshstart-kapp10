@@ -8,500 +8,44 @@ L'API Freshstart fonctionne uniquement en JSON.
 Elle est constituée de 2 API de haut niveau : Courses et Coureurs.
 
 
-# Clé d'API
+# Sécurité
 
-Une clé d'API est nécessaire pour utiliser l'API Freshstart. Cette dernière prend la forme d'un couple de UUID _Application ID_ et _Application Secret_. 
+L'accès à l'API Freshstart est contrôlé et limité. Pour accéder à l'API, vous devez posséder une clé d'API. Cette dernière prend la forme d'un couple de UUID _Application ID_ et _Application Secret_. Vous pouvez obtenir cette clé auprès de votre interlocuteur habituel de Freshstart.
 
-**[ADMIN] Génération d'une clé d'API**
+## Obtenir un jeton d'accès à l'API [GET /oauth/token]
 
-• Rendez vous sur _https://freshstart-kapp10.herokuapp.com/oauth/applications._
-• Identifiez-vous à l'aide du compte administrateur de la plateforme Freshstart
-• Cliquez sur _Nouvelle Application_
-• Remplissez le champ _Nom_ et _Url de redirection_
-• Cliquez sur _Envoyer_
+Pour interroger l'API, vous devez au préalable obtenir un jeton d'accès temporaire, comme expliqué ci-dessous :
 
- 
++ Request an oAuth Token
+**POST**&nbsp;&nbsp;`/oauth/token`
 
+  + Headers
 
+            Accept: application/json
+            Content-Type: application/json
 
+    + Body
+
+            {
+              "grant_type": "client_credentials",
+              "client_id": <API_KEY_APPLICATION_ID>,
+              "client_secret": <API_KEY_APPLICATION_SECRET>
+            }
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            {
+              access_token: 519e5af7d1592a77168e90982998c121d564c8d0b60e7378dbf1d14989eab476
+            }
 
 # Group API Résultat de Courses
 L'API Courses est organisée hiérarchiquement : Évènements > Éditions > Courses > Résultats.
-
-## Éditions [/editions]
-Une édition d'un évènement contient plusieurs courses.
-
-### Obtenir toutes les éditions d'un évènement [GET /api/v1/events/{event_id}/editions]
-
-+ Parameters
-    + event_id: `3841` (number, required)
-
-+ Request return a list of editions for an event
-**GET**&nbsp;&nbsp;`/api/v1/events/3841/editions`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 200
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-            [
-              {
-                "date": "2017-12-22",
-                "description": "Desc_1",
-                "email_sender": "contact@race_1.com",
-                "hashtag": "#HASH1",
-                "results_url": "results_1.com",
-                "sms_message": "Congratulation for Race1",
-                "template": "Template_1",
-                "widget_generated_at": null,
-                "photos_widget_generated_at": null,
-                "external_link": "Race1.com",
-                "external_link_button": "Button_race1.com",
-                "created_at": "2017-12-22T12:18:17.522+01:00",
-                "updated_at": "2017-12-22T12:18:17.522+01:00",
-                "raw_results_file_name": "raw_Race1",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "raw_results_updated_at": null,
-                "background_image_file_name": "raw_Race1",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "background_image_updated_at": null,
-                "event": {
-                  "name": "Event_1",
-                  "place": "Place_1",
-                  "website": "www.event_1.com",
-                  "facebook": "Event_1",
-                  "twitter": "@Event_1",
-                  "instagram": "@Event_1",
-                  "contact": "contact@event_1.com",
-                  "email": "contact@event_1.com",
-                  "phone": "+3311111111",
-                  "created_at": "2017-12-22T12:18:17.494+01:00",
-                  "updated_at": "2017-12-22T12:18:17.494+01:00"
-                }
-              }
-            ]
-
-### Obtenir une édition [GET /api/v1/editions/{id}]
-
-+ Parameters
-    + id: `2278` (number, required)
-
-+ Request return the edition
-**GET**&nbsp;&nbsp;`/api/v1/editions/2278`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 200
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-            {
-              "date": "2017-12-22",
-              "description": "Desc_2",
-              "email_sender": "contact@race_2.com",
-              "hashtag": "#HASH2",
-              "results_url": "results_2.com",
-              "sms_message": "Congratulation for Race2",
-              "template": "Template_2",
-              "widget_generated_at": null,
-              "photos_widget_generated_at": null,
-              "external_link": "Race2.com",
-              "external_link_button": "Button_race2.com",
-              "created_at": "2017-12-22T12:18:17.582+01:00",
-              "updated_at": "2017-12-22T12:18:17.582+01:00",
-              "raw_results_file_name": "raw_Race2",
-              "raw_results_content_type": "text/csv",
-              "raw_results_file_size": 19024,
-              "raw_results_updated_at": null,
-              "background_image_file_name": "raw_Race2",
-              "background_image_content_type": "image/jpg",
-              "background_image_file_size": 19024,
-              "background_image_updated_at": null,
-              "event": {
-                "name": "Event_2",
-                "place": "Place_2",
-                "website": "www.event_2.com",
-                "facebook": "Event_2",
-                "twitter": "@Event_2",
-                "instagram": "@Event_2",
-                "contact": "contact@event_2.com",
-                "email": "contact@event_2.com",
-                "phone": "+3322222222",
-                "created_at": "2017-12-22T12:18:17.580+01:00",
-                "updated_at": "2017-12-22T12:18:17.580+01:00"
-              }
-            }
-
-+ Request return Not found
-**GET**&nbsp;&nbsp;`/api/v1/editions/-1`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 404
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-
-
-### Ajouter une édition à un évènement [POST /api/v1/events/{event_id}/editions]
-
-+ Parameters
-    + event_id: `3844` (number, required)
-
-+ Request create a new edition for an event
-**POST**&nbsp;&nbsp;`/api/v1/events/3844/editions`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-    + Body
-
-            {
-              "edition": {
-                "date": "2017-12-22T11:18:17+00:00",
-                "description": "Desc_5",
-                "email_sender": "contact@race_5.com",
-                "email_name": "Race_5",
-                "hashtag": "#HASH5",
-                "results_url": "results_5.com",
-                "sms_message": "Congratulation for Race5",
-                "raw_results_file_name": "raw_Race5",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "background_image_file_name": "raw_Race5",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "template": "Template_5",
-                "external_link": "Race5.com",
-                "external_link_button": "Button_race5.com"
-              }
-            }
-
-+ Response 201
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-            {
-              "date": "2017-12-22",
-              "description": "Desc_5",
-              "email_sender": "contact@race_5.com",
-              "hashtag": "#HASH5",
-              "results_url": "results_5.com",
-              "sms_message": "Congratulation for Race5",
-              "template": "Template_5",
-              "widget_generated_at": null,
-              "photos_widget_generated_at": null,
-              "external_link": "Race5.com",
-              "external_link_button": "Button_race5.com",
-              "created_at": "2017-12-22T12:18:17.620+01:00",
-              "updated_at": "2017-12-22T12:18:17.620+01:00",
-              "raw_results_file_name": "raw_Race5",
-              "raw_results_content_type": "text/csv",
-              "raw_results_file_size": 19024,
-              "raw_results_updated_at": null,
-              "background_image_file_name": "raw_Race5",
-              "background_image_content_type": "image/jpg",
-              "background_image_file_size": 19024,
-              "background_image_updated_at": null,
-              "event": {
-                "name": "Event_4",
-                "place": "Place_4",
-                "website": "www.event_4.com",
-                "facebook": "Event_4",
-                "twitter": "@Event_4",
-                "instagram": "@Event_4",
-                "contact": "contact@event_4.com",
-                "email": "contact@event_4.com",
-                "phone": "+3344444444",
-                "created_at": "2017-12-22T12:18:17.604+01:00",
-                "updated_at": "2017-12-22T12:18:17.604+01:00"
-              }
-            }
-
-+ Request return Unprocessable entity
-**POST**&nbsp;&nbsp;`/api/v1/events/3845/editions`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-    + Body
-
-            {
-              "edition": {
-                "date": "2017-12-22T11:18:17+00:00",
-                "description": "Desc_7",
-                "email_sender": "contact@race_7.com",
-                "email_name": "Race_7",
-                "hashtag": "#HASH7",
-                "results_url": "results_7.com",
-                "sms_message": "Congratulation for Race7",
-                "raw_results_file_name": "raw_Race7",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "background_image_file_name": "raw_Race7",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "template": null,
-                "external_link": "Race7.com",
-                "external_link_button": "Button_race7.com"
-              }
-            }
-
-+ Response 422
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-
-
-+ Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/events/3846/editions`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 400
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-
-
-+ Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/editions`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-    + Body
-
-            {
-              "edition": {
-                "date": "2017-12-22T11:18:17+00:00",
-                "description": "Desc_10",
-                "email_sender": "contact@race_10.com",
-                "email_name": "Race_10",
-                "hashtag": "#HASH10",
-                "results_url": "results_10.com",
-                "sms_message": "Congratulation for Race10",
-                "raw_results_file_name": "raw_Race10",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "background_image_file_name": "raw_Race10",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "template": "Template_9",
-                "external_link": "Race10.com",
-                "external_link_button": "Button_race10.com"
-              }
-            }
-
-+ Response 404
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-
-
-### Mettre à jour une édition [PUT /api/v1/editions/{id}]
-
-+ Parameters
-    + id: `2285` (number, required)
-
-+ Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/editions/2285`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-    + Body
-
-            {
-              "edition": {
-                "date": "2017-12-22T11:18:17+00:00",
-                "description": "Desc_12",
-                "email_sender": "contact@race_12.com",
-                "email_name": "Race_12",
-                "hashtag": "#HASH12",
-                "results_url": "results_12.com",
-                "sms_message": "Congratulation for Race12",
-                "raw_results_file_name": "raw_Race12",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "background_image_file_name": "raw_Race12",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "template": "Template_11",
-                "external_link": "Race12.com",
-                "external_link_button": "Button_race12.com"
-              }
-            }
-
-+ Response 200
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-            {
-              "date": "2017-12-22",
-              "description": "Desc_12",
-              "email_sender": "contact@race_12.com",
-              "hashtag": "#HASH12",
-              "results_url": "results_12.com",
-              "sms_message": "Congratulation for Race12",
-              "template": "Template_11",
-              "widget_generated_at": null,
-              "photos_widget_generated_at": null,
-              "external_link": "Race12.com",
-              "external_link_button": "Button_race12.com",
-              "created_at": "2017-12-22T12:18:17.668+01:00",
-              "updated_at": "2017-12-22T12:18:17.674+01:00",
-              "raw_results_file_name": "raw_Race12",
-              "raw_results_content_type": "text/csv",
-              "raw_results_file_size": 19024,
-              "raw_results_updated_at": null,
-              "background_image_file_name": "raw_Race12",
-              "background_image_content_type": "image/jpg",
-              "background_image_file_size": 19024,
-              "background_image_updated_at": null,
-              "event": {
-                "name": "Event_8",
-                "place": "Place_8",
-                "website": "www.event_8.com",
-                "facebook": "Event_8",
-                "twitter": "@Event_8",
-                "instagram": "@Event_8",
-                "contact": "contact@event_8.com",
-                "email": "contact@event_8.com",
-                "phone": "+3388888888",
-                "created_at": "2017-12-22T12:18:17.665+01:00",
-                "updated_at": "2017-12-22T12:18:17.665+01:00"
-              }
-            }
-
-+ Request return Not Modified
-**PUT**&nbsp;&nbsp;`/api/v1/editions/2286`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-    + Body
-
-            {
-              "edition": {
-                "date": "2017-12-22T11:18:17+00:00",
-                "description": "Desc_14",
-                "email_sender": "contact@race_14.com",
-                "email_name": "Race_14",
-                "hashtag": "#HASH14",
-                "results_url": "results_14.com",
-                "sms_message": "Congratulation for Race14",
-                "raw_results_file_name": "raw_Race14",
-                "raw_results_content_type": "text/csv",
-                "raw_results_file_size": 19024,
-                "background_image_file_name": "raw_Race14",
-                "background_image_content_type": "image/jpg",
-                "background_image_file_size": 19024,
-                "template": null,
-                "external_link": "Race14.com",
-                "external_link_button": "Button_race14.com"
-              }
-            }
-
-+ Response 304
-
-    + Body
-
-
-
-### Supprimer une édition [DELETE /api/v1/editions/{id}]
-
-+ Parameters
-    + id: `2287` (number, required)
-
-+ Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/editions/2287`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 204
-
-    + Body
-
-
-
-+ Request return Not Found
-**DELETE**&nbsp;&nbsp;`/api/v1/editions/-1`
-
-    + Headers
-
-            Accept: application/json
-            Content-Type: application/json
-
-+ Response 404
-
-    + Headers
-
-            Content-Type: application/json; charset=utf-8
-
-    + Body
-
-
 
 ## Évènements [/events]
 Un évènement contient plusieurs éditions.
@@ -527,6 +71,7 @@ Un évènement contient plusieurs éditions.
 
             [
               {
+                "id": 4006,
                 "name": "Event_12",
                 "place": "Place_12",
                 "website": "www.event_12.com",
@@ -536,18 +81,18 @@ Un évènement contient plusieurs éditions.
                 "contact": "contact@event_12.com",
                 "email": "contact@event_12.com",
                 "phone": "+331212121212121212",
-                "created_at": "2017-12-22T12:18:18.306+01:00",
-                "updated_at": "2017-12-22T12:18:18.306+01:00"
+                "created_at": "2017-12-22T14:40:55.660+01:00",
+                "updated_at": "2017-12-22T14:40:55.660+01:00"
               }
             ]
 
 ### Obtenir un évènement particulier [GET /api/v1/events/{id}]
 
 + Parameters
-    + id: `3853` (number, required)
+    + id: `4007` (number, required)
 
 + Request return the event
-**GET**&nbsp;&nbsp;`/api/v1/events/3853`
+**GET**&nbsp;&nbsp;`/api/v1/events/4007`
 
     + Headers
 
@@ -563,6 +108,7 @@ Un évènement contient plusieurs éditions.
     + Body
 
             {
+              "id": 4007,
               "name": "Event_13",
               "place": "Place_13",
               "website": "www.event_13.com",
@@ -572,8 +118,8 @@ Un évènement contient plusieurs éditions.
               "contact": "contact@event_13.com",
               "email": "contact@event_13.com",
               "phone": "+331313131313131313",
-              "created_at": "2017-12-22T12:18:18.313+01:00",
-              "updated_at": "2017-12-22T12:18:18.313+01:00"
+              "created_at": "2017-12-22T14:40:55.666+01:00",
+              "updated_at": "2017-12-22T14:40:55.666+01:00"
             }
 
 + Request return Not found
@@ -630,6 +176,7 @@ Un évènement contient plusieurs éditions.
     + Body
 
             {
+              "id": 4010,
               "name": "Event_16",
               "place": "Place_16",
               "website": "www.event_16.com",
@@ -639,8 +186,8 @@ Un évènement contient plusieurs éditions.
               "contact": "contact@event_16.com",
               "email": "contact@event_16.com",
               "phone": "+331616161616161616",
-              "created_at": "2017-12-22T12:18:18.324+01:00",
-              "updated_at": "2017-12-22T12:18:18.324+01:00"
+              "created_at": "2017-12-22T14:40:55.678+01:00",
+              "updated_at": "2017-12-22T14:40:55.678+01:00"
             }
 
 + Request return Unprocessable entity
@@ -698,10 +245,10 @@ Un évènement contient plusieurs éditions.
 ### Mettre à jour un évènement [PUT /api/v1/events/{id}]
 
 + Parameters
-    + id: `3859` (number, required)
+    + id: `4013` (number, required)
 
 + Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/events/3859`
+**PUT**&nbsp;&nbsp;`/api/v1/events/4013`
 
     + Headers
 
@@ -733,6 +280,7 @@ Un évènement contient plusieurs éditions.
     + Body
 
             {
+              "id": 4013,
               "name": "Event_20",
               "place": "Place_21",
               "website": "www.event_21.com",
@@ -742,12 +290,12 @@ Un évènement contient plusieurs éditions.
               "contact": "contact@event_21.com",
               "email": "contact@event_21.com",
               "phone": "+332121212121212121",
-              "created_at": "2017-12-22T12:18:18.338+01:00",
-              "updated_at": "2017-12-22T12:18:18.342+01:00"
+              "created_at": "2017-12-22T14:40:55.691+01:00",
+              "updated_at": "2017-12-22T14:40:55.694+01:00"
             }
 
 + Request return Not Modified
-**PUT**&nbsp;&nbsp;`/api/v1/events/3860`
+**PUT**&nbsp;&nbsp;`/api/v1/events/4014`
 
     + Headers
 
@@ -777,7 +325,7 @@ Un évènement contient plusieurs éditions.
 
 
 + Request return Bad request
-**PUT**&nbsp;&nbsp;`/api/v1/events/3861`
+**PUT**&nbsp;&nbsp;`/api/v1/events/4015`
 
     + Headers
 
@@ -803,10 +351,10 @@ Un évènement contient plusieurs éditions.
 ### Supprimer un évènement [DELETE /api/v1/events/{id}]
 
 + Parameters
-    + id: `3862` (number, required)
+    + id: `4016` (number, required)
 
 + Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/events/3862`
+**DELETE**&nbsp;&nbsp;`/api/v1/events/4016`
 
     + Headers
 
@@ -837,16 +385,501 @@ Un évènement contient plusieurs éditions.
 
 
 
+
+## Éditions [/editions]
+Une édition d'un évènement contient plusieurs courses.
+
+### Obtenir toutes les éditions d'un évènement [GET /api/v1/events/{event_id}/editions]
+
++ Parameters
+    + event_id: `3995` (number, required)
+
++ Request return a list of editions for an event
+**GET**&nbsp;&nbsp;`/api/v1/events/3995/editions`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            [
+              {
+                "id": 2407,
+                "date": "2017-12-22",
+                "description": "Desc_1",
+                "email_sender": "contact@race_1.com",
+                "hashtag": "#HASH1",
+                "results_url": "results_1.com",
+                "sms_message": "Congratulation for Race1",
+                "template": "Template_1",
+                "widget_generated_at": null,
+                "photos_widget_generated_at": null,
+                "external_link": "Race1.com",
+                "external_link_button": "Button_race1.com",
+                "created_at": "2017-12-22T14:40:54.905+01:00",
+                "updated_at": "2017-12-22T14:40:54.905+01:00",
+                "raw_results_file_name": "raw_Race1",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "raw_results_updated_at": null,
+                "background_image_file_name": "raw_Race1",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "background_image_updated_at": null,
+                "event": {
+                  "id": 3995,
+                  "name": "Event_1",
+                  "place": "Place_1",
+                  "website": "www.event_1.com",
+                  "facebook": "Event_1",
+                  "twitter": "@Event_1",
+                  "instagram": "@Event_1",
+                  "contact": "contact@event_1.com",
+                  "email": "contact@event_1.com",
+                  "phone": "+3311111111",
+                  "created_at": "2017-12-22T14:40:54.875+01:00",
+                  "updated_at": "2017-12-22T14:40:54.875+01:00"
+                }
+              }
+            ]
+
+### Obtenir une édition [GET /api/v1/editions/{id}]
+
++ Parameters
+    + id: `2408` (number, required)
+
++ Request return the edition
+**GET**&nbsp;&nbsp;`/api/v1/editions/2408`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            {
+              "id": 2408,
+              "date": "2017-12-22",
+              "description": "Desc_2",
+              "email_sender": "contact@race_2.com",
+              "hashtag": "#HASH2",
+              "results_url": "results_2.com",
+              "sms_message": "Congratulation for Race2",
+              "template": "Template_2",
+              "widget_generated_at": null,
+              "photos_widget_generated_at": null,
+              "external_link": "Race2.com",
+              "external_link_button": "Button_race2.com",
+              "created_at": "2017-12-22T14:40:54.983+01:00",
+              "updated_at": "2017-12-22T14:40:54.983+01:00",
+              "raw_results_file_name": "raw_Race2",
+              "raw_results_content_type": "text/csv",
+              "raw_results_file_size": 19024,
+              "raw_results_updated_at": null,
+              "background_image_file_name": "raw_Race2",
+              "background_image_content_type": "image/jpg",
+              "background_image_file_size": 19024,
+              "background_image_updated_at": null,
+              "event": {
+                "id": 3996,
+                "name": "Event_2",
+                "place": "Place_2",
+                "website": "www.event_2.com",
+                "facebook": "Event_2",
+                "twitter": "@Event_2",
+                "instagram": "@Event_2",
+                "contact": "contact@event_2.com",
+                "email": "contact@event_2.com",
+                "phone": "+3322222222",
+                "created_at": "2017-12-22T14:40:54.980+01:00",
+                "updated_at": "2017-12-22T14:40:54.980+01:00"
+              }
+            }
+
++ Request return Not found
+**GET**&nbsp;&nbsp;`/api/v1/editions/-1`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 404
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+
+
+### Ajouter une édition à un évènement [POST /api/v1/events/{event_id}/editions]
+
++ Parameters
+    + event_id: `3998` (number, required)
+
++ Request create a new edition for an event
+**POST**&nbsp;&nbsp;`/api/v1/events/3998/editions`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "edition": {
+                "date": "2017-12-22T13:40:55+00:00",
+                "description": "Desc_5",
+                "email_sender": "contact@race_5.com",
+                "email_name": "Race_5",
+                "hashtag": "#HASH5",
+                "results_url": "results_5.com",
+                "sms_message": "Congratulation for Race5",
+                "raw_results_file_name": "raw_Race5",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "background_image_file_name": "raw_Race5",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "template": "Template_5",
+                "external_link": "Race5.com",
+                "external_link_button": "Button_race5.com"
+              }
+            }
+
++ Response 201
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            {
+              "id": 2411,
+              "date": "2017-12-22",
+              "description": "Desc_5",
+              "email_sender": "contact@race_5.com",
+              "hashtag": "#HASH5",
+              "results_url": "results_5.com",
+              "sms_message": "Congratulation for Race5",
+              "template": "Template_5",
+              "widget_generated_at": null,
+              "photos_widget_generated_at": null,
+              "external_link": "Race5.com",
+              "external_link_button": "Button_race5.com",
+              "created_at": "2017-12-22T14:40:55.018+01:00",
+              "updated_at": "2017-12-22T14:40:55.018+01:00",
+              "raw_results_file_name": "raw_Race5",
+              "raw_results_content_type": "text/csv",
+              "raw_results_file_size": 19024,
+              "raw_results_updated_at": null,
+              "background_image_file_name": "raw_Race5",
+              "background_image_content_type": "image/jpg",
+              "background_image_file_size": 19024,
+              "background_image_updated_at": null,
+              "event": {
+                "id": 3998,
+                "name": "Event_4",
+                "place": "Place_4",
+                "website": "www.event_4.com",
+                "facebook": "Event_4",
+                "twitter": "@Event_4",
+                "instagram": "@Event_4",
+                "contact": "contact@event_4.com",
+                "email": "contact@event_4.com",
+                "phone": "+3344444444",
+                "created_at": "2017-12-22T14:40:55.003+01:00",
+                "updated_at": "2017-12-22T14:40:55.003+01:00"
+              }
+            }
+
++ Request return Unprocessable entity
+**POST**&nbsp;&nbsp;`/api/v1/events/3999/editions`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "edition": {
+                "date": "2017-12-22T13:40:55+00:00",
+                "description": "Desc_7",
+                "email_sender": "contact@race_7.com",
+                "email_name": "Race_7",
+                "hashtag": "#HASH7",
+                "results_url": "results_7.com",
+                "sms_message": "Congratulation for Race7",
+                "raw_results_file_name": "raw_Race7",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "background_image_file_name": "raw_Race7",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "template": null,
+                "external_link": "Race7.com",
+                "external_link_button": "Button_race7.com"
+              }
+            }
+
++ Response 422
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+
+
++ Request return Bad request
+**POST**&nbsp;&nbsp;`/api/v1/events/4000/editions`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 400
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+
+
++ Request return Bad request
+**POST**&nbsp;&nbsp;`/api/v1/editions`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "edition": {
+                "date": "2017-12-22T13:40:55+00:00",
+                "description": "Desc_10",
+                "email_sender": "contact@race_10.com",
+                "email_name": "Race_10",
+                "hashtag": "#HASH10",
+                "results_url": "results_10.com",
+                "sms_message": "Congratulation for Race10",
+                "raw_results_file_name": "raw_Race10",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "background_image_file_name": "raw_Race10",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "template": "Template_9",
+                "external_link": "Race10.com",
+                "external_link_button": "Button_race10.com"
+              }
+            }
+
++ Response 404
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+
+
+### Mettre à jour une édition [PUT /api/v1/editions/{id}]
+
++ Parameters
+    + id: `2415` (number, required)
+
++ Request return Success
+**PUT**&nbsp;&nbsp;`/api/v1/editions/2415`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "edition": {
+                "date": "2017-12-22T13:40:55+00:00",
+                "description": "Desc_12",
+                "email_sender": "contact@race_12.com",
+                "email_name": "Race_12",
+                "hashtag": "#HASH12",
+                "results_url": "results_12.com",
+                "sms_message": "Congratulation for Race12",
+                "raw_results_file_name": "raw_Race12",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "background_image_file_name": "raw_Race12",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "template": "Template_11",
+                "external_link": "Race12.com",
+                "external_link_button": "Button_race12.com"
+              }
+            }
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            {
+              "id": 2415,
+              "date": "2017-12-22",
+              "description": "Desc_12",
+              "email_sender": "contact@race_12.com",
+              "hashtag": "#HASH12",
+              "results_url": "results_12.com",
+              "sms_message": "Congratulation for Race12",
+              "template": "Template_11",
+              "widget_generated_at": null,
+              "photos_widget_generated_at": null,
+              "external_link": "Race12.com",
+              "external_link_button": "Button_race12.com",
+              "created_at": "2017-12-22T14:40:55.070+01:00",
+              "updated_at": "2017-12-22T14:40:55.075+01:00",
+              "raw_results_file_name": "raw_Race12",
+              "raw_results_content_type": "text/csv",
+              "raw_results_file_size": 19024,
+              "raw_results_updated_at": null,
+              "background_image_file_name": "raw_Race12",
+              "background_image_content_type": "image/jpg",
+              "background_image_file_size": 19024,
+              "background_image_updated_at": null,
+              "event": {
+                "id": 4002,
+                "name": "Event_8",
+                "place": "Place_8",
+                "website": "www.event_8.com",
+                "facebook": "Event_8",
+                "twitter": "@Event_8",
+                "instagram": "@Event_8",
+                "contact": "contact@event_8.com",
+                "email": "contact@event_8.com",
+                "phone": "+3388888888",
+                "created_at": "2017-12-22T14:40:55.067+01:00",
+                "updated_at": "2017-12-22T14:40:55.067+01:00"
+              }
+            }
+
++ Request return Not Modified
+**PUT**&nbsp;&nbsp;`/api/v1/editions/2416`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Body
+
+            {
+              "edition": {
+                "date": "2017-12-22T13:40:55+00:00",
+                "description": "Desc_14",
+                "email_sender": "contact@race_14.com",
+                "email_name": "Race_14",
+                "hashtag": "#HASH14",
+                "results_url": "results_14.com",
+                "sms_message": "Congratulation for Race14",
+                "raw_results_file_name": "raw_Race14",
+                "raw_results_content_type": "text/csv",
+                "raw_results_file_size": 19024,
+                "background_image_file_name": "raw_Race14",
+                "background_image_content_type": "image/jpg",
+                "background_image_file_size": 19024,
+                "template": null,
+                "external_link": "Race14.com",
+                "external_link_button": "Button_race14.com"
+              }
+            }
+
++ Response 304
+
+    + Body
+
+
+
+### Supprimer une édition [DELETE /api/v1/editions/{id}]
+
++ Parameters
+    + id: `2417` (number, required)
+
++ Request return No content
+**DELETE**&nbsp;&nbsp;`/api/v1/editions/2417`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 204
+
+    + Body
+
+
+
++ Request return Not Found
+**DELETE**&nbsp;&nbsp;`/api/v1/editions/-1`
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
++ Response 404
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+
+
+
 ## Photos [/photos]
 Photos prises lors de course. La photo n'est pas nécessairement associé à un coureur de la base (runner)
 
 ### Obtenir toutes les photos d'une course ou d'une édition [GET /api/v1/races/{race_id}/photos]
 
 + Parameters
-    + race_id: `1da19625-2b25-4518-9399-641be5fd9095` (string, required)
+    + race_id: `34237a7a-dd17-45ca-b9c3-a8bba2a7c689` (string, required)
 
 + Request return its list of photos
-**GET**&nbsp;&nbsp;`/api/v1/races/1da19625-2b25-4518-9399-641be5fd9095/photos`
+**GET**&nbsp;&nbsp;`/api/v1/races/34237a7a-dd17-45ca-b9c3-a8bba2a7c689/photos`
 
     + Headers
 
@@ -864,23 +897,23 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
             [
               {
                 "photos": {
-                  "id": "5beaa53e-f3c5-4811-a061-f8af3a277a8a",
-                  "race_id": "1da19625-2b25-4518-9399-641be5fd9095",
+                  "id": "1eb4161f-7dd6-4186-b8b9-3f30cb7e24d2",
+                  "race_id": "34237a7a-dd17-45ca-b9c3-a8bba2a7c689",
                   "suggested_bibs": "Suggested_bib_1",
                   "bib": "Bib_1",
-                  "created_at": "2017-12-22T12:18:18.461+01:00",
-                  "updated_at": "2017-12-22T12:18:18.461+01:00",
+                  "created_at": "2017-12-22T14:40:55.766+01:00",
+                  "updated_at": "2017-12-22T14:40:55.766+01:00",
                   "image_file_name": "test_1.jpg",
                   "image_content_type": "image/jpg",
                   "image_file_size": 19024,
-                  "image_updated_at": "2017-12-22T12:18:18.000+01:00",
-                  "edition_id": 2290
+                  "image_updated_at": "2017-12-22T14:40:55.000+01:00",
+                  "edition_id": 2420
                 }
               }
             ]
 
 + Request return its list of photos
-**GET**&nbsp;&nbsp;`/api/v1/editions/2291/photos`
+**GET**&nbsp;&nbsp;`/api/v1/editions/2421/photos`
 
     + Headers
 
@@ -900,10 +933,10 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
 ### Obtenir une photo [GET /api/v1/photos/{id}]
 
 + Parameters
-    + id: `de68827c-cfe7-4f9b-b2d7-f2f63d03c9a3` (string, required)
+    + id: `df376013-08f5-4520-8959-af7cac16c74b` (string, required)
 
 + Request return the photo
-**GET**&nbsp;&nbsp;`/api/v1/photos/de68827c-cfe7-4f9b-b2d7-f2f63d03c9a3`
+**GET**&nbsp;&nbsp;`/api/v1/photos/df376013-08f5-4520-8959-af7cac16c74b`
 
     + Headers
 
@@ -919,17 +952,17 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
     + Body
 
             {
-              "id": "de68827c-cfe7-4f9b-b2d7-f2f63d03c9a3",
-              "race_id": "cbd30fb0-199f-4659-a890-bd12aa80de74",
+              "id": "df376013-08f5-4520-8959-af7cac16c74b",
+              "race_id": "212a8088-f7f2-4f60-b789-b93e0aca1377",
               "suggested_bibs": "Suggested_bib_3",
               "bib": "Bib_3",
-              "created_at": "2017-12-22T12:18:18.509+01:00",
-              "updated_at": "2017-12-22T12:18:18.509+01:00",
+              "created_at": "2017-12-22T14:40:55.809+01:00",
+              "updated_at": "2017-12-22T14:40:55.809+01:00",
               "image_file_name": "test_3.jpg",
               "image_content_type": "image/jpg",
               "image_file_size": 19024,
-              "image_updated_at": "2017-12-22T12:18:18.000+01:00",
-              "edition_id": 2294
+              "image_updated_at": "2017-12-22T14:40:55.000+01:00",
+              "edition_id": 2424
             }
 
 + Request return Not found
@@ -953,10 +986,10 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
 ### Ajouter une photo à une course ou à une édition [POST /api/v1/races/{race_id}/photos]
 
 + Parameters
-    + race_id: `529557e9-1e3f-47de-91b4-d327f09260ed` (string, required)
+    + race_id: `c0bac509-33af-4a8a-9fe5-f7433917526a` (string, required)
 
 + Request create a new photo
-**POST**&nbsp;&nbsp;`/api/v1/races/529557e9-1e3f-47de-91b4-d327f09260ed/photos`
+**POST**&nbsp;&nbsp;`/api/v1/races/c0bac509-33af-4a8a-9fe5-f7433917526a/photos`
 
     + Headers
 
@@ -972,7 +1005,7 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
                 "image_file_name": "test_6.jpg",
                 "image_content_type": "image/jpg",
                 "image_file_size": 19024,
-                "image_updated_at": "2017-12-22T11:18:18+00:00"
+                "image_updated_at": "2017-12-22T13:40:55+00:00"
               }
             }
 
@@ -985,21 +1018,21 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
     + Body
 
             {
-              "id": "9fd31f34-0451-4a93-891d-d6737125333f",
-              "race_id": "529557e9-1e3f-47de-91b4-d327f09260ed",
+              "id": "11e4b5b5-8281-4e41-ac97-c5ef6ed2f9d9",
+              "race_id": "c0bac509-33af-4a8a-9fe5-f7433917526a",
               "suggested_bibs": "Suggested_bib_6",
               "bib": "Bib_6",
-              "created_at": "2017-12-22T12:18:18.551+01:00",
-              "updated_at": "2017-12-22T12:18:18.551+01:00",
+              "created_at": "2017-12-22T14:40:55.856+01:00",
+              "updated_at": "2017-12-22T14:40:55.856+01:00",
               "image_file_name": "test_6.jpg",
               "image_content_type": "image/jpg",
               "image_file_size": 19024,
-              "image_updated_at": "2017-12-22T12:18:18.000+01:00",
+              "image_updated_at": "2017-12-22T14:40:55.000+01:00",
               "edition_id": null
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/races/9be3c2f9-a678-4746-bd5a-8947ba252dec/photos`
+**POST**&nbsp;&nbsp;`/api/v1/races/7c38367e-62e5-46e1-a29b-f9a5b34e68fc/photos`
 
     + Headers
 
@@ -1017,7 +1050,7 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
 
 
 + Request create a new photo
-**POST**&nbsp;&nbsp;`/api/v1/editions/2301/photos`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2431/photos`
 
     + Headers
 
@@ -1033,7 +1066,7 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
                 "image_file_name": "test_9.jpg",
                 "image_content_type": "image/jpg",
                 "image_file_size": 19024,
-                "image_updated_at": "2017-12-22T11:18:18+00:00"
+                "image_updated_at": "2017-12-22T13:40:55+00:00"
               }
             }
 
@@ -1046,21 +1079,21 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
     + Body
 
             {
-              "id": "afd3f03a-c909-461c-b336-91684054617e",
+              "id": "241d2497-d4de-4614-a922-c5204646d1d3",
               "race_id": null,
               "suggested_bibs": "Suggested_bib_9",
               "bib": "Bib_9",
-              "created_at": "2017-12-22T12:18:18.596+01:00",
-              "updated_at": "2017-12-22T12:18:18.596+01:00",
+              "created_at": "2017-12-22T14:40:55.896+01:00",
+              "updated_at": "2017-12-22T14:40:55.896+01:00",
               "image_file_name": "test_9.jpg",
               "image_content_type": "image/jpg",
               "image_file_size": 19024,
-              "image_updated_at": "2017-12-22T12:18:18.000+01:00",
-              "edition_id": 2301
+              "image_updated_at": "2017-12-22T14:40:55.000+01:00",
+              "edition_id": 2431
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/editions/2303/photos`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2433/photos`
 
     + Headers
 
@@ -1080,10 +1113,10 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
 ### Mettre à jour une photo [PUT /api/v1/photos/{id}]
 
 + Parameters
-    + id: `78639c3f-fc10-4842-ab69-d4ea80810394` (string, required)
+    + id: `3707e090-8cea-4b01-b784-72c98cd875ee` (string, required)
 
 + Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/photos/78639c3f-fc10-4842-ab69-d4ea80810394`
+**PUT**&nbsp;&nbsp;`/api/v1/photos/3707e090-8cea-4b01-b784-72c98cd875ee`
 
     + Headers
 
@@ -1099,7 +1132,7 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
                 "image_file_name": "test_12.jpg",
                 "image_content_type": "image/jpg",
                 "image_file_size": 19024,
-                "image_updated_at": "2017-12-22T11:18:18+00:00"
+                "image_updated_at": "2017-12-22T13:40:55+00:00"
               }
             }
 
@@ -1112,21 +1145,21 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
     + Body
 
             {
-              "id": "78639c3f-fc10-4842-ab69-d4ea80810394",
+              "id": "3707e090-8cea-4b01-b784-72c98cd875ee",
               "suggested_bibs": "Suggested_bib_12",
               "bib": "Bib_12",
               "image_file_name": "test_12.jpg",
               "image_content_type": "image/jpg",
               "image_file_size": 19024,
-              "image_updated_at": "2017-12-22T12:18:18.000+01:00",
-              "edition_id": 2306,
-              "race_id": "0a0a7bcb-68ca-4701-bab3-7ee8e313c54c",
-              "created_at": "2017-12-22T12:18:18.628+01:00",
-              "updated_at": "2017-12-22T12:18:18.634+01:00"
+              "image_updated_at": "2017-12-22T14:40:55.000+01:00",
+              "edition_id": 2436,
+              "race_id": "ac6afec3-58c0-48e1-9119-6a92fbd6f2b6",
+              "created_at": "2017-12-22T14:40:55.934+01:00",
+              "updated_at": "2017-12-22T14:40:55.940+01:00"
             }
 
 + Request return Bad request
-**PUT**&nbsp;&nbsp;`/api/v1/photos/e130a2f4-4a89-4de7-b214-105338fdd76f`
+**PUT**&nbsp;&nbsp;`/api/v1/photos/92046940-23de-4da0-bfe0-1eeafe0c1426`
 
     + Headers
 
@@ -1152,10 +1185,10 @@ Photos prises lors de course. La photo n'est pas nécessairement associé à un 
 ### Supprimer une photo [DELETE /api/v1/photos/{id}]
 
 + Parameters
-    + id: `96e6413f-4b82-4382-b898-2fa837f94430` (string, required)
+    + id: `7fee42dc-faf0-41d4-bfb3-1754c7c45bb3` (string, required)
 
 + Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/photos/96e6413f-4b82-4382-b898-2fa837f94430`
+**DELETE**&nbsp;&nbsp;`/api/v1/photos/7fee42dc-faf0-41d4-bfb3-1754c7c45bb3`
 
     + Headers
 
@@ -1192,10 +1225,10 @@ Une course contient plusieurs résultats.
 ### Obtenir toutes les courses d'une édition [GET /api/v1/editions/{edition_id}/races]
 
 + Parameters
-    + edition_id: `2313` (number, required)
+    + edition_id: `2443` (number, required)
 
 + Request return a list of races for an edition
-**GET**&nbsp;&nbsp;`/api/v1/editions/2313/races`
+**GET**&nbsp;&nbsp;`/api/v1/editions/2443/races`
 
     + Headers
 
@@ -1212,6 +1245,7 @@ Une course contient plusieurs résultats.
 
             [
               {
+                "id": "cc95fb4a-575b-4eef-82fd-0f6db6112d6f",
                 "name": "Race_13",
                 "date": "2017-12-22",
                 "email_sender": "contact@race_13.com",
@@ -1223,8 +1257,8 @@ Une course contient plusieurs résultats.
                 "photos_widget_generated_at": null,
                 "external_link": "Race13.com",
                 "external_link_button": "Button_race13.com",
-                "created_at": "2017-12-22T12:18:18.755+01:00",
-                "updated_at": "2017-12-22T12:18:18.755+01:00",
+                "created_at": "2017-12-22T14:40:56.067+01:00",
+                "updated_at": "2017-12-22T14:40:56.067+01:00",
                 "raw_results_file_name": "raw_Race13",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -1237,6 +1271,7 @@ Une course contient plusieurs résultats.
                 "category": "Category_13",
                 "department": "Department_13",
                 "edition": {
+                  "id": 2443,
                   "date": "2017-12-22",
                   "description": "Desc_41",
                   "email_sender": "contact@race_41.com",
@@ -1248,8 +1283,8 @@ Une course contient plusieurs résultats.
                   "photos_widget_generated_at": null,
                   "external_link": "Race41.com",
                   "external_link_button": "Button_race41.com",
-                  "created_at": "2017-12-22T12:18:18.752+01:00",
-                  "updated_at": "2017-12-22T12:18:18.752+01:00",
+                  "created_at": "2017-12-22T14:40:56.065+01:00",
+                  "updated_at": "2017-12-22T14:40:56.065+01:00",
                   "raw_results_file_name": "raw_Race41",
                   "raw_results_content_type": "text/csv",
                   "raw_results_file_size": 19024,
@@ -1265,10 +1300,10 @@ Une course contient plusieurs résultats.
 ### Obtenir une course [GET /api/v1/races/{id}]
 
 + Parameters
-    + id: `4ef8bf83-0fc6-4210-a7a8-a9813b008d06` (string, required)
+    + id: `16484933-729b-4163-9b48-f8cdd9135216` (string, required)
 
 + Request return the race
-**GET**&nbsp;&nbsp;`/api/v1/races/4ef8bf83-0fc6-4210-a7a8-a9813b008d06`
+**GET**&nbsp;&nbsp;`/api/v1/races/16484933-729b-4163-9b48-f8cdd9135216`
 
     + Headers
 
@@ -1284,6 +1319,7 @@ Une course contient plusieurs résultats.
     + Body
 
             {
+              "id": "16484933-729b-4163-9b48-f8cdd9135216",
               "name": "Race_14",
               "date": "2017-12-22",
               "email_sender": "contact@race_14.com",
@@ -1295,8 +1331,8 @@ Une course contient plusieurs résultats.
               "photos_widget_generated_at": null,
               "external_link": "Race14.com",
               "external_link_button": "Button_race14.com",
-              "created_at": "2017-12-22T12:18:18.773+01:00",
-              "updated_at": "2017-12-22T12:18:18.773+01:00",
+              "created_at": "2017-12-22T14:40:56.084+01:00",
+              "updated_at": "2017-12-22T14:40:56.084+01:00",
               "raw_results_file_name": "raw_Race14",
               "raw_results_content_type": "text/csv",
               "raw_results_file_size": 19024,
@@ -1309,6 +1345,7 @@ Une course contient plusieurs résultats.
               "category": "Category_14",
               "department": "Department_14",
               "edition": {
+                "id": 2444,
                 "date": "2017-12-22",
                 "description": "Desc_42",
                 "email_sender": "contact@race_42.com",
@@ -1320,8 +1357,8 @@ Une course contient plusieurs résultats.
                 "photos_widget_generated_at": null,
                 "external_link": "Race42.com",
                 "external_link_button": "Button_race42.com",
-                "created_at": "2017-12-22T12:18:18.771+01:00",
-                "updated_at": "2017-12-22T12:18:18.771+01:00",
+                "created_at": "2017-12-22T14:40:56.082+01:00",
+                "updated_at": "2017-12-22T14:40:56.082+01:00",
                 "raw_results_file_name": "raw_Race42",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -1354,10 +1391,10 @@ Une course contient plusieurs résultats.
 ### Ajouter une course à une édition [POST /api/v1/editions/{edition_id}/races]
 
 + Parameters
-    + edition_id: `2316` (number, required)
+    + edition_id: `2446` (number, required)
 
 + Request create a new race for an edition
-**POST**&nbsp;&nbsp;`/api/v1/editions/2316/races`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2446/races`
 
     + Headers
 
@@ -1371,7 +1408,7 @@ Une course contient plusieurs résultats.
                 "name": "Race_17",
                 "email_sender": "contact@race_17.com",
                 "email_name": "Race_17",
-                "date": "2017-12-22T11:18:18+00:00",
+                "date": "2017-12-22T13:40:56+00:00",
                 "hashtag": "#HASH17",
                 "results_url": "results_17.com",
                 "sms_message": "Congratulation for Race17",
@@ -1399,6 +1436,7 @@ Une course contient plusieurs résultats.
     + Body
 
             {
+              "id": "5ffc059e-ea64-40f4-9d34-f50e24f080d5",
               "name": "Race_17",
               "date": "2017-12-22",
               "email_sender": "contact@race_17.com",
@@ -1410,8 +1448,8 @@ Une course contient plusieurs résultats.
               "photos_widget_generated_at": null,
               "external_link": "Race17.com",
               "external_link_button": "Button_race17.com",
-              "created_at": "2017-12-22T12:18:18.800+01:00",
-              "updated_at": "2017-12-22T12:18:18.800+01:00",
+              "created_at": "2017-12-22T14:40:56.112+01:00",
+              "updated_at": "2017-12-22T14:40:56.112+01:00",
               "raw_results_file_name": "raw_Race17",
               "raw_results_content_type": "text/csv",
               "raw_results_file_size": 19024,
@@ -1424,6 +1462,7 @@ Une course contient plusieurs résultats.
               "category": "Category_17",
               "department": "Department_17",
               "edition": {
+                "id": 2446,
                 "date": "2017-12-22",
                 "description": "Desc_44",
                 "email_sender": "contact@race_44.com",
@@ -1435,8 +1474,8 @@ Une course contient plusieurs résultats.
                 "photos_widget_generated_at": null,
                 "external_link": "Race44.com",
                 "external_link_button": "Button_race44.com",
-                "created_at": "2017-12-22T12:18:18.791+01:00",
-                "updated_at": "2017-12-22T12:18:18.791+01:00",
+                "created_at": "2017-12-22T14:40:56.104+01:00",
+                "updated_at": "2017-12-22T14:40:56.104+01:00",
                 "raw_results_file_name": "raw_Race44",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -1449,7 +1488,7 @@ Une course contient plusieurs résultats.
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/editions/2317/races`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2447/races`
 
     + Headers
 
@@ -1469,10 +1508,10 @@ Une course contient plusieurs résultats.
 ### Mettre à jour une course [PUT /api/v1/races/{id}]
 
 + Parameters
-    + id: `ad8a99f7-9187-44f2-8543-ec0e4666a8a6` (string, required)
+    + id: `b95452f0-5b54-4e97-8641-a2559aef829a` (string, required)
 
 + Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/races/ad8a99f7-9187-44f2-8543-ec0e4666a8a6`
+**PUT**&nbsp;&nbsp;`/api/v1/races/b95452f0-5b54-4e97-8641-a2559aef829a`
 
     + Headers
 
@@ -1486,7 +1525,7 @@ Une course contient plusieurs résultats.
                 "name": "Race_20",
                 "email_sender": "contact@race_20.com",
                 "email_name": "Race_20",
-                "date": "2017-12-22T11:18:18+00:00",
+                "date": "2017-12-22T13:40:56+00:00",
                 "hashtag": "#HASH20",
                 "results_url": "results_20.com",
                 "sms_message": "Congratulation for Race20",
@@ -1514,6 +1553,7 @@ Une course contient plusieurs résultats.
     + Body
 
             {
+              "id": "b95452f0-5b54-4e97-8641-a2559aef829a",
               "name": "Race_20",
               "date": "2017-12-22",
               "email_sender": "contact@race_20.com",
@@ -1525,8 +1565,8 @@ Une course contient plusieurs résultats.
               "photos_widget_generated_at": null,
               "external_link": "Race20.com",
               "external_link_button": "Button_race20.com",
-              "created_at": "2017-12-22T12:18:18.818+01:00",
-              "updated_at": "2017-12-22T12:18:18.824+01:00",
+              "created_at": "2017-12-22T14:40:56.132+01:00",
+              "updated_at": "2017-12-22T14:40:56.138+01:00",
               "raw_results_file_name": "raw_Race20",
               "raw_results_content_type": "text/csv",
               "raw_results_file_size": 19024,
@@ -1539,6 +1579,7 @@ Une course contient plusieurs résultats.
               "category": "Category_20",
               "department": "Department_20",
               "edition": {
+                "id": 2448,
                 "date": "2017-12-22",
                 "description": "Desc_46",
                 "email_sender": "contact@race_46.com",
@@ -1550,8 +1591,8 @@ Une course contient plusieurs résultats.
                 "photos_widget_generated_at": null,
                 "external_link": "Race46.com",
                 "external_link_button": "Button_race46.com",
-                "created_at": "2017-12-22T12:18:18.816+01:00",
-                "updated_at": "2017-12-22T12:18:18.816+01:00",
+                "created_at": "2017-12-22T14:40:56.129+01:00",
+                "updated_at": "2017-12-22T14:40:56.129+01:00",
                 "raw_results_file_name": "raw_Race46",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -1564,7 +1605,7 @@ Une course contient plusieurs résultats.
             }
 
 + Request return Bad request
-**PUT**&nbsp;&nbsp;`/api/v1/races/1d1fd407-e0aa-41b1-a64c-c0f95e69d5ef`
+**PUT**&nbsp;&nbsp;`/api/v1/races/fafa78b6-12e8-4012-be22-2b041971eac3`
 
     + Headers
 
@@ -1590,10 +1631,10 @@ Une course contient plusieurs résultats.
 ### Supprimer une course [DELETE /api/v1/races/{id}]
 
 + Parameters
-    + id: `c66d5ede-ee71-4d01-ab01-46b10a74155a` (string, required)
+    + id: `79e6c711-b237-4f3e-9b1f-7889e3f17dce` (string, required)
 
 + Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/races/c66d5ede-ee71-4d01-ab01-46b10a74155a`
+**DELETE**&nbsp;&nbsp;`/api/v1/races/79e6c711-b237-4f3e-9b1f-7889e3f17dce`
 
     + Headers
 
@@ -1630,10 +1671,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 ### Obtenir toutes les résultats d'une course, d'une édition ou d'un coureur [GET /api/v1/races/{race_id}/results]
 
 + Parameters
-    + race_id: `715699b3-51cc-4ed9-8359-7bdee4e096bc` (string, required)
+    + race_id: `52a1cbba-f7d1-43a9-955f-21705366153a` (string, required)
 
 + Request return its list of results
-**GET**&nbsp;&nbsp;`/api/v1/races/715699b3-51cc-4ed9-8359-7bdee4e096bc/results`
+**GET**&nbsp;&nbsp;`/api/v1/races/52a1cbba-f7d1-43a9-955f-21705366153a/results`
 
     + Headers
 
@@ -1650,6 +1691,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 
             [
               {
+                "id": "cffea934-be64-4277-8f59-238bc133e2cd",
                 "phone": "+3311111111",
                 "mail": "contact@1.com",
                 "rank": 1,
@@ -1663,8 +1705,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "speed": "1km/h",
                 "message": "Congrats ! 1",
                 "race_detail": "Race 1",
-                "created_at": "2017-12-22T12:18:18.898+01:00",
-                "updated_at": "2017-12-22T12:18:18.898+01:00",
+                "created_at": "2017-12-22T14:40:56.213+01:00",
+                "updated_at": "2017-12-22T14:40:56.213+01:00",
                 "uploaded_at": null,
                 "diploma_generated_at": null,
                 "email_sent_at": null,
@@ -1673,8 +1715,9 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": 1,
                 "first_name": "First_1",
                 "last_name": "Last_1",
-                "dob": "2017-12-22T12:18:18.000+01:00",
+                "dob": "2017-12-22T14:40:56.000+01:00",
                 "race": {
+                  "id": "52a1cbba-f7d1-43a9-955f-21705366153a",
                   "name": "Race_24",
                   "date": "2017-12-22",
                   "email_sender": "contact@race_24.com",
@@ -1686,8 +1729,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                   "photos_widget_generated_at": null,
                   "external_link": "Race24.com",
                   "external_link_button": "Button_race24.com",
-                  "created_at": "2017-12-22T12:18:18.867+01:00",
-                  "updated_at": "2017-12-22T12:18:18.867+01:00",
+                  "created_at": "2017-12-22T14:40:56.181+01:00",
+                  "updated_at": "2017-12-22T14:40:56.181+01:00",
                   "raw_results_file_name": "raw_Race24",
                   "raw_results_content_type": "text/csv",
                   "raw_results_file_size": 19024,
@@ -1702,20 +1745,21 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 },
                 "edition": null,
                 "runner": {
+                  "id": 1059,
                   "id_key": "ID_1",
                   "first_name": "First_1",
                   "last_name": "Last_1",
                   "dob": "2017-11-16T11:05:06.000+01:00",
                   "department": "40",
                   "sex": "M",
-                  "created_at": "2017-12-22T12:18:18.877+01:00",
-                  "updated_at": "2017-12-22T12:18:18.877+01:00"
+                  "created_at": "2017-12-22T14:40:56.192+01:00",
+                  "updated_at": "2017-12-22T14:40:56.192+01:00"
                 }
               }
             ]
 
 + Request return its list of results
-**GET**&nbsp;&nbsp;`/api/v1/runners/1002/results`
+**GET**&nbsp;&nbsp;`/api/v1/runners/1060/results`
 
     + Headers
 
@@ -1732,6 +1776,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 
             [
               {
+                "id": "686d8faf-4fbf-45ca-9989-9b6e08c547c9",
                 "phone": "+3322222222",
                 "mail": "contact@2.com",
                 "rank": 2,
@@ -1745,8 +1790,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "speed": "2km/h",
                 "message": "Congrats ! 2",
                 "race_detail": "Race 2",
-                "created_at": "2017-12-22T12:18:18.931+01:00",
-                "updated_at": "2017-12-22T12:18:18.931+01:00",
+                "created_at": "2017-12-22T14:40:56.247+01:00",
+                "updated_at": "2017-12-22T14:40:56.247+01:00",
                 "uploaded_at": null,
                 "diploma_generated_at": null,
                 "email_sent_at": null,
@@ -1755,8 +1800,9 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": 2,
                 "first_name": "First_2",
                 "last_name": "Last_2",
-                "dob": "2017-12-22T12:18:18.000+01:00",
+                "dob": "2017-12-22T14:40:56.000+01:00",
                 "race": {
+                  "id": "09a5c5ce-b9b2-4a2a-bf20-fc1af2d7c3ca",
                   "name": "Race_25",
                   "date": "2017-12-22",
                   "email_sender": "contact@race_25.com",
@@ -1768,8 +1814,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                   "photos_widget_generated_at": null,
                   "external_link": "Race25.com",
                   "external_link_button": "Button_race25.com",
-                  "created_at": "2017-12-22T12:18:18.926+01:00",
-                  "updated_at": "2017-12-22T12:18:18.926+01:00",
+                  "created_at": "2017-12-22T14:40:56.242+01:00",
+                  "updated_at": "2017-12-22T14:40:56.242+01:00",
                   "raw_results_file_name": "raw_Race25",
                   "raw_results_content_type": "text/csv",
                   "raw_results_file_size": 19024,
@@ -1784,20 +1830,21 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 },
                 "edition": null,
                 "runner": {
+                  "id": 1060,
                   "id_key": "ID_2",
                   "first_name": "First_2",
                   "last_name": "Last_2",
                   "dob": "2017-11-16T11:05:06.000+01:00",
                   "department": "40",
                   "sex": "M",
-                  "created_at": "2017-12-22T12:18:18.929+01:00",
-                  "updated_at": "2017-12-22T12:18:18.929+01:00"
+                  "created_at": "2017-12-22T14:40:56.245+01:00",
+                  "updated_at": "2017-12-22T14:40:56.245+01:00"
                 }
               }
             ]
 
 + Request return its list of results
-**GET**&nbsp;&nbsp;`/api/v1/editions/2324/results`
+**GET**&nbsp;&nbsp;`/api/v1/editions/2454/results`
 
     + Headers
 
@@ -1817,10 +1864,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 ### Obtenir un résultat [GET /api/v1/results/{id}]
 
 + Parameters
-    + id: `6fa0e8b3-6cef-4388-9d3f-cee66ca23c01` (string, required)
+    + id: `a53ab541-0156-4f35-94d1-0826e72130c9` (string, required)
 
 + Request return the result
-**GET**&nbsp;&nbsp;`/api/v1/results/6fa0e8b3-6cef-4388-9d3f-cee66ca23c01`
+**GET**&nbsp;&nbsp;`/api/v1/results/a53ab541-0156-4f35-94d1-0826e72130c9`
 
     + Headers
 
@@ -1836,6 +1883,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
     + Body
 
             {
+              "id": "a53ab541-0156-4f35-94d1-0826e72130c9",
               "phone": "+3344444444",
               "mail": "contact@4.com",
               "rank": 4,
@@ -1849,8 +1897,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "speed": "4km/h",
               "message": "Congrats ! 4",
               "race_detail": "Race 4",
-              "created_at": "2017-12-22T12:18:18.968+01:00",
-              "updated_at": "2017-12-22T12:18:18.968+01:00",
+              "created_at": "2017-12-22T14:40:56.283+01:00",
+              "updated_at": "2017-12-22T14:40:56.283+01:00",
               "uploaded_at": null,
               "diploma_generated_at": null,
               "email_sent_at": null,
@@ -1859,8 +1907,9 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "points": 4,
               "first_name": "First_4",
               "last_name": "Last_4",
-              "dob": "2017-12-22T12:18:18.000+01:00",
+              "dob": "2017-12-22T14:40:56.000+01:00",
               "race": {
+                "id": "dbecd516-5288-4fb8-8054-5500120fa402",
                 "name": "Race_27",
                 "date": "2017-12-22",
                 "email_sender": "contact@race_27.com",
@@ -1872,8 +1921,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "photos_widget_generated_at": null,
                 "external_link": "Race27.com",
                 "external_link_button": "Button_race27.com",
-                "created_at": "2017-12-22T12:18:18.963+01:00",
-                "updated_at": "2017-12-22T12:18:18.963+01:00",
+                "created_at": "2017-12-22T14:40:56.278+01:00",
+                "updated_at": "2017-12-22T14:40:56.278+01:00",
                 "raw_results_file_name": "raw_Race27",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -1888,14 +1937,15 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               },
               "edition": null,
               "runner": {
+                "id": 1062,
                 "id_key": "ID_4",
                 "first_name": "First_4",
                 "last_name": "Last_4",
                 "dob": "2017-11-16T11:05:06.000+01:00",
                 "department": "40",
                 "sex": "M",
-                "created_at": "2017-12-22T12:18:18.966+01:00",
-                "updated_at": "2017-12-22T12:18:18.966+01:00"
+                "created_at": "2017-12-22T14:40:56.281+01:00",
+                "updated_at": "2017-12-22T14:40:56.281+01:00"
               }
             }
 
@@ -1920,10 +1970,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 ### Ajouter un résultat à une course, une édition ou un coureur [POST /api/v1/races/{race_id}/results]
 
 + Parameters
-    + race_id: `edc16cb2-2e22-4b3b-bf4e-3980880dc6d1` (string, required)
+    + race_id: `ddea0317-f4ad-4a54-97c4-9d9e142804ff` (string, required)
 
 + Request create a new result
-**POST**&nbsp;&nbsp;`/api/v1/races/edc16cb2-2e22-4b3b-bf4e-3980880dc6d1/results`
+**POST**&nbsp;&nbsp;`/api/v1/races/ddea0317-f4ad-4a54-97c4-9d9e142804ff/results`
 
     + Headers
 
@@ -1952,7 +2002,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": "7",
                 "first_name": "First_7",
                 "last_name": "Last_7",
-                "dob": "2017-12-22T11:18:19+00:00"
+                "dob": "2017-12-22T13:40:56+00:00"
               }
             }
 
@@ -1965,6 +2015,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
     + Body
 
             {
+              "id": "37b6ce9d-f49e-43c5-9723-1ef5d5e0d05c",
               "phone": "+3377777777",
               "mail": "contact@7.com",
               "rank": null,
@@ -1978,8 +2029,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "speed": "7km/h",
               "message": "Congrats ! 7",
               "race_detail": "Race 7",
-              "created_at": "2017-12-22T12:18:19.009+01:00",
-              "updated_at": "2017-12-22T12:18:19.009+01:00",
+              "created_at": "2017-12-22T14:40:56.323+01:00",
+              "updated_at": "2017-12-22T14:40:56.323+01:00",
               "uploaded_at": null,
               "diploma_generated_at": null,
               "email_sent_at": null,
@@ -1988,8 +2039,9 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "points": 7,
               "first_name": "First_7",
               "last_name": "Last_7",
-              "dob": "2017-12-22T12:18:19.000+01:00",
+              "dob": "2017-12-22T14:40:56.000+01:00",
               "race": {
+                "id": "ddea0317-f4ad-4a54-97c4-9d9e142804ff",
                 "name": "Race_29",
                 "date": "2017-12-22",
                 "email_sender": "contact@race_29.com",
@@ -2001,8 +2053,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "photos_widget_generated_at": null,
                 "external_link": "Race29.com",
                 "external_link_button": "Button_race29.com",
-                "created_at": "2017-12-22T12:18:18.997+01:00",
-                "updated_at": "2017-12-22T12:18:18.997+01:00",
+                "created_at": "2017-12-22T14:40:56.311+01:00",
+                "updated_at": "2017-12-22T14:40:56.311+01:00",
                 "raw_results_file_name": "raw_Race29",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -2020,7 +2072,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/races/96516204-b2a7-468a-b6b5-b7625ec1aacf/results`
+**POST**&nbsp;&nbsp;`/api/v1/races/2a422cac-a444-463b-8ab2-92c9acb34438/results`
 
     + Headers
 
@@ -2038,7 +2090,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 
 
 + Request create a new result
-**POST**&nbsp;&nbsp;`/api/v1/runners/1008/results`
+**POST**&nbsp;&nbsp;`/api/v1/runners/1066/results`
 
     + Headers
 
@@ -2067,7 +2119,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": "10",
                 "first_name": "First_10",
                 "last_name": "Last_10",
-                "dob": "2017-12-22T11:18:19+00:00"
+                "dob": "2017-12-22T13:40:56+00:00"
               }
             }
 
@@ -2080,6 +2132,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
     + Body
 
             {
+              "id": "db771948-5d52-4ad0-b7ad-c28fc8b7fca8",
               "phone": "+331010101010101010",
               "mail": "contact@10.com",
               "rank": null,
@@ -2093,8 +2146,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "speed": "10km/h",
               "message": "Congrats ! 10",
               "race_detail": "Race 10",
-              "created_at": "2017-12-22T12:18:19.046+01:00",
-              "updated_at": "2017-12-22T12:18:19.046+01:00",
+              "created_at": "2017-12-22T14:40:56.359+01:00",
+              "updated_at": "2017-12-22T14:40:56.359+01:00",
               "uploaded_at": null,
               "diploma_generated_at": null,
               "email_sent_at": null,
@@ -2103,23 +2156,24 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "points": 10,
               "first_name": "First_10",
               "last_name": "Last_10",
-              "dob": "2017-12-22T12:18:19.000+01:00",
+              "dob": "2017-12-22T14:40:56.000+01:00",
               "race": null,
               "edition": null,
               "runner": {
+                "id": 1066,
                 "id_key": "ID_8",
                 "first_name": "First_8",
                 "last_name": "Last_8",
                 "dob": "2017-11-16T11:05:06.000+01:00",
                 "department": "40",
                 "sex": "M",
-                "created_at": "2017-12-22T12:18:19.037+01:00",
-                "updated_at": "2017-12-22T12:18:19.037+01:00"
+                "created_at": "2017-12-22T14:40:56.350+01:00",
+                "updated_at": "2017-12-22T14:40:56.350+01:00"
               }
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/runners/1009/results`
+**POST**&nbsp;&nbsp;`/api/v1/runners/1067/results`
 
     + Headers
 
@@ -2137,7 +2191,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 
 
 + Request create a new result
-**POST**&nbsp;&nbsp;`/api/v1/editions/2331/results`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2461/results`
 
     + Headers
 
@@ -2166,7 +2220,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": "13",
                 "first_name": "First_13",
                 "last_name": "Last_13",
-                "dob": "2017-12-22T11:18:19+00:00"
+                "dob": "2017-12-22T13:40:56+00:00"
               }
             }
 
@@ -2179,6 +2233,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
     + Body
 
             {
+              "id": "e2b3d188-5579-49fd-97fd-173dc5927b51",
               "phone": "+331313131313131313",
               "mail": "contact@13.com",
               "rank": null,
@@ -2192,8 +2247,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "speed": "13km/h",
               "message": "Congrats ! 13",
               "race_detail": "Race 13",
-              "created_at": "2017-12-22T12:18:19.085+01:00",
-              "updated_at": "2017-12-22T12:18:19.085+01:00",
+              "created_at": "2017-12-22T14:40:56.396+01:00",
+              "updated_at": "2017-12-22T14:40:56.396+01:00",
               "uploaded_at": null,
               "diploma_generated_at": null,
               "email_sent_at": null,
@@ -2202,9 +2257,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "points": 13,
               "first_name": "First_13",
               "last_name": "Last_13",
-              "dob": "2017-12-22T12:18:19.000+01:00",
+              "dob": "2017-12-22T14:40:56.000+01:00",
               "race": null,
               "edition": {
+                "id": 2461,
                 "date": "2017-12-22",
                 "description": "Desc_59",
                 "email_sender": "contact@race_59.com",
@@ -2216,8 +2272,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "photos_widget_generated_at": null,
                 "external_link": "Race59.com",
                 "external_link_button": "Button_race59.com",
-                "created_at": "2017-12-22T12:18:19.069+01:00",
-                "updated_at": "2017-12-22T12:18:19.069+01:00",
+                "created_at": "2017-12-22T14:40:56.382+01:00",
+                "updated_at": "2017-12-22T14:40:56.382+01:00",
                 "raw_results_file_name": "raw_Race59",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -2231,7 +2287,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
             }
 
 + Request return Bad request
-**POST**&nbsp;&nbsp;`/api/v1/editions/2332/results`
+**POST**&nbsp;&nbsp;`/api/v1/editions/2462/results`
 
     + Headers
 
@@ -2251,10 +2307,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 ### Mettre à jour un résultat [PUT /api/v1/results/{id}]
 
 + Parameters
-    + id: `456ccdb7-3ae4-44c7-bb10-20075aa4754e` (string, required)
+    + id: `644355a9-fbc4-4b42-8db7-e4d52d5fc58f` (string, required)
 
 + Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/results/456ccdb7-3ae4-44c7-bb10-20075aa4754e`
+**PUT**&nbsp;&nbsp;`/api/v1/results/644355a9-fbc4-4b42-8db7-e4d52d5fc58f`
 
     + Headers
 
@@ -2283,7 +2339,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "points": "16",
                 "first_name": "First_16",
                 "last_name": "Last_16",
-                "dob": "2017-12-22T11:18:19+00:00"
+                "dob": "2017-12-22T13:40:56+00:00"
               }
             }
 
@@ -2296,6 +2352,7 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
     + Body
 
             {
+              "id": "644355a9-fbc4-4b42-8db7-e4d52d5fc58f",
               "phone": "+331616161616161616",
               "mail": "contact@16.com",
               "rank": 15,
@@ -2309,8 +2366,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "speed": "16km/h",
               "message": "Congrats ! 16",
               "race_detail": "Race 16",
-              "created_at": "2017-12-22T12:18:19.119+01:00",
-              "updated_at": "2017-12-22T12:18:19.125+01:00",
+              "created_at": "2017-12-22T14:40:56.426+01:00",
+              "updated_at": "2017-12-22T14:40:56.431+01:00",
               "uploaded_at": null,
               "diploma_generated_at": null,
               "email_sent_at": null,
@@ -2319,8 +2376,9 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               "points": 16,
               "first_name": "First_16",
               "last_name": "Last_16",
-              "dob": "2017-12-22T12:18:19.000+01:00",
+              "dob": "2017-12-22T14:40:56.000+01:00",
               "race": {
+                "id": "63c9312c-f560-403d-811b-1fdf4ade4f93",
                 "name": "Race_35",
                 "date": "2017-12-22",
                 "email_sender": "contact@race_35.com",
@@ -2332,8 +2390,8 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
                 "photos_widget_generated_at": null,
                 "external_link": "Race35.com",
                 "external_link_button": "Button_race35.com",
-                "created_at": "2017-12-22T12:18:19.113+01:00",
-                "updated_at": "2017-12-22T12:18:19.113+01:00",
+                "created_at": "2017-12-22T14:40:56.421+01:00",
+                "updated_at": "2017-12-22T14:40:56.421+01:00",
                 "raw_results_file_name": "raw_Race35",
                 "raw_results_content_type": "text/csv",
                 "raw_results_file_size": 19024,
@@ -2348,19 +2406,20 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
               },
               "edition": null,
               "runner": {
+                "id": 1070,
                 "id_key": "ID_12",
                 "first_name": "First_12",
                 "last_name": "Last_12",
                 "dob": "2017-11-16T11:05:06.000+01:00",
                 "department": "40",
                 "sex": "M",
-                "created_at": "2017-12-22T12:18:19.116+01:00",
-                "updated_at": "2017-12-22T12:18:19.116+01:00"
+                "created_at": "2017-12-22T14:40:56.424+01:00",
+                "updated_at": "2017-12-22T14:40:56.424+01:00"
               }
             }
 
 + Request return Bad request
-**PUT**&nbsp;&nbsp;`/api/v1/results/f5b49433-390b-4862-851b-d06e9811ac42`
+**PUT**&nbsp;&nbsp;`/api/v1/results/95e90050-9341-47c6-a89f-86ff8363d9c5`
 
     + Headers
 
@@ -2386,10 +2445,10 @@ Résultat d'un coureur pour une course donnée. Attention ! Les résultats peuve
 ### Supprimer un résultat [DELETE /api/v1/results/{id}]
 
 + Parameters
-    + id: `a95253c1-5786-4adf-a45c-fef087076163` (string, required)
+    + id: `c47ab621-5995-4f7d-be2c-1e739367faa0` (string, required)
 
 + Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/results/a95253c1-5786-4adf-a45c-fef087076163`
+**DELETE**&nbsp;&nbsp;`/api/v1/results/c47ab621-5995-4f7d-be2c-1e739367faa0`
 
     + Headers
 
@@ -2447,24 +2506,25 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
 
             [
               {
+                "id": 1074,
                 "id_key": "ID_16",
                 "first_name": "First_16",
                 "last_name": "Last_16",
                 "dob": "2017-11-16T11:05:06.000+01:00",
                 "department": "40",
                 "sex": "M",
-                "created_at": "2017-12-22T12:18:19.199+01:00",
-                "updated_at": "2017-12-22T12:18:19.199+01:00"
+                "created_at": "2017-12-22T14:40:56.495+01:00",
+                "updated_at": "2017-12-22T14:40:56.495+01:00"
               }
             ]
 
 ### Obtenir un coureur [GET /api/v1/runners/{id}]
 
 + Parameters
-    + id: `1017` (number, required)
+    + id: `1075` (number, required)
 
 + Request return the runner
-**GET**&nbsp;&nbsp;`/api/v1/runners/1017`
+**GET**&nbsp;&nbsp;`/api/v1/runners/1075`
 
     + Headers
 
@@ -2480,14 +2540,15 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
     + Body
 
             {
+              "id": 1075,
               "id_key": "ID_17",
               "first_name": "First_17",
               "last_name": "Last_17",
               "dob": "2017-11-16T11:05:06.000+01:00",
               "department": "40",
               "sex": "M",
-              "created_at": "2017-12-22T12:18:19.207+01:00",
-              "updated_at": "2017-12-22T12:18:19.207+01:00"
+              "created_at": "2017-12-22T14:40:56.503+01:00",
+              "updated_at": "2017-12-22T14:40:56.503+01:00"
             }
 
 + Request return Not found
@@ -2541,14 +2602,15 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
     + Body
 
             {
+              "id": 1078,
               "id_key": "ID_20",
               "first_name": "First_20",
               "last_name": "Last_20",
               "dob": "2017-11-16T11:05:06.000+01:00",
               "department": "40",
               "sex": "M",
-              "created_at": "2017-12-22T12:18:19.225+01:00",
-              "updated_at": "2017-12-22T12:18:19.225+01:00"
+              "created_at": "2017-12-22T14:40:56.516+01:00",
+              "updated_at": "2017-12-22T14:40:56.516+01:00"
             }
 
 + Request return Unprocessable entity
@@ -2603,10 +2665,10 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
 ### Mettre à jour un coureur [PUT /api/v1/runners/{id}]
 
 + Parameters
-    + id: `1023` (number, required)
+    + id: `1081` (number, required)
 
 + Request return Success
-**PUT**&nbsp;&nbsp;`/api/v1/runners/1023`
+**PUT**&nbsp;&nbsp;`/api/v1/runners/1081`
 
     + Headers
 
@@ -2635,18 +2697,19 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
     + Body
 
             {
+              "id": 1081,
               "id_key": "ID_25",
               "first_name": "First_24",
               "last_name": "Last_25",
               "dob": "2017-11-16T11:05:06.000+01:00",
               "department": "40",
               "sex": "M",
-              "created_at": "2017-12-22T12:18:19.244+01:00",
-              "updated_at": "2017-12-22T12:18:19.249+01:00"
+              "created_at": "2017-12-22T14:40:56.531+01:00",
+              "updated_at": "2017-12-22T14:40:56.536+01:00"
             }
 
 + Request return Not Modified
-**PUT**&nbsp;&nbsp;`/api/v1/runners/1024`
+**PUT**&nbsp;&nbsp;`/api/v1/runners/1082`
 
     + Headers
 
@@ -2673,7 +2736,7 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
 
 
 + Request return Bad request
-**PUT**&nbsp;&nbsp;`/api/v1/runners/1025`
+**PUT**&nbsp;&nbsp;`/api/v1/runners/1083`
 
     + Headers
 
@@ -2699,10 +2762,10 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
 ### Supprimer une coureur [DELETE /api/v1/runners/{id}]
 
 + Parameters
-    + id: `1026` (number, required)
+    + id: `1084` (number, required)
 
 + Request return No content
-**DELETE**&nbsp;&nbsp;`/api/v1/runners/1026`
+**DELETE**&nbsp;&nbsp;`/api/v1/runners/1084`
 
     + Headers
 

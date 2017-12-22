@@ -8,19 +8,38 @@ L'API Freshstart fonctionne uniquement en JSON.
 Elle est constituée de 2 API de haut niveau : Courses et Coureurs.
 
 
-# Clé d'API
+# Sécurité
 
-Une clé d'API est nécessaire pour utiliser l'API Freshstart. Cette dernière prend la forme d'un couple de UUID _Application ID_ et _Application Secret_. 
+L'accès à l'API Freshstart est contrôlé et limité. Pour accéder à l'API, vous devez posséder une clé d'API. Cette dernière prend la forme d'un couple de UUID _Application ID_ et _Application Secret_. Vous pouvez obtenir cette clé auprès de votre interlocuteur habituel de Freshstart.
 
-**[ADMIN] Génération d'une clé d'API**
+## Obtenir un jeton d'accès à l'API [GET /oauth/token]
 
-• Rendez vous sur _https://freshstart-kapp10.herokuapp.com/oauth/applications._
-• Identifiez-vous à l'aide du compte administrateur de la plateforme Freshstart
-• Cliquez sur _Nouvelle Application_
-• Remplissez le champ _Nom_ et _Url de redirection_
-• Cliquez sur _Envoyer_
+Pour interroger l'API, vous devez au préalable obtenir un jeton d'accès temporaire, comme expliqué ci-dessous :
 
- 
++ Request an oAuth Token
+**POST**&nbsp;&nbsp;`/oauth/token`
 
+  + Headers
 
+            Accept: application/json
+            Content-Type: application/json
 
+    + Body
+
+            {
+              "grant_type": "client_credentials",
+              "client_id": <API_KEY_APPLICATION_ID>,
+              "client_secret": <API_KEY_APPLICATION_SECRET>
+            }
+
++ Response 200
+
+    + Headers
+
+            Content-Type: application/json; charset=utf-8
+
+    + Body
+
+            {
+              access_token: 519e5af7d1592a77168e90982998c121d564c8d0b60e7378dbf1d14989eab476
+            }
