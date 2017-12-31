@@ -6,7 +6,5 @@ FactoryGirl.define do
     image_content_type {"image/jpg"}
     image_file_size {19024}
     image_updated_at {DateTime.now.to_s}
-    race
-    edition
   end
 end

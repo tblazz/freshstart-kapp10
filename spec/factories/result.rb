@@ -19,7 +19,5 @@ FactoryGirl.define do
     sequence(:first_name) { |n| "First_#{n}" }
     sequence(:last_name) { |n| "Last_#{n}" }
     dob { DateTime.now.to_s }
-    race
-    runner
   end
 end
