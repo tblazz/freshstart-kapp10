@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   resources :photos
   resources :results, only: :show
   resources :runners, only: [:index, :show]
+  resources :clients
 
   root :to => 'events#index'
 

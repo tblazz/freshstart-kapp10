@@ -20,6 +20,9 @@ class EventsController < ApplicationController
   end
 
   def show
+    @client_1 = @event.client_1.blank? ? nil : Client.find(@event.client_1)
+    @client_2 = @event.client_2.blank? ? nil : Client.find(@event.client_2)
+    @client_3 = @event.client_3.blank? ? nil : Client.find(@event.client_3)
   end
 
   def edit
@@ -68,7 +71,14 @@ class EventsController < ApplicationController
         :twitter,
         :instagram,
         :contact,
-        :email
+        :email,
+        :phone,
+        :client_1,
+        :client_2,
+        :client_3,
+        :department,
+        :challenge,
+        :global_challenge
     )
   end
 end

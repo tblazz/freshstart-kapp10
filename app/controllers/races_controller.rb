@@ -158,7 +158,8 @@ class RacesController < ApplicationController
       :edition_id,
       :coef,
       :category,
-      :department
+      :department,
+      :race_type
     )
   end
 

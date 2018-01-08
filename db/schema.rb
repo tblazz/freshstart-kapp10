@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116104520) do
+ActiveRecord::Schema.define(version: 20180108104324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
+
+  create_table "clients", force: :cascade do |t|
+    t.string   "name"
+    t.string   "results_widget"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "editions", force: :cascade do |t|
     t.date     "date"
@@ -54,8 +61,14 @@ ActiveRecord::Schema.define(version: 20171116104520) do
     t.string   "contact"
     t.string   "email"
     t.string   "phone"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.integer  "client_1"
+    t.integer  "client_2"
+    t.integer  "client_3"
+    t.string   "department"
+    t.string   "challenge"
+    t.boolean  "global_challenge"
   end
 
   create_table "photos", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -99,6 +112,7 @@ ActiveRecord::Schema.define(version: 20171116104520) do
     t.integer  "coef"
     t.string   "category"
     t.string   "department"
+    t.string   "race_type"
     t.index ["edition_id"], name: "index_races_on_edition_id", using: :btree
   end
 

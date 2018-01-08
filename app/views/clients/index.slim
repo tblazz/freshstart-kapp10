@@ -1,0 +1,25 @@
+h1 Clients
+.row
+  .col-md-8.col-md-offset-2
+    .pull-right
+      = link_to 'Nouveau client', new_client_path, class: 'btn btn-warning'
+
+.row.events
+  .col-md-8.col-md-offset-2
+    table.table.table-bordered.table-default.table-striped
+      thead
+        tr
+          th.text-center ID
+          th.text-center Client
+          th.text-center Widget de Resultats
+          th.text-center Action
+      tbody
+        - @clients.each do |client|
+          tr
+            td= client.id
+            td= link_to client.name, client_path(client)
+            td= client.results_widget
+            td
+              .event-link-buttons
+                .pull-right
+                  = link_to 'Editer', edit_client_path(client), class: 'btn btn-default'

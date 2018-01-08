@@ -8,6 +8,12 @@
   = f.input :contact
   = f.input :email
   = f.input :phone
+  = f.input :client_1, label: 'Client 1', as: :select, collection: Client.all
+  = f.input :client_2, label: 'Client 2', as: :select, collection: Client.all
+  = f.input :client_3, label: 'Client 3', as: :select, collection: Client.all
+  = f.input :department, label: 'Département', as: :select, collection: ['01', '02', '03', '04', '05', '06', '07', '08', '09'] + (10..99).to_a + ['2A', '2B']
+  = f.input :challenge, as: :select, collection: ['challenge64', 'challenge40', 'challenge1617', 'challenge2447', 'challenge33']
+  = f.input :global_challenge
   hr
   = f.button :submit , 'Enregistrer', class: 'btn btn-standard'
   span.pull-right

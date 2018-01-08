@@ -41,6 +41,25 @@ h1 Evènement
       tr
         th Téléphone du contact
         td= @event.phone
+      tr
+        th Département
+        td= @event.department
+      tr
+        th Client 1
+        td= @client_1.try(:name)
+      tr
+        th Client 2
+        td= @client_2.try(:name)
+      tr
+        th Client 3
+        td= @client_3.try(:name)
+      tr
+        th Challenge
+        td= @event.challenge
+      tr
+        th Challenge Globale
+        td= @event.global_challenge ? 'Oui' : 'Non'
+
 
 
   .row
