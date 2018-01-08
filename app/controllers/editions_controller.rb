@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget]
   helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
@@ -62,6 +62,11 @@ class EditionsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to event_path(@edition.event), notice: "Edition effacée." }
     end
+  end
+
+  def generate_widget
+    GenerateWidgetJob.perform_later(@edition.id)
+    redirect_to event_path(@edition.event), notice: "Le widget est en cours de génération."
   end
 
   def results

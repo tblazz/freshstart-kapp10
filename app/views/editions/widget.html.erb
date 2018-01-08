@@ -1,31 +1,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.min.js"></script>
+<script src="http://localhost:3000/widget"></script>
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.min.css">
 <style>
-<% if @race.races_count > 0 %>
-	<%= @race.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |race, results|
-		"#tab_#{race.parameterize}:checked ~ #mainResultsContent #resultsContainer #content_#{race.parameterize}"}.join(',')%>  {
+<% if @edition.races_count > 0 %>
+	<%= @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |edition, results|
+		"#tab_#{edition.parameterize}:checked ~ #mainResultsContent #resultsContainer #content_#{edition.parameterize}"}.join(',')%>  {
 			display: block;
 		}
 <%end%>
 </style>
 <body>
 	<%coder = HTMLEntities.new%>
-	<h1><%=coder.encode(@race.name, :named).html_safe%> - <%=I18n.l @race.date%></h1>
+	<h1><%=coder.encode(@edition.event.name, :named).html_safe%> - <%=I18n.l @edition.date%></h1>
 	<%
-	results_sex_any = @race.results.pluck(:sex).any?
-	results_sex_rank_any = @race.results.pluck(:sex_rank).any?
-	results_categ_any = @race.results.pluck(:categ).any?
-	results_categ_rank_any = @race.results.pluck(:categ_rank).any?
-	results_bib_any = @race.results.where(bib: 0..Float::INFINITY)
+	results_sex_any = @edition.results.pluck(:sex).any?
+	results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
+	results_categ_any = @edition.results.pluck(:categ).any?
+	results_categ_rank_any = @edition.results.pluck(:categ_rank).any?
+	results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
 	%>
-	<% if @race.races_count>0%>
+	<% if @edition.races_count>0%>
 	  <% first = true
-	  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|%>
-	    <input id="tab_<%=race.parameterize%>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<%if first%>checked<% first=false; end%>>
-	    <label for="tab_<%=race.parameterize%>" class="tabRacesCount"><%=race%></label>
+	  @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |edition, results|%>
+	    <input id="tab_<%=edition.parameterize%>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<%if first%>checked<% first=false; end%>>
+	    <label for="tab_<%=edition.parameterize%>" class="tabRacesCount"><%=edition%></label>
 	  <%end%>
 	<%end%>
 	<div class="kapp10Filters">
@@ -80,16 +80,16 @@
 		<div id="mainResultsContent">
 			<div id="resultsContainer">
 			<%
-			  @race.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |race, results|
-					race_line = []
+			  @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |edition, results|
+					edition_line = []
 			%>
-			  <section id="content_<%=race.parameterize unless race.nil?%>">
-					<div class="scrollbar desktop-only" id="scrollbar_<%=race.parameterize unless race.nil?%>">
-						<div class="scrollbar-track" id="scrollbarTrack_<%=race.parameterize unless race.nil?%>"></div>
-							<div class="scrollbar-thumb" id="scrollbarThumb_<%=race.parameterize unless race.nil?%>"></div>
+			  <section id="content_<%=edition.parameterize unless edition.nil?%>">
+					<div class="scrollbar desktop-only" id="scrollbar_<%=edition.parameterize unless edition.nil?%>">
+						<div class="scrollbar-track" id="scrollbarTrack_<%=edition.parameterize unless edition.nil?%>"></div>
+							<div class="scrollbar-thumb" id="scrollbarThumb_<%=edition.parameterize unless edition.nil?%>"></div>
 					</div>
 					<div class="fixedTable">
-						<div class="tableWrapper" id="tableWrapper_tab_<%=race.parameterize unless race.nil?%>" onscroll="onTableWrapperScroll()">
+						<div class="tableWrapper" id="tableWrapper_tab_<%=edition.parameterize unless edition.nil?%>" onscroll="onTableWrapperScroll()">
 					    <table class='results' id='widgetResults'>
 								<thead class="mobileOnly">
 									<tr>
@@ -111,47 +111,48 @@
 										result.sex = "M"
 									end
 									result.categ = "" if result.categ.nil?
-									race_line[i] = ""
-									race_line[i] += '<tr class="'+result.sex+'" data-search="'+I18n.transliterate(result.name).upcase+'" data-sexe-search="'+result.sex+'" data-category-search="'+result.categ+'" data-bib-search="'+result.bib+'">' + "\n"
-									race_line[i] += '<td class="center fixedColumn">'+result.rank.to_s+'</td>' + "\n"
-									race_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode(result.name, :named).html_safe+'</td>' + "\n"
+									edition_line[i] = ""
+									edition_line[i] += '<tr class="'+result.sex+'" data-search="'+I18n.transliterate(result.last_name).upcase+'" data-sexe-search="'+result.sex+'" data-category-search="'+result.categ+'" data-bib-search="'+result.bib+'">' + "\n"
+									edition_line[i] += '<td class="center fixedColumn">'+result.rank.to_s+'</td>' + "\n"
+									edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode(result.last_name, :named).html_safe+'</td>' + "\n"
 									unless results_bib_any.empty?
 										unless result.bib.to_i < 0
-											race_line[i] += '<td class="center">'+result.bib.to_s+'</td>' + "\n"
+											edition_line[i] += '<td class="center">'+result.bib.to_s+'</td>' + "\n"
 										else
-											race_line[i] += '<td class="center">-</td>' + "\n"
+											edition_line[i] += '<td class="center">-</td>' + "\n"
 										end
 									end
-									race_line[i] += '<td class="center">'+result.time+'</td>' + "\n"
+									edition_line[i] += '<td class="center">'+result.time+'</td>' + "\n"
 									if results_sex_any
 										unless result.sex.nil?
-												race_line[i] += '<td class="center">'+result.sex+'</td>' + "\n"
+												edition_line[i] += '<td class="center">'+result.sex+'</td>' + "\n"
 										else
-												race_line[i] += '<td class="center">-</td>' + "\n"
+												edition_line[i] += '<td class="center">-</td>' + "\n"
 										end
 									end
 									if results_sex_rank_any
 										unless result.sex_rank.nil?
-											race_line[i] += '<td class="center">'+result.sex_rank.to_s+'</td>' + "\n"
+											edition_line[i] += '<td class="center">'+result.sex_rank.to_s+'</td>' + "\n"
 										else
-											race_line[i] += '<td class="center">-</td>' + "\n"
+											edition_line[i] += '<td class="center">-</td>' + "\n"
 										end
 									end
 									if results_categ_any
 										unless result.categ.nil?
-											race_line[i] +=  '<td class="center">'+result.categ.to_s+'</td>' + "\n"
+											edition_line[i] +=  '<td class="center">'+result.categ.to_s+'</td>' + "\n"
 										else
-											race_line[i] += '<td class="center">-</td>' + "\n"
+											edition_line[i] += '<td class="center">-</td>' + "\n"
 										end
 									end
 									if results_categ_rank_any
 										unless result.categ_rank.nil?
-											race_line[i] += '<td class="center">'+result.categ_rank.to_s+'</td>' + "\n"
+											edition_line[i] += '<td class="center">'+result.categ_rank.to_s+'</td>' + "\n"
 										else
-											race_line[i] += '<td class="center">-</td>' + "\n"
+											edition_line[i] += '<td class="center">-</td>' + "\n"
 										end
 									end
-								race_line[i] += '</tr>' + "\n"
+								edition_line[i] += '</tr>' + "\n"
+                                 p edition_line
 								%>
 					      <%end%>
 					      </tbody>
@@ -161,17 +162,17 @@
 					<p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
 			  </section>
 				<%
-				key = '#content_'+race.parameterize
-				@race_lines[key] = race_line
+				key = '#content_'+edition.parameterize
+				@edition_lines[key] = edition_line
 				%>
 			<%end%>
 			<script>
-				race_lines = [<%= @race_lines.to_json %>][0];
+				edition_lines = [<%= @edition_lines.to_json %>][0];
 				categoriesSorted = [<%= @categories_sorted.to_json %>];
-				longestName = [<%= @race_longest_name.to_json %>];
+				longestName = [<%= @edition_longest_name.to_json %>];
 			</script>
 		</div>
 	</div>
 	<p style="color:black;height:23px;"><em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%=I18n.l @generated_at%>.</em></p>
-	<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>R&eacute;sultats fournis par <img src='https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/logo_kapp10.png' style='height: 1em'></a></p>
+	<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
 </body>

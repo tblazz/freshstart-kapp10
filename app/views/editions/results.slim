@@ -84,7 +84,7 @@ h1 Résultats
                 | Le widget n'a pas encore été généré.
               - else
                 | Widget généré le #{I18n.l @edition.widget_generated_at}.
-            = link_to "Générer le widget", generate_widget_race_path(@edition), class: "btn btn-primary", "data-method" => :post
+            = link_to "Générer le widget", generate_widget_event_edition_path(@edition.event, @edition), class: "btn btn-primary", "data-method" => :post
             = link_to "Afficher le widget", @edition.widget_url, class: "btn btn-default", target: "_widget" unless @edition.widget_generated_at.nil?
           - unless @edition.widget_generated_at.nil?
             .col-sm-12
