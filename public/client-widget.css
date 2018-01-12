@@ -1,0 +1,21 @@
+body {
+    font-size: 1em!important;
+    font-weight: 1000!important
+}
+
+.event-results {
+    padding: 10px;
+}
+
+.event:nth-child(even) {
+    background: #eee;
+}
+
+.event {
+    margin: 3px 0;
+    padding: 20px;
+}
+
+#pagination_container {
+    text-align: center !important;
+}

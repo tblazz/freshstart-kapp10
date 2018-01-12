@@ -3,6 +3,8 @@ require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
   get 'widget', to: redirect('/widget.js')
+  get 'client_widget', to: redirect('/client-widget.js')
+  get 'client_widget_css', to: redirect('/client-widget.css')
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
   get 'results_stand_by', to: 'results#stand_by', as: 'stand_by'
@@ -49,7 +51,11 @@ Rails.application.routes.draw do
   resources :photos
   resources :results, only: :show
   resources :runners, only: [:index, :show]
-  resources :clients
+  resources :clients do
+    member do
+      get 'generate_widget'
+    end
+  end
 
   root :to => 'events#index'
 

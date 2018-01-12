@@ -323,6 +323,35 @@ function displayArrowOnScrollPosition() {
 		$('.scrollRightContainer').hide();
 	}
 }
+/*
+ ** VERTCIAL & HORIZONTAL SCROLLING
+ */
+
+function mobileDevice() {
+	if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		return true;
+	}
+	return false;
+}
+
+function showArrows() {
+	$('.scrollLeftContainer').css("display", "flex");
+	$('.scrollRightContainer').css("display", "flex");
+}
+
+function hideArrows() {
+	$('.scrollLeftContainer').hide();
+	$('.scrollRightContainer').hide();
+}
+
+function displayArrowOnScrollPosition() {
+	var $selectedWrapper = $(currentSelectedWrapper);
+	if ($selectedWrapper.scrollLeft() == 0) {
+		$('.scrollLeftContainer').hide();
+	} else if (($selectedWrapper.scrollLeft() + $selectedWrapper[0].clientWidth) == $selectedWrapper[0].scrollWidth) {
+		$('.scrollRightContainer').hide();
+	}
+}
 
 /* Update results container when changing race for scrolling and style */
 function updateSelectedRaces() {
