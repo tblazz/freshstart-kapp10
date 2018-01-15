@@ -32,7 +32,7 @@
 		<p id="filterCaption">Filter les R&eacute;sultats</p>
 		<% if results_sex_any %>
 			<select name="filterSexe" id="filterSexe" class="filtersSearch" onchange="participant_filter()">
-				<option value="all">Tous les sexes</option>
+				<option value="all">Sexe</option>
 				<option value="M">Hommes</option>
 				<option value="F">Femmes</option>
 			</select>
@@ -152,7 +152,6 @@
 										end
 									end
 								edition_line[i] += '</tr>' + "\n"
-                                p edition_line
                           %>
 					      <%end%>
 					      </tbody>

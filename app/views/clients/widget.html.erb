@@ -39,54 +39,69 @@
 
 <div class="text-center pagination-bloc"><div id="pagination_container"></div></div>
 
-<div class="event-results">
-  <div class="horizontalScrollContainer">
-    <div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
-    <div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
-  </div>
-  <% @events.each do |event| %>
-    <div class="event">
-      <div class="row">
-        <div class="col-md-6">
-          <h3><%= event.name %></h3>
-        </div>
-        <div class="col-md-6">
-          <div class='pull-right'><h4><%= event.editions.last.date.strftime('%d-%m-%Y') %></h4></div>
+<div id="allsections"></div>
+<div id="mainResultsContent">
+  <div id="resultsContainer">
+    <section id="content">
+
+      <div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/loading.gif"></div>
+
+      <!--<div class="scrollbar desktop-only" id="scrollbar">-->
+        <!--<div class="scrollbar-track" id="scrollbarTrack"></div>-->
+        <!--<div class="scrollbar-thumb" id="scrollbarThumb"></div>-->
+      <!--</div>-->
+
+      <div class="fixedTable">
+        <div class="tableWrapper" id="tableWrapper_tab" onscroll="console.log('pp');">
+          <div class="event-results">
+            <% @events.each do |event| %>
+              <div class="event">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3><%= event.name %></h3>
+                  </div>
+                  <div class="col-md-6">
+                    <div class='pull-right'><h4><%= event.editions.last.date.strftime('%d-%m-%Y') %></h4></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div>
+                      <img src="https://evenementwidget.herokuapp.com/assets/images/lieu.png">
+                      <%= event.department %>
+                    </div>
+                    <div>
+                      <img src="https://evenementwidget.herokuapp.com/assets/images/distance.png">
+                      <%= event.races.map(&:name).uniq.join(', ') %>
+                    </div>
+                    <div>
+                      <img src="https://evenementwidget.herokuapp.com/assets/images/type.png">
+                      <%= event.races.map(&:race_type).reject(&:blank?).join(', ') %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                        <div class='pull-right'>
+                          <div>
+                            <%= "#{event.editions.last.results.count} particpants" if event.editions.last.results.count > 0%>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class='pull-right'>
+                          <a class="btn btn-warning" onclick="displayResultsPage('<%= event.editions.last.widget_url %>')">Voir les résultats</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-md-6">
-          <div>
-            <img src="https://evenementwidget.herokuapp.com/assets/images/lieu.png">
-            <%= event.department %>
-          </div>
-          <div>
-            <img src="https://evenementwidget.herokuapp.com/assets/images/distance.png">
-            <%= event.races.map(&:name).uniq.join(', ') %>
-          </div>
-          <div>
-            <img src="https://evenementwidget.herokuapp.com/assets/images/type.png">
-            <%= event.races.map(&:race_type).reject(&:blank?).join(', ') %>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="row">
-              <div class='pull-right'>
-                <div>
-                  <%= "#{event.editions.last.results.count} particpants" if event.editions.last.results.count > 0%>
-                </div>
-              </div>
-          </div>
-          <div class="row">
-              <div class='pull-right'>
-                <a class="btn btn-warning" onclick="displayResultsPage('<%= event.editions.last.widget_url %>')">Voir les résultats</a>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
+    </section>
+  </div>
 </div>
 
 <div id="noResults" style="text-align:center;" class="alert alert-danger">

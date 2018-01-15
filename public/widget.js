@@ -361,7 +361,7 @@ function updateSelectedRaces() {
 	var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
 	currentSelectedSection = "#" + sectionId;
 	currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
-	console.log('current selected section PROUT');
+	console.log('current selected section BROUT2');
 	console.log(currentSelectedSection);
 	var $currentWrapper = $(currentSelectedWrapper);
 	var pos = $currentWrapper.scrollLeft();
@@ -410,6 +410,7 @@ function scrollTable(event) {
 }
 
 function onTableWrapperScroll() {
+	console.log('Scroll');
 	var pos = $(currentSelectedWrapper).scrollLeft();
 	$(".headTableWrapper").scrollLeft(pos);
 	showArrows();

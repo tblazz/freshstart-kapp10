@@ -353,7 +353,7 @@ function displayResultsPage(url) {
   console.log(url);
   $('.kapp10Filters').hide();
   $('.kapp10Research').hide();
-  $('.event-results').hide();
+  $('#mainResultsContent').hide();
   $('.pagination-bloc').hide();
 
   $('#back-button').show();
@@ -365,7 +365,7 @@ function displayEventsPage() {
   console.log('display events');
   $('.kapp10Filters').show();
   $('.kapp10Research').show();
-  $('.event-results').show();
+  $('#mainResultsContent').show();
   $('.pagination-bloc').show();
 
   $('#back-button').hide();
@@ -373,11 +373,19 @@ function displayEventsPage() {
   $('.kapp10-embed').attr('src', '');
 }
 
+function displaySection() {
+  if ($('#mainResultsContent')) {
+    $('#mainResultsContent').css('visibility', 'visible');
+  } if ($('.loading')) {
+    $('.loading').hide();
+  }
+}
+
 $(document).ready(function() {
   console.log('Ready !!');
   console.log(events);
   createSelectMonth();
-  ITEMS_PER_PAGE = 5;
+  ITEMS_PER_PAGE = 50;
   prevPos = 0;
   onSectionDiv = 0;
   onContainerClick = 0;
@@ -385,34 +393,41 @@ $(document).ready(function() {
   console.log(event_lines[0]);
   updateEvents();
 
+  currentSelectedSection = "#content";
+  currentSelectedWrapper = '#tableWrapper';
+  var $currentWrapper = $('.event-results');
+  var sections = $("section");
+  var allSections = "#allsections";
+
   var scrollbars = $(".scrollbar-thumb");
   var scrollbarThumbs = "#scrollbarThumb";
   for (var i = 1; i < scrollbars.length; i++) {
     scrollbarThumbs += ", #" + $(scrollbars[i]).attr('id');
   }
 
-  //if (mobileDevice() == true) {
-  //  var $table = $(currentSelectedSection + ' table.results');
-  //  $(".desktop-only").hide();
-  //  $(".mobileOnly").show();
-  //  $("div").removeClass("tableWrapper");
-  //  $("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
-  //  $("table.results tbody td").addClass("mobileView");
-  //  $("table.results tbody").css("height", "545px");
-  //  $("table.results").closest("div").css({"height" : "545px",
-  //    "overflow" : "auto",
-  //    "margin-top" : "5px"});
-  //  $table.floatThead({
-  //    scrollContainer: function($table){
-  //      return $table.closest("div");
-  //    }
-  //  });
-  //  $targetCells = $("table.results thead th");
-  //} else {
-  //  $(".desktop-only").show();
-  //  $(".mobileOnly").hide();
-  //  $targetCells = $("#resultsHead th");
-  //}
+  if (mobileDevice() == true) {
+    var $table = $(currentSelectedSection + ' event-results');
+    $(".desktop-only").hide();
+    $(".mobileOnly").show();
+    $("div").removeClass("tableWrapper");
+    $("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
+    $("table.results tbody td").addClass("mobileView");
+    $("table.results tbody").css("height", "545px");
+    $("table.results").closest("div").css({"height" : "545px",
+      "overflow" : "auto",
+      "margin-top" : "5px"});
+    $table.floatThead({
+      scrollContainer: function($table){
+        return $table.closest("div");
+      }
+    });
+    $targetCells = $("table.results thead th");
+  } else {
+    $(".desktop-only").show();
+    $(".mobileOnly").hide();
+    $targetCells = $("#resultsHead th");
+  }
+
   resizeTableHead();
   if (mobileDevice() == false) {
     $('#resultsContainer').height('545px');
@@ -460,6 +475,7 @@ $(document).ready(function() {
   });
 
   $(allSections).bind('mousewheel wheel', function(e) {
+    console.log('mouse wheel wheel');
     e.preventDefault();
     if (onSectionDiv == 1) {
       var pos = $(currentSelectedSection).scrollTop();
@@ -669,11 +685,14 @@ function updateSelectedRaces() {
   var filters = get_filters();
   //selectedSectionId = $("input:radio.tab:checked")[0].id;
   //var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
-  //currentSelectedSection = "#" + sectionId;
+  currentSelectedSection = "#content";
   //currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
   //console.log('current selected section PROUT');
   //console.log(currentSelectedSection);
   var $currentWrapper = $('.event-results');
+  var sections = $("section");
+  var allSections = "#content";
+
   var pos = $currentWrapper.scrollLeft();
   $(".headTableWrapper").scrollLeft(pos);
   if ($currentWrapper[0].clientWidth < $currentWrapper[0].scrollWidth) {
@@ -720,7 +739,8 @@ function scrollTable(event) {
 }
 
 function onTableWrapperScroll() {
-  var pos = $('.event-results').scrollLeft();
+  console.log('Table scroll');
+  var pos = $(currentSelectedWrapper).scrollLeft();
   $(".headTableWrapper").scrollLeft(pos);
   showArrows();
   displayArrowOnScrollPosition();
