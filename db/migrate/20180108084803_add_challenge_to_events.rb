@@ -4,7 +4,7 @@ class AddChallengeToEvents < ActiveRecord::Migration[5.0]
     add_column :events, :client_2, :integer
     add_column :events, :client_3, :integer
     add_column :events, :department, :string
-    add_column :events, :challenge, :string
+    add_column :events, :challenge_id, :integer
     add_column :events, :global_challenge, :boolean
   end
 end

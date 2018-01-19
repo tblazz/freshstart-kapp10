@@ -1,3 +1,7 @@
+/*
+ **	Filters
+ */
+
 function removeDiacritics (str) {
   var defaultDiacriticsRemovalMap = [
     {'base':'A', 'letters':/[\u0041\u24B6\uFF21\u00C0\u00C1\u00C2\u1EA6\u1EA4\u1EAA\u1EA8\u00C3\u0100\u0102\u1EB0\u1EAE\u1EB4\u1EB2\u0226\u01E0\u00C4\u01DE\u1EA2\u00C5\u01FA\u01CD\u0200\u0202\u1EA0\u1EAC\u1EB6\u1E00\u0104\u023A\u2C6F]/g},
@@ -91,290 +95,404 @@ function removeDiacritics (str) {
   return str;
 }
 
-//create select Month Date
-var createSelectMonth = function () {
-  var today = new Date();
-  var mm = today.getMonth() + 1; //January is 0!
-  var $output = "";
-  //console.log(mm);
-  switch (mm) {
-    case 1:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Janvier'>Janvier</option>";
-      $output += "<option value='Février'>Février</option>";
-      $output += "<option value='Mars'>mars</option>";
-      $output += "<option value='Avril'>avril</option>";
-      $output += "<option value='Mai'>mai</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 2:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Février'>Février</option>";
-      $output += "<option value='Mars'>mars</option>";
-      $output += "<option value='Avril'>avril</option>";
-      $output += "<option value='Mai'>mai</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 3:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Mars'>mars</option>";
-      $output += "<option value='Avril'>avril</option>";
-      $output += "<option value='Mai'>mai</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 4:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Avril'>avril</option>";
-      $output += "<option value='Mai'>mai</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 5:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Mai'>mai</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 6:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Juin'>juin</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 7:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Juillet'>juillet</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 8:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Août'>août</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 9:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Septembre'>Septembre</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 10:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Octobre'>octobre</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 11:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Novembre'>novembre</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-    case 12:
-      $output += "<option value=''>Tous les Mois</option>";
-      $output += "<option value='Décembre'>décembre</option>";
-      break;
-  }
-  $("#filterMonth").append($output);
-}
-
-
-function getFilters() {
-  var department_filter, department_filter_value, type_filter, type_filter_value, month_filter, month_filter_value, name_filter, name_filter_value;
-  department_filter = document.getElementById("filterDepartment");
-  department_filter_value = department_filter != null ? department_filter.value.toUpperCase() : "";
-  type_filter = document.getElementById("filterType");
-  type_filter_value = type_filter != null ? type_filter.value.toUpperCase() : "";
-  month_filter = document.getElementById("filterMonth");
-  month_filter_value = month_filter != null ? removeDiacritics(month_filter.value).toUpperCase() : "";
+function get_filters() {
+  var sexe_filter, sexe_filter_value, category_filter, category_filter_value, name_filter, name_filter_value;
+  sexe_filter = document.getElementById("filterSexe")
+  sexe_filter_value = sexe_filter != null ? sexe_filter.value.toUpperCase() : "";
+  category_filter = document.getElementById("filterCategory");
+  category_filter_value = category_filter != null ? category_filter.value.toUpperCase() : "";
   name_filter = document.getElementById("kapp10-filter");
   name_filter_value = name_filter != null ? removeDiacritics(name_filter.value).toUpperCase() : "";
-  return {department_filter: department_filter_value, type_filter: type_filter_value, month_filter: month_filter_value, name_filter: name_filter_value};
+  return {sexe_filter: sexe_filter_value, category_filter: category_filter_value, name_filter: name_filter_value};
 }
 
-function eventsFilter() {
-  //console.log(getFilters());
+function display_filtered_participants(filters, tr, i) {
+  console.log('in display filtered participants');
+  console.log(filters);
+  console.log('Ligne  a filter');
+  console.log(tr[i]);
 
-  var i, n, filters, linesToDisplay = "", lines;
-  filters = getFilters();
-  if (typeof event_lines === 'undefined')
-    return ;
-
-  //console.log('line to display');
-  n = event_lines.length;
-  for (i = 0; i < n ; i++) {
-    linesToDisplay += display_filtered_events(filters, i);
+  var sexe_filter_ok = 0, category_filter_ok = 0, name_filter_ok = 0, search_name = null, search_sexe = null, search_category = null;
+  var name_value = /data-search="(.*?)"/g.exec(tr[i]);
+  var sexe_value = /data-sexe-search="(.*?)"/g.exec(tr[i]);
+  var category_value = /data-category-search="(.*?)"/g.exec(tr[i]);
+  var bib_value = /data-bib-search="(.*?)"/g.exec(tr[i]);
+  if (name_value && name_value[1])
+    search_name = name_value[1];
+  if (sexe_value && sexe_value[1])
+    search_sexe = sexe_value[1];
+  if (category_value && category_value[1])
+    search_category = category_value[1];
+  if (search_sexe) {
+    if (filters.sexe_filter == "ALL" || filters.sexe_filter == "" || search_sexe.indexOf(filters.sexe_filter) > -1)
+      sexe_filter_ok = 0;
+    else
+      sexe_filter_ok = -1;
+  } else if ((!search_sexe || search_sexe == "") && $('th[name=sex]').length != 0) {
+    if (filters.sexe_filter == "ALL" || filters.sexe_filter == "")
+      sexe_filter_ok = 0;
+    else
+      sexe_filter_ok = -1;
   }
-  //console.log(linesToDisplay);
-  $('.event-results').html(linesToDisplay);
+  if (search_category) {
+    if (filters.category_filter == "ALL" || filters.category_filter == "" || search_category.toUpperCase().indexOf(filters.category_filter) > -1)
+      category_filter_ok = 0;
+    else
+      category_filter_ok = -1;
+  } else if ((!search_category || search_category == "") && $('th[name=categ]').length != 0) {
+    if (filters.category_filter == "ALL" || filters.category_filter == "")
+      category_filter_ok = 0;
+    else
+      category_filter_ok = -1;
+  }
+  if (search_name) {
+    if (bib_value && bib_value[1])
+      var bib = bib_value[1];
+    else
+      var bib = "";
+    if (filters.name_filter == "" || search_name.indexOf(filters.name_filter) > -1 || bib.indexOf(filters.name_filter) > -1)
+      name_filter_ok = 0;
+    else
+      name_filter_ok = -1;
+  }
+  if (sexe_filter_ok > -1 && category_filter_ok > -1 && name_filter_ok > -1)
+    return tr[i];
+  return "";
+}
 
-  lines = $('.event');
+function display_no_participants(filters) {
+  //console.log(count);
+  //console.log(filters);
+  //console.log(filters.name_filter);
+  if (count == 0) {
+    console.log('in if');
+    if (mobileDevice() == true) {
+      $(currentSelectedWrapper).css("height", "60px");
+    }
+    else {
+      $(currentSelectedSection + " .noResults")[0].style.display = "";
+    }
+  } else {
+    $(currentSelectedSection + " .noResults")[0].style.display = "none";
+    if (mobileDevice() == true) {
+      $(currentSelectedWrapper).css("height", "545px");
+    }
+  }
+}
+
+function reset_participant_filter() {
+  input = document.getElementById("kapp10-filter");
+  input.value = "";
+  participant_filter();
+}
+
+function participant_filter() {
+  var input, tr, i, n, index, reset_filter, filters, linesToDisplay = "", lines, lineIndexed;
+  filters = get_filters();
+  input = document.getElementById("kapp10-filter");
+  reset_filter = document.getElementById("closingCircleResearch");
+  input.value == "" ? reset_filter.style.visibility = "hidden" : reset_filter.style.visibility = "visible";
+  console.log('In Parcipant filter ');
+  console.log('QQ edition line : ');
+  console.log(edition_lines);
+  if (typeof edition_lines === 'undefined')
+    return ;
+  tr = edition_lines[currentSelectedSection];
+  n = tr.length;
+  console.log('n : ' + n)
+  index = 1;
+  for (i = 0; i < n; i++) {
+    console.log('in for');
+    console.log(i);
+    lineFiltered = display_filtered_participants(filters, tr, i);
+    console.log('line filtered ');
+    console.log(lineFiltered);
+    if (lineFiltered != '') {
+      var id = lineFiltered.match(/<td class="center fixedColumn">(.*)<\/td>/)[1];
+      var oldTd = '<td class="center fixedColumn">' + id + '</td>';
+      var newTd = '<td class="center fixedColumn">' + index + '</td>';
+      lineIndexed = lineFiltered.replace(oldTd, newTd);
+      index++;
+      linesToDisplay += lineIndexed;
+    }
+  }
+  console.log('lines to display');
+  console.log(linesToDisplay);
+  $(currentSelectedSection + ' .results tbody')[0].innerHTML = linesToDisplay;
+  lines = $(currentSelectedSection + ' tbody tr');
   console.log(lines);
   filteredLines = [];
   for (var i = 0; i < lines.length; i++) {
     filteredLines[i] = String(lines[i].outerHTML);
   }
-
+  console.log('after for loop filteredLines');
   $('#pagination_container').twbsPagination('destroy');
   setPagination();
-  //setLineHeight();
-  updateEventStyle(filters);
+  console.log('after pagination');
+  setLineHeight();
+  console.log('after set line height');
+  update_participants_style(filters);
+  console.log('Participant Filter END');
 }
 
-function display_filtered_events(filters, i) {
-  //console.log('in display filtered event');
-  //console.log(filters);
-  //console.log(i);
-  var department_filter_ok = 0, type_filter_ok = 0, name_filter_ok = 0, month_filter_ok = 0, search_name = null, search_department = null, search_type = null, search_month = null;
+/*
+ **	Update widget style
+ */
 
-  var name_value = /data-name-search='(.*?)'/g.exec(event_lines[i]);
-  var department_value = /data-department-search='(.*?)'/g.exec(event_lines[i]);
-  var type_value = /data-type-search='(.*?)'/g.exec(event_lines[i]);
-  var month_value = /data-month-search='(.*?)'/g.exec(event_lines[i]);
-
-  if (name_value && name_value[1])
-    search_name = name_value[1];
-  if (department_value && department_value[1])
-    search_department = department_value[1];
-  if (type_value && type_value[1])
-    search_type = type_value[1];
-  if (month_value && month_value[1])
-    search_month = month_value[1];
-
-  if (search_department) {
-    if (filters.department_filter == "ALL" || filters.department_filter == "" || search_department.indexOf(filters.department_filter) > -1)
-      department_filter_ok = 0;
-    else
-      department_filter_ok = -1;
-  } else if (!search_department || search_department == "") {
-    if (filters.department_filter == "ALL" || filters.department_filter == "")
-      department_filter_ok = 0;
-    else
-      department_filter_ok = -1;
-  }
-
-  if (search_type) {
-    if (filters.type_filter == "ALL" || filters.type_filter == "" || search_type.toUpperCase().indexOf(filters.type_filter) > -1)
-      type_filter_ok = 0;
-    else
-      type_filter_ok = -1;
-  } else if (!search_type || search_type == "") {
-    if (filters.type_filter == "ALL" || filters.type_filter == "")
-      type_filter_ok = 0;
-    else
-      type_filter_ok = -1;
-  }
-
-  if (search_month) {
-    if (filters.month_filter == "ALL" || filters.month_filter == "" || search_month.toUpperCase().indexOf(filters.month_filter) > -1)
-      month_filter_ok = 0;
-    else
-      month_filter_ok = -1;
-  } else if (!search_month || search_month == "") {
-    if (filters.month_filter == "ALL" || filters.month_filter == "")
-      month_filter_ok = 0;
-    else
-      month_filter_ok = -1;
-  }
-
-  if (search_name) {
-    if (filters.name_filter == "" || search_name.indexOf(filters.name_filter) > -1 || removeDiacritics(search_name).toUpperCase().indexOf(filters.name_filter) > -1)
-      name_filter_ok = 0;
-    else
-      name_filter_ok = -1;
-  }
-  
-  if (department_filter_ok > -1 && type_filter_ok > -1 && month_filter_ok > -1 && name_filter_ok > -1)
-    return event_lines[i];
-  return "";
-}
-
-function updateEventStyle(filters) {
-  count = 0;
-  divs = $('.event-results .event');
-  count = divs.length;
-  console.log('count');
-  console.log(count);
-
-  displayNoEvents(filters);
-}
-
-function displayNoEvents(filters) {
-  if (count == 0) {
-    $('#mainResultsContent').hide();
-    $('#noResults').show();
+function resize_results_section(count) {
+  var tr = $(currentSelectedSection + " .results tbody tr")[0];
+  var trHeight = tr ? setLineHeight() + 2 : 0;
+  var linesHeight = count * trHeight + 60;
+  if (linesHeight < resultsContainerHeight) {
+    $("section").css("height", "auto");
+    $("#resultsContainer").css("height", "auto");
+    if (mobileDevice() == true) {
+      $(currentSelectedWrapper).css("height", "auto");
+    }
   } else {
-    $('#noResults').hide();
-    $('#mainResultsContent').show();
+    $("section").css("height", "545px");
+    $("#resultsContainer").css("height", "545px");
   }
 }
 
-function updateEvents() {
-  console.log('update !');
-  eventsFilter();
+function update_categories(filters) {
+  var categoriesForSelected, categoryFilterTag, optionsForCategories;
+  //console.log(categoriesSorted);
+  //console.log(categoriesSorted[0]);
+
+  categoriesForSelected = categoriesSorted[0][selectedSectionId.replace(/(tab_)/, '')][filters.sexe_filter];
+  if (categoriesForSelected) {
+    categoryFilterTag = document.getElementById("filterCategory");
+    if (categoryFilterTag == null) {
+      return ;
+    }
+    optionsForCategories = '<option value="all">Toutes les cat&eacute;gories</option>';
+    for (var i = 0; i < categoriesForSelected.length; i++) {
+      if (categoriesForSelected[i] != null) {
+        optionsForCategories += '<option value="'+categoriesForSelected[i]+'" ';
+        if (categoriesForSelected[i].toUpperCase() == filters.category_filter) {
+          optionsForCategories += 'selected';
+        }
+        optionsForCategories += '>'+categoriesForSelected[i]+'</option>';
+      }
+    }
+    categoryFilterTag.innerHTML = optionsForCategories;
+  }
 }
 
-function displayResultsPage(url) {
-  console.log('display results : ');
-  console.log(url);
-  $('.kapp10Filters').hide();
-  $('.kapp10Research').hide();
-  $('#mainResultsContent').hide();
-  $('.pagination-bloc').hide();
-
-  $('#back-button').show();
-  $('#result-iframe').show();
-  $('.kapp10-embed').attr('src', url);
+function display_line_color_styles() {
+  var tr, n, fixedColumn,fixedColumnWithMargin;
+  count = 0;
+  tr = $(currentSelectedSection + " table.results tbody tr");
+  n = tr.length;
+  for (var i = 0; i < n ; i++) {
+    if (tr[i].style.display != "none") {
+      fixedColumn = tr[i].getElementsByClassName("fixedColumn");
+      fixedColumnWithMargin = tr[i].getElementsByClassName("fixedColumnWithMargin");
+      if (count % 2 == 0) {
+        tr[i].style.backgroundColor = "white";
+        if (fixedColumn[0] && fixedColumnWithMargin[0]) {
+          fixedColumn[0].style.backgroundColor = "white";
+          fixedColumnWithMargin[0].style.backgroundColor = "white";
+        }
+      } else {
+        tr[i].style.backgroundColor = "#EEEEEE";
+        if (fixedColumn[0] && fixedColumnWithMargin[0]) {
+          fixedColumn[0].style.backgroundColor = "#EEEEEE";
+          fixedColumnWithMargin[0].style.backgroundColor = "#EEEEEE";
+        }
+      }
+      count++;
+    }
+  }
 }
 
-function displayEventsPage() {
-  console.log('display events');
-  $('.kapp10Filters').show();
-  $('.kapp10Research').show();
-  $('#mainResultsContent').show();
-  $('.pagination-bloc').show();
+function update_participants_style(filters) {
+  update_categories(filters);
+  display_line_color_styles();
+  console.log('before no particpart');
+  display_no_participants(filters);
+  console.log('after no particpart');
+  resize_results_section(count);
+  resizeTableHead();
+}
 
-  $('#back-button').hide();
-  $('#result-iframe').hide();
-  $('.kapp10-embed').attr('src', '');
+/*
+ ** VERTCIAL & HORIZONTAL SCROLLING
+ */
+
+function mobileDevice() {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    return true;
+  }
+  return false;
+}
+
+function showArrows() {
+  $('.scrollLeftContainer').css("display", "flex");
+  $('.scrollRightContainer').css("display", "flex");
+}
+
+function hideArrows() {
+  $('.scrollLeftContainer').hide();
+  $('.scrollRightContainer').hide();
+}
+
+function displayArrowOnScrollPosition() {
+  var $selectedWrapper = $(currentSelectedWrapper);
+  if ($selectedWrapper.scrollLeft() == 0) {
+    $('.scrollLeftContainer').hide();
+  } else if (($selectedWrapper.scrollLeft() + $selectedWrapper[0].clientWidth) == $selectedWrapper[0].scrollWidth) {
+    $('.scrollRightContainer').hide();
+  }
+}
+/*
+ ** VERTCIAL & HORIZONTAL SCROLLING
+ */
+
+function mobileDevice() {
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    return true;
+  }
+  return false;
+}
+
+function showArrows() {
+  $('.scrollLeftContainer').css("display", "flex");
+  $('.scrollRightContainer').css("display", "flex");
+}
+
+function hideArrows() {
+  $('.scrollLeftContainer').hide();
+  $('.scrollRightContainer').hide();
+}
+
+function displayArrowOnScrollPosition() {
+  var $selectedWrapper = $(currentSelectedWrapper);
+  if ($selectedWrapper.scrollLeft() == 0) {
+    $('.scrollLeftContainer').hide();
+  } else if (($selectedWrapper.scrollLeft() + $selectedWrapper[0].clientWidth) == $selectedWrapper[0].scrollWidth) {
+    $('.scrollRightContainer').hide();
+  }
+}
+
+/* Update results container when changing race for scrolling and style */
+function updateSelectedRaces() {
+  console.log('in update selected races');
+  var filters = get_filters();
+  selectedSectionId = $("input:radio.tab:checked")[0].id;
+  var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
+  currentSelectedSection = "#" + sectionId;
+  currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
+  console.log('current selected section BROUT2');
+  console.log(currentSelectedSection);
+  var $currentWrapper = $(currentSelectedWrapper);
+  var pos = $currentWrapper.scrollLeft();
+  $(".headTableWrapper").scrollLeft(pos);
+  if ($currentWrapper[0].clientWidth < $currentWrapper[0].scrollWidth) {
+    console.log('show arrows');
+    showArrows();
+    displayArrowOnScrollPosition();
+  }
+  if (typeof edition_lines === 'undefined') {
+    console.log('undefined XXX');
+    return;
+  }
+
+  if (filters.category_filter == "ALL" && filters.sexe_filter == "ALL" && filters.name_filter == "") {
+    console.log('filter ALL');
+    filteredLines = edition_lines[currentSelectedSection];
+    $('#pagination_container').twbsPagination('destroy');
+    setPagination();
+  } else {
+    console.log('go to participant_filter');
+    participant_filter();
+  }
+  var $table = $(currentSelectedSection + ' table.results');
+  if ($table.hasClass("floatThead-table") == false) {
+    $table.floatThead({
+      scrollContainer: function($table){
+        return $table.closest("div");
+      }
+    });
+  }
+}
+
+function scrollTable(event) {
+  var $currentWrapper = $(currentSelectedWrapper);
+  var scrollingHeader = $(".headTableWrapper");
+  if (event.data.direction == 'left') {
+    var pos = $currentWrapper.scrollLeft() - 55;
+    var posHeader = scrollingHeader.scrollLeft() - 55;
+  } else if (event.data.direction == 'right') {
+    var pos = $currentWrapper.scrollLeft() + 55;
+    var posHeader = scrollingHeader.scrollLeft() + 55;
+  }
+  $currentWrapper.animate( { scrollLeft: pos }, 300, 'swing' );
+  scrollingHeader.animate( { scrollLeft: posHeader }, 300, 'swing' );
+}
+
+function onTableWrapperScroll() {
+  console.log('Scroll');
+  var pos = $(currentSelectedWrapper).scrollLeft();
+  $(".headTableWrapper").scrollLeft(pos);
+  showArrows();
+  displayArrowOnScrollPosition();
+}
+
+function displayScrollingBar(scrollHeight) {
+  if (mobileDevice() == true) {
+    return;
+  }
+  var $currentScrollbar = $("#scrollbar_" + currentSelectedSection.replace(/(#content_)/, ''));
+  var currentSection = $(currentSelectedSection)[0];
+  if (currentSection.clientHeight >= currentSection.scrollHeight) {
+    $currentScrollbar.hide();
+  } else {
+    $currentScrollbar.show();
+  }
+}
+
+function resizeTableHead() {
+  var i, referenceCells;
+  referenceCells = $(currentSelectedSection + " table.results tbody tr:visible:first td");
+  if (count == 0) {
+    return ;
+  }
+  i = mobileDevice() == true ? 0 : 2;
+  for (i; i < referenceCells.length; i++) {
+    var cellWidth = referenceCells[i].offsetWidth;
+    if (referenceCells[i].style.display != "none") {
+      $targetCells[i].style.minWidth = cellWidth;
+      $targetCells[i].style.width = cellWidth;
+    }
+  }
+}
+
+function setScrollbarThumbHeight() {
+  var containerHeight = $(currentSelectedSection)[0].clientHeight;
+  var containerTotalHeight = $(currentSelectedSection)[0].scrollHeight;
+  var maxPos = 0;
+  while (maxPos + containerHeight <= containerTotalHeight) {
+    maxPos += 14;
+  }
+  var containerMaxRatio = maxPos / (containerTotalHeight / containerHeight);
+  var thumbHeight = containerHeight - containerMaxRatio;
+  var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
+  $(currentScrollbarThumb).css("height", thumbHeight+'px');
+}
+
+function moveScrollThumb(pos) {
+  var containerHeight = $(currentSelectedSection)[0].clientHeight;
+  var containerTotalHeight = $(currentSelectedSection)[0].scrollHeight;
+  var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
+  var topPos = parseInt($(currentScrollbarThumb).css("top").replace(/[^-\d\.]/g, ''));
+  topPos = prevPos < pos ? topPos + 2 : topPos - 2;
+  var containerRatio = pos / (containerTotalHeight / containerHeight);
+  if (containerRatio >= 0 && topPos <= containerHeight) {
+    $(currentScrollbarThumb).css("top", containerRatio + 'px');
+  }
+  prevPos = pos;
 }
 
 function displaySection() {
@@ -385,32 +503,110 @@ function displaySection() {
   }
 }
 
-$(document).ready(function() {
-  console.log('Ready !!');
-  console.log(events);
-  createSelectMonth();
-  ITEMS_PER_PAGE = 50;
+function getTableContent(page, currentSelectedSection) {
+  var start, end, lines, linesToDisplay = "";
+  start = ((page - 1) * 500);
+  end = start + 500;
+  lines = filteredLines.slice(start, end);
+  for (var i = 0; i < lines.length; i++) {
+    linesToDisplay += lines[i];
+  }
+  return linesToDisplay;
+}
+
+function displaySectionContent(page) {
+  console.log('in display content');
+  var content = getTableContent(page, currentSelectedSection);
+  $(currentSelectedSection + ' .results tbody')[0].innerHTML = content;
+  setLineHeight();
+  displayScrollingBar(0);
+  setScrollbarThumbHeight();
+  var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
+  $(currentScrollbarThumb).css('top', '0px');
+  $(currentSelectedSection).scrollTop(0);
+  console.log('display end');
+}
+
+function setPagination() {
+  console.log('in set Pagination');
+  var nbLines, nbPages;
+  if (typeof filteredLines === 'undefined') {
+    if (typeof edition_lines !== 'undefined') {
+      filteredLines = edition_lines[currentSelectedSection];
+      console.log('in filtered undefined');
+    }
+    else
+      filteredLines = [];
+  }
+  nbLines = filteredLines.length;
+  nbPages = Math.ceil(nbLines / 500);
+  if (nbPages > 1) {
+    $('#pagination_container').show();
+    $('#pagination_container').twbsPagination({
+      totalPages: nbPages,
+      visiblePages: 4,
+      hideOnlyOnePage: true,
+      last: '>>',
+      first: '<<',
+      onPageClick: function (event, page) {
+        displaySectionContent(page);
+      }
+    });
+  } else {
+    console.log('in ELSE end');
+    $('#pagination_container').hide();
+    displaySectionContent(1);
+  }
+
+}
+
+function setLineHeight() {
+  var returnedMaxLength = 0;
+  if (typeof longestName !== 'undefined') {
+    var labels = $('label').toArray();
+    labels.forEach(function(element) {
+      var label = element.innerHTML;
+      var maxLength = longestName[0][label] + 10;
+      if (maxLength < 30) {
+        maxLength = 30;
+      }
+      var section = "#" + element.getAttribute('for').replace(/(tab_)/, 'content_');
+      if (section == currentSelectedSection)
+        returnedMaxLength = maxLength;
+      $(section + ' tbody tr').css('height', maxLength + 'px');
+      $(section + ' td.fixedColumn').css('height', maxLength);
+      $(section + ' td.fixedColumnWithMargin').css('height', maxLength);
+    });
+    return returnedMaxLength;
+  }
+  return 0;
+}
+
+$(document).ready(function(){
+  var filters = get_filters();
+  selectedSectionId = $("input:radio.tab:checked")[0].id;
+  currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
+  currentSelectedSection = "#" + selectedSectionId.replace(/(tab_)/, 'content_');
+  console.log('current selected section');
+  console.log(currentSelectedSection);
+  var $currentWrapper = $(currentSelectedWrapper);
+  var sections = $("section");
+  var allSections = "#" + selectedSectionId.replace(/(tab_)/, 'content_');
+  update_categories(filters);
+  for (var i = 0; i < sections.length; i++) {
+    allSections += ", #" + $(sections[i]).attr('id');
+  }
+  var scrollbars = $(".scrollbar-thumb");
+  var scrollbarThumbs = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
+  for (var i = 1; i < scrollbars.length; i++) {
+    scrollbarThumbs += ", #" + $(scrollbars[i]).attr('id');
+  }
   prevPos = 0;
   onSectionDiv = 0;
   onContainerClick = 0;
   count = 1;
-  console.log(event_lines[0]);
-  updateEvents();
-
-  currentSelectedSection = "#content";
-  currentSelectedWrapper = '#tableWrapper';
-  var $currentWrapper = $('.event-results');
-  var sections = $("section");
-  var allSections = "#allsections";
-
-  var scrollbars = $(".scrollbar-thumb");
-  var scrollbarThumbs = "#scrollbarThumb";
-  for (var i = 1; i < scrollbars.length; i++) {
-    scrollbarThumbs += ", #" + $(scrollbars[i]).attr('id');
-  }
-
   if (mobileDevice() == true) {
-    var $table = $(currentSelectedSection + ' event-results');
+    var $table = $(currentSelectedSection + ' table.results');
     $(".desktop-only").hide();
     $(".mobileOnly").show();
     $("div").removeClass("tableWrapper");
@@ -431,14 +627,13 @@ $(document).ready(function() {
     $(".mobileOnly").hide();
     $targetCells = $("#resultsHead th");
   }
-
   resizeTableHead();
   if (mobileDevice() == false) {
     $('#resultsContainer').height('545px');
   }
   resultsContainerHeight = $('#resultsContainer').height();
   setPagination();
-  if ('#resultsContainer'.clientWidth >= '#resultsContainer'.scrollWidth) {
+  if ($currentWrapper[0].clientWidth >= $currentWrapper[0].scrollWidth) {
     hideArrows();
   }
   else {
@@ -448,7 +643,7 @@ $(document).ready(function() {
 
   /* Events */
   $(window).on('resize', function(){
-    var currentWrapper = $('#resultsContainer');
+    var currentWrapper = $(currentSelectedWrapper)[0];
     if (currentWrapper.clientWidth < currentWrapper.scrollWidth) {
       if (mobileDevice() == false) {
         showArrows();
@@ -479,7 +674,6 @@ $(document).ready(function() {
   });
 
   $(allSections).bind('mousewheel wheel', function(e) {
-    console.log('mouse wheel wheel');
     e.preventDefault();
     if (onSectionDiv == 1) {
       var pos = $(currentSelectedSection).scrollTop();
@@ -570,240 +764,6 @@ $(document).ready(function() {
     }
   });
 });
-
-function getEventsContent(page) {
-  var start, end, lines, linesToDisplay = "";
-  start = ((page - 1) * ITEMS_PER_PAGE);
-  end = start + ITEMS_PER_PAGE;
-  lines = filteredLines.slice(start, end);
-  for (var i = 0; i < lines.length; i++) {
-    linesToDisplay += lines[i];
-  }
-  return linesToDisplay;
-}
-
-function displaySectionContent(page) {
-  var content = getEventsContent(page);
-  $('.event-results').html(content);
-  //setLineHeight();
-  displayScrollingBar(0);
-  setScrollbarThumbHeight();
-  //var currentScrollbarThumb = "#scrollbarThumb_" + selectedSectionId.replace(/(tab_)/, '');
-  $("#scrollbarThumb").css('top', '0px');
-  $('.event-results').scrollTop(0);
-}
-
-
-function setPagination() {
-  var nbLines, nbPages;
-  if (typeof filteredLines === 'undefined') {
-    if (typeof edition_lines !== 'undefined')
-      filteredLines = event_lines;
-    else
-      filteredLines = [];
-  }
-  nbLines = filteredLines.length;
-  nbPages = Math.ceil(nbLines / ITEMS_PER_PAGE);
-  if (nbPages > 1) {
-    $('#pagination_container').show();
-    $('#pagination_container').twbsPagination({
-      totalPages: nbPages,
-      visiblePages: 4,
-      hideOnlyOnePage: true,
-      last: '>>',
-      first: '<<',
-      onPageClick: function (event, page) {
-        displaySectionContent(page);
-      }
-    });
-  } else {
-    $('#pagination_container').hide();
-    displaySectionContent(1);
-  }
-
-}
-
-
-/*
- ** VERTCIAL & HORIZONTAL SCROLLING
- */
-
-function mobileDevice() {
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    return true;
-  }
-  return false;
-}
-
-function showArrows() {
-  $('.scrollLeftContainer').css("display", "flex");
-  $('.scrollRightContainer').css("display", "flex");
-}
-
-function hideArrows() {
-  $('.scrollLeftContainer').hide();
-  $('.scrollRightContainer').hide();
-}
-
-function displayArrowOnScrollPosition() {
-  var $selectedWrapper = $('.event-results');
-  if ($selectedWrapper.scrollLeft() == 0) {
-    $('.scrollLeftContainer').hide();
-  } else if (($selectedWrapper.scrollLeft() + $selectedWrapper[0].clientWidth) == $selectedWrapper[0].scrollWidth) {
-    $('.scrollRightContainer').hide();
-  }
-}
-/*
- ** VERTCIAL & HORIZONTAL SCROLLING
- */
-
-function mobileDevice() {
-  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    return true;
-  }
-  return false;
-}
-
-function showArrows() {
-  $('.scrollLeftContainer').css("display", "flex");
-  $('.scrollRightContainer').css("display", "flex");
-}
-
-function hideArrows() {
-  $('.scrollLeftContainer').hide();
-  $('.scrollRightContainer').hide();
-}
-
-function displayArrowOnScrollPosition() {
-  var $selectedWrapper = $('.event-results');
-  if ($selectedWrapper.scrollLeft() == 0) {
-    $('.scrollLeftContainer').hide();
-  } else if (($selectedWrapper.scrollLeft() + $selectedWrapper[0].clientWidth) == $selectedWrapper[0].scrollWidth) {
-    $('.scrollRightContainer').hide();
-  }
-}
-
-/* Update results container when changing race for scrolling and style */
-function updateSelectedRaces() {
-  console.log('in update selected races');
-  var filters = get_filters();
-  //selectedSectionId = $("input:radio.tab:checked")[0].id;
-  //var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
-  currentSelectedSection = "#content";
-  //currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
-  //console.log('current selected section PROUT');
-  //console.log(currentSelectedSection);
-  var $currentWrapper = $('.event-results');
-  var sections = $("section");
-  var allSections = "#content";
-
-  var pos = $currentWrapper.scrollLeft();
-  $(".headTableWrapper").scrollLeft(pos);
-  if ($currentWrapper[0].clientWidth < $currentWrapper[0].scrollWidth) {
-    console.log('show arrows');
-    showArrows();
-    displayArrowOnScrollPosition();
-  }
-  if (typeof edition_lines === 'undefined') {
-    console.log('undefined XXX');
-    return;
-  }
-
-  if (filters.category_filter == "ALL" && filters.sexe_filter == "ALL" && filters.name_filter == "") {
-    console.log('filter ALL');
-    filteredLines = edition_lines[currentSelectedSection];
-    $('#pagination_container').twbsPagination('destroy');
-    setPagination();
-  } else {
-    console.log('go to participant_filter');
-    participant_filter();
-  }
-  var $table = $(currentSelectedSection + ' table.results');
-  if ($table.hasClass("floatThead-table") == false) {
-    $table.floatThead({
-      scrollContainer: function($table){
-        return $table.closest("div");
-      }
-    });
-  }
-}
-
-function scrollTable(event) {
-  var $currentWrapper = $('.event-results');
-  var scrollingHeader = $('.event-results');
-  if (event.data.direction == 'left') {
-    var pos = $currentWrapper.scrollLeft() - 55;
-    var posHeader = scrollingHeader.scrollLeft() - 55;
-  } else if (event.data.direction == 'right') {
-    var pos = $currentWrapper.scrollLeft() + 55;
-    var posHeader = scrollingHeader.scrollLeft() + 55;
-  }
-  $currentWrapper.animate( { scrollLeft: pos }, 300, 'swing' );
-  scrollingHeader.animate( { scrollLeft: posHeader }, 300, 'swing' );
-}
-
-function onTableWrapperScroll() {
-  console.log('Table scroll');
-  var pos = $(currentSelectedWrapper).scrollLeft();
-  $(".headTableWrapper").scrollLeft(pos);
-  showArrows();
-  displayArrowOnScrollPosition();
-}
-
-function displayScrollingBar(scrollHeight) {
-  if (mobileDevice() == true) {
-    return;
-  }
-  var $currentScrollbar = $("#scrollbar");
-  var currentSection = $('.event-results');
-  if (currentSection.clientHeight >= currentSection.scrollHeight) {
-    $currentScrollbar.hide();
-  } else {
-    $currentScrollbar.show();
-  }
-}
-
-function resizeTableHead() {
-  var i, referenceCells;
-  referenceCells = $(" table.results tbody tr:visible:first td");
-  if (count == 0) {
-    return ;
-  }
-  i = mobileDevice() == true ? 0 : 2;
-  for (i; i < referenceCells.length; i++) {
-    var cellWidth = referenceCells[i].offsetWidth;
-    if (referenceCells[i].style.display != "none") {
-      $targetCells[i].style.minWidth = cellWidth;
-      $targetCells[i].style.width = cellWidth;
-    }
-  }
-}
-
-function setScrollbarThumbHeight() {
-  var containerHeight = $('.event-results').clientHeight;
-  var containerTotalHeight = $('.event-results').scrollHeight;
-  var maxPos = 0;
-  while (maxPos + containerHeight <= containerTotalHeight) {
-    maxPos += 14;
-  }
-  var containerMaxRatio = maxPos / (containerTotalHeight / containerHeight);
-  var thumbHeight = containerHeight - containerMaxRatio;
-  //var currentScrollbarThumb = "_" + selectedSectionId.replace(/(tab_)/, '');
-  $("#scrollbarThumb").css("height", thumbHeight+'px');
-}
-
-function moveScrollThumb(pos) {
-  var containerHeight = $('.event-results').clientHeight;
-  var containerTotalHeight = $('.event-results').scrollHeight;
-  var currentScrollbarThumb = "#scrollbarThumb";
-  var topPos = parseInt($(currentScrollbarThumb).css("top").replace(/[^-\d\.]/g, ''));
-  topPos = prevPos < pos ? topPos + 2 : topPos - 2;
-  var containerRatio = pos / (containerTotalHeight / containerHeight);
-  if (containerRatio >= 0 && topPos <= containerHeight) {
-    $(currentScrollbarThumb).css("top", containerRatio + 'px');
-  }
-  prevPos = pos;
-}
 
 
 /*

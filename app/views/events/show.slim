@@ -55,7 +55,7 @@ h1 Evènement
         td= @client_3.try(:name)
       tr
         th Challenge
-        td= @event.challenge
+        td= @event.challenge.name
       tr
         th Challenge Globale
         td= @event.global_challenge ? 'Oui' : 'Non'

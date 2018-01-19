@@ -32,7 +32,12 @@ section {
 
 .event {
     margin: 3px 0;
-    padding: 20px;
+    padding: 10px 30px 10px 20px;
+    font-size: 150%;
+}
+
+.event .btn {
+    margin-top: 20px;
 }
 
 #pagination_container {
@@ -46,4 +51,12 @@ section {
     height: 100%;
     min-height: 1000px;
     display: none;
+}
+
+.logo-edition {
+    padding: 4px;
+}
+
+.logo-edition img {
+    margin: 1px 10px;
 }

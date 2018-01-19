@@ -1,7 +1,7 @@
 require "test_helper"
 
-describe Total do
-  let(:total) { Total.new }
+describe Score do
+  let(:total) { Score.new }
 
   it "must be valid" do
     value(total).must_be :valid?

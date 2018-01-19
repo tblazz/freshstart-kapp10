@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget, :generate_diplomas, :delete_diplomas]
   helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
@@ -66,22 +66,23 @@ class EditionsController < ApplicationController
 
   def generate_widget
     GenerateWidgetJob.perform_later(@edition.id)
-    redirect_to event_path(@edition.event), notice: "Le widget est en cours de génération."
+    redirect_to event_edition_path(@edition.event, @edition), notice: "Le widget est en cours de génération."
   end
 
   def results
-    # raise @edition.inspect
     @runner = @edition.results.empty? ? Result.last : @edition.results.order("RANDOM()").limit(1).first
     @results = @edition.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])
-    p @results.count
-    # p @results.count
-    # p @results.count
-    # raise @results.inspect
   end
 
-  def delete_results
-    @edition.results.delete_all
-    redirect_to event_path(@edition.event), notice: "Les résultats ont été supprimés"
+
+  def generate_diplomas
+    @edition.generate_diplomas
+    redirect_to event_edition_path(@edition.event, @edition), notice: "Les diplômes sont en cours de génération."
+  end
+
+  def delete_diplomas
+    @edition.delete_diplomas
+    redirect_to event_edition_path(@edition.event, @edition), notice: "Les diplômes ont été supprimés."
   end
 
   private

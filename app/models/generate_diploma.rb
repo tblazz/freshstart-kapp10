@@ -3,7 +3,7 @@ include Rails.application.routes.url_helpers
 class GenerateDiploma
   def initialize(result, photo_format=:standard)
     @result = (result.class == String) ? Result.find(result) : result
-    @template =  @result.race.template
+    @template =  @result.edition.template
     @name = @result.name
     @rank = @result.rank
     @time = @result.time
@@ -11,11 +11,11 @@ class GenerateDiploma
     @number = @result.bib
     @message = @result.message
     @rank_total = @result.rank_total
-    @race_name = @result.race.name
-    @race_date = I18n.l @result.race.date
+    @race_name = "#{@result.edition.event.name} #{@result.edition.description}"
+    @race_date = I18n.l @result.edition.date
     @race_detail = @result.race_detail
     if @result.photo == :no_photo
-      @background_image_url = @result.race.background_image.url(photo_format)
+      @background_image_url = @result.edition.background_image.url(photo_format)
     else
       @background_image_url = @result.photo.image.url
     end

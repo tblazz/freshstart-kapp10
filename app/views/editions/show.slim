@@ -12,7 +12,7 @@ h1 Info édition
       table.table.table-striped.table-bordered.table-compacted
         tr
           th Date
-          td= @edition.id
+          td= @edition.date.strftime('%d/%m/%Y')
         tr
           th Descriptif
           td= @edition.description

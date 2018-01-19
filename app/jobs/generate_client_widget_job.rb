@@ -6,16 +6,16 @@ class GenerateClientWidgetJob < ActiveJob::Base
 
   def perform(client_id)
     @client = Client.find(client_id)
-    @events = Event.with_client(@client.id)
+    @events = Event.with_client(@client.id).sort { |a,b| a.editions.last.date <=> b.editions.last.date }.reverse
 
     @event_array = []
     @event_lines = []
     @events.each do |event|
-      @event_array << {'name' => event.name, 'department' => event.department, 'type' => 'Route', 'widget_url' => event.editions.last.widget_url}
+      @event_array << {'name' => event.name, 'department' => event.department, 'type' => event.races.map { |r| r.race_type.capitalize }.uniq.join(' '), 'widget_url' => event.editions.last.widget_url}
       @event_lines << generate_event_line(event)
     end
 
-    @types = ['Route']
+    @types = ['Route', 'Trail']
     @departments = @events.map(&:department).uniq.reject(&:blank?)
 
     erb_file = "#{Rails.root}/app/views/clients/widget.html.erb"
@@ -39,9 +39,9 @@ class GenerateClientWidgetJob < ActiveJob::Base
 
       line += "<div class='row'>"
         line += "<div class='col-md-6'>"
-          line += "<div><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div>"
-          line += "<div><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div>"
-          line += "<div><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div>"
+          line += "<div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div>"
+          line += "<div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div>"
+          line += "<div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div>"
         line += "</div>"
 
         line += "<div class='col-md-6'>"

@@ -7,7 +7,7 @@ class EventsController < ApplicationController
   end
 
   def new
-    @event = Event.new(event_params)
+    @event = Event.new
   end
 
   def create
@@ -77,7 +77,7 @@ class EventsController < ApplicationController
         :client_2,
         :client_3,
         :department,
-        :challenge,
+        :challenge_id,
         :global_challenge
     )
   end

@@ -7,6 +7,10 @@ class GenerateWidgetJob < ActiveJob::Base
   def perform(edition_id)
     @edition = Edition.find(edition_id)
 		@categories = @edition.results.pluck(:categ).uniq
+		p @edition.results.count
+		p @edition.results.count
+		p @edition.results.count
+
 		@categories_sorted = Hash.new
 		@edition_longest_name = Hash.new
 		@edition_lines = Hash.new

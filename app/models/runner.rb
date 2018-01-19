@@ -1,6 +1,7 @@
 class Runner < ApplicationRecord
   # Relations
   has_many :results
+  has_many :scores
 
   # Validations
   validates :first_name, presence: true, length: { in: 2..30 }

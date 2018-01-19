@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get 'widget', to: redirect('/widget.js')
   get 'client_widget', to: redirect('/client-widget.js')
   get 'client_widget_css', to: redirect('/client-widget.css')
+  get 'challenge_widget', to: redirect('/challenge-widget.js')
+
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
   get 'results_stand_by', to: 'results#stand_by', as: 'stand_by'
@@ -52,6 +54,14 @@ Rails.application.routes.draw do
   resources :results, only: :show
   resources :runners, only: [:index, :show]
   resources :clients do
+    member do
+      get 'generate_widget'
+    end
+  end
+
+  get 'challenges/update_scores', to: 'challenges#update_scores', as: 'update_scores'
+  get 'challenges/generate_global_widget', to: 'challenges#generate_global_widget', as: 'generate_global_widget'
+  resources :challenges do
     member do
       get 'generate_widget'
     end

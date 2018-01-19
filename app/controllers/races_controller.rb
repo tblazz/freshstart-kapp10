@@ -69,7 +69,7 @@ class RacesController < ApplicationController
   def destroy
     @race.destroy
     respond_to do |format|
-      format.html { redirect_to races_url, notice: 'race was successfully destroyed.' }
+      format.html { redirect_to event_edition_path(@race.edition.event, @race.edition), notice: 'Course supprimée.' }
       format.json { head :no_content }
     end
   end

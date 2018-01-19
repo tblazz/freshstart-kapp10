@@ -20,6 +20,7 @@ class Event < ApplicationRecord
   # Relations
   has_many :editions
   has_many :races, through: :editions
+  belongs_to :challenge
 
   # Validations
   validates :name, presence: true, length: { in: 2..30 }

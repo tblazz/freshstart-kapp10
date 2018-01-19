@@ -23,6 +23,7 @@ class UploadResults
   RACE_DETAIL_INDEX = 15
   MESSAGE_INDEX = 16
   RACE_NAME_INDEX = 17
+  POINTS_INDEX = 18
 
   def initialize(edition_id)
     @edition = Edition.find(edition_id)
@@ -37,11 +38,20 @@ class UploadResults
         next if nb == 1
         CSV.parse(utf8_encoded_content(line), col_sep: CSV_SEPARATOR) do |row|
           if row
-            race = @edition.races.where(name: row[LENGTH_INDEX]).first
+            p row
+            race = @edition.races.where(name: row[RACE_NAME_INDEX]).first
+            if race
+              p 'race found'
+              p race.id
+            else
+              p 'race not found'
+              p row[RACE_NAME_INDEX]
+            end
             return unless race
 
-            existing_row_in_db = @edition.results.where( bib: row[NUMBER_INDEX],race_detail: row[RACE_DETAIL_INDEX] )
+            existing_row_in_db = @edition.results.where( bib: row[NUMBER_INDEX],race_id: race.id )
             if existing_row_in_db.any?
+              p 'existing row'
               if there_are_differences?(existing_row_in_db.first, row)
                 existing_row_in_db.first.update_attributes(
                     phone: row[PHONE_INDEX],
@@ -60,7 +70,8 @@ class UploadResults
                     speed: row[SPEED_INDEX],
                     message: row[MESSAGE_INDEX],
                     uploaded_at: Time.now,
-                    race_detail: row[RACE_DETAIL_INDEX]
+                    race_detail: row[RACE_DETAIL_INDEX],
+                    points: row[POINTS_INDEX]
                 )
               end
             else
@@ -69,22 +80,25 @@ class UploadResults
               end
 
               if row[FIRST_NAME_INDEX].present? && row[LAST_NAME_INDEX].present? && row[DOB_INDEX].present?
+                p 'first name present'
                 id_key = "#{I18n.transliterate(row[FIRST_NAME_INDEX]).downcase}-#{I18n.transliterate(row[LAST_NAME_INDEX]).downcase}-#{Date.parse(row[DOB_INDEX]).strftime('%d-%m-%Y')}"
                 runner = Runner.find_or_create_by(id_key: id_key) do |runner|
                   runner.first_name = row[FIRST_NAME_INDEX]
                   runner.last_name = row[LAST_NAME_INDEX]
                   runner.dob = Date.parse(row[DOB_INDEX])
                   runner.sex = row[SEX_INDEX] == 'M' ? 'M' : 'F'
+                  runner.category = row[CATEG_INDEX]
                 end
-                p runner.id
+                p runner.errors
                 p runner.id
                 p runner.id
                 p runner.id
               else
+                p 'no runner'
                 runner = nil
               end
 
-              @edition.results.create(
+              r = @edition.results.create(
                   phone: row[PHONE_INDEX],
                   mail: row[MAIL_INDEX],
                   rank: row[RANK_INDEX],
@@ -103,8 +117,10 @@ class UploadResults
                   uploaded_at: Time.now,
                   race_detail: row[RACE_DETAIL_INDEX],
                   runner_id: runner.try(:id),
-                  race_id: race.id
+                  race_id: race.id,
+                  points: row[POINTS_INDEX]
               )
+              p r.errors
             end
           end
         end

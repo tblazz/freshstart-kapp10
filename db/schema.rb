@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180108104324) do
+ActiveRecord::Schema.define(version: 20180118085900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
   enable_extension "unaccent"
   enable_extension "uuid-ossp"
+
+  create_table "challenges", force: :cascade do |t|
+    t.string   "name"
+    t.string   "widget"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "clients", force: :cascade do |t|
     t.string   "name"
@@ -67,7 +74,7 @@ ActiveRecord::Schema.define(version: 20180108104324) do
     t.integer  "client_2"
     t.integer  "client_3"
     t.string   "department"
-    t.string   "challenge"
+    t.integer  "challenge_id"
     t.boolean  "global_challenge"
   end
 
@@ -132,8 +139,8 @@ ActiveRecord::Schema.define(version: 20180108104324) do
     t.string   "speed"
     t.string   "message"
     t.string   "race_detail"
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.datetime "uploaded_at"
     t.datetime "diploma_generated_at"
     t.datetime "email_sent_at"
@@ -145,6 +152,7 @@ ActiveRecord::Schema.define(version: 20180108104324) do
     t.string   "first_name"
     t.string   "last_name"
     t.datetime "dob"
+    t.boolean  "processed",            default: false
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 
@@ -157,16 +165,20 @@ ActiveRecord::Schema.define(version: 20180108104324) do
     t.string   "sex"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "category"
     t.index ["id_key"], name: "index_runners_on_id_key", unique: true, using: :btree
   end
 
-  create_table "totals", force: :cascade do |t|
+  create_table "scores", force: :cascade do |t|
     t.integer  "runner_id"
+    t.uuid     "race_id",    null: false
     t.integer  "points"
+    t.string   "race_type"
     t.datetime "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["runner_id"], name: "index_totals_on_runner_id", using: :btree
+    t.index ["race_id"], name: "index_scores_on_race_id", using: :btree
+    t.index ["runner_id"], name: "index_scores_on_runner_id", using: :btree
   end
 
   add_foreign_key "photos", "races"

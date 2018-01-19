@@ -29,6 +29,8 @@
 
 class Result < ActiveRecord::Base
   belongs_to :edition
+  belongs_to :race
+  belongs_to :runner
 
   def sent_message
     sms.message

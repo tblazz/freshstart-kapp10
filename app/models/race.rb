@@ -36,6 +36,8 @@ class Race < ActiveRecord::Base
 #   has_many :results, dependent: :destroy
 #   has_many :photos
   belongs_to :edition
+  has_many :scores
+  has_many :runners, through: :scores
   delegate :event, to: :edition, allow_nil: true
 #
 #   # Validations
@@ -43,6 +45,8 @@ class Race < ActiveRecord::Base
 #   validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
 #   validates_presence_of :name, :date, :template
 #   validates :date, uniqueness: { scope: :name }
+  validates :race_type, inclusion: { in: ['trail', 'route', 'funrace'] }
+
 #
 #   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
 #   # ['template1', 'texte-ombre']

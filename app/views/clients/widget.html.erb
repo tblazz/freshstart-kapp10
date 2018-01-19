@@ -9,109 +9,110 @@
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/widget.min.css">
 <link rel="stylesheet" href="https://freshstart-kapp10-dev.herokuapp.com/client_widget_css">
 <body>
-<h1>R&eacute;sultats par courses</h1>
+  <div class="container">
 
-<a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Retour</a>
+    <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a>
 
-<div class="kapp10Filters">
-  <p id="filterCaption">Choisissez une course</p>
-  <select name="filterDepartment" id="filterDepartment" class="filtersSearch" onchange="eventsFilter()">
-    <option value="ALL">Département</option>
-    <% @departments.each do |d| %>
-        <option value="<%= d %>"><%= d %></option>
-    <% end %>
-  </select>
+    <div class="kapp10Filters">
+      <select name="filterDepartment" id="filterDepartment" class="filtersSearch" onchange="eventsFilter()">
+        <option value="ALL">Département</option>
+        <% @departments.each do |d| %>
+            <option value="<%= d %>"><%= d %></option>
+        <% end %>
+      </select>
 
-  <select name="filterType" id="filterType" class="filtersSearch" onchange="eventsFilter()">
-    <option value="ALL">Type</option>
-    <% @types.each do |type| %>
-        <option value="<%= type %>"><%= type %></option>
-    <% end %>
-  </select>
+      <select name="filterType" id="filterType" class="filtersSearch" onchange="eventsFilter()">
+        <option value="ALL">Type</option>
+        <% @types.each do |type| %>
+            <option value="<%= type %>"><%= type %></option>
+        <% end %>
+      </select>
 
-  <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
-  </select>
-</div>
+      <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
+      </select>
+    </div>
 
-<div class="kapp10Research">
-  <input type="text" id="kapp10-filter" placeholder="Chercher..." class="filtersSearch" onkeyup="eventsFilter()"/>
-</div>
+    <div class="kapp10Research">
+      <input type="text" id="kapp10-filter" placeholder="Chercher..." class="filtersSearch" onkeyup="eventsFilter()"/>
+    </div>
 
-<div class="text-center pagination-bloc"><div id="pagination_container"></div></div>
+    <div class="text-center pagination-bloc"><div id="pagination_container"></div></div>
 
-<div id="allsections"></div>
-<div id="mainResultsContent">
-  <div id="resultsContainer">
-    <section id="content">
+    <div id="allsections"></div>
+    <div id="mainResultsContent">
+      <div id="resultsContainer">
+        <section id="content">
 
-      <div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/loading.gif"></div>
+          <div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/loading.gif"></div>
 
-      <!--<div class="scrollbar desktop-only" id="scrollbar">-->
-        <!--<div class="scrollbar-track" id="scrollbarTrack"></div>-->
-        <!--<div class="scrollbar-thumb" id="scrollbarThumb"></div>-->
-      <!--</div>-->
+          <!--<div class="scrollbar desktop-only" id="scrollbar">-->
+            <!--<div class="scrollbar-track" id="scrollbarTrack"></div>-->
+            <!--<div class="scrollbar-thumb" id="scrollbarThumb"></div>-->
+          <!--</div>-->
 
-      <div class="fixedTable">
-        <div class="tableWrapper" id="tableWrapper_tab" onscroll="console.log('pp');">
-          <div class="event-results">
-            <% @events.each do |event| %>
-              <div class="event">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h3><%= event.name %></h3>
-                  </div>
-                  <div class="col-md-6">
-                    <div class='pull-right'><h4><%= event.editions.last.date.strftime('%d-%m-%Y') %></h4></div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-6">
-                    <div>
-                      <img src="https://evenementwidget.herokuapp.com/assets/images/lieu.png">
-                      <%= event.department %>
-                    </div>
-                    <div>
-                      <img src="https://evenementwidget.herokuapp.com/assets/images/distance.png">
-                      <%= event.races.map(&:name).uniq.join(', ') %>
-                    </div>
-                    <div>
-                      <img src="https://evenementwidget.herokuapp.com/assets/images/type.png">
-                      <%= event.races.map(&:race_type).reject(&:blank?).join(', ') %>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
+          <div class="fixedTable">
+            <div class="tableWrapper" id="tableWrapper_tab">
+              <div class="event-results">
+                <% @events.each do |event| %>
+                  <div class="event">
                     <div class="row">
-                        <div class='pull-right'>
-                          <div>
-                            <%= "#{event.editions.last.results.count} particpants" if event.editions.last.results.count > 0%>
-                          </div>
-                        </div>
+                      <div class="col-md-6">
+                        <h3><%= event.name %></h3>
+                      </div>
+                      <div class="col-md-6">
+                        <div class='pull-right'><h4><%= event.editions.last.date.strftime('%d-%m-%Y') %></h4></div>
+                      </div>
                     </div>
                     <div class="row">
-                        <div class='pull-right'>
-                          <a class="btn btn-warning" onclick="displayResultsPage('<%= event.editions.last.widget_url %>')">Voir les résultats</a>
+                      <div class="col-md-6">
+                        <div>
+                          <img src="https://evenementwidget.herokuapp.com/assets/images/lieu.png">
+                          <%= event.department %>
                         </div>
+                        <div>
+                          <img src="https://evenementwidget.herokuapp.com/assets/images/distance.png">
+                          <%= event.races.map(&:name).uniq.join(', ') %>
+                        </div>
+                        <div>
+                          <img src="https://evenementwidget.herokuapp.com/assets/images/type.png">
+                          <%= event.races.map(&:race_type).reject(&:blank?).join(', ') %>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                            <div class='pull-right'>
+                              <div>
+                                <%= "#{event.editions.last.results.count} particpants" if event.editions.last.results.count > 0%>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class='pull-right'>
+                              <a class="btn btn-warning" onclick="displayResultsPage('<%= event.editions.last.widget_url %>')">Voir les résultats</a>
+                            </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
               </div>
-            <% end %>
+            </div>
           </div>
-        </div>
+
+        </section>
       </div>
+    </div>
 
-    </section>
-  </div>
+    <div id="noResults" style="text-align:center;" class="alert alert-danger">
+        <strong>Pas de course</strong>
+    </div>
+
+    <div id="result-iframe">
+      <iframe class='kapp10-embed' src="" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>
+    </div>
+    <p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
 </div>
 
-<div id="noResults" style="text-align:center;" class="alert alert-danger">
-    <strong>Pas de course</strong>
-</div>
-
-<div id="result-iframe">
-  <iframe class='kapp10-embed' src="" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>
-</div>
-<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
 <script>
   var events = [<%= @event_array.to_json %>][0];
   var event_lines = [<%= @event_lines.to_json %>][0];

@@ -8,7 +8,7 @@
   = f.hidden_field :edition_id
   = f.input :name 
   = f.input :coef
-  = f.input :race_type, label: 'Type de course', as: :select, collection: ['Route', 'Trail', 'Funrace']
+  = f.input :race_type, label: 'Type de course', as: :select, collection: [['Route', 'route'], ['Trail', 'trail'], ['Funrace', 'funrace']]
   /= f.input :date, as: :date, wrapper: :horizontal_form, html5: true
   /= f.input :email_sender
   /= f.input :email_name
