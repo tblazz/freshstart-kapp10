@@ -11,18 +11,14 @@ class GenerateGlobalChallengeWidgetJob < ActiveJob::Base
     races.flatten.each { |race| runners << race.runners }
     @scores = []
     runners.flatten.uniq.each { |runner| @scores << runner.scores.try(:last) }
-    p @scores.count
-    p @scores
 
     @categories = @scores.map { |s| s.runner.category }.uniq
-    @types = ['route', 'trail', 'funrace']
+    @types = ['route', 'trail']
     @categories_sorted = Hash.new
     @edition_longest_name = Hash.new
     @edition_lines = Hash.new
     # @challenge.races.scores.order([:race_type,:points]).group_by(&:race_type).each  do |challenge, scores|
     @scores.sort { |a,b| a.points <=> b.points }.reverse.group_by(&:race_type).each  do |race_type, scores|
-      p race_type
-      p scores
       @edition_longest_name['global'] = scores.map(&:last_name).group_by(&:size).max.last[0].length
 
       female_sorted = scores.select do |score|

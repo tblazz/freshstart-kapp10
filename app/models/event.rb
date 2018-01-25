@@ -23,7 +23,7 @@ class Event < ApplicationRecord
   belongs_to :challenge
 
   # Validations
-  validates :name, presence: true, length: { in: 2..30 }
+  validates :name, presence: true, length: { in: 2..50 }
   # validates :place, presence: true, length: { in: 2..30 }
   # validates :contact, presence: true
   # validates :email, presence: true, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }

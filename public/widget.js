@@ -107,10 +107,6 @@ function get_filters() {
 }
 
 function display_filtered_participants(filters, tr, i) {
-	console.log('in display filtered participants');
-	console.log(filters);
-	console.log(tr);
-	console.log(i);
 	var sexe_filter_ok = 0, category_filter_ok = 0, name_filter_ok = 0, search_name = null, search_sexe = null, search_category = null;
 	var name_value = /data-search="(.*?)"/g.exec(tr[i]);
 	var sexe_value = /data-sexe-search="(.*?)"/g.exec(tr[i]);
@@ -190,23 +186,15 @@ function participant_filter() {
 	input = document.getElementById("kapp10-filter");
 	reset_filter = document.getElementById("closingCircleResearch");
 	input.value == "" ? reset_filter.style.visibility = "hidden" : reset_filter.style.visibility = "visible";
-	console.log('QQ edition line : ');
-	console.log(edition_lines);
 	if (typeof edition_lines === 'undefined')
 		return ;
 	tr = edition_lines[currentSelectedSection];
 	n = tr.length;
-	console.log('n : ' + n)
 	for (i = 1; i < n ; i++) {
-		console.log('in for');
-		console.log(i);
 		linesToDisplay += display_filtered_participants(filters, tr, i - 1);
 	}
-	console.log('lines to display');
-	console.log(linesToDisplay);
 	$(currentSelectedSection + ' .results tbody')[0].innerHTML = linesToDisplay;
 	lines = $(currentSelectedSection + ' tbody tr');
-	console.log(lines);
 	filteredLines = [];
 	for (var i = 0; i < lines.length; i++) {
 		filteredLines[i] = String(lines[i].outerHTML);
@@ -355,34 +343,27 @@ function displayArrowOnScrollPosition() {
 
 /* Update results container when changing race for scrolling and style */
 function updateSelectedRaces() {
-	console.log('in update selected races');
 	var filters = get_filters();
 	selectedSectionId = $("input:radio.tab:checked")[0].id;
 	var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
 	currentSelectedSection = "#" + sectionId;
 	currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
-	console.log('current selected section BROUT2');
-	console.log(currentSelectedSection);
 	var $currentWrapper = $(currentSelectedWrapper);
 	var pos = $currentWrapper.scrollLeft();
 	$(".headTableWrapper").scrollLeft(pos);
 	if ($currentWrapper[0].clientWidth < $currentWrapper[0].scrollWidth) {
-		console.log('show arrows');
 		showArrows();
 		displayArrowOnScrollPosition();
 	}
 	if (typeof edition_lines === 'undefined') {
-		console.log('undefined XXX');
 		return;
 	}
 
 	if (filters.category_filter == "ALL" && filters.sexe_filter == "ALL" && filters.name_filter == "") {
-		console.log('filter ALL');
 		filteredLines = edition_lines[currentSelectedSection];
 		$('#pagination_container').twbsPagination('destroy');
 		setPagination();
 	} else {
-		console.log('go to participant_filter');
 		participant_filter();
 	}
 	var $table = $(currentSelectedSection + ' table.results');
@@ -410,7 +391,6 @@ function scrollTable(event) {
 }
 
 function onTableWrapperScroll() {
-	console.log('Scroll');
 	var pos = $(currentSelectedWrapper).scrollLeft();
 	$(".headTableWrapper").scrollLeft(pos);
 	showArrows();
@@ -558,8 +538,6 @@ $(document).ready(function(){
 	selectedSectionId = $("input:radio.tab:checked")[0].id;
 	currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
 	currentSelectedSection = "#" + selectedSectionId.replace(/(tab_)/, 'content_');
-	console.log('current selected section');
-	console.log(currentSelectedSection);
 	var $currentWrapper = $(currentSelectedWrapper);
 	var sections = $("section");
 	var allSections = "#" + selectedSectionId.replace(/(tab_)/, 'content_');

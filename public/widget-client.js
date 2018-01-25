@@ -96,7 +96,6 @@ var createSelectMonth = function () {
   var today = new Date();
   var mm = today.getMonth() + 1; //January is 0!
   var $output = "";
-  //console.log(mm);
   switch (mm) {
     case 1:
       $output += "<option value=''>Tous les Mois</option>";
@@ -231,23 +230,19 @@ function getFilters() {
 }
 
 function eventsFilter() {
-  //console.log(getFilters());
 
   var i, n, filters, linesToDisplay = "", lines;
   filters = getFilters();
   if (typeof event_lines === 'undefined')
     return ;
 
-  //console.log('line to display');
   n = event_lines.length;
   for (i = 0; i < n ; i++) {
     linesToDisplay += display_filtered_events(filters, i);
   }
-  //console.log(linesToDisplay);
   $('.event-results').html(linesToDisplay);
 
   lines = $('.event');
-  console.log(lines);
   filteredLines = [];
   for (var i = 0; i < lines.length; i++) {
     filteredLines[i] = String(lines[i].outerHTML);
@@ -260,9 +255,6 @@ function eventsFilter() {
 }
 
 function display_filtered_events(filters, i) {
-  //console.log('in display filtered event');
-  //console.log(filters);
-  //console.log(i);
   var department_filter_ok = 0, type_filter_ok = 0, name_filter_ok = 0, month_filter_ok = 0, search_name = null, search_department = null, search_type = null, search_month = null;
 
   var name_value = /data-name-search='(.*?)'/g.exec(event_lines[i]);
@@ -331,8 +323,6 @@ function updateEventStyle(filters) {
   count = 0;
   divs = $('.event-results .event');
   count = divs.length;
-  console.log('count');
-  console.log(count);
 
   displayNoEvents(filters);
 }
@@ -348,13 +338,10 @@ function displayNoEvents(filters) {
 }
 
 function updateEvents() {
-  console.log('update !');
   eventsFilter();
 }
 
 function displayResultsPage(url) {
-  console.log('display results : ');
-  console.log(url);
   $('.kapp10Filters').hide();
   $('.kapp10Research').hide();
   $('#mainResultsContent').hide();
@@ -366,7 +353,6 @@ function displayResultsPage(url) {
 }
 
 function displayEventsPage() {
-  console.log('display events');
   $('.kapp10Filters').show();
   $('.kapp10Research').show();
   $('#mainResultsContent').show();
@@ -386,15 +372,12 @@ function displaySection() {
 }
 
 $(document).ready(function() {
-  console.log('Ready !!');
-  console.log(events);
   createSelectMonth();
   ITEMS_PER_PAGE = 50;
   prevPos = 0;
   onSectionDiv = 0;
   onContainerClick = 0;
   count = 1;
-  console.log(event_lines[0]);
   updateEvents();
 
   currentSelectedSection = "#content";
@@ -479,7 +462,6 @@ $(document).ready(function() {
   });
 
   $(allSections).bind('mousewheel wheel', function(e) {
-    console.log('mouse wheel wheel');
     e.preventDefault();
     if (onSectionDiv == 1) {
       var pos = $(currentSelectedSection).scrollTop();
@@ -685,14 +667,11 @@ function displayArrowOnScrollPosition() {
 
 /* Update results container when changing race for scrolling and style */
 function updateSelectedRaces() {
-  console.log('in update selected races');
   var filters = get_filters();
   //selectedSectionId = $("input:radio.tab:checked")[0].id;
   //var sectionId = selectedSectionId.replace(/(tab_)/, 'content_');
   currentSelectedSection = "#content";
   //currentSelectedWrapper = '#tableWrapper_'+selectedSectionId;
-  //console.log('current selected section PROUT');
-  //console.log(currentSelectedSection);
   var $currentWrapper = $('.event-results');
   var sections = $("section");
   var allSections = "#content";
@@ -700,22 +679,18 @@ function updateSelectedRaces() {
   var pos = $currentWrapper.scrollLeft();
   $(".headTableWrapper").scrollLeft(pos);
   if ($currentWrapper[0].clientWidth < $currentWrapper[0].scrollWidth) {
-    console.log('show arrows');
     showArrows();
     displayArrowOnScrollPosition();
   }
   if (typeof edition_lines === 'undefined') {
-    console.log('undefined XXX');
     return;
   }
 
   if (filters.category_filter == "ALL" && filters.sexe_filter == "ALL" && filters.name_filter == "") {
-    console.log('filter ALL');
     filteredLines = edition_lines[currentSelectedSection];
     $('#pagination_container').twbsPagination('destroy');
     setPagination();
   } else {
-    console.log('go to participant_filter');
     participant_filter();
   }
   var $table = $(currentSelectedSection + ' table.results');
@@ -743,7 +718,6 @@ function scrollTable(event) {
 }
 
 function onTableWrapperScroll() {
-  console.log('Table scroll');
   var pos = $(currentSelectedWrapper).scrollLeft();
   $(".headTableWrapper").scrollLeft(pos);
   showArrows();
