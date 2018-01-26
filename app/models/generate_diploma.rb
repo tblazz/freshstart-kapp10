@@ -4,7 +4,7 @@ class GenerateDiploma
   def initialize(result, photo_format=:standard)
     @result = (result.class == String) ? Result.find(result) : result
     @template =  @result.edition.template
-    @name = @result.name
+    @name = "#{@result.first_name} #{@result.last_name}"
     @rank = @result.rank
     @time = @result.time
     @speed = @result.speed

@@ -39,11 +39,11 @@ class Edition < ApplicationRecord
   end
 
   def races_count
-    @races_count ||= results.select(:race_detail).uniq.count
+    @races_count ||= results.select(:race_detail).distinct.count
   end
 
   def race_detail
-    @races ||= results.select(:race_detail).uniq.pluck(:race_detail)
+    @races ||= results.select(:race_detail).distinct.pluck(:race_detail)
   end
 
   def emails_count

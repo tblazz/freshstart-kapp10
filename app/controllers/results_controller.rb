@@ -11,7 +11,7 @@ class ResultsController < ApplicationController
       }
       format.jpg {
         @result = Result.find(params[:id])
-        send_data(diploma.image_kit(IMAGE_HEIGHT[@result.race.template],IMAGE_WIDTH[@result.race.template]).to_img(:jpg), type: "image/jpeg", disposition:'inline')
+        send_data(diploma.image_kit(IMAGE_HEIGHT[@result.edition.template],IMAGE_WIDTH[@result.edition.template]).to_img(:jpg), type: "image/jpeg", disposition:'inline')
       }
     end
   end
@@ -29,7 +29,7 @@ class ResultsController < ApplicationController
     respond_to do |format|
       format.jpg {  send_data(open(@result.diploma_url, allow_redirections: :all).read,
                     type: 'image/jpeg',
-                    filename: "#{@result.race.name}-#{@result.name}.jpg",
+                    filename: "#{@result.edition.event.name}-#{@result.first_name}-#{@result.last_name}.jpg",
                     disposition: 'attachment') }
     end
   end
