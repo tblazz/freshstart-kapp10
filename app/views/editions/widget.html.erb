@@ -105,6 +105,8 @@
 								</thead>
 					      <tbody>
 					      <%results.each_with_index do |result, i|
+                                    full_name = "#{result.first_name} #{result.last_name}"
+                                    name = full_name.blank? ? result.name : full_name
 									if result.sex.nil?
 										result.sex = ""
 									elsif result.sex == "H"
@@ -112,9 +114,9 @@
 									end
 									result.categ = "" if result.categ.nil?
 									edition_line[i] = ""
-									edition_line[i] += '<tr class="'+result.sex+'" data-search="'+I18n.transliterate(result.last_name).upcase+'" data-sexe-search="'+result.sex+'" data-category-search="'+result.categ+'" data-bib-search="'+result.bib+'">' + "\n"
+									edition_line[i] += '<tr class="'+result.sex+'" data-search="'+I18n.transliterate(name).upcase+'" data-sexe-search="'+result.sex+'" data-category-search="'+result.categ+'" data-bib-search="'+result.bib+'">' + "\n"
 									edition_line[i] += '<td class="center fixedColumn">'+result.rank.to_s+'</td>' + "\n"
-									edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode(result.last_name, :named).html_safe+'</td>' + "\n"
+									edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode(name, :named).html_safe+'</td>' + "\n"
 									unless results_bib_any.empty?
 										unless result.bib.to_i < 0
 											edition_line[i] += '<td class="center">'+result.bib.to_s+'</td>' + "\n"
