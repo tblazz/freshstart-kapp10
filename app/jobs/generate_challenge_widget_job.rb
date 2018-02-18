@@ -9,7 +9,7 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
     @scores = @challenge.scores
 
     @categories = @scores.map { |s| s.runner.category }.uniq
-    @types = ['route', 'trail']
+    @types = @scores.pluck(:race_type).uniq
     @categories_sorted = Hash.new
     @edition_longest_name = Hash.new
     @edition_lines = Hash.new

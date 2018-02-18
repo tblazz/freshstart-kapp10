@@ -45,7 +45,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
         line += "</div>"
 
         line += "<div class='col-md-6'>"
-          line += "<div class='row'><div class='pull-right'><div>#{ "#{event.editions.last.results.count} particpants" if event.editions.last.results.count > 0 }</div></div></div>"
+          line += "<div class='row'><div class='pull-right'><div>#{ "#{event.editions.last.results.count} participants" if event.editions.last.results.count > 0 }</div></div></div>"
           line += "<div class='row'><div class='pull-right'><a class='btn btn-warning' onclick=\"displayResultsPage('#{ event.editions.last.widget_url }')\">Voir les résultats</a></div></div>"
         line += "</div>"
       line += "</div>"

@@ -50,6 +50,7 @@ h1 Résultats
       = link_to "Supprimer les diplômes", delete_diplomas_event_edition_path(@edition.event, @edition), class: "btn btn-warning", "data-method" => :delete
       .pull-right
         = link_to "Supprimer les résultats", delete_results_event_edition_path(@edition.event, @edition), class: "btn btn-danger", "data-confirm" => "Etes-vous sûr ?", "data-method" => :delete
+        = link_to "Envoyer", send_results_event_edition_path(@edition.event, @edition), class: "btn btn-warning", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post
   hr
   .row
     .col-sm-12.top-buffer

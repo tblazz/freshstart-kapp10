@@ -108,7 +108,7 @@
 	<div class="content">
 		<div class="infos_container">
 			<div class="name"><%= @name %></div>
-			<div class="race"><%= @race_detail %> - <%= I18n.localize(@result.race.date, format: '%e %B %Y') %></div>
+			<div class="race"><%= @race_detail %> - <%= I18n.localize(@result.edition.date, format: '%e %B %Y') %></div>
 			<div class="rank"><%= @rank %><%= @rank_total %></div>
 			<% if @time %>
 				<div class="time_caption">Temps</div>
