@@ -11,7 +11,7 @@ class GenerateDiploma
     @number = @result.bib
     @message = @result.message
     @rank_total = @result.rank_total
-    @race_name = "#{@result.edition.event.name} #{@result.edition.description}"
+    @race_name = "#{@result.edition.event.name}"
     @race_date = I18n.l @result.edition.date
     @race_detail = @result.race_detail
     if @result.photo == :no_photo
