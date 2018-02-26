@@ -8,7 +8,7 @@ class Challenge < ApplicationRecord
   validates :name, presence: true
 
   def widget_storage_name
-    "challenges/#{self.name}/#{self.id}"
+    "challenges/#{self.name.delete(' ')}/#{self.id}"
   end
 
   def widget_url
@@ -17,7 +17,7 @@ class Challenge < ApplicationRecord
 
   def widget_gist
     %(
-	<iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
+	<iframe class='kapp10-embed' src="#{widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
   end
 
   def self.global_widget_url

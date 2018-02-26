@@ -86,7 +86,7 @@ class UploadResults
                   runner.first_name = row[FIRST_NAME_INDEX]
                   runner.last_name = row[LAST_NAME_INDEX]
                   runner.dob = Date.parse(row[DOB_INDEX])
-                  runner.sex = row[SEX_INDEX] == 'M' ? 'M' : 'F'
+                  runner.sex = ['m', 'h'].include?(row[SEX_INDEX].downcase) ? 'M' : 'F'
                   runner.category = row[CATEG_INDEX]
                 end
                 p runner.errors

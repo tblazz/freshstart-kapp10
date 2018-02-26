@@ -1,12 +1,16 @@
 require 'htmlentities'
 require 'htmlcompressor'
 
-class GenerateChallengeWidgetJob < ActiveJob::Base
-  queue_as :normal
+class GenerateChallengeWidgetService
 
-  def perform(challenge_id)
+  def initialize(challenge_id)
     @challenge = Challenge.find(challenge_id)
+  end
+
+  def call
     raw_scores = @challenge.scores
+    p 'Raw Scores'
+    p raw_scores
     @scores = []
 
     raw_scores.sort_by(&:id).group_by(&:runner_id).each  do |runner_id, scores|
@@ -40,6 +44,8 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
       @categories_sorted[race_type] = { F: female_categories, M: male_categories, ALL: all_categories }
     end
     @generated_at = Time.now
+    p 'Score before template'
+    p @scores
     erb_file = "#{Rails.root}/app/views/challenges/widget.html.erb"
     erb_str = File.read(erb_file)
     renderer = ERB.new(erb_str)

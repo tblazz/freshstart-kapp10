@@ -75,7 +75,7 @@
 <div id="mainResultsContent">
   <div id="resultsContainer">
     <%
-       @scores.reverse.group_by(&:race_type).each  do |type, scores|
+       @scores.sort_by(&:points).reverse.group_by(&:race_type).each  do |type, scores|
          edition_line = []
     %>
         <section id="content_<%=type unless type.nil?%>">
@@ -99,7 +99,7 @@
                 <tbody>
                 <%scores.each_with_index do |score, i|
                   edition_line[i] = ""
-                  edition_line[i] += '<tr class="'+score.runner.sex+'" data-search="'+I18n.transliterate("#{score.runner.try(:last_name)} #{score.runner.try(:first_name)}".upcase)+'" data-sexe-search="'+score.runner.sex+'" data-category-search="'+score.runner.category+'" data-bib-search="'+score.runner.category+'">' + "\n"
+                  edition_line[i] += "<tr class=\"#{score.runner.try(:sex)}\" data-search=\"#{I18n.transliterate("#{score.runner.try(:last_name)} #{score.runner.try(:first_name)}".upcase)}\" data-sexe-search=\"#{score.runner.try(:sex)}\" data-category-search=\"#{score.runner.try(:category)}\" data-bib-search=\"#{score.runner.try(:category)}\">  \n"
                   edition_line[i] += '<td class="center fixedColumn">' + (i+1).to_s + '</td>' + "\n"
                   edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score.runner.try(:first_name)} #{score.runner.try(:last_name)}", :named).html_safe+'</td>' + "\n"
                   # unless results_bib_any.empty?
@@ -133,7 +133,7 @@
                   end
                   if results_categ_rank_any
                     unless score.nil?
-                      edition_line[i] += '<td class="center">'+score.runner.results.count.to_s+'</td>' + "\n"
+                      edition_line[i] += '<td class="center">'+score.runner.results_in_challenge(@challenge.id).to_s+'</td>' + "\n"
                     else
                       edition_line[i] += '<td class="center">-</td>' + "\n"
                     end
