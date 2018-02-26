@@ -17,15 +17,14 @@ class UpdateScoresJob < ActiveJob::Base
                      race_id: result.race.id,
                      points: result.points,
                      race_type: result.race.race_type)
-        p s.errors
       else
         last_score = result.runner.scores.last
-        Score.create(runner_id: result.runner.id,
+        s = Score.create(runner_id: result.runner.id,
                      race_id: result.race.id,
                      points: last_score.points + result.points,
                      race_type: result.race.race_type)
-        p s.errors
       end
+      p s.errors
       result.update(processed: true)
     end
   end
