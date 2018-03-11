@@ -105,7 +105,7 @@
 								</thead>
 					      <tbody>
 					      <%results.each_with_index do |result, i|
-                                    full_name = "#{result.last_name}"
+                                    full_name = "#{result.first_name} #{result.last_name}"
                                     name = full_name.blank? ? result.name : full_name
 									if result.sex.nil?
 										result.sex = ""
