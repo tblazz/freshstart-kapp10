@@ -203,6 +203,7 @@ function participant_filter() {
   setPagination();
   setLineHeight();
   update_participants_style(filters);
+  clean_mobile();
 }
 
 /*
@@ -512,6 +513,7 @@ function setPagination() {
 }
 
 function setLineHeight() {
+  console.log('set line heigh');
   var returnedMaxLength = 0;
   if (typeof longestName !== 'undefined') {
     var labels = $('label').toArray();
@@ -531,6 +533,13 @@ function setLineHeight() {
     return returnedMaxLength;
   }
   return 0;
+}
+
+function clean_mobile() {
+  if (mobileDevice() == true) {
+    $("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
+    $("table.results tbody td").addClass("mobileView");
+  }
 }
 
 $(document).ready(function(){
@@ -554,9 +563,7 @@ $(document).ready(function(){
   onSectionDiv = 0;
   onContainerClick = 0;
   count = 1;
-  console.log(mobileDevice());
-  console.log(mobileDevice());
-  console.log(mobileDevice());
+
   if (mobileDevice() == true) {
     var $table = $(currentSelectedSection + ' table.results');
     $(".desktop-only").hide();
@@ -715,6 +722,8 @@ $(document).ready(function(){
       $(currentSelectedSection).scrollTop(pos);
     }
   });
+
+  clean_mobile();
 });
 
 
