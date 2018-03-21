@@ -15,6 +15,9 @@
     <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a>
 
     <div class="kapp10Filters">
+      <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
+      </select>
+      
       <select name="filterDepartment" id="filterDepartment" class="filtersSearch" onchange="eventsFilter()">
         <option value="ALL">Département</option>
         <% @departments.each do |d| %>
@@ -29,8 +32,6 @@
         <% end %>
       </select>
 
-      <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
-      </select>
     </div>
 
     <div class="kapp10Research">
