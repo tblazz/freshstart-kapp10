@@ -373,7 +373,7 @@ function displaySection() {
 
 $(document).ready(function() {
   createSelectMonth();
-  ITEMS_PER_PAGE = 50;
+  ITEMS_PER_PAGE = 5;
   prevPos = 0;
   onSectionDiv = 0;
   onContainerClick = 0;
