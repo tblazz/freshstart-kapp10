@@ -26,7 +26,7 @@ section {
     padding: 10px;
 }
 
-.event:nth-child(even) {
+.event:nth-child(odd) {
     background: #eee;
 }
 
@@ -52,7 +52,7 @@ section {
 }
 
 
-.striped:nth-child(even) {
+.striped:nth-child(odd) {
     background: #eee;
 }
 .results-button{
