@@ -375,6 +375,7 @@ function updateSelectedRaces() {
       }
     });
   }
+  clean_mobile();
 }
 
 function scrollTable(event) {
@@ -513,7 +514,6 @@ function setPagination() {
 }
 
 function setLineHeight() {
-  console.log('set line heigh');
   var returnedMaxLength = 0;
   if (typeof longestName !== 'undefined') {
     var labels = $('label').toArray();
