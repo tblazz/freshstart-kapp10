@@ -99,7 +99,8 @@
                 <tbody>
                 <%scores.each_with_index do |score, i|
                   edition_line[i] = ""
-                  edition_line[i] += "<tr class='#{score.runner.try(:sex)}' data-search='#{I18n.transliterate("#{score.runner.try(:last_name)} #{score.runner.try(:first_name)}".upcase)}' data-sexe-search='#{score.runner.try(:sex)}' data-category-search='#{score.runner.try(:category)}' data-bib-search='#{score.runner.try(:category)}'>  \n"
+
+                  edition_line[i] += "<tr class=\"#{score.runner.try(:sex)}\" data-search=\"#{I18n.transliterate("#{score.runner.try(:last_name)} #{score.runner.try(:first_name)}".upcase)}\" data-sexe-search=\"#{score.runner.try(:sex)}\" data-category-search=\"#{score.runner.try(:category)}\" data-bib-search=\"#{score.runner.try(:category)}\">  \n"
                   edition_line[i] += '<td class="center fixedColumn">' + (i+1).to_s + '</td>' + "\n"
                   edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score.runner.try(:first_name)} #{score.runner.try(:last_name)}", :named).html_safe+'</td>' + "\n"
                   # unless results_bib_any.empty?
@@ -162,6 +163,5 @@
     </script>
   </div>
 </div>
-<p style="color:black;height:23px;"><em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%=I18n.l @generated_at%>.</em></p>
 <p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
 </body>

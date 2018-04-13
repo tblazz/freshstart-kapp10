@@ -2,10 +2,10 @@ require 'sidekiq/web'
 require 'sidekiq-scheduler/web'
 
 Rails.application.routes.draw do
-  get 'widget', to: redirect('/widget.js')
+  get 'widget', to: redirect('/widget3.js')
   get 'client_widget', to: redirect('/widget-client.js')
   get 'client_widget_css', to: redirect('/widget-client.css')
-  get 'challenge_widget', to: redirect('/widget-challenge.js')
+  get 'challenge_widget', to: redirect('/widget-challenge-test.js')
 
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
