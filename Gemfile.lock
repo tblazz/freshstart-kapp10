@@ -67,6 +67,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    charlock_holmes_bundle_icu (0.6.9.2)
     climate_control (0.1.0)
     cocaine (0.5.8)
       climate_control (>= 0.0.3, < 1.0)
@@ -351,6 +352,7 @@ DEPENDENCIES
   aws-sdk (~> 2.3.0)
   bitly (~> 0.10.4)
   bootstrap-sass
+  charlock_holmes_bundle_icu (~> 0.6.9.2)
   coffee-rails
   database_cleaner
   dotenv-rails (~> 2.1.1)
