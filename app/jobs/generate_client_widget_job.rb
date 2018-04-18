@@ -55,19 +55,19 @@ class GenerateClientWidgetJob < ActiveJob::Base
     line
 =end
 
-    line =+ "<div class='event col-xs-12 firstTd striped' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
-      line =+ "<h3>#{ event.name }</h3>"
-      line =+ "<ul>"
-        line =+ "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div></li>"
-        line =+ "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div></li>"
-        line =+ "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div></li>"
-      line =+ "</ul>"
-      line =+ "<div class='theDate'>"
-        line =+ "<div class='myDate'><div class='pull-right'>#{ event.editions.last.date.strftime('%d/%m/%Y') }</div></div>"
-        line =+ "<div class='row'><div class='pull-right results-count'><div>#{ "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 }</div></div></div>"
-        line =+ "<div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('#{ event.editions.last.widget_url }')\">Voir les résultats</a></div></div>"
-      line =+ "</div>"
-    line =+ "</div>"
+    line = "<div class='event col-xs-12 firstTd striped' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
+      line += "<h3>#{ event.name }</h3>"
+      line += "<ul>"
+        line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div></li>"
+        line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div></li>"
+        line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div></li>"
+      line += "</ul>"
+      line += "<div class='theDate'>"
+        line += "<div class='myDate'><div class='pull-right'>#{ event.editions.last.date.strftime('%d/%m/%Y') }</div></div>"
+        line += "<div class='row'><div class='pull-right results-count'><div>#{ "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 }</div></div></div>"
+        line += "<div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('#{ event.editions.last.widget_url }')\">Voir les résultats</a></div></div>"
+      line += "</div>"
+    line += "</div>"
     line
   end
 
