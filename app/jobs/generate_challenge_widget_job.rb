@@ -6,14 +6,13 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
 
   def perform(challenge_id)
     @challenge = Challenge.find(challenge_id)
-    raw_scores = @challenge.scores
-    @scores = []
+    scores = []
 
-    raw_scores.sort_by(&:id).group_by(&:runner_id).each  do |runner_id, scores|
-      @scores << scores.last
+    @challenge.runners.uniq.each do |runner|
+      scores << runner.scores
     end
 
-    @scores ||= []
+    @scores = scores.flatten
 
     @categories = @scores.map { |s| s.runner.category }.compact.uniq
     @types = @scores.pluck(:race_type).uniq

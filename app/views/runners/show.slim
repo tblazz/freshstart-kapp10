@@ -1,0 +1,46 @@
+h1= "#{@runner.first_name} #{@runner.last_name}"
+
+.row.events
+  .col-md-10.col-md-offset-1
+    h2 Résultats
+    table.table.table-bordered.table-default.table-striped
+      thead
+        tr
+          th.text-center ID
+          th.text-center Course
+          th.text-center Rank
+          th.text-center Bib
+          th.text-center Points
+          th.text-center Type de course
+          th.text-center Actions
+      tbody
+        - @results.each do |result|
+          tr
+            td= result.id
+            td= "#{result.race.edition.event.name} #{result.race.edition.description}"
+            td= result.rank
+            td= result.bib
+            td= result.points
+            td
+              span.label.label-primary= result.race.race_type
+            td
+
+.row.events
+  .col-md-10.col-md-offset-1
+    h2 Scores
+    table.table.table-bordered.table-default.table-striped
+      thead
+        tr
+          th.text-center ID
+          th.text-center Date
+          th.text-center Points
+          th.text-center Type
+          th.text-center Actions
+      tbody
+        - @scores.each do |score|
+          tr
+            td= score.id
+            td= score.created_at.strftime('%d/%m/%Y')
+            td= score.points
+            td= score.race_type
+            td

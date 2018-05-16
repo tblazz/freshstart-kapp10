@@ -38,6 +38,7 @@ gem 'google_url_shortener'
 gem 'slim'
 gem 'font-awesome-sass', '~> 4.7.0'
 gem 'open_uri_redirections'
+gem 'kaminari'
 
 group :development, :test do
   gem 'minitest-rails'

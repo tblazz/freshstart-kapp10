@@ -32,6 +32,9 @@ class Result < ActiveRecord::Base
   belongs_to :race
   belongs_to :runner
 
+  # Scopes
+  scope :this_year, -> { where('created_at > ?', Date.current.beginning_of_year) }
+
   def sent_message
     sms.message
   end

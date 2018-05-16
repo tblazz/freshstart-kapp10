@@ -8,16 +8,13 @@ class GenerateChallengeWidgetService
   end
 
   def call
-    raw_scores = @challenge.scores
-    p 'Raw Scores'
-    p raw_scores
-    @scores = []
+    scores = []
 
-    raw_scores.sort_by(&:id).group_by(&:runner_id).each  do |runner_id, scores|
-      @scores << scores.last
+    @challenge.runners.each do |runner|
+      scores << runner.scores
     end
 
-    @scores ||= []
+    @scores = scores.flatten
 
     @categories = @scores.map { |s| s.runner.category }.compact.uniq
     @types = @scores.pluck(:race_type).uniq

@@ -1,7 +1,6 @@
 class Score < ApplicationRecord
   # Relations
   belongs_to :runner
-  belongs_to :race
   delegate :last_name, to: :runner
 
   # Validations

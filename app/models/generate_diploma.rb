@@ -1,4 +1,4 @@
-include Rails.application.routes.url_helpers
+# include Rails.application.routes.url_helpers
 
 class GenerateDiploma
   def initialize(result, photo_format=:standard)

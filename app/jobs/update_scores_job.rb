@@ -2,33 +2,29 @@ class UpdateScoresJob < ActiveJob::Base
   queue_as :normal
 
   def perform
-    @results = Result.where(processed: false)
-    p @results.count
+    Score.delete_all
 
-    @results.each do |result|
+    Runner.find_each do |runner|
       p '------------'
-      p 'Result :'
-      p result.id
+      p 'Runner :'
+      p runner.id
       p '------------'
-      next if result.runner.nil? || result.race.nil? || result.race.coef.blank?
+
+      all_results = runner.results.this_year
+      next if all_results.count < 1
 
       begin
-        if result.runner.scores.blank?
-          s = Score.create(runner_id: result.runner.id,
-                           race_id: result.race.id,
-                           points: result.points,
-                           race_type: result.race.race_type)
-        else
-          last_score = result.runner.scores.last
-          s = Score.create(runner_id: result.runner.id,
-                           race_id: result.race.id,
-                           points: last_score.points + result.points,
-                           race_type: result.race.race_type)
+        h = {}
+
+        all_results.group_by { |r| r.race.race_type }.each do |race_type, results|
+          h[race_type] = results.map(&:points).compact.sum
         end
-        p s.errors
-        result.update(processed: true)
+
+        h.each do |race_type, points|
+          Score.create(runner_id: runner.id, points: points, race_type: race_type)
+        end
       rescue => e
-        p "## ERROR ## : #{result.id}"
+        p "## ERROR ## : #{runner.id}"
         p e
         next
       end

@@ -3,6 +3,7 @@ class Challenge < ApplicationRecord
   has_many :events
   has_many :races, through: :events
   has_many :scores, through: :races, source: :scores
+  has_many :runners, through: :events
 
   # Validation
   validates :name, presence: true

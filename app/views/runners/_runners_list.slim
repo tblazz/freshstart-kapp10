@@ -1,0 +1,27 @@
+.row.events
+  .col-md-10.col-md-offset-1
+    table.table.table-bordered.table-default.table-striped
+      thead
+        tr
+          th.text-center ID
+          th.text-center Prénom
+          th.text-center Nom
+          th.text-center Date de naissance
+          th.text-center Sexe
+          th.text-center Clé
+          th.text-center Actions
+      tbody
+        - runners.each do |runner|
+          tr
+            td= runner.id
+            td= runner.first_name
+            td= runner.last_name
+            td= runner.dob.strftime('%m/%d/%Y')
+            td
+              span.label.label-primary= runner.sex
+            td= runner.id_key
+            td= link_to 'Voir', runner_path(runner)
+
+.row.events
+  .col-md-10.col-md-offset-1
+    .text-center= paginate @runners

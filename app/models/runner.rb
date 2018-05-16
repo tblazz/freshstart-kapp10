@@ -12,6 +12,9 @@ class Runner < ApplicationRecord
 
   after_validation :generate_id_key, on: :create
 
+  # Scopes
+  scope :with_name, -> (q) { where("lower(last_name) LIKE ? OR lower(first_name) LIKE ?", "%#{q.downcase}%", "%#{q.downcase}%") }
+
   def results_in_challenge(challenge_id)
     c = Challenge.find(challenge_id)
       results.select { |r| c.events.map(&:editions).to_a.flatten.include?(r.edition) }.count
