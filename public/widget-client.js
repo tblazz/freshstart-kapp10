@@ -399,8 +399,8 @@ $(document).ready(function() {
     $("div").removeClass("tableWrapper");
     $("#resultsHead th, .results td").removeClass("fixedColumn fixedColumnWithMargin");
     $("table.results tbody td").addClass("mobileView");
-    $("table.results tbody").css("height", "545px");
-    $("table.results").closest("div").css({"height" : "545px",
+    $("table.results tbody").css("height", "600px");
+    $("table.results").closest("div").css({"height" : "600px",
       "overflow" : "auto",
       "margin-top" : "5px"});
     $table.floatThead({
@@ -417,7 +417,7 @@ $(document).ready(function() {
 
   resizeTableHead();
   if (mobileDevice() == false) {
-    $('#resultsContainer').height('545px');
+    $('#resultsContainer').height('600px');
   }
   resultsContainerHeight = $('#resultsContainer').height();
   setPagination();
