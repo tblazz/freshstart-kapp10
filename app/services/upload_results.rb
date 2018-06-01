@@ -110,7 +110,7 @@ class UploadResults
                   categ_rank: row[CATEG_RANK_INDEX],
                   categ: row[CATEG_INDEX],
                   sex_rank: row[SEX_RANK_INDEX],
-                  sex: row[SEX_INDEX],
+                  sex: ['m', 'h'].include?(row[SEX_INDEX].downcase) ? 'M' : 'F',
                   time: row[TIME_INDEX],
                   speed: row[SPEED_INDEX],
                   message: row[MESSAGE_INDEX],
