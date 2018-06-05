@@ -8,11 +8,21 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
     @challenge = Challenge.find(challenge_id)
     scores = []
 
-    @challenge.runners.uniq.each do |runner|
-      scores << runner.scores
-    end
+    #@challenge.runners.uniq.each do |runner|
+    #  scores << runner.scores
+    #end
 
-    @scores = scores.flatten
+    # @challenge.runners.each do |runner|
+    #    if runner.scores.present?
+    #      runner.scores.each do |s|
+    #        scores << s if s.points.to_i > 0
+    #      end
+    #    end
+    # end
+
+
+    # @scores = scores
+    @scores = Score.ordered_by_points.last(10000)
 
     @categories = @scores.map { |s| s.runner.category }.compact.uniq
     @types = @scores.pluck(:race_type).uniq

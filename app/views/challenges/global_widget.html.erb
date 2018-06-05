@@ -133,7 +133,7 @@
                   end
                   if results_categ_rank_any
                     unless score.nil?
-                      edition_line[i] += '<td class="center">'+score.runner.results.count.to_s+'</td>' + "\n"
+                      edition_line[i] += '<td class="center">'+score.runner.results_in_global_challenge.to_s+'</td>' + "\n"
                     else
                       edition_line[i] += '<td class="center">-</td>' + "\n"
                     end

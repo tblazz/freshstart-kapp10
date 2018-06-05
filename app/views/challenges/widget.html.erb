@@ -75,8 +75,10 @@
 <div id="mainResultsContent">
   <div id="resultsContainer">
     <%
-       @scores.sort_by(&:points).reverse.group_by(&:race_type).each  do |type, scores|
+       @scores.group_by(&:race_type).each  do |type, scores|
          edition_line = []
+         #@route = @scores.sort_by(&:points).reverse.group_by(&:race_type)['route'].count
+         #@trail = @scores.sort_by(&:points).reverse.group_by(&:race_type)['trail'].count
     %>
         <section id="content_<%=type unless type.nil?%>">
           <div class="scrollbar desktop-only" id="scrollbar_<%=type unless type.nil?%>">
@@ -156,6 +158,15 @@
     <script>
         edition_lines = [<%= @edition_lines.to_json %>][0];
         console.log(edition_lines);
+        lines_count = <%= @edition_lines.count %>;
+        console.log(lines_count);
+
+        console.log('Route :');
+        console.log(<%= 1 %>);
+
+        console.log('Trail :');
+        console.log(<%= 1 %>);
+
         categoriesSorted = [<%= @categories_sorted.to_json %>];
         console.log('categoriesSorted =');
         console.log(categoriesSorted);

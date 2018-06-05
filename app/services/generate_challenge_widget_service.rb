@@ -10,11 +10,21 @@ class GenerateChallengeWidgetService
   def call
     scores = []
 
-    @challenge.runners.each do |runner|
-      scores << runner.scores
-    end
+    # find races
+    # find results
+    # find runners
+    # find scores
 
-    @scores = scores.flatten
+    #@challenge.runners.each do |runner|
+    #  if runner.scores.present?
+    #    runner.scores.each do |s|
+    #      scores << s if s.points.to_i > 0
+    #    end
+    #  end
+    #end
+
+    #@scores = scores.flatten
+    @scores =  Score.last #@scores[0..500]
 
     @categories = @scores.map { |s| s.runner.category }.compact.uniq
     @types = @scores.pluck(:race_type).uniq

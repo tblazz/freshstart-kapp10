@@ -8,4 +8,5 @@ class Score < ApplicationRecord
   validates :race_type, inclusion: { in: ['trail', 'route', 'funrace'] }
 
   # Scopes
+  scope :ordered_by_points, -> { order(points: :desc) }
 end

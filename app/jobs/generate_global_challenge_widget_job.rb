@@ -5,20 +5,20 @@ class GenerateGlobalChallengeWidgetJob < ActiveJob::Base
   queue_as :normal
 
   def perform
-    races = []
-    Event.where(global_challenge: true).each { |e| races << e.races }
     runners = []
-    races.flatten.each { |race| runners << race.runners }
-    @scores = []
-    runners.flatten.uniq.each { |runner| @scores << runner.scores.try(:last) }
+    scores = []
+    Event.where(global_challenge: true).each { |e| runners << e.runners }
 
-    @categories = @scores.map { |s| s.runner.category }.uniq
-    @types = ['route', 'trail']
+    runners.flatten.uniq.each { |runner| scores << runner.scores }
+    @scores = scores.flatten
+
+    @categories = @scores.map { |s| s.runner.category }.compact.uniq
+    @types = @scores.pluck(:race_type).uniq
     @categories_sorted = Hash.new
     @edition_longest_name = Hash.new
     @edition_lines = Hash.new
     # @challenge.races.scores.order([:race_type,:points]).group_by(&:race_type).each  do |challenge, scores|
-    @scores.sort { |a,b| a.points <=> b.points }.reverse.group_by(&:race_type).each  do |race_type, scores|
+    @scores.sort_by(&:points).group_by(&:race_type).each  do |race_type, scores|
       @edition_longest_name['global'] = scores.map(&:last_name).group_by(&:size).max.last[0].length
 
       female_sorted = scores.select do |score|

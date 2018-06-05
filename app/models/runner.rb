@@ -20,6 +20,11 @@ class Runner < ApplicationRecord
       results.select { |r| c.events.map(&:editions).to_a.flatten.include?(r.edition) }.count
   end
 
+  def results_in_global_challenge
+    events = Event.where(global_challenge: true)
+    results.select { |r| events.map(&:editions).to_a.flatten.include?(r.edition) }.count
+  end
+
   private
   def generate_id_key
     id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
