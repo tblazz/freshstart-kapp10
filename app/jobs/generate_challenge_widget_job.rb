@@ -8,43 +8,34 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
     @challenge = Challenge.find(challenge_id)
     scores = []
 
-    #@challenge.runners.uniq.each do |runner|
-    #  scores << runner.scores
-    #end
+    # get races
+    race_ids = @challenge.races.pluck(:id).compact
+    # get runners
+    runner_ids = Result.where(race_id: race_ids).pluck(:runner_id).compact
 
-    # @challenge.runners.each do |runner|
-    #    if runner.scores.present?
-    #      runner.scores.each do |s|
-    #        scores << s if s.points.to_i > 0
-    #      end
-    #    end
-    # end
+    # get scores
+    # [0 first_name, 1 last_name, 2 points, 3 nb_courses, 4 sex, 5 category, 6 race_type]
+    Score.includes(:runner).where(runner_id: runner_ids).find_each do |s|
+      scores << [s.runner.first_name, s.runner.last_name, s.points, runner_ids.count(s.runner_id), s.runner.sex, s.runner.category, s.race_type]
+    end
+    @scores = scores
 
-
-    # @scores = scores
-    @scores = Score.ordered_by_points.last(10000)
-
-    @categories = @scores.map { |s| s.runner.category }.compact.uniq
-    @types = @scores.pluck(:race_type).uniq
+    @categories = @scores.map { |s| s[5] }.compact.uniq
+    @types = @scores.map { |s| s[6] }.compact.uniq
     @categories_sorted = Hash.new
     @edition_longest_name = Hash.new
     @edition_lines = Hash.new
-    # @challenge.races.scores.order([:race_type,:points]).group_by(&:race_type).each  do |challenge, scores|
-    @scores.sort_by(&:points).group_by(&:race_type).each  do |race_type, scores|
-      @edition_longest_name[@challenge.name] = scores.map(&:last_name).group_by(&:size).max.last[0].length
 
-      female_sorted = scores.select do |score|
-        score.runner.sex && score.runner.sex == 'F'
-      end
-      male_sorted = scores.select do |score|
-        score.runner.sex && (score.runner.sex == 'M' || score.runner.sex == 'H')
-      end
-      all_sorted = scores.select do |score|
-        score.runner.sex && (score.runner.sex == 'M' || score.runner.sex == 'F' || score.runner.sex == '' || score.runner.sex == 'H')
-      end
-      female_categories = female_sorted.map { |f| f.runner.category }.compact.uniq
-      male_categories = male_sorted.map { |m| m.runner.category }.compact.uniq
-      all_categories = all_sorted.map { |a| a.runner.category }.compact.uniq
+    @scores.sort_by { |s| s[2] }.group_by { |s| s[6] }.each  do |race_type, scores|
+      @edition_longest_name[@challenge.name] = scores.sort_by { |s| s[1].size }.last.size
+
+      female_sorted = scores.select { |score| score[4] && score[4] == 'F' }
+      male_sorted = scores.select { |score|  score[4] && (score[4] == 'M' || score[4] == 'H') }
+      all_sorted = scores.select { |score| score[4] && (score[4] == 'M' || score[4] == 'F' || score[4] == '' || score[4] == 'H') }
+
+      female_categories = female_sorted.map { |f| f[5] }.compact.uniq
+      male_categories = male_sorted.map { |m| m[5] }.compact.uniq
+      all_categories = all_sorted.map { |a| a[5] }.compact.uniq
 
       @categories_sorted[race_type] = { F: female_categories, M: male_categories, ALL: all_categories }
     end
@@ -59,5 +50,4 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
       @challenge.update_attribute(:widget, @challenge.widget_gist)
     end
   end
-
 end

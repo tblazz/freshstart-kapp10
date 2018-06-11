@@ -75,10 +75,8 @@
 <div id="mainResultsContent">
   <div id="resultsContainer">
     <%
-       @scores.group_by(&:race_type).each  do |type, scores|
+       @scores.group_by { |s| s[6] }.each  do |type, scores|
          edition_line = []
-         #@route = @scores.sort_by(&:points).reverse.group_by(&:race_type)['route'].count
-         #@trail = @scores.sort_by(&:points).reverse.group_by(&:race_type)['trail'].count
     %>
         <section id="content_<%=type unless type.nil?%>">
           <div class="scrollbar desktop-only" id="scrollbar_<%=type unless type.nil?%>">
@@ -99,12 +97,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <%scores.each_with_index do |score, i|
+                <%scores.sort_by { |s| s[2] }.reverse.each_with_index do |score, i|
                   edition_line[i] = ""
 
-                  edition_line[i] += "<tr class=\"#{score.runner.try(:sex)}\" data-search=\"#{I18n.transliterate("#{score.runner.try(:last_name)} #{score.runner.try(:first_name)}".upcase)}\" data-sexe-search=\"#{score.runner.try(:sex)}\" data-category-search=\"#{score.runner.try(:category)}\" data-bib-search=\"#{score.runner.try(:category)}\">  \n"
+                  edition_line[i] += "<tr class=\"#{score[4]}\" data-search=\"#{I18n.transliterate("#{score[1]} #{score[0]}".upcase)}\" data-sexe-search=\"#{score[4]}\" data-category-search=\"#{score[5]}\" data-bib-search=\"#{score[5]}\">  \n"
                   edition_line[i] += '<td class="center fixedColumn">' + (i+1).to_s + '</td>' + "\n"
-                  edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score.runner.try(:first_name)} #{score.runner.try(:last_name)}", :named).html_safe+'</td>' + "\n"
+                  edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score[0]} #{score[1]}", :named).html_safe+'</td>' + "\n"
                   # unless results_bib_any.empty?
                   #   unless result.bib.to_i < 0
                   #     edition_line[i] += '<td class="center">'+result.bib.to_s+'</td>' + "\n"
@@ -112,10 +110,10 @@
                   #     edition_line[i] += '<td class="center">-</td>' + "\n"
                   #   end
                   # end
-                  edition_line[i] += '<td class="center">'+score.points.to_s+'</td>' + "\n"
+                  edition_line[i] += '<td class="center">'+score[2].to_s+'</td>' + "\n"
                   if results_sex_any
-                    unless score.runner.sex.nil?
-                      edition_line[i] += '<td class="center">'+score.runner.sex+'</td>' + "\n"
+                    unless score[4].nil?
+                      edition_line[i] += '<td class="center">'+score[4]+'</td>' + "\n"
                     else
                       edition_line[i] += '<td class="center">-</td>' + "\n"
                     end
@@ -128,15 +126,15 @@
                   #   end
                   # end
                   if results_categ_any
-                    unless score.runner.category.nil?
-                      edition_line[i] +=  '<td class="center">'+score.runner.category.to_s+'</td>' + "\n"
+                    unless score[5].nil?
+                      edition_line[i] +=  '<td class="center">'+score[5].to_s+'</td>' + "\n"
                     else
                       edition_line[i] += '<td class="center">-</td>' + "\n"
                     end
                   end
                   if results_categ_rank_any
                     unless score.nil?
-                      edition_line[i] += '<td class="center">'+score.runner.results_in_challenge(@challenge.id).to_s+'</td>' + "\n"
+                      edition_line[i] += '<td class="center">'+score[3].to_s+'</td>' + "\n"
                     else
                       edition_line[i] += '<td class="center">-</td>' + "\n"
                     end
@@ -160,13 +158,6 @@
         console.log(edition_lines);
         lines_count = <%= @edition_lines.count %>;
         console.log(lines_count);
-
-        console.log('Route :');
-        console.log(<%= 1 %>);
-
-        console.log('Trail :');
-        console.log(<%= 1 %>);
-
         categoriesSorted = [<%= @categories_sorted.to_json %>];
         console.log('categoriesSorted =');
         console.log(categoriesSorted);
