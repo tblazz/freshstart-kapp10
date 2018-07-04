@@ -3,6 +3,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget3.js"></script>
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
+<!-- najm -->
 <style>
 <% if @edition.races_count > 0 %>
 	<%= @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |edition, results|
