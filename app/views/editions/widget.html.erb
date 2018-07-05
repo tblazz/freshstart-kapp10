@@ -3,7 +3,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget3.js"></script>
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
-<!-- najm -->
 <style>
 <% if @edition.races_count > 0 %>
 	<%= @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |edition, results|
@@ -15,7 +14,7 @@
 <body>
 	<%coder = HTMLEntities.new%>
 	<h1><%=coder.encode(@edition.event.name, :named).html_safe%> - <%=I18n.l @edition.date%></h1>
-	<h1>test najm</h1>
+	
 	<%
 	results_sex_any = @edition.results.pluck(:sex).any?
 	results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
