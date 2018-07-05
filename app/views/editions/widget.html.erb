@@ -15,6 +15,7 @@
 <body>
 	<%coder = HTMLEntities.new%>
 	<h1><%=coder.encode(@edition.event.name, :named).html_safe%> - <%=I18n.l @edition.date%></h1>
+	<h1>test najm</h1>
 	<%
 	results_sex_any = @edition.results.pluck(:sex).any?
 	results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
