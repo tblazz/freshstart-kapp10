@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-client.min.css">
 
 <!-- add fonts -->
-<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/widget-dev.kapp10.com/fonts/stylesheet.css">
+<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/fonts/stylesheet.css">
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyleClient.css">
 
 
@@ -18,7 +18,7 @@
 <body>
   <div class="container">
 
-    <!-- <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a> -->
+    <!-- <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a>  -->
     <div class="filtersConteners"> 
       <div class="kapp10Filters">
         <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
