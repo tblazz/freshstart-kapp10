@@ -9,34 +9,40 @@
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
 <link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-client.min.css">
 
+<!-- add fonts -->
+<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/widget-dev.kapp10.com/fonts/stylesheet.css">
+<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyleClient.css">
+
+
 <body>
   <div class="container">
 
-    <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a>
+    <!-- <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a> -->
+    <div class="filtersConteners">
+      <div class="kapp10Filters">
+        <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
+        </select>
 
-    <div class="kapp10Filters">
-      <select name="filterMonth" id="filterMonth" class="filtersSearch" onchange="eventsFilter()">
-      </select>
+        <select name="filterDepartment" id="filterDepartment" class="filtersSearch" onchange="eventsFilter()">
+          <option value="ALL">Département</option>
+          <% @departments.each do |d| %>
+              <option value="<%= d %>"><%= d %></option>
+          <% end %>
+        </select>
 
-      <select name="filterDepartment" id="filterDepartment" class="filtersSearch" onchange="eventsFilter()">
-        <option value="ALL">Département</option>
-        <% @departments.each do |d| %>
-            <option value="<%= d %>"><%= d %></option>
-        <% end %>
-      </select>
+        <select name="filterType" id="filterType" class="filtersSearch" onchange="eventsFilter()">
+          <option value="ALL">Type</option>
+          <% @types.each do |type| %>
+              <option value="<%= type %>"><%= type %></option>
+          <% end %>
+        </select>
 
-      <select name="filterType" id="filterType" class="filtersSearch" onchange="eventsFilter()">
-        <option value="ALL">Type</option>
-        <% @types.each do |type| %>
-            <option value="<%= type %>"><%= type %></option>
-        <% end %>
-      </select>
+      </div>
 
-    </div>
-
-    <div class="kapp10Research">
-      <input type="text" id="kapp10-filter" placeholder="Chercher..." class="filtersSearch" onkeyup="eventsFilter()"/>
-    </div>
+      <div class="kapp10Research">
+        <input type="text" id="kapp10-filter" placeholder="Chercher..." class="filtersSearch" onkeyup="eventsFilter()"/>
+      </div>
+    </div> <!-- filtersConteners -->
 
     <div class="text-center pagination-bloc"><div id="pagination_container"></div></div>
 
