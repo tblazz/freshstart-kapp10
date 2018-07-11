@@ -26,14 +26,14 @@
         </select>
 
         <select name="filterDepartment" id="filterDepartment" class="filtersSearch filterDepartementBg" onchange="eventsFilter()">
-          <option value="ALL">Département</option>
+          <option value="ALL">Départements</option>
           <% @departments.each do |d| %>
               <option value="<%= d %>"><%= d %></option>
           <% end %>
         </select>
 
         <select name="filterType" id="filterType" class="filtersSearch filterCategoryBg" onchange="eventsFilter()">
-          <option value="ALL">Type</option>
+          <option value="ALL">Type de course</option>
           <% @types.each do |type| %>
               <option value="<%= type %>"><%= type %></option>
           <% end %>
@@ -42,7 +42,7 @@
       </div>
 
       <div class="kapp10Research">
-        <input type="text" id="kapp10-filter" placeholder="Chercher..." class="filtersSearch filterSearchBg" onkeyup="eventsFilter()"/>
+        <input type="text" id="kapp10-filter" placeholder="Rechercher..." class="filtersSearch filterSearchBg" onkeyup="eventsFilter()"/>
       </div>
     </div> <!-- filtersConteners -->
 
