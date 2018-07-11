@@ -103,6 +103,24 @@
     $('.kapp10-embed').attr('src', source);
   }
 </script>
+
+<script>
+
+    jQuery(document).ready(function($) {
+      var pagination_container = $('#pagination_container').detach();
+      $('div.container').append(pagination_container);
+
+      var precedentPaginationBtn = $('.page-item.first a');
+      var suivantPaginationBtn = $('.page-item.last a');
+      //
+      precedentPaginationBtn.empty().append('Précédent');
+      suivantPaginationBtn.empty().append('Suivant');
+    });
+    
+
+
+  </script>
+
 </body>
 
 
