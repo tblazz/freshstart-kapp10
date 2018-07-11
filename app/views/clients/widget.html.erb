@@ -64,18 +64,24 @@
             <div class="tableWrapper" id="tableWrapper_tab">
               <div class="event-results">
                 <% @events.each do |event| %>
-                  <div class='event col-xs-12 firstTd striped'>
-                      <h3><%= event.name %></h3>
-                      <ul>
-                        <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'><%= event.department %></div></li>
-                        <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'><%= event.races.map(&:name).uniq.join(', ') %></div></li>
-                        <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'><% event.races.map(&:race_type).reject(&:blank?).join(', ') %></div></li>
-                      </ul>
-                      <div class="theDate">
-                        <div class="myDate"><div class="pull-right"><%= event.editions.last.date.strftime('%d/%m/%Y') %></div></div>
-                        <div class='row'><div class='pull-right results-count'><div><%= "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 %></div></div></div>
-                        <div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('<%= event.editions.last.widget_url %>')\">Voir les résultats</a></div></div>
+                  <div class='event col-xs-12 firstTd striped clearfix'> <!-- clearfix -->
+                      <div class="pull-left"> <!-- pull-left -->
+                        <h3><%= event.name %></h3>
+                        <ul>
+                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'><%= event.department %></div></li>
+                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'><%= event.races.map(&:name).uniq.join(', ') %></div></li>
+                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'><% event.races.map(&:race_type).reject(&:blank?).join(', ') %></div></li>
+                        </ul>
                       </div>
+
+                      <div class="pull-right"> <!-- pull-right -->
+                        <div class="theDate">
+                          <div class="myDate"><div class="pull-right"><%= event.editions.last.date.strftime('%d/%m/%Y') %></div></div>
+                          <div class='row'><div class='pull-right results-count'><div><%= "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 %></div></div></div>
+                          <div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('<%= event.editions.last.widget_url %>')\">Voir les résultats</a></div></div>
+                        </div>
+                      </div>
+
                   </div>
                 <% end %>
               </div>
