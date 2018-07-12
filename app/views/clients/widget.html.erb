@@ -53,9 +53,7 @@
       <div id="resultsContainer">
         <section id="content">
 
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloribus neque odit quos quasi obcaecati cum mollitia distinctio, blanditiis suscipit sequi dolores magni veritatis. Delectus, itaque, sit? Eligendi, optio quibusdam.
-          </p>
+          
 
           <div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
 
@@ -68,7 +66,11 @@
             <div class="tableWrapper" id="tableWrapper_tab">
               <div class="event-results">
                 <% @events.each do |event| %>
-                  <div class='event col-xs-12 firstTd striped clearfix'> <!-- clearfix --> 
+                  <div class='event col-xs-12 firstTd striped clearfix'> 
+
+                    <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloribus neque odit quos quasi obcaecati cum mollitia distinctio, blanditiis suscipit sequi dolores magni veritatis. Delectus, itaque, sit? Eligendi, optio quibusdam.
+          </p>
                       
                         <h3><%= event.name %></h3>
                         <ul>
