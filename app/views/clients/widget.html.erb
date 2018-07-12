@@ -68,9 +68,7 @@
                 <% @events.each do |event| %>
                   <div class='event col-xs-12 firstTd striped clearfix'> 
 
-                    <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa doloribus neque odit quos quasi obcaecati cum mollitia distinctio, blanditiis suscipit sequi dolores magni veritatis. Delectus, itaque, sit? Eligendi, optio quibusdam.
-          </p>
+                        <div class="pull-left">
                       
                         <h3><%= event.name %></h3>
                         <ul>
@@ -78,13 +76,15 @@
                           <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'><%= event.races.map(&:name).uniq.join(', ') %></div></li>
                           <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'><% event.races.map(&:race_type).reject(&:blank?).join(', ') %></div></li>
                         </ul>
-                      
 
-                      
+                        </div>
+
+                        <div class="pull-right">
                         <div class="theDate">
                           <div class="myDate"><div class="pull-right"><%= event.editions.last.date.strftime('%d/%m/%Y') %></div></div>
                           <div class='row'><div class='pull-right results-count'><div><%= "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 %></div></div></div>
                           <div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('<%= event.editions.last.widget_url %>')\">Voir les résultats</a></div></div>
+                        </div>
                         </div>
                       
 
