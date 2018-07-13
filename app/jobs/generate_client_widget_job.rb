@@ -63,7 +63,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
           line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div></li>"
           line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div></li>"
         line += "</ul>"
-      line += "</div>"
+      line += "</div>" 
 
       line += "<div class='pull-right'>"
         line += "<div class='theDate'>"
