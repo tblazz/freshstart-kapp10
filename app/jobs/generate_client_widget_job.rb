@@ -55,7 +55,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
     line
 =end
 
-    line = "<div class='event col-xs-12 firstTd striped clearfix' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
+    line = "<div class='event col-xs-12 firstTd clearfix' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
       line += "<div class='pull-left'>"
       line += "<h3>#{ event.name }</h3>"
       line += "<ul>"
