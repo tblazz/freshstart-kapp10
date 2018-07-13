@@ -70,10 +70,10 @@ class GenerateClientWidgetJob < ActiveJob::Base
         line += "<ul class='list-inline'>"
           line += "<li>"
             line += "<div class='myDate'>#{ event.editions.last.date.strftime('%d/%m/%Y') }</div>"
-            line += "<div class='row'><div class='results-count'><div>#{ "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 }</div></div></div>"
+            line += "<div class='results-count'><div>#{ "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 }</div></div>"
           line += "</li>"
           line += "<li>"
-            line += "<div class='row'><div class='results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('#{ event.editions.last.widget_url }')\">Voir les résultats</a></div></div>"
+            line += "<div class='results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('#{ event.editions.last.widget_url }')\">Voir les résultats</a></div>"
           line += "</li>"
         line += "</ul>"
 
