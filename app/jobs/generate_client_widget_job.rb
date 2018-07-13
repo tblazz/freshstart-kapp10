@@ -58,7 +58,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
     line = "<div class='event col-xs-12 firstTd clearfix' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
       line += "<div class='pull-left'>"
       line += "<h3>#{ event.name }</h3>"
-      line += "<ul class='list-inline>"
+      line += "<ul class='list-inline'>"
         line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div></li>"
         line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'>#{ event.races.map(&:name).uniq.join(', ') }</div></li>"
         line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'>#{ event.races.map(&:race_type).reject(&:blank?).join(', ') }</div></li>"
