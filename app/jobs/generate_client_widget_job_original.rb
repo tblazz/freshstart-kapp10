@@ -55,7 +55,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
     line
 =end
 
-    line = "<div class='event col-xs-12 firstTd striped' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
+    line = "<div class='event col-xs-12 firstTd striped clearfix' data-name-search='#{ event.name }' data-department-search='#{ event.department }' data-type-search='#{event.races.map(&:race_type).reject(&:blank?).join(' ')}' data-month-search='#{get_month(event.editions.last.date)}'>"
       line += "<h3>#{ event.name }</h3>"
       line += "<ul>"
         line += "<li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'>#{ event.department }</div></li>"
