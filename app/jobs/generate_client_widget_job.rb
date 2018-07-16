@@ -67,7 +67,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
       line += "<div class='pull-right'>"
       line += "<div class='theDate'>"
 
-        line += "<ul class='list-inline'>"
+        line += "<ul class='list-inline'>" 
           line += "<li>"
             line += "<div class='myDate'>#{ event.editions.last.date.strftime('%d/%m/%Y') }</div>"
             line += "<div class='results-count'><div>#{ "#{event.editions.last.results.count} <span>finisseurs</span>" if event.editions.last.results.count > 0 }</div></div>"
