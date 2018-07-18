@@ -127,6 +127,12 @@
       //
       precedentPaginationBtn.empty().append('Précédent');
       suivantPaginationBtn.empty().append('Suivant');
+
+      //pour les boutton precedent/suivant
+      $('.page-item a').click(function(event) {
+        /* Act on the event */
+        console.log('clicked ...');
+      });
     });
     
 
