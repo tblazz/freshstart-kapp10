@@ -132,6 +132,8 @@
       $('.page-item a').click(function(event) {
         /* Act on the event */
         console.log('clicked ...');
+        $(".page-item.first a").text('Précédent');
+        $(".page-item.last a").text('Suivant');
       });
     });
     
