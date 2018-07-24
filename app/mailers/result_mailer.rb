@@ -10,4 +10,19 @@ class ResultMailer < ApplicationMailer
     @result.update_attribute(:email_sent_at, Time.now)
   end
 
+  def mail_original_diploma(result_id)
+    @result = Result.find(result_id)
+
+    return unless @result.diploma? && @result.mail && @result.purchased_at?
+
+    attachments['diploma.jpg'] = {
+      mime_type: 'image/jpeg',
+      encoding: 'base64',
+      content: open(@result.diploma.url).read
+    }
+
+    subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
+
+    mail to: @result.mail, from: I18n.t('mail_sender', sender_mail: @result.race.email_sender), subject: subject
+  end
 end
