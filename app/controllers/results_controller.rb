@@ -11,7 +11,12 @@ class ResultsController < ApplicationController
       }
       format.jpg {
         @result = Result.find(params[:id])
-        send_data(diploma.image_kit(IMAGE_HEIGHT[@result.edition.template],IMAGE_WIDTH[@result.edition.template]).to_img(:jpg), type: "image/jpeg", disposition:'inline')
+        diploma_image_data = diploma.image_kit(
+          IMAGE_HEIGHT[@result.edition.template],
+          IMAGE_WIDTH[@result.edition.template]
+        ).to_img(:jpg)
+        send_data diploma_image_data, type: "image/jpeg",
+                                      disposition:'inline'
       }
     end
   end
