@@ -10,8 +10,9 @@ class ResultMailer < ApplicationMailer
     @result.update_attribute(:email_sent_at, Time.now)
   end
 
-  def mail_original_diploma(result_id)
+  def mail_original_diploma(result_id, send_diploma_by_email)
     @result = Result.find(result_id)
+    @send_diploma_by_email = send_diploma_by_email
 
     return unless @result.diploma? && @result.mail && @result.purchased_at?
 
@@ -19,7 +20,7 @@ class ResultMailer < ApplicationMailer
       mime_type: 'image/jpeg',
       encoding: 'base64',
       content: open(@result.diploma.url).read
-    }
+    } if @send_diploma_by_email
 
     subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
 
