@@ -43,7 +43,8 @@ class Result < ActiveRecord::Base
   belongs_to :race
   belongs_to :runner
 
-  has_attached_file :diploma, styles: { freemium: '1000x666' }
+  has_attached_file :diploma, styles: { freemium: '1000x666' },
+                              source_file_options: { freemium: '-density 72' }
   validates_attachment_content_type :diploma, content_type: /\Aimage\/.*\z/
 
   def sent_message
