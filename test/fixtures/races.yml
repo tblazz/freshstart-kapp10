@@ -26,6 +26,10 @@
 #  external_link                 :string
 #  external_link_button          :string
 #  edition_id                    :integer
+#  coef                          :integer
+#  category                      :string
+#  department                    :string
+#  race_type                     :string
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

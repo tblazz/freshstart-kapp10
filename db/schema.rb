@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180118085900) do
+ActiveRecord::Schema.define(version: 20180724095020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,10 @@ ActiveRecord::Schema.define(version: 20180118085900) do
     t.string   "last_name"
     t.datetime "dob"
     t.boolean  "processed",            default: false
+    t.string   "diploma_file_name"
+    t.string   "diploma_content_type"
+    t.integer  "diploma_file_size"
+    t.datetime "diploma_updated_at"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 

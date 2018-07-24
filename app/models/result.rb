@@ -25,12 +25,26 @@
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
 #  diploma_url          :string
+#  edition_id           :integer
+#  runner_id            :integer
+#  points               :integer
+#  first_name           :string
+#  last_name            :string
+#  dob                  :datetime
+#  processed            :boolean          default(FALSE)
+#  diploma_file_name    :string
+#  diploma_content_type :string
+#  diploma_file_size    :integer
+#  diploma_updated_at   :datetime
 #
 
 class Result < ActiveRecord::Base
   belongs_to :edition
   belongs_to :race
   belongs_to :runner
+
+  has_attached_file :diploma, styles: { freemium: '1000x666' }
+  validates_attachment_content_type :diploma, content_type: /\Aimage\/.*\z/
 
   def sent_message
     sms.message

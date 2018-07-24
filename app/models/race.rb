@@ -26,6 +26,10 @@
 #  external_link                 :string
 #  external_link_button          :string
 #  edition_id                    :integer
+#  coef                          :integer
+#  category                      :string
+#  department                    :string
+#  race_type                     :string
 #
 
 class Race < ActiveRecord::Base
