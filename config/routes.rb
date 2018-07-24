@@ -51,7 +51,9 @@ Rails.application.routes.draw do
   end
 
   resources :photos
-  resources :results, only: :show
+  resources :results, only: :show do
+    resource :payment, only: [:show, :create]
+  end
   resources :runners, only: [:index, :show]
   resources :clients do
     member do
