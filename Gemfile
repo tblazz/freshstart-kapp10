@@ -58,7 +58,6 @@ group :development do
   gem 'annotate'
   gem 'byebug'
   gem "letter_opener_web"
-
 end
 
 group :test do
