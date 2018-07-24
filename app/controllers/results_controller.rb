@@ -32,7 +32,7 @@ class ResultsController < ApplicationController
   def download
     @result = Result.find(params[:id])
     respond_to do |format|
-      format.jpg {  send_data(open(@result.diploma_url, allow_redirections: :all).read,
+      format.jpg {  send_data(open(@result.diploma.url(:freemium), allow_redirections: :all).read,
                     type: 'image/jpeg',
                     filename: "#{@result.edition.event.name}-#{@result.first_name}-#{@result.last_name}.jpg",
                     disposition: 'attachment') }

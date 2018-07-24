@@ -106,7 +106,9 @@ class Edition < ApplicationRecord
 
   def delete_diplomas
     results.each do |result|
-      result.update_attributes({diploma_generated_at: nil, diploma_url: nil})
+      result.diploma = nil
+      result.generated_at = nil
+      result.save
     end
   end
 end

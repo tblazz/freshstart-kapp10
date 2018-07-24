@@ -64,7 +64,7 @@ class Result < ActiveRecord::Base
       edition_detail: race_detail,
       results_url: edition.results_url,
       phone_number: phone,
-      image_path: diploma_url,
+      image_path: diploma.url(:freemium),
       campaign: "#{edition.event.name.parameterize}-#{edition.date}"
     )
   end

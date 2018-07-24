@@ -2,7 +2,7 @@
 = meta_tag :url, @result.name
 = meta_tag :title, "#{@result.race.name.capitalize} - #{@result.name}"
 = meta_tag :description, "#{@result.race.name.capitalize} : Retrouvez les résultats de ma dernière course."
-= meta_tag :image, @result.diploma_url
+= meta_tag :image, @result.diploma.url(:freemium)
 
 .row
   .col-md-10.col-md-offset-1.col-sm-12.text-center
@@ -21,7 +21,7 @@
 
 .row
   .col-md-10.col-md-offset-1.text-center
-    = image_tag @result.diploma_url, class: 'image-diploma'
+    = image_tag @result.diploma.url(:freemium), class: 'image-diploma'
 
 .row.button-line
   .col-md-10.col-md-offset-1
@@ -110,6 +110,3 @@
 //    );
 //
 //  });
-
-
-
