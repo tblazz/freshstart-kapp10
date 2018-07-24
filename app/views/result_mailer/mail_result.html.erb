@@ -1,3 +1,5 @@
+<% url = @result.diploma.url(:freemium) %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="fr">
   <head>
@@ -110,6 +112,19 @@
     </style>
   </head>
   <body>
+    <script>
+      const share = (url, name, race) => {
+        if (navigator.share) {
+          navigator.share({
+            title: '%{name} a terminé la course %{race} !',
+            url: url,
+          }).then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+          location.href = url;
+        }
+      };
+    </script>
     <div class="result-message">
       <p class="result-message-text">
         <strong><%= @result.first_name %> <%= @result.last_name %></strong>
@@ -131,14 +146,13 @@
       </p>
     </div>
 
-    <img src="<%=@result.diploma.url(:freemium)%>" class="result-image">
+    <img src="<%= url %>" class="result-image">
 
     <div class="result-share-links">
       <div class="result-share-links-left">
-        <% url = @result.diploma.url(:freemium) %>
         <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
         <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
-        <a href="<%= facebook_link %>"
+        <a href="<%= facebook_link %>" class="result-share-link">
           <span class="result-share-link-text">
             Partager sur Facebook
           </span>
@@ -152,7 +166,7 @@
         </a>
       </div>
       <div class="result-share-links-right">
-        <a href="#" class="result-share-link">
+        <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>');return false;">
           <span class="result-share-link-text">
             Autre partage
           </span>
@@ -162,14 +176,14 @@
 
     <div class="result-ctas">
       <div class="result-ctas-left">
-        <a href="<%= result_payment_result(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
+        <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
           <span class="result-cta-text">
             Télécharger le diplôme (version imprimable)
           </span>
         </a>
       </div>
       <div class="result-ctas-right">
-        <a href="<%= result_payment_path(result_id: @result.id) %>" class="result-cta-link">
+        <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
           <span class="result-cta-text">
             Recevoir le diplôme à domicile
           </span>
