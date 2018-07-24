@@ -36,6 +36,8 @@
 #  diploma_content_type :string
 #  diploma_file_size    :integer
 #  diploma_updated_at   :datetime
+#  purchased_at         :datetime
+#  stripe_charge_id     :string
 #
 
 require 'test_helper'

@@ -157,6 +157,8 @@ ActiveRecord::Schema.define(version: 20180724095020) do
     t.string   "diploma_content_type"
     t.integer  "diploma_file_size"
     t.datetime "diploma_updated_at"
+    t.datetime "purchased_at"
+    t.string   "stripe_charge_id"
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 
