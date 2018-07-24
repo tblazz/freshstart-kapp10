@@ -26,6 +26,7 @@ gem 'sidekiq' #gestionnaire de tâche de fond
 gem 'sinatra', :require => false #for sidekiq
 gem 'sidekiq-scheduler' # planificateur de tâche pr Sidekiq
 gem 'simple_form'
+gem 'stripe'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'rollbar' # reporting des erreurs
