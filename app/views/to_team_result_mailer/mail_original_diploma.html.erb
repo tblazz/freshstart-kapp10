@@ -8,4 +8,8 @@
   <li>Code postal : <%= @postal_code %></li>
   <li>Ville : <%= @city %></li>
   <li>Pays : <%= @country %></li>
+  <li>
+    Lien du diplôme :
+    <%= link_to 'Télécharger', @result.diploma.url %>
+  </li>
 </ul>
