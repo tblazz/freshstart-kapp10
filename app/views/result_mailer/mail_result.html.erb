@@ -98,7 +98,7 @@
       .result-footer > .result-footer-link {
         display: inline-block;
         text-decoration: none;
-        width: 33%;
+        width: 49%;
       }
 
       .result-footer > .result-footer-link > .result-footer-link-text {
@@ -135,13 +135,17 @@
 
     <div class="result-share-links">
       <div class="result-share-links-left">
-        <a href="#" class="result-share-link">
+        <% url = @result.diploma.url(:freemium) %>
+        <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
+        <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
+        <a href="<%= facebook_link %>"
           <span class="result-share-link-text">
             Partager sur Facebook
           </span>
         </a>
         |
-        <a href="#" class="result-share-link">
+        <% twitter_link = "https://twitter.com/intent/tweet?url=#{url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
+        <a href="<%= twitter_link %>" class="result-share-link">
           <span class="result-share-link-text">
             Twitter
           </span>
@@ -158,14 +162,14 @@
 
     <div class="result-ctas">
       <div class="result-ctas-left">
-        <a href="#" class="result-cta-link">
+        <a href="<%= result_payment_result(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
           <span class="result-cta-text">
             Télécharger le diplôme (version imprimable)
           </span>
         </a>
       </div>
       <div class="result-ctas-right">
-        <a href="#" class="result-cta-link">
+        <a href="<%= result_payment_path(result_id: @result.id) %>" class="result-cta-link">
           <span class="result-cta-text">
             Recevoir le diplôme à domicile
           </span>
@@ -174,19 +178,13 @@
     </div>
 
     <div class="result-footer">
-      <a href="#" class="result-footer-link">
+      <a href="http://kapp10.com/cgu-photoperformance/" class="result-footer-link">
         <span class="result-footer-link-text">
           Mentions légales
         </span>
       </a>
 
-      <a href="#" class="result-footer-link">
-        <span class="result-footer-link-text">
-          J'annule le service
-        </span>
-      </a>
-
-      <a href="#" class="result-footer-link">
+      <a href="http://kapp10.com" class="result-footer-link">
         <span class="result-footer-link-text">
           Powered by Kapp10
         </span>
