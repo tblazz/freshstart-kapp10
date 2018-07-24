@@ -1,0 +1,57 @@
+.container.payment
+  - if !@result.purchased_at?
+    .row
+      .col-md-12
+        .alert.alert-warning
+          p Vous avez déjà payé
+  - else
+    .row
+      .col-md-12
+        h1 Votre diplôme en haute qualité
+    .row
+      .col-md-8
+        = image_tag @result.diploma.url(:freemium), class: "result-diploma"
+      .col-md-4
+        = form_tag result_payment_path(result_id: @result.id) do
+          .form-group
+            = hidden_field_tag :sending_type, params[:sending_type]
+
+          - if params[:sending_type] == 'email'
+            p Envoi par E-mail
+            .form-group
+              script.stripe-button data-currency="eur" data-email="#{@result.mail}" data-key=("#{Rails.configuration.stripe[:publishable_key]}") data-locale="auto" data-name=("Commandez votre diplôme") data-label="Payez #{number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2)}" src="https://checkout.stripe.com/checkout.js"
+          - else
+            .form-group
+              p Envoi à domicile
+
+            .form-group
+              = label_tag :address, "Adresse"
+              = text_field_tag :address, nil, class: "form-control", required: true
+
+            .form-group
+              = label_tag :postal_code, "Code postal"
+              = text_field_tag :postal_code, nil, class: "form-control", required: true
+
+            .form-group
+              = label_tag :city, "Ville"
+              = text_field_tag :city, nil, class: "form-control", required: true
+
+            .form-group
+              = label_tag :country, "Pays"
+              = text_field_tag :country, nil, class: "form-control", required: true
+
+            .form-group.pull-right
+              script.stripe-button data-currency="eur" data-email="#{@result.mail}" data-key=("#{Rails.configuration.stripe[:publishable_key]}") data-locale="auto" data-name=("Commandez votre diplôme") data-label="Payez #{number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2)}" src="https://checkout.stripe.com/checkout.js"
+
+javascript:
+  let stripeButton = document.getElementsByClassName("stripe-button-el")[0]
+  const form = document.getElementsByTagName('form')[0];
+  stripeButton.disabled = !form.checkValidity();
+
+  const inputs = document.getElementsByClassName('form-control');
+  console.log(inputs);
+  Array.from(inputs).forEach((input) => {
+    input.addEventListener('input', () => {
+      stripeButton.disabled = !form.checkValidity();
+    });
+  });
