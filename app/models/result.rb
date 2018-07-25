@@ -68,7 +68,8 @@ class Result < ActiveRecord::Base
       results_url: edition.results_url,
       phone_number: phone,
       image_path: diploma.url(:freemium),
-      campaign: "#{edition.event.name.parameterize}-#{edition.date}"
+      campaign: "#{edition.event.name.parameterize}-#{edition.date}",
+      url: Rails.application.routes.url_helpers.result_url(id, host: DOMAIN_URL)
     )
   end
 
