@@ -23,10 +23,6 @@ class ResultsController < ApplicationController
 
   def show
     @result = Result.find(params[:id])
-    @page_url = request.original_url
-    @facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{@page_url}"
-    @twitter_message = "#{@result.race.name.capitalize} : les résultats de ma dernière course. "
-    # @twitter_link = "https://twitter.com/home?status=#{URI.escape(@twitter_message + @page_url)}"
   end
 
   def download
