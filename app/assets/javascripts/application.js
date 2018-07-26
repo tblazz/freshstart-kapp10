@@ -19,7 +19,7 @@
 
 
 $(function () {
-	$(document).on('click', '#results_table th a, .pagination a', function(){
+	$(document).on('click', '#results_table th a', function(){
 		$.getScript(this.href);
     return false;
 	});
