@@ -1,0 +1,5 @@
+h1
+  | Photos
+  .pull-right <%= link_to "Retour", race_path(params[:id]), class: 'btn btn-default'
+
+= render partial: 'photo', collection: @photos
