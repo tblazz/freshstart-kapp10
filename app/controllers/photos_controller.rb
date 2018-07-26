@@ -4,6 +4,10 @@ class  PhotosController < ApplicationController
     @photos = Photo.where(race_id: params[:id])
   end
 
+  def create
+    @photo = Photo.create photo_params
+  end
+
   def update
     @photo = Photo.find(params[:id])
 
@@ -19,13 +23,14 @@ class  PhotosController < ApplicationController
     end
   end
 
-
   private
 
   def photo_params
     params.require(:photo).permit(
       :id,
-      :bib)
+      :bib,
+      :direct_image_url
+    )
   end
 
 end
