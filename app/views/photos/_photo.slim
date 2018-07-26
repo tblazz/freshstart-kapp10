@@ -1,8 +1,9 @@
-= simple_form_for photo, remote: true do |f|
-  .row
-    .col-sm-8
-      = image_tag photo.image.url, class: 'img-responsive'
-    .col-sm-4
-      = f.input :bib
-      = photo.runner_alert
-      = f.button :submit , "Enregistrer", class: 'btn btn-standard'
+.thumbnail
+  = image_tag photo.image.url, class: 'img-photo', alt: 'photo'
+  = simple_form_for photo, remote: true do |f|
+    .caption
+      .form-group
+        .input-group
+          .input-group-addon bib
+          = f.input :bib, label: false, value: photo.bib
+      = f.submit "Enregistrer", class: 'btn-default btn-group-justified', data: { disable_with: "Enregistrement..." }
