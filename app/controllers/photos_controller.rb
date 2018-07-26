@@ -4,7 +4,7 @@ class PhotosController < ApplicationController
   before_action :set_photo, only: %I[update]
 
   def index
-    @photos = @edition.photos
+    @photos = @edition.photos.paginate(page: params[:page], per_page: 30).order(created_at: :desc)
   end
 
   def create
@@ -12,9 +12,10 @@ class PhotosController < ApplicationController
   end
 
   def update
+    @success = @photo.update(photo_params)
     respond_to do |format|
-      if @photo.update(photo_params)
-        format.js { render layout: false }
+      format.js
+      if @success
         format.html { redirect_to @photo, notice: 'photo was successfully updated.' }
         format.json { render :show, status: :ok, location: @photo }
       else
