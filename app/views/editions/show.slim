@@ -5,8 +5,7 @@ h1 Info édition
       h2= @edition.event.name
   .row
     .col-md-12
-      = link_to 'Info course', event_edition_path(@edition.event, @edition), class: 'btn btn-default'
-      = link_to 'Resultats', results_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+      = render 'menu'
   .row
     .col-md-9
       table.table.table-striped.table-bordered.table-compacted
@@ -48,4 +47,3 @@ h1 Info édition
             - else
               = content_tag :div, class: 'tab-pane fade in', id: i do
                 = render 'race_tab', race: race
-
