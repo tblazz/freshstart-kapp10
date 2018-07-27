@@ -79,5 +79,6 @@ class Photo < ApplicationRecord
   # Queue file processing
   def queue_processing
     PhotoTransferAndCleanupJob.perform_later id
+    DetectBibJob.perform_later id
   end
 end
