@@ -25,6 +25,19 @@
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
 #  diploma_url          :string
+#  edition_id           :integer
+#  runner_id            :integer
+#  points               :integer
+#  first_name           :string
+#  last_name            :string
+#  dob                  :datetime
+#  processed            :boolean          default(FALSE)
+#  diploma_file_name    :string
+#  diploma_content_type :string
+#  diploma_file_size    :integer
+#  diploma_updated_at   :datetime
+#  purchased_at         :datetime
+#  stripe_charge_id     :string
 #
 
 require 'test_helper'

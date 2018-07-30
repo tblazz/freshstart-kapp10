@@ -20,7 +20,7 @@ class GenerateDiploma
       @background_image_url = @result.photo.image.url
     end
     Rails.logger.debug "width = #{IMAGE_WIDTH[@template]}"
-    Rails.logger.debug "heigit = #{IMAGE_HEIGHT[@template]}"
+    Rails.logger.debug "height = #{IMAGE_HEIGHT[@template]}"
   end
 
   def html
@@ -34,7 +34,7 @@ class GenerateDiploma
   end
 
   def image_kit(height, width)
-    kit = IMGKit.new(html, height: IMAGE_HEIGHT[@template], width: IMAGE_WIDTH[@template])
-    kit
+    IMGKit.new html, height: IMAGE_HEIGHT[@template],
+                     width: IMAGE_WIDTH[@template]
   end
 end

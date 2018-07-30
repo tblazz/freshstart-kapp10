@@ -113,7 +113,7 @@
   </head>
   <body>
     <script>
-      const share = (url, name, race) => {
+      const share = (url, name, race, downloadUrl) => {
         if (navigator.share) {
           navigator.share({
             title: '%{name} a terminé la course %{race} !',
@@ -121,7 +121,7 @@
           }).then(() => console.log('Successful share'))
             .catch((error) => console.log('Error sharing', error));
         } else {
-          location.href = url;
+          location.href = downloadUrl;
         }
       };
     </script>
@@ -166,7 +166,7 @@
         </a>
       </div>
       <div class="result-share-links-right">
-        <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>');return false;">
+        <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
           <span class="result-share-link-text">
             Autre partage
           </span>

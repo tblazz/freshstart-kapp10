@@ -20,12 +20,13 @@ gem 'wkhtmltoimage-binary', '~> 0.12.2'
 gem 'aws-sdk', '~> 2.3.0'
 gem 'httparty', '~> 0.13.5'
 gem 'newrelic_rpm'
-gem 'charlock_holmes_bundle_icu', '~> 0.6.9.2'
+gem 'charlock_holmes'
 gem 'bitly', '~> 0.10.4'
 gem 'sidekiq' #gestionnaire de tâche de fond
 gem 'sinatra', :require => false #for sidekiq
 gem 'sidekiq-scheduler' # planificateur de tâche pr Sidekiq
 gem 'simple_form'
+gem 'stripe'
 gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'rollbar' # reporting des erreurs
@@ -54,8 +55,9 @@ group :development, :test do
 end
 
 group :development do
-  gem "letter_opener"
   gem 'annotate'
+  gem 'byebug'
+  gem "letter_opener_web"
 end
 
 group :test do

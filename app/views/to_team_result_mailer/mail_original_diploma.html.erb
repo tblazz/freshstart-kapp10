@@ -1,0 +1,15 @@
+<p>Un diplôme en haute qualité est à envoyer à domicile.</p>
+
+<p>Informations du destinataire :</p>
+
+<ul>
+  <li>Nom : <%= @result.first_name %> <%= @result.last_name %></li>
+  <li>Adresse : <%= @address %></li>
+  <li>Code postal : <%= @postal_code %></li>
+  <li>Ville : <%= @city %></li>
+  <li>Pays : <%= @country %></li>
+  <li>
+    Lien du diplôme :
+    <%= link_to 'Télécharger', @result.diploma.url %>
+  </li>
+</ul>
