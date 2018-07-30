@@ -25,6 +25,19 @@
 #  email_sent_at        :datetime
 #  sms_sent_at          :datetime
 #  diploma_url          :string
+#  edition_id           :integer
+#  runner_id            :integer
+#  points               :integer
+#  first_name           :string
+#  last_name            :string
+#  dob                  :datetime
+#  processed            :boolean          default(FALSE)
+#  diploma_file_name    :string
+#  diploma_content_type :string
+#  diploma_file_size    :integer
+#  diploma_updated_at   :datetime
+#  purchased_at         :datetime
+#  stripe_charge_id     :string
 #
 
 class Result < ActiveRecord::Base
@@ -32,8 +45,9 @@ class Result < ActiveRecord::Base
   belongs_to :race
   belongs_to :runner
 
-  # Scopes
-  scope :this_year, -> { where('created_at > ?', Date.current.beginning_of_year) }
+  has_attached_file :diploma, styles: { freemium: '1000x666' },
+                              source_file_options: { freemium: '-density 72' }
+  validates_attachment_content_type :diploma, content_type: /\Aimage\/.*\z/
 
   def sent_message
     sms.message
@@ -53,8 +67,9 @@ class Result < ActiveRecord::Base
       edition_detail: race_detail,
       results_url: edition.results_url,
       phone_number: phone,
-      image_path: diploma_url,
-      campaign: "#{edition.event.name.parameterize}-#{edition.date}"
+      image_path: diploma.url(:freemium),
+      campaign: "#{edition.event.name.parameterize}-#{edition.date}",
+      url: Rails.application.routes.url_helpers.result_url(id, host: DOMAIN_URL)
     )
   end
 

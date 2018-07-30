@@ -1,0 +1,17 @@
+.container.photos
+  .row
+    .col-sm-4
+      h1 Photos
+    .col-sm-4
+      = will_paginate @photos, renderer: BootstrapPagination::Rails
+    .col-sm-4
+      .pull-right
+        = link_to "Retour", event_edition_path(@edition.id, event_id: @event.id), class: 'btn btn-default pull-right'
+
+  hr
+
+  - @photos.each_slice(4) do |photos|
+    .row
+      - photos.each do |photo|
+        .col-sm-3
+          = render 'photo', photo: photo

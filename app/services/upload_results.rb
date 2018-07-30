@@ -49,11 +49,14 @@ class UploadResults
             end
             return unless race
 
-            existing_row_in_db = @edition.results.where( bib: row[NUMBER_INDEX],race_id: race.id )
-            if existing_row_in_db.any?
+            existing_rows_in_db = @edition.results.where(
+              bib: row[NUMBER_INDEX],
+              race_id: race.id
+            )
+            if existing_rows_in_db.any?
               p 'existing row'
-              if there_are_differences?(existing_row_in_db.first, row)
-                existing_row_in_db.first.update_attributes(
+              if there_are_differences?(existing_rows_in_db.first, row)
+                existing_rows_in_db.first.update_attributes(
                     phone: row[PHONE_INDEX],
                     mail: row[MAIL_INDEX],
                     rank: row[RANK_INDEX],

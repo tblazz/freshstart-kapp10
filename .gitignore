@@ -22,3 +22,5 @@
 # Ignore Gemfile.lock
 
 Gemfile.lock
+.byebug_history
+google_cloud_keyfile.json
