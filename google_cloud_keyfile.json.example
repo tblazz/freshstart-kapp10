@@ -1,0 +1,15 @@
+// You'll need to generate this file after enablong the Google Cloud Vision API
+// on your account. Once done, rename it to "google_cloud_keyfile.json" and save it at the root
+// of your application. It is ignored by Git for security reasons, so make sure you have one for production.
+{
+  "type": "service_account",
+  "project_id": "your_project_id",
+  "private_key_id": "your_private_key_id",
+  "private_key": "-----BEGIN PRIVATE KEY-----\A_SUPER_LONG_RSA_TYPE_KEY==\n-----END PRIVATE KEY-----\n",
+  "client_email": "your_client_email",
+  "client_id": "your_client_id",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/{your_client_email}"
+}

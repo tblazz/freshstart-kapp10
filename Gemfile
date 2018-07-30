@@ -35,6 +35,7 @@ gem 'htmlentities' # permet de transformer les accents en entités HTML ex: &eac
 gem 'htmlcompressor' # permet de compresser le HTML  des widgets
 gem 'will_paginate-bootstrap' # pagination
 gem 'google_url_shortener'
+gem 'google-cloud-vision'
 gem 's3_direct_upload'
 gem 'slim'
 gem 'font-awesome-sass', '~> 4.7.0'
