@@ -47,10 +47,13 @@ Rails.application.routes.draw do
         delete 'delete_results'
         get 'pairing', to: 'photos#index'
       end
+
+      resources :photos, only: %I[index create]
     end
   end
 
-  resources :photos
+  resources :photos, only: %I[show update destroy]
+
   resources :results, only: :show do
     resource :payment, only: [:show, :create]
   end
