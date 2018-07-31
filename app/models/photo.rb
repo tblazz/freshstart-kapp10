@@ -23,7 +23,7 @@ class Photo < ApplicationRecord
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
   validates :image_file_name, uniqueness: { scope: :edition_id }
 
-  DIRECT_IMAGE_URL_FORMAT = %r{\Ahttps:\/\/s3\.amazonaws\.com\/#{ENV['S3_BUCKET']}\/(?<path>uploads\/.+\/(?<filename>.+))\z}.freeze
+  DIRECT_IMAGE_URL_FORMAT = %r{\Ahttps:\/\/#{ENV['AWS_S3_HOST_NAME_REGION']}\.amazonaws\.com\/#{ENV['S3_BUCKET']}\/(?<path>uploads\/.+\/(?<filename>.+))\z}.freeze
 
   validates :direct_image_url, format: { with: DIRECT_IMAGE_URL_FORMAT }, allow_blank: true
 
