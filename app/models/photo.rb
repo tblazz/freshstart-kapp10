@@ -25,7 +25,7 @@ class Photo < ApplicationRecord
 
   DIRECT_IMAGE_URL_FORMAT = %r{\Ahttps:\/\/s3\.amazonaws\.com\/#{ENV['S3_BUCKET']}\/(?<path>uploads\/.+\/(?<filename>.+))\z}.freeze
 
-  validates :direct_image_url, presence: true, format: { with: DIRECT_IMAGE_URL_FORMAT }
+  validates :direct_image_url, format: { with: DIRECT_IMAGE_URL_FORMAT }, allow_blank: true
 
   before_create :set_image_attributes
   after_create :queue_processing
