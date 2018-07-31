@@ -1,8 +1,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-challenge.min.js"></script>
-<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
+<script src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-challenge.min.js"></script>
+<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
 <style>
     <%= @types.map  { |type|
         "#tab_#{type}:checked ~ #mainResultsContent #resultsContainer #content_#{type}"}.join(',')%>  {
@@ -71,7 +71,7 @@
     </table>
   </div>
 </div>
-<div class="loading"><img src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
+<div class="loading"><img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
 <div id="mainResultsContent">
   <div id="resultsContainer">
     <%
