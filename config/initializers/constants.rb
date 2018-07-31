@@ -26,7 +26,7 @@ SMS_MAX_NAME_LENGHT = 15
 SMS_LENGHT = 160
 
 #AWS
-AWS_ROOT = "http://s3-eu-west-1.amazonaws.com/"
+AWS_ROOT = "http://#{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/"
 KAPP10_BUCKET_NAME = ENV['S3_BUCKET']
 KAPP10_BUCKET_ROOT = AWS_ROOT + KAPP10_BUCKET_NAME+ "/"
 
