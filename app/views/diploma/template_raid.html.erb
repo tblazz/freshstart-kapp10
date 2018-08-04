@@ -1,0 +1,246 @@
+<html>
+<head>
+  <title>Kapp10 - FinishLine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style>
+		html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, dl, dt, dd, ol, nav ul, nav li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		    margin: 0;
+		    padding: 0;
+		    border: 0;
+		    font: inherit;
+		    vertical-align: baseline;
+		}
+
+		img {
+		    max-width: 100%;
+		}
+
+		@font-face {
+		    font-family: 'HelveticaNeueLTStd-ThCn';
+		    src: url("<%=DOMAIN_URL%>/templates/template_raid/fonts/HelveticaNeueLTStd-ThCn.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+		    font-family: 'Antonio-Bold';
+				src: url("<%=DOMAIN_URL%>/templates/template_raid/fonts/Antonio-Bold.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+		    font-family: 'Helvetica-Roman';
+		    src: url("<%=DOMAIN_URL%>/templates/template_raid/fonts/Helvetica-Roman.ttf")  format('truetype');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'HelveticaLTStd-BlkCond';
+			src: url("<%=DOMAIN_URL%>/templates/template_raid/fonts/HelveticaLTStd-BlkCond.ttf")  format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		body {
+		  width: 1000px;
+		  height: 666px;
+		}
+
+		.content {
+      position: relative;
+			min-width: 1000px;
+			min-height: 666px;
+			width: 1000px;
+	    height: 666px;
+	    max-width: 1000px;
+	    max-height: 666px;
+	    background: url('<%=@background_image_url%>') no-repeat fixed;
+			background-size: 1000px 666px;
+	    margin: auto;
+			color: white;
+			text-shadow: 1px 1px 1px black;
+			text-transform: uppercase;
+		}
+
+		.shadow {
+			width: 1000px;
+		  height: 666px;
+			position: absolute;
+			top: 0px;
+		  background-image: url("<%=DOMAIN_URL%>/templates/template_raid/images/shadow.png");
+			opacity: 0.98;
+		  z-index: 1;
+		}
+
+    .sfr-logo {
+      width: 150px;
+    }
+
+    .raid-logo {
+      position: absolute;
+      width: 150px;
+      right: 0;
+    }
+
+    .race-info {
+      position: absolute;
+      top: 180px;
+      left: 80px;
+    }
+
+		.race, .race_detail, .rank, .rank_total, .chrono_caption, .chrono, .speed_caption, .speed {
+			font-family: 'Antonio-Bold';
+		}
+
+		.race {
+			font-size: 45px;
+		}
+
+		.race_detail {
+		}
+
+		.date {
+			font-family: 'HelveticaNeueLTStd-ThCn';
+			width: 100%;
+			display: block;
+		}
+
+		.score {
+      display: inline-block;
+		}
+
+		.score_left {
+      display: inline-block;
+			margin-top: -27px;
+		}
+
+		.score_right {
+      display: inline-block;
+			margin-left: 18px;
+		}
+
+		.rank {
+      display: inline-block;
+			font-size: 102px;
+			letter-spacing: -4px;
+		}
+
+		.rank_total {
+			margin-bottom: 4px;
+		}
+
+		.rank_separator {
+			width: 100%;
+			height: 10px;
+			background-color: white;
+			box-shadow: 1px 1px 1px black;
+		}
+
+		.name {
+			font-family: 'HelveticaLTStd-BlkCond';
+			margin-top: 24px;
+		}
+
+		.number {
+			font-family: 'HelveticaNeueLTStd-ThCn';
+		}
+
+    .rank-info {
+      position: absolute;
+      bottom: 20px;
+      left: 80px;
+    }
+
+    .score-info {
+      position: absolute;
+      bottom: 40px;
+      right: 80px;
+    }
+
+    .score-info::before {
+      content: '';
+			position: absolute;
+			width: 100%;
+			height: 0;
+			left: 0;
+			top: -20px;
+			border-top: 10px solid white;
+    }
+
+		.chrono_logo {
+      display: inline-block;
+      width: 43px;
+		}
+
+		.chrono_caption {
+      display: inline-block;
+		}
+
+		.speed_logo {
+      display: inline-block;
+      margin-left: 30px;
+      width: 43px;
+		}
+
+		.speed_caption {
+      display: inline-block;
+		}
+
+    .chrono-caption-label, .speed-caption-label {
+      font-family: 'HelveticaNeueLTStd-ThCn';
+    }
+	</style>
+</head>
+<body>
+	<div class="content">
+		<div class="shadow">
+      <img src="<%=DOMAIN_URL %>/templates/template_raid/images/logo_sfr.jpeg" alt="SFR" class="sfr-logo">
+
+      <img src="<%=DOMAIN_URL %>/templates/template_raid/images/logo_raid.jpg" alt="RAID" class="raid-logo">
+
+      <div class="race-info">
+  			<div class="race"><%= @race_name %></div>
+        <div class="date"><%= I18n.localize(@result.edition.date, format: '%A %e %B %Y') %></div>
+        <br />
+        <div class="date">Point de passage :</div>
+        <div class="race_detail"><%= @race_detail %></div>
+
+      </div>
+      <div class="rank-info">
+  			<div class="score">
+  				<div class="score_left">
+  					<div class="rank"><%= @rank %></div>
+  				</div>
+  				<div class="score_right">
+  					<div class="rank_total"><%= @rank_total %></div>
+  					<div class="rank_separator"></div>
+  					<div class="name"><%= @name %></div>
+  					<div class="number">Dossard n° <%= @number %></div>
+  				</div>
+  			</div>
+      </div>
+      <div class="score-info">
+        <img src="<%=DOMAIN_URL %>/templates/template_raid/images/chrono.png" alt="chrono" class="chrono_logo">
+  			<div class="chrono_caption">
+          <span class="chrono-caption-label">
+            Temps réalisé
+          </span>
+          <br />
+          <%= @time %>
+        </div>
+  			<img src="<%=DOMAIN_URL %>/templates/template_raid/images/horloge.png" alt="horloge" class="speed_logo">
+        <div class="speed_caption">
+          <span class="speed-caption-label">
+            Allure moyenne
+          </span>
+          <br/>
+          <strong><%= @speed %>km/h</strong>
+        </div>
+      </div>
+    </div>
+	</div>
+</body>
+</html>

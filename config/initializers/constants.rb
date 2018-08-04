@@ -8,14 +8,16 @@ IMAGE_HEIGHT = {
   'texte-ombre' => 668,
 	'template_matahi' => 666,
 	'template_base1000x666' => 666,
-	'template_traverseebaie' => 712
+	'template_traverseebaie' => 712,
+  'template_raid' => 666
 }
 IMAGE_WIDTH = {
   'template1' => 1024,
   'texte-ombre' => 1000,
 	'template_matahi' => 1000,
 	'template_base1000x666' => 1000,
-	'template_traverseebaie' => 1000
+	'template_traverseebaie' => 1000,
+  'template_raid' => 1000
 }
 
 #mail
