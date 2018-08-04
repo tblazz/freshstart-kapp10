@@ -19,6 +19,7 @@
 
 class Photo < ApplicationRecord
   belongs_to :edition
+  belongs_to :race
   has_attached_file :image
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
   validates :image_file_name, uniqueness: { scope: :edition_id }
@@ -42,7 +43,6 @@ class Photo < ApplicationRecord
   end
 
   def runner
-    return @runner unless @runner.nil?
     return :not_paired if bib.blank?
     edition.results.find_by(bib: bib) || :invalid_bib
   end

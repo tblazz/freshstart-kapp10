@@ -4,7 +4,8 @@ class PhotosController < ApplicationController
   before_action :set_photo, only: %I[update]
 
   def index
-    @photos = @edition.photos.paginate(page: params[:page], per_page: 30).order(created_at: :desc)
+    photo_ids = PhotoSearchService.new(@edition, params).fetch_ids
+    @photos = @edition.photos.where(id: photo_ids).paginate(page: params[:page], per_page: 30).order(created_at: :desc)
   end
 
   def create
