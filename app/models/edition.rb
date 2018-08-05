@@ -2,12 +2,30 @@
 #
 # Table name: editions
 #
-#  id          :integer          not null, primary key
-#  date        :date
-#  description :string
-#  event_id    :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id                            :integer          not null, primary key
+#  date                          :date
+#  description                   :string
+#  event_id                      :integer
+#  email_sender                  :string
+#  email_name                    :string
+#  hashtag                       :string
+#  results_url                   :string
+#  sms_message                   :string
+#  template                      :string
+#  widget_generated_at           :datetime
+#  photos_widget_generated_at    :datetime
+#  external_link                 :string
+#  external_link_button          :string
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#  raw_results_file_name         :string
+#  raw_results_content_type      :string
+#  raw_results_file_size         :integer
+#  raw_results_updated_at        :datetime
+#  background_image_file_name    :string
+#  background_image_content_type :string
+#  background_image_file_size    :integer
+#  background_image_updated_at   :datetime
 #
 
 class Edition < ApplicationRecord
@@ -64,21 +82,21 @@ class Edition < ApplicationRecord
   end
 
   def widget_url
-    "https://s3-eu-west-1.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}"
+    "https://<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}"
   end
 
   def photos_widget_url
-    "https://s3-eu-west-1.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}"
+    "https://<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}"
   end
 
   def widget_gist
     %(
-	<iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
+	<iframe class='kapp10-embed' src="//<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
   end
 
   def photos_widget_gist
     %(
-			<iframe class='kapp10-embed' src="//s3-eu-west-1.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>)
+			<iframe class='kapp10-embed' src="//<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>)
   end
 
   def generate_diplomas
@@ -89,7 +107,9 @@ class Edition < ApplicationRecord
 
   def delete_diplomas
     results.each do |result|
-      result.update_attributes({diploma_generated_at: nil, diploma_url: nil})
+      result.diploma = nil
+      result.generated_at = nil
+      result.save
     end
   end
 end

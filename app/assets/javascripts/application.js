@@ -13,11 +13,13 @@
 //= require jquery2
 //= require jquery_ujs
 //= require retina.js
+//= require s3_direct_upload
 //= require bootstrap-sprockets
+//= require_tree .
 
 
 $(function () {
-	$(document).on('click', '#results_table th a, .pagination a', function(){
+	$(document).on('click', '#results_table th a', function(){
 		$.getScript(this.href);
     return false;
 	});

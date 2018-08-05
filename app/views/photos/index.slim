@@ -1,0 +1,41 @@
+.container.photos
+  .row
+    .col-sm-4
+      h1 Photos
+    .col-sm-4
+      = will_paginate @photos, renderer: BootstrapPagination::Rails
+    .col-sm-4
+      .pull-right
+        = link_to "Retour", event_edition_path(@edition.id, event_id: @event.id), class: 'btn btn-default pull-right'
+
+  = form_tag event_edition_photos_path(@edition.id, event_id: @event.id), method: :get do
+    .row
+      .col-sm-3
+        .form-group
+          = label_tag 'Photos non reconnues ?'
+          = check_box_tag :without_bib, true, params[:without_bib], class: 'form-control'
+      .col-sm-3
+        .form-group
+          = label_tag 'Courses'
+          = select_tag :race_ids, options_from_collection_for_select(@edition.races, :id, :name, params[:race_ids]), multiple: true, class: 'form-control'
+      .col-sm-3
+        .form-group
+          = label_tag 'Sexe'
+          = select_tag :sex, options_for_select([['Masculin', 'M'], ['Féminin', 'F']], params[:sex]), multiple: true, class: 'form-control'
+      .col-sm-3
+        .form-group
+          = label_tag 'Catégorie'
+          = select_tag :categ, options_for_select(@edition.results.order(:categ).pluck(:categ).uniq, params[:categ]), multiple: true, class: 'form-control'
+
+    .row
+      .col-sm-12
+        .form-group
+          = submit_tag 'Filtrer', class: 'btn-primary btn-group-justified'
+
+  hr
+
+  - @photos.each_slice(4) do |photos|
+    .row
+      - photos.each do |photo|
+        .col-sm-3
+          = render 'photo', photo: photo
