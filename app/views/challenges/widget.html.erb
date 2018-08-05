@@ -99,14 +99,14 @@
           <div class="kapp10Filters">
             <p id="filterCaption">Filter les R&eacute;sultats</p>
             <% if results_sex_any %>
-                <select name="filterSexe" id="filterSexe" class="filtersSearch" onchange="participant_filter()">
+                <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
                   <option value="all">Sexe</option>
                   <option value="M">Hommes</option>
                   <option value="F">Femmes</option>
                 </select>
             <% end %>
             <% if @categories && @categories.count > 1 %>
-                <select name="filterCategory" id="filterCategory" class="filtersSearch" onchange="participant_filter()">
+                <select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
                   <option value="all">Toutes les cat&eacute;gories</option>
                   <% @categories.each do |category| %>
                       <option value="<%= category %>"><%= category %></option>
@@ -115,7 +115,7 @@
             <% end %>
           </div>
           <div class="kapp10Research">
-            <input type="text" id="kapp10-filter" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
+            <input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
             <div id="closingCircleResearch" onclick="reset_participant_filter()"><span id="closingCrossResearch">x</span></div>
           </div>
         </div> <!-- end filtersConteners -->
