@@ -1,5 +1,5 @@
 class SMS
-  attr_reader :name, :time, :image_path, :edition_name_mail, :rank, :edition_detail, :results_url, :template, :phone_number, :campaign
+  attr_reader :name, :time, :image_path, :edition_name_mail, :rank, :edition_detail, :results_url, :template, :phone_number, :campaign, :url
 
   PAYLOAD_FORMAT = "<DATA><MESSAGE><![CDATA[%{message}]]></MESSAGE><CAMPAIN>%{campaign}</CAMPAIN><TPOA>%{sender_name}</TPOA><SMS><MOBILEPHONE>%{phone_number}</MOBILEPHONE></SMS></DATA>"
 
