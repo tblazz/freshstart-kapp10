@@ -78,11 +78,11 @@
 		</div> <!-- generalInfoBox -->
 
 		<%
-		results_sex_any = @edition.results.pluck(:sex).any?
-		results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
-		results_categ_any = @edition.results.pluck(:categ).any?
-		results_categ_rank_any = @edition.results.pluck(:categ_rank).any?
-		results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
+		results_sex_any = #@edition.results.pluck(:sex).any?
+		results_sex_rank_any = #@edition.results.pluck(:sex_rank).any?
+		results_categ_any = #@edition.results.pluck(:categ).any?
+		results_categ_rank_any = #@edition.results.pluck(:categ_rank).any?
+		# results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
 		%>
 		<!-- --------------------start---------------------- -->
 
