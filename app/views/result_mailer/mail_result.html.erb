@@ -176,14 +176,14 @@
 
     <div class="result-ctas">
       <div class="result-ctas-left">
-        <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
+        <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email', host: DOMAIN_URL) %>" class="result-cta-link">
           <span class="result-cta-text">
             Télécharger le diplôme (version imprimable)
           </span>
         </a>
       </div>
       <div class="result-ctas-right">
-        <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
+        <a href="<%= result_payment_url(result_id: @result.id, host: DOMAIN_URL) %>" class="result-cta-link">
           <span class="result-cta-text">
             Recevoir le diplôme à domicile
           </span>
