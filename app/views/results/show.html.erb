@@ -35,20 +35,17 @@
       }
 
       .result-share-links {
-        margin-left: 30px;
-        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 40px 0 20px 0;
       }
 
-      .result-share-links > .result-share-links-left {
-        display: inline-block;
+      .result-share-links > .result-share-links-left, .result-share-links > .result-share-links-right {
+        margin: 0 40px 20px;
         text-align: center;
-        width: 50%;
-      }
-
-      .result-share-links > .result-share-links-right {
-        display: inline-block;
-        text-align: center;
-        width: 49%;
+        width: 250px;
       }
 
       .result-share-links .result-share-link {
@@ -62,45 +59,46 @@
       }
 
       .result-ctas {
-        margin: 40px auto 0 auto;
-        width: 80%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 20px 0;
       }
 
-      .result-ctas > .result-ctas-left {
-        display: inline-block;
+      .result-ctas > .result-ctas-left, .result-ctas > .result-ctas-right {
+        background-color: #000;
+        margin: 0 40px 20px;
         text-align: center;
-        width: 50%;
-      }
-
-      .result-ctas > .result-ctas-right {
-        display: inline-block;
-        text-align: center;
-        width: 49%;
+        width: 250px;
       }
 
       .result-ctas .result-cta-link {
         display: inline-block;
-        background-color: #000;
         padding: 15px;
-        text-decoration: none;
         width: 80%;
       }
 
       .result-ctas .result-cta-link > .result-cta-text {
         font-size: 16px;
         color: #fff;
+        font-weight: bold;
+        text-decoration: none;
         text-transform: uppercase;
       }
 
       .result-footer {
-        text-align: center;
-        margin-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 20px 0;
       }
 
       .result-footer > .result-footer-link {
-        display: inline-block;
-        text-decoration: none;
-        width: 49%;
+        margin: 0 40px 20px;
+        text-align: center;
+        width: 250px;
       }
 
       .result-footer > .result-footer-link > .result-footer-link-text {
