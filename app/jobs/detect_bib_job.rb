@@ -7,7 +7,7 @@ class DetectBibJob < ActiveJob::Base
     @photo = Photo.find(photo_id)
     results = @photo.edition.results
     words = text.words
-    bib = words.find { |w| w.text.in? results.pluck(:bibs) }
+    bib = words.find { |w| w.text.in? results.pluck(:bib) }
     return unless bib.present?
 
     result = result.find_by(bib: bib)
@@ -19,7 +19,7 @@ class DetectBibJob < ActiveJob::Base
   private
 
   def text
-    vision = Google::Cloud::Vision.new
+    vision = ::Google::Cloud::Vision.new
     image = vision.image @photo.image.url
     annotation = vision.annotate image, text: true
     annotation.text
