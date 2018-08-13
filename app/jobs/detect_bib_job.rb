@@ -9,7 +9,7 @@ class DetectBibJob < ActiveJob::Base
     annotation = vision.annotate image, text: true
 
     return unless annotation.text.present?
-
+    text = annotation.text
     results = photo.edition.results
     words = text.words
     bib = words.find { |w| w.text.in? results.pluck(:bib) }
