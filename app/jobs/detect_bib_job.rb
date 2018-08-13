@@ -12,10 +12,11 @@ class DetectBibJob < ActiveJob::Base
     text = annotation.text
     results = photo.edition.results
     words = text.words
-    bib = words.find { |w| w.text.in? results.pluck(:bib) }
+    matching_word = words.find { |w| w.text.in? results.pluck(:bib) }
 
-    return unless bib.present?
+    return unless matching_word.present?
 
+    bib = matching_word.text
     result = results.find_by(bib: bib)
     photo.race = result.race
     photo.bib = bib
