@@ -16,7 +16,7 @@ class DetectBibJob < ActiveJob::Base
 
     return unless bib.present?
 
-    result = result.find_by(bib: bib)
+    result = results.find_by(bib: bib)
     photo.race = result.race
     photo.bib = bib
     photo.save!
