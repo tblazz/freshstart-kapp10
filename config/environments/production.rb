@@ -1,4 +1,7 @@
 Rails.application.configure do
+  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
+  PERFORM_SENDING = true
+  DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -78,8 +81,4 @@ Rails.application.configure do
   Rails.application.config.active_job.queue_adapter = :sidekiq
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
-
-  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
-  PERFORM_SENDING = true
-  DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
 end
