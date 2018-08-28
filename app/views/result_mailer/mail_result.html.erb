@@ -166,7 +166,11 @@
     <div class="result-share-links" style = "display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin: 40px 0 20px 0;">
       <div class="result-share-links-left" style="margin: 0 40px 20px; text-align: center; width: 250px;">
         <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
-        <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
+        <% if ENV['FB_APP_ID'].present? %>
+          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{request.url}" %>
+        <% else %>
+          <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{request.url}&quote=#{quote}&hashtag=%23Kapp10" %>
+        <% end %>
         <a href="<%= facebook_link %>" class="result-share-link" style= "text-decoration: none;">
           <span class="result-share-link-text" style="color: #000; font-size: 16px; text-transform: uppercase;">
             Partager sur Facebook
