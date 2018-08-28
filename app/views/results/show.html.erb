@@ -6,7 +6,7 @@
 
 <% url = @result.diploma.url(:freemium) %>
 <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
-<% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
+<% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{request.url}&quote=#{quote}&hashtag=%23Kapp10" %>
 
 <style>
   body {
