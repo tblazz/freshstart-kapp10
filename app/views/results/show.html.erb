@@ -1,7 +1,9 @@
 <%= content_for :meta_url, request.url %>
 <%= content_for :meta_title, "#{@result.first_name} a fini la course #{@result.race_detail} !" %>
 <%= content_for :meta_description, "Voir le diplôme de #{@result.first_name} !" %>
-<%= content_for :meta_image ,@result.diploma.url(:freemium) %>
+<%= content_for :meta_image, @result.diploma.url(:freemium) %>
+<%= content_for :meta_image_width, '1000' %>
+<%= content_for :meta_image_height, '666' %>
 <%= content_for :meta_type, 'fitness.achievement' %>
 
 <% url = @result.diploma.url(:freemium) %>
@@ -113,8 +115,7 @@
   }
 
 </style>
-</head>
-<body>
+
 <script>
   const share = (url, name, race, downloadUrl) => {
     if (navigator.share) {

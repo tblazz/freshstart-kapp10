@@ -12,6 +12,14 @@
   <meta property="og:title"         content='<%= yield_meta_tag(:title, 'Mes résultats') %>' />
   <meta property="og:description"   content='<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>' />
   <meta property="og:image"         content='<%= yield_meta_tag(:image, 'http://kapp10.com/wp-content/uploads/2014/09/themo-logo-01.png') %>' />
+
+  <% if content_for? :meta_image_width %>
+    <meta property="og:image:width" content='<%= content_for(:meta_image_width) %>' />
+  <% end %>
+  <% if content_for? :meta_image_height %>
+    <meta property="og:image:height" content='<%= content_for(:meta_image_height) %>' />
+  <% end %>
+
   <% if ENV['FB_APP_ID'].present? %>
     <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
   <% end %>
