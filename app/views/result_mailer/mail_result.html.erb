@@ -1,10 +1,24 @@
 <% url = @result.diploma.url(:freemium) %>
+<%= content_for :meta_url, request.url %>
+<%= content_for :meta_title, "#{@result.first_name} a fini la course #{@result.race_detail} !" %>
+<%= content_for :meta_description, "Voir le diplôme de #{@result.first_name} !" %>
+<%= content_for :meta_image ,@result.diploma.url(:freemium) %>
+<%= content_for :meta_type, 'fitness.achievement' %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="fr">
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <meta content="width=device-width" name="viewport"/>
+    <meta property="og:url"           content='<%= yield_meta_tag(:url, 'http://www.kapp10.com') %>' />
+    <meta property="og:type"          content='<%= yield_meta_tag(:type, 'website') %>' />
+    <meta property="og:site_name"     content='<%= yield_meta_tag(:site_name, 'Kappsports') %>' />
+    <meta property="og:title"         content='<%= yield_meta_tag(:title, 'Mes résultats') %>' />
+    <meta property="og:description"   content='<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>' />
+    <meta property="og:image"         content='<%= yield_meta_tag(:image, 'http://kapp10.com/wp-content/uploads/2014/09/themo-logo-01.png') %>' />
+    <% if ENV['FB_APP_ID'].present? %>
+      <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
+    <% end %>
     <style>
       body {
         font-family: Lato;
