@@ -1,208 +1,207 @@
+<%= content_for :meta_url, request.url %>
+<%= content_for :meta_title, "#{@result.first_name} a fini la course #{@result.race_detail} !" %>
+<%= content_for :meta_description, "Voir le diplôme de #{@result.first_name} !" %>
+<%= content_for :meta_image ,@result.diploma.url(:freemium) %>
+<%= content_for :meta_type, 'fitness.achievement' %>
+
 <% url = @result.diploma.url(:freemium) %>
+<% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
+<% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html lang="fr">
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-    <meta content="width=device-width" name="viewport"/>
-    <style>
-      body {
-        font-family: Lato;
-      }
+<style>
+  body {
+    font-family: Lato;
+  }
 
-      .result-message {
-        margin: auto;
-        width: 80%;
-      }
+  .result-message {
+    margin: auto;
+    width: 80%;
+  }
 
-      .result-message > .result-message-text {
-        font-size: 16px;
-        text-transform: uppercase;
-      }
+  .result-message > .result-message-text {
+    font-size: 16px;
+    text-transform: uppercase;
+  }
 
-      .result-message > .result-message-text > .result-rank {
-        font-size: 90px;
-      }
+  .result-message > .result-message-text > .result-rank {
+    font-size: 90px;
+  }
 
-      .result-message > .result-message-text > .result-rank > .result-rank-ordinal {
-        font-size: 16px;
-        position: relative;
-        top: -50px;
-      }
+  .result-message > .result-message-text > .result-rank > .result-rank-ordinal {
+    font-size: 16px;
+    position: relative;
+    top: -50px;
+  }
 
-      .result-image {
-        width: 100%;
-      }
+  .result-image {
+    width: 100%;
+  }
 
-      .result-share-links {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: : center;
-        justify-content: center;
-        margin: 40px 0 20px 0;
-      }
+  .result-share-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: : center;
+    justify-content: center;
+    margin: 40px 0 20px 0;
+  }
 
-      .result-share-links > .result-share-links-left, .result-share-links > .result-share-links-right {
-        margin: 0 40px 20px;
-        text-align: center;
-        width: 250px;
-      }
+  .result-share-links > .result-share-links-left, .result-share-links > .result-share-links-right {
+    margin: 0 40px 20px;
+    text-align: center;
+    width: 250px;
+  }
 
-      .result-share-links .result-share-link {
-        text-decoration: none;
-      }
+  .result-share-links .result-share-link {
+    text-decoration: none;
+  }
 
-      .result-share-links .result-share-link > .result-share-link-text {
-        color: #000;
-        font-size: 16px;
-        text-transform: uppercase;
-      }
+  .result-share-links .result-share-link > .result-share-link-text {
+    color: #000;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
 
-      .result-ctas {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: : center;
-        justify-content: center;
-        margin: 20px 0;
-      }
+  .result-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: : center;
+    justify-content: center;
+    margin: 20px 0;
+  }
 
-      .result-ctas > .result-ctas-left, .result-ctas > .result-ctas-right {
-        background-color: #000;
-        margin: 0 40px 20px;
-        text-align: center;
-        width: 250px;
-      }
+  .result-ctas > .result-ctas-left, .result-ctas > .result-ctas-right {
+    background-color: #000;
+    margin: 0 40px 20px;
+    text-align: center;
+    width: 250px;
+  }
 
-      .result-ctas .result-cta-link {
-        display: inline-block;
-        padding: 15px;
-        text-decoration: none;
-        width: 80%;
-      }
+  .result-ctas .result-cta-link {
+    display: inline-block;
+    padding: 15px;
+    text-decoration: none;
+    width: 80%;
+  }
 
-      .result-ctas .result-cta-link > .result-cta-text {
-        font-size: 16px;
-        color: #fff;
-        font-weight: bold;
-        text-decoration: none;
-        text-transform: uppercase;
-      }
+  .result-ctas .result-cta-link > .result-cta-text {
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
 
-      .result-footer {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: : center;
-        justify-content: center;
-        margin: 20px 0;
-      }
+  .result-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: : center;
+    justify-content: center;
+    margin: 20px 0;
+  }
 
-      .result-footer > .result-footer-link {
-        margin: 0 40px 20px;
-        text-align: center;
-        text-decoration: none;
-        width: 250px;
-      }
+  .result-footer > .result-footer-link {
+    margin: 0 40px 20px;
+    text-align: center;
+    text-decoration: none;
+    width: 250px;
+  }
 
-      .result-footer > .result-footer-link > .result-footer-link-text {
-        font-size: 16px;
-        color: #000;
-        text-transform: uppercase;
-      }
+  .result-footer > .result-footer-link > .result-footer-link-text {
+    font-size: 16px;
+    color: #000;
+    text-transform: uppercase;
+  }
 
-    </style>
-  </head>
-  <body>
-    <script>
-      const share = (url, name, race, downloadUrl) => {
-        if (navigator.share) {
-          navigator.share({
-            title: '%{name} a terminé la course %{race} !',
-            url: url,
-          }).then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing', error));
-        } else {
-          location.href = downloadUrl;
-        }
-      };
-    </script>
-    <div class="result-message">
-      <p class="result-message-text">
-        <strong><%= @result.first_name %> <%= @result.last_name %></strong>
-        est
-        <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
-        <br/>
-        <span class="result-rank">
-          <%= @result.rank %><span class="result-rank-ordinal">
-            <% if @result.rank == 1 %>
-              <%= @result.sex == 'M' ? 'er' : 'ère' %>
-            <% else %>
-              ème
-            <% end %>
-          </span>
-        </span>
-        <br/>
-        à la course
-        <strong><%= @result.race_detail %></strong>
-      </p>
-    </div>
+</style>
+</head>
+<body>
+<script>
+  const share = (url, name, race, downloadUrl) => {
+    if (navigator.share) {
+      navigator.share({
+        title: '%{name} a terminé la course %{race} !',
+        url: url,
+      }).then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+      location.href = downloadUrl;
+    }
+  };
+</script>
+<div class="result-message">
+  <p class="result-message-text">
+    <strong><%= @result.first_name %> <%= @result.last_name %></strong>
+    est
+    <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
+    <br/>
+    <span class="result-rank">
+      <%= @result.rank %><span class="result-rank-ordinal">
+        <% if @result.rank == 1 %>
+          <%= @result.sex == 'M' ? 'er' : 'ère' %>
+        <% else %>
+          ème
+        <% end %>
+      </span>
+    </span>
+    <br/>
+    à la course
+    <strong><%= @result.race_detail %></strong>
+  </p>
+</div>
 
-    <img src="<%= url %>" class="result-image">
+<img src="<%= url %>" class="result-image">
 
-    <div class="result-share-links">
-      <div class="result-share-links-left">
-        <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
-        <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{url}&quote=#{quote}&hashtag=%23Kapp10" %>
-        <a href="<%= facebook_link %>" class="result-share-link">
-          <span class="result-share-link-text">
-            Partager sur Facebook
-          </span>
-        </a>
-        |
-        <% twitter_link = "https://twitter.com/intent/tweet?url=#{url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
-        <a href="<%= twitter_link %>" class="result-share-link">
-          <span class="result-share-link-text">
-            Twitter
-          </span>
-        </a>
-      </div>
-      <div class="result-share-links-right">
-        <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
-          <span class="result-share-link-text">
-            Autre partage
-          </span>
-        </a>
-      </div>
-    </div>
+<div class="result-share-links">
+  <div class="result-share-links-left">
+    <a href="<%= facebook_link %>" class="result-share-link">
+      <span class="result-share-link-text">
+        Partager sur Facebook
+      </span>
+    </a>
+    |
+    <% twitter_link = "https://twitter.com/intent/tweet?url=#{url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
+    <a href="<%= twitter_link %>" class="result-share-link">
+      <span class="result-share-link-text">
+        Twitter
+      </span>
+    </a>
+  </div>
+  <div class="result-share-links-right">
+    <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
+      <span class="result-share-link-text">
+        Autre partage
+      </span>
+    </a>
+  </div>
+</div>
 
-    <div class="result-ctas">
-      <div class="result-ctas-left">
-        <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
-          <span class="result-cta-text">
-            Télécharger le diplôme (version imprimable)
-          </span>
-        </a>
-      </div>
-      <div class="result-ctas-right">
-        <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
-          <span class="result-cta-text">
-            Recevoir le diplôme à domicile
-          </span>
-        </a>
-      </div>
-    </div>
+<div class="result-ctas">
+  <div class="result-ctas-left">
+    <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
+      <span class="result-cta-text">
+        Télécharger le diplôme (version imprimable)
+      </span>
+    </a>
+  </div>
+  <div class="result-ctas-right">
+    <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
+      <span class="result-cta-text">
+        Recevoir le diplôme à domicile
+      </span>
+    </a>
+  </div>
+</div>
 
-    <div class="result-footer">
-      <a href="http://kapp10.com/cgu-photoperformance/" class="result-footer-link">
-        <span class="result-footer-link-text">
-          Mentions légales
-        </span>
-      </a>
+<div class="result-footer">
+  <a href="http://kapp10.com/cgu-photoperformance/" class="result-footer-link">
+    <span class="result-footer-link-text">
+      Mentions légales
+    </span>
+  </a>
 
-      <a href="http://kapp10.com" class="result-footer-link">
-        <span class="result-footer-link-text">
-          Powered by Kapp10
-        </span>
-      </a>
-    </div>
-  </body>
-</html>
+  <a href="http://kapp10.com" class="result-footer-link">
+    <span class="result-footer-link-text">
+      Powered by Kapp10
+    </span>
+  </a>
+</div>
