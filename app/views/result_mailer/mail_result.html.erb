@@ -179,7 +179,7 @@
           </span>
         </a>
         |
-        <% twitter_link = "https://twitter.com/intent/tweet?url=#{url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
+        <% twitter_link = "https://twitter.com/intent/tweet?url=#{request.url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
         <a href="<%= twitter_link %>" class="result-share-link" style="text-decoration: none;">
           <span class="result-share-link-text" style="color: #000; font-size: 16px; text-transform: uppercase;">
             Twitter
