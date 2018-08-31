@@ -5,6 +5,7 @@
 <%= content_for :meta_image_width, '1000' %>
 <%= content_for :meta_image_height, '666' %>
 <%= content_for :meta_type, 'fitness.achievement' %>
+<%= content_for :meta_twitter_card, 'summary_large_image' %>
 
 <% url = @result.diploma.url(:freemium) %>
 <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>

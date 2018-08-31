@@ -4,6 +4,7 @@
 <%= content_for :meta_description, "Voir le diplôme de #{@result.first_name} !" %>
 <%= content_for :meta_image ,@result.diploma.url(:freemium) %>
 <%= content_for :meta_type, 'fitness.achievement' %>
+<%= content_for :meta_twitter_card, 'summary_large_image' %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="fr">
@@ -19,6 +20,7 @@
     <% if ENV['FB_APP_ID'].present? %>
       <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
     <% end %>
+    <meta name="twitter:card" content="<%= yield_meta_tag(:twitter_card, 'summary') %>">
     <style>
       body {
         font-family: Lato;
