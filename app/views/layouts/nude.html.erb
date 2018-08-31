@@ -24,7 +24,7 @@
     <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
   <% end %>
 
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="<%= yield_meta_tag(:twitter_card, 'summary') %>">
   <meta name="twitter:site" content="@google">
   <meta name="twitter:title" content="<%= yield_meta_tag(:title, 'Mes résultats') %>">
   <meta name="twitter:description" content="<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>">
