@@ -1,10 +1,12 @@
 class ToTeamResultMailer < ApplicationMailer
-  def mail_original_diploma(result_id, address, postal_code, city, country)
+  def mail_original_diploma(result_id, params)
     @result = Result.find(result_id)
-    @address = address
-    @postal_code = postal_code
-    @city = city
-    @country = country
+    @first_name = params[:first_name]
+    @last_name = params[:last_name]
+    @address = params[:address]
+    @postal_code = params[:postal_code]
+    @city = params[:city]
+    @country = params[:country]
 
     return unless @result.diploma? && @result.mail && @result.purchased_at?
 
