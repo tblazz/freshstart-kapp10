@@ -13,11 +13,13 @@
   </head>
   <body>
     <div class="container-fluid">
-      <nav class="navbar ">
-        <div class="logo">
-          <a href="<%= root_path%>">Kapp<span>10</span> FreshStart</a>
-        </div>
-      </nav>
+      <div class="container">
+        <nav class="navbar ">
+          <div class="logo">
+            <a href="<%= root_path%>"><span>Kapp10 FreshStart</span></a>
+          </div>
+        </nav>
+      </div>
       <!-- cadre du contenu sous le média -->
       <div>
         <% flash.each do |key, value| %>
@@ -31,4 +33,3 @@
     </div>
   </body>
 </html>
-

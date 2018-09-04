@@ -10,7 +10,7 @@ class ResultMailer < ApplicationMailer
     @result.update_attribute(:email_sent_at, Time.now)
   end
 
-  def mail_original_diploma(result_id, send_diploma_by_email)
+  def mail_original_diploma(result_id, send_diploma_by_email, params = {})
     @result = Result.find(result_id)
     @send_diploma_by_email = send_diploma_by_email
 
@@ -24,6 +24,6 @@ class ResultMailer < ApplicationMailer
 
     subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
 
-    mail to: @result.mail, from: I18n.t('mail_sender', sender_mail: @result.race.email_sender), subject: subject
+    mail to: params[:email] || @result.mail, from: I18n.t('mail_sender', sender_mail: @result.race.email_sender), subject: subject
   end
 end

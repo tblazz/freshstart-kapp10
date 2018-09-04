@@ -14,10 +14,10 @@ class DiplomaPurchaseService
     result.purchased_at = Time.current
     result.save!
 
-    ResultMailer.mail_original_diploma(result.id, @send_diploma_by_email).deliver_later
+    ResultMailer.mail_original_diploma(result.id, @send_diploma_by_email, params).deliver_later
 
     unless @send_diploma_by_email
-      ToTeamResultMailer.mail_original_diploma(result.id, params[:address], params[:postal_code], params[:city], params[:country]).deliver_later
+      ToTeamResultMailer.mail_original_diploma(result.id, params).deliver_later
     end
 
     flash[:notice] = 'Commande validée !'
