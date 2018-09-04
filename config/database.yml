@@ -20,7 +20,7 @@ staging:
   adapter: postgresql
   encoding: utf8
   url: <%= ENV["DATABASE_URL"] %>
-  database: freshstart_staging
+  database: freshstart_production
   pool: 50
 
 production:
