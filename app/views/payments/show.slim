@@ -3,11 +3,14 @@
     .row
       .col-md-12
         .alert.alert-warning
-          p Vous avez déjà payé
+          p= t('.you_already_paid')
   - else
     .row
       .col-md-12
-        h1 Votre diplôme en haute qualité
+        - if params[:sending_type] == 'email'
+          h1= t('.download_your_high_quality_diploma')
+        - else
+          h1= t('.receive_your_high_quality_diploma_at_home')
     .row
       .col-md-8
         = image_tag @result.diploma.url(:freemium), class: "result-diploma"
@@ -17,41 +20,43 @@
             = hidden_field_tag :sending_type, params[:sending_type]
 
           - if params[:sending_type] == 'email'
-            p Envoi par E-mail
-            .form-group
-              script.stripe-button data-currency="eur" data-email="#{@result.mail}" data-key=("#{Rails.configuration.stripe[:publishable_key]}") data-locale="auto" data-name=("Commandez votre diplôme") data-label="Payez #{number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2)}" src="https://checkout.stripe.com/checkout.js"
-          - else
-            .form-group
-              p Envoi à domicile
+            p= t('.you_will_receive_the_download_link_by_email')
+            p= "#{t('.fee')} : #{number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2)}"
 
             .form-group
-              = label_tag :address, "Adresse"
+              = label_tag :email, t('.fill_your_email')
+              = email_field_tag :email, @result.mail, class: "form-control", required: true
+
+            .form-group
+              = render 'stripe_submit_button'
+          - else
+            .form-group
+              p= t('.fill_your_address')
+              p= "#{t('.fee')} : #{number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2)}"
+
+            .form-group
+              = label_tag :first_name, t('.first_name')
+              = text_field_tag :first_name, @result.first_name, class: "form-control", required: true
+
+            .form-group
+              = label_tag :last_name, t('.last_name')
+              = text_field_tag :last_name, @result.last_name, class: "form-control", required: true
+
+            .form-group
+              = label_tag :address, t('.address')
               = text_field_tag :address, nil, class: "form-control", required: true
 
             .form-group
-              = label_tag :postal_code, "Code postal"
+              = label_tag :postal_code, t('.postal_code')
               = text_field_tag :postal_code, nil, class: "form-control", required: true
 
             .form-group
-              = label_tag :city, "Ville"
+              = label_tag :city, t('.city')
               = text_field_tag :city, nil, class: "form-control", required: true
 
             .form-group
-              = label_tag :country, "Pays"
+              = label_tag :country, t('.country')
               = text_field_tag :country, nil, class: "form-control", required: true
 
             .form-group.pull-right
-              script.stripe-button data-currency="eur" data-email="#{@result.mail}" data-key=("#{Rails.configuration.stripe[:publishable_key]}") data-locale="auto" data-name=("Commandez votre diplôme") data-label="Payez #{number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2)}" src="https://checkout.stripe.com/checkout.js"
-
-javascript:
-  let stripeButton = document.getElementsByClassName("stripe-button-el")[0]
-  const form = document.getElementsByTagName('form')[0];
-  stripeButton.disabled = !form.checkValidity();
-
-  const inputs = document.getElementsByClassName('form-control');
-  console.log(inputs);
-  Array.from(inputs).forEach((input) => {
-    input.addEventListener('input', () => {
-      stripeButton.disabled = !form.checkValidity();
-    });
-  });
+              = render 'stripe_submit_button'
