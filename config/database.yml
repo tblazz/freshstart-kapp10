@@ -16,6 +16,13 @@ test:
   username: <%=ENV["DATABASE_USER"]%>
   password:
 
+staging:
+  adapter: postgresql
+  encoding: utf8
+  url: <%= ENV["DATABASE_URL"] %>
+  database: freshstart_staging
+  pool: 50
+
 production:
   adapter: postgresql
   encoding: utf8
