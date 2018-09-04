@@ -141,7 +141,7 @@ class RacesController < ApplicationController
       end
       redirect_to races_url, notice: "#{@race.results.count} résultats en cours d'envoi." and return
     else
-      redirect_to races_url, alert: "L'envoi des résutats est bloqué sur l'environnement de #{Rails.env}"
+      redirect_to races_url, alert: "L'envoi des résultats est bloqué sur l'environnement de #{Rails.env}"
     end
   end
 
