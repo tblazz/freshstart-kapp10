@@ -2,6 +2,11 @@ class PaymentsController < ApplicationController
   before_action :set_result
 
   def show
+    if params[:sending_type] == 'email'
+      redirect_to root_path, status: :forbidden unless @result.edition.download_chargeable?
+    else
+      redirect_to root_path, status: :forbidden unless @result.edition.sendable_at_home?
+    end
   end
 
   def create
