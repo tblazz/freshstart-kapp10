@@ -144,8 +144,8 @@
 
     <div class="result-message" style="margin: auto; width: 80%;">
       <p class="result-message-text" style="font-size: 16px; text-transform: uppercase;">
-        <strong><%= @result.first_name %> <%= @result.last_name %></strong>
-        est
+        <strong>Bravo <%= @result.first_name %> <%= @result.last_name %></strong>,
+        Tu es
         <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
         <br/>
         <span class="result-rank" style="font-size: 90px;">
@@ -158,8 +158,9 @@
           </span>
         </span>
         <br/>
-        à la course
+        de la course
         <strong><%= @result.race_detail %></strong>
+        en <strong><%= @result.time %></strong>.
       </p>
     </div>
 
@@ -197,17 +198,17 @@ text-transform: uppercase;">
     </div>
 
     <div class="result-ctas" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin: 20px 0;">
-      <div class="result-ctas-left" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 250px;">
+      <div class="result-ctas-left" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 260px;">
         <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
           <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
-            Télécharger le diplôme (version imprimable)
+            Télécharger le diplôme (version imprimable : <%= number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2) %>)
           </span>
         </a>
       </div>
-      <div class="result-ctas-right" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 250px;">
+      <div class="result-ctas-right" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 260px;">
         <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
           <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
-            Recevoir le diplôme à domicile
+            Recevoir le diplôme à domicile (<%= number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2) %>)
           </span>
         </a>
       </div>
