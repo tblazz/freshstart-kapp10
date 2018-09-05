@@ -21,7 +21,7 @@
 
           - if params[:sending_type] == 'email'
             p= t('.you_will_receive_the_download_link_by_email')
-            p= "#{t('.fee')} : #{number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2)}"
+            p= "#{t('.fee')} : #{number_to_currency(@result.edition.download_chargeable_price, precision: 2)}"
 
             .form-group
               = label_tag :email, t('.fill_your_email')
@@ -32,7 +32,7 @@
           - else
             .form-group
               p= t('.fill_your_address')
-              p= "#{t('.fee')} : #{number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2)}"
+              p= "#{t('.fee')} : #{number_to_currency(@result.edition.sendable_at_home_price, precision: 2)}"
 
             .form-group
               = label_tag :first_name, t('.first_name')

@@ -31,6 +31,7 @@ gem "paperclip", "~> 5.0.0"
 gem 'rack-cors', :require => 'rack/cors'
 gem 'rollbar' # reporting des erreurs
 gem 'bootstrap-sass'
+gem "bootstrap-switch-rails", '3.3.3'
 gem 'htmlentities' # permet de transformer les accents en entités HTML ex: &eacute;
 gem 'htmlcompressor' # permet de compresser le HTML  des widgets
 gem 'will_paginate-bootstrap' # pagination
@@ -39,6 +40,7 @@ gem 'google-cloud-vision'
 gem 's3_direct_upload'
 gem 'slim'
 gem 'font-awesome-sass', '~> 4.7.0'
+gem 'money-rails'
 gem 'open_uri_redirections'
 gem 'kaminari'
 

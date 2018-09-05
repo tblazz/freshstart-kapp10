@@ -111,6 +111,7 @@ class EditionsController < ApplicationController
   end
 
   private
+
   def set_edition
     @edition = Edition.find(params[:id])
   end
@@ -130,7 +131,11 @@ class EditionsController < ApplicationController
         :template,
         :external_link,
         :external_link_button,
-        :event_id
+        :event_id,
+        :sendable_at_home,
+        :sendable_at_home_price,
+        :download_chargeable,
+        :download_chargeable_price
     )
   end
 
