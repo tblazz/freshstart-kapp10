@@ -15,6 +15,7 @@
 //= require retina.js
 //= require s3_direct_upload
 //= require bootstrap-sprockets
+//= require bootstrap-switch
 //= require_tree .
 
 
@@ -26,4 +27,5 @@ $(function () {
 	$(document).on('keyup', '#results_search input', function(){
 		$.get($('#results_search').attr('action'), $('#results_search').serialize(), null, 'script');
 	});
+  $('.bootstrap-switch').bootstrapSwitch();
 });

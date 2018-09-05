@@ -48,7 +48,11 @@ Rails.application.routes.draw do
         get 'pairing', to: 'photos#index'
       end
 
-      resources :photos, only: %I[index create]
+      resources :photos, only: %I[index create destroy] do
+        collection do
+          delete :destroy_all
+        end
+      end
     end
   end
 

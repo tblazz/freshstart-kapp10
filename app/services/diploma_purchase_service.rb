@@ -14,10 +14,17 @@ class DiplomaPurchaseService
     result.purchased_at = Time.current
     result.save!
 
-    ResultMailer.mail_original_diploma(result.id, @send_diploma_by_email, params).deliver_later
+    ResultMailer.mail_original_diploma(result.id, @send_diploma_by_email, email: params[:email]).deliver_later
 
     unless @send_diploma_by_email
-      ToTeamResultMailer.mail_original_diploma(result.id, params).deliver_later
+      ToTeamResultMailer.mail_original_diploma(result.id,
+        first_name: params[:first_name],
+        last_name: params[:last_name],
+        address: params[:address],
+        postal_code: params[:postal_code],
+        city: params[:city],
+        country: params[:country]
+      ).deliver_later
     end
 
     flash[:notice] = 'Commande validée !'
@@ -49,10 +56,8 @@ class DiplomaPurchaseService
   end
 
   def stripe_charge_amount
-    (diploma_price.to_f * 100).to_i
-  end
+    return @result.edition.download_chargeable_price_cents if @send_diploma_by_email
 
-  def diploma_price
-    @send_diploma_by_email ? ENV['DIPLOMA_PRICE'] : ENV['DIPLOMA_PRICE_EMAIL']
+    @result.edition.sendable_at_home_price_cents
   end
 end

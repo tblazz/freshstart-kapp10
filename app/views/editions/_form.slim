@@ -6,12 +6,21 @@
   = f.input :hashtag
   = f.input :template, as: :select, collection: Edition::TEMPLATES
   = f.input :results_url
-  = f.input :sms_message, as: :text, input_html: {rows: 6}, style: 'width: 100%'
+  = f.input :sms_message, as: :text, input_html: { rows: 6 }, style: 'width: 100%'
   = f.input :raw_results, as: :file
   = f.input :background_image, as: :file
-  = f.input :photos, input_html: {multiple: 'multiple'}, as: :file, label: "Photos individuelles", name: "race[photo]"
   = f.input :external_link
-  = f.input :external_link_button, label: 'Texte du boutton partenaire'
+  = f.input :external_link_button, label: 'Texte du bouton partenaire'
+  .form-group
+    = f.label :sendable_at_home, 'Envoi à domicile', class: 'col-sm-3 control-label'
+    .col-sm-9
+      = f.check_box :sendable_at_home, class: 'bootstrap-switch bootstrap-switch-inverse'
+  = f.input :sendable_at_home_price, as: :decimal, label: "Prix de l'envoi à domicile", input_html: { value: @edition.sendable_at_home_price.to_f }
+  .form-group
+    = f.label :download_chargeable, 'Téléchargement payant', class: 'col-sm-3 control-label'
+    .col-sm-9
+      = f.check_box :download_chargeable, class: 'bootstrap-switch bootstrap-switch-inverse', data: { state: true }
+  = f.input :download_chargeable_price, as: :decimal, label: 'Prix du téléchargement', input_html: { value: @edition.download_chargeable_price.to_f }
   hr
   = f.button :submit , 'Enregistrer', class: 'btn btn-standard'
   span.pull-right

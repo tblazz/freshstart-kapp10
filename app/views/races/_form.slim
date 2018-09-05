@@ -6,7 +6,7 @@
   /  = f.input :event, as: :select, collection: Event.all.map {|e| [e.name, e.id] }, label: 'Evènement'
   /  = f.input :edition_id, as: :select, disabled: true
   = f.hidden_field :edition_id
-  = f.input :name 
+  = f.input :name
   = f.input :coef
   = f.input :race_type, label: 'Type de course', as: :select, collection: [['Route', 'route'], ['Trail', 'trail'], ['Funrace', 'funrace']]
   /= f.input :date, as: :date, wrapper: :horizontal_form, html5: true
@@ -20,9 +20,9 @@
   /= f.input :background_image, as: :file
   /= f.input :photos, input_html: { multiple: 'multiple' }, as: :file , label: "Photos individuelles", name: "race[photo]"
   /= f.input :external_link
-  /= f.input :external_link_button, label: 'Texte du boutton partenaire'
+  /= f.input :external_link_button, label: 'Texte du bouton partenaire'
   hr
-  = f.button :submit , "Enregistrer", class: 'btn btn-standard' 
+  = f.button :submit , "Enregistrer", class: 'btn btn-standard'
   span.pull-right
     = link_to "Supprimer la course" , race_path(@race), method: :delete, class: 'btn btn-danger',data: { confirm: I18n.t('sure?') } if @race.persisted?
 

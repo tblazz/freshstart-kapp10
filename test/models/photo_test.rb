@@ -13,6 +13,8 @@
 #  image_file_size    :integer
 #  image_updated_at   :datetime
 #  edition_id         :integer
+#  direct_image_url   :string           not null
+#  processed          :boolean          default(FALSE)
 #
 
 require "test_helper"

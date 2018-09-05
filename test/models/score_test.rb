@@ -4,7 +4,6 @@
 #
 #  id         :integer          not null, primary key
 #  runner_id  :integer
-#  race_id    :uuid             not null
 #  points     :integer
 #  race_type  :string
 #  date       :datetime

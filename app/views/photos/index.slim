@@ -13,7 +13,7 @@
       .col-sm-3
         .form-group
           = label_tag 'Photos non reconnues ?'
-          = check_box_tag :without_bib, true, params[:without_bib], class: 'form-control'
+          = check_box_tag :without_bib, true, params[:without_bib], class: 'bootstrap-switch'
       .col-sm-3
         .form-group
           = label_tag 'Courses'
@@ -32,10 +32,21 @@
         .form-group
           = submit_tag 'Filtrer', class: 'btn-primary btn-group-justified'
 
-  hr
-
-  - @photos.each_slice(4) do |photos|
+  - if @photos.any?
     .row
-      - photos.each do |photo|
-        .col-sm-3
-          = render 'photo', photo: photo
+      .col-sm-12
+        = link_to 'Supprimer tous les résultats', destroy_all_event_edition_photos_path(event_id: @event.id, edition_id: @edition.id, photo_ids: @photos.pluck(:id)), method: :delete, class: 'btn btn-danger', data: { confirm: 'Êtes vous SÛR(E) de vouloir supprimer TOUTES les photos de cette recherche ?' }
+
+    hr
+
+    - @photos.each_slice(4) do |photos|
+      .row
+        - photos.each do |photo|
+          .col-sm-3
+            = render 'photo', photo: photo
+
+  - else
+    .row
+      .col-sm-12
+        .alert.alert-info
+          p.text-center Aucun résultat
