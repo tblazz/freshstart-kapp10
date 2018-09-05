@@ -55,7 +55,7 @@
   .result-share-links > .result-share-links-left, .result-share-links > .result-share-links-right {
     margin: 0 40px 20px;
     text-align: center;
-    width: 250px;
+    width: 300px;
   }
 
   .result-share-links .result-share-link {
@@ -78,9 +78,9 @@
 
   .result-ctas > .result-ctas-left, .result-ctas > .result-ctas-right {
     background-color: #000;
-    margin: 0 40px 20px;
+    margin: 0 55px 20px;
     text-align: center;
-    width: 260px;
+    width: 270px;
   }
 
   .result-ctas .result-cta-link {
@@ -107,10 +107,10 @@
   }
 
   .result-footer > .result-footer-link {
-    margin: 0 40px 20px;
+    margin: 0 55px 20px;
     text-align: center;
     text-decoration: none;
-    width: 250px;
+    width: 270px;
   }
 
   .result-footer > .result-footer-link > .result-footer-link-text {
@@ -174,30 +174,42 @@
       </span>
     </a>
   </div>
-  <div class="result-share-links-right">
-    <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
-      <span class="result-share-link-text">
-        Autre partage
-      </span>
-    </a>
-  </div>
+  <% unless @result.edition.download_chargeable? %>
+    <div class="result-share-links-right">
+      <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
+        <span class="result-share-link-text">
+          Autre partage
+        </span>
+      </a>
+    </div>
+  <% end %>
 </div>
 
 <div class="result-ctas">
   <div class="result-ctas-left">
-    <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
+    <% if @result.edition.download_chargeable? %>
+      <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
+        <span class="result-cta-text">
+          Télécharger le diplôme (version imprimable : <%= number_to_currency(@result.edition.download_chargeable_price, precision: 2) %>)
+        </span>
+      </a>
+    <% else %>
+    <a href="<%= download_diploma_url(@result.id, format: :jpg) %>" class="result-cta-link">
       <span class="result-cta-text">
-        Télécharger le diplôme (version imprimable : <%= number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2) %>)
+        Télécharger le diplôme en haute qualité
       </span>
     </a>
+    <% end %>
   </div>
-  <div class="result-ctas-right">
-    <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
-      <span class="result-cta-text">
-        Recevoir le diplôme à domicile (<%= number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2) %>)
-      </span>
-    </a>
-  </div>
+  <% if @result.edition.sendable_at_home? %>
+    <div class="result-ctas-right">
+      <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
+        <span class="result-cta-text">
+          Recevoir le diplôme à domicile (<%= number_to_currency(@result.edition.sendable_at_home_price, precision: 2) %>)
+        </span>
+      </a>
+    </div>
+  <% end %>
 </div>
 
 <div class="result-footer">
