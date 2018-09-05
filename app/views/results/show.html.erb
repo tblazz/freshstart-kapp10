@@ -194,11 +194,11 @@
         </span>
       </a>
     <% else %>
-    <a href="<%= download_diploma_url(@result.id, format: :jpg) %>" class="result-cta-link">
-      <span class="result-cta-text">
-        Télécharger le diplôme en haute qualité
-      </span>
-    </a>
+      <a href="<%= download_diploma_url(@result.id, format: :jpg) %>" class="result-cta-link">
+        <span class="result-cta-text">
+          Télécharger le diplôme en haute qualité
+        </span>
+      </a>
     <% end %>
   </div>
   <% if @result.edition.sendable_at_home? %>
