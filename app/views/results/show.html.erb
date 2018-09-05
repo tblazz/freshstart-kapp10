@@ -80,7 +80,7 @@
     background-color: #000;
     margin: 0 40px 20px;
     text-align: center;
-    width: 250px;
+    width: 260px;
   }
 
   .result-ctas .result-cta-link {
@@ -136,8 +136,9 @@
 </script>
 <div class="result-message">
   <p class="result-message-text">
-    <strong><%= @result.first_name %> <%= @result.last_name %></strong>
-    est
+    <strong>Bravo <%= @result.first_name %> <%= @result.last_name %></strong>,
+    <br/>
+    Tu es
     <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
     <br/>
     <span class="result-rank">
@@ -150,8 +151,9 @@
       </span>
     </span>
     <br/>
-    à la course
+    de la course
     <strong><%= @result.race_detail %></strong>
+    en <strong><%= @result.time %></strong>.
   </p>
 </div>
 
@@ -185,14 +187,14 @@
   <div class="result-ctas-left">
     <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link">
       <span class="result-cta-text">
-        Télécharger le diplôme (version imprimable)
+        Télécharger le diplôme (version imprimable : <%= number_to_currency(ENV['DIPLOMA_PRICE_EMAIL'], precision: 2) %>)
       </span>
     </a>
   </div>
   <div class="result-ctas-right">
     <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link">
       <span class="result-cta-text">
-        Recevoir le diplôme à domicile
+        Recevoir le diplôme à domicile (<%= number_to_currency(ENV['DIPLOMA_PRICE'], precision: 2) %>)
       </span>
     </a>
   </div>
