@@ -49,10 +49,8 @@ class DiplomaPurchaseService
   end
 
   def stripe_charge_amount
-    (diploma_price.to_f * 100).to_i
-  end
+    return @result.edition.download_chargeable_price_cents if @send_diploma_by_email
 
-  def diploma_price
-    @send_diploma_by_email ? ENV['DIPLOMA_PRICE'] : ENV['DIPLOMA_PRICE_EMAIL']
+    @result.edition.sendable_at_home_price_cents
   end
 end
