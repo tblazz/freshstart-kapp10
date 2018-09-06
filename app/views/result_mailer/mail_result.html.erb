@@ -183,7 +183,7 @@
         </a>
       </div>
 
-      <% unless @result.edition.download_chargeable? %>
+      <% if @result.edition.download_chargeable? %>
         <div class="result-share-links-right" style="margin: 0 40px 20px; text-align: center; width: 250px;">
           <a href="" class="result-share-link" style="text-decoration: none;" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
             <span class="result-share-link-text" style="color: #000; font-size: 16px;

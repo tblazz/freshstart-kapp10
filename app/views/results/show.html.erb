@@ -174,7 +174,7 @@
       </span>
     </a>
   </div>
-  <% unless @result.edition.download_chargeable? %>
+  <% if @result.edition.download_chargeable? %>
     <div class="result-share-links-right">
       <a href="" class="result-share-link" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
         <span class="result-share-link-text">
