@@ -1,5 +1,6 @@
 <% url = @result.diploma.url(:freemium) %>
-<%= content_for :meta_url, request.url %>
+<% result_url = Rails.application.routes.url_helpers.result_url(@result.id, host: DOMAIN_URL) %>
+<%= content_for :meta_url, result_url %>
 <%= content_for :meta_title, "#{@result.first_name} a fini la course #{@result.race_detail} !" %>
 <%= content_for :meta_description, "Voir le diplôme de #{@result.first_name} !" %>
 <%= content_for :meta_image ,@result.diploma.url(:freemium) %>
@@ -170,9 +171,9 @@
       <div class="result-share-links-left" style="margin: 0 40px 20px; text-align: center; width: 250px;">
         <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
         <% if ENV['FB_APP_ID'].present? %>
-          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{request.url}" %>
+          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{result_url}" %>
         <% else %>
-          <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{request.url}&quote=#{quote}&hashtag=%23Kapp10" %>
+          <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{result_url}&quote=#{quote}&hashtag=%23Kapp10" %>
         <% end %>
         <a href="<%= facebook_link %>" class="result-share-link" style= "text-decoration: none;">
           <span class="result-share-link-text" style="color: #000; font-size: 16px; text-transform: uppercase;">
@@ -180,7 +181,7 @@
           </span>
         </a>
         |
-        <% twitter_link = "https://twitter.com/intent/tweet?url=#{request.url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
+        <% twitter_link = "https://twitter.com/intent/tweet?url=#{result_url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
         <a href="<%= twitter_link %>" class="result-share-link" style="text-decoration: none;">
           <span class="result-share-link-text" style="color: #000; font-size: 16px; text-transform: uppercase;">
             Twitter
