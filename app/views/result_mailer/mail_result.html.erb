@@ -204,7 +204,7 @@
             </span>
           </a>
         <% else %>
-          <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
+          <a href="<%= download_diploma_url(@result.id, format: :jpg) %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
             <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
               Télécharger le diplôme en haute qualité
             </span>
