@@ -119,7 +119,7 @@ class Edition < ApplicationRecord
   def delete_diplomas
     results.each do |result|
       result.diploma = nil
-      result.generated_at = nil
+      result.diploma_generated_at = nil
       result.save
     end
   end
