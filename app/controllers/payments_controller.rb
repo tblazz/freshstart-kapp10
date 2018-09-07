@@ -12,7 +12,7 @@ class PaymentsController < ApplicationController
   def create
     service = DiplomaPurchaseService.new(@result, params)
     service.perform
-    redirect_to root_path, flash: service.flash
+    redirect_to result_path(@result.id), flash: service.flash
   end
 
   private
