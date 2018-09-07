@@ -8,9 +8,9 @@
     .row
       .col-md-12
         - if params[:sending_type] == 'email'
-          h1= t('.download_your_high_quality_diploma')
+          h2= t('.download_your_high_quality_diploma')
         - else
-          h1= t('.receive_your_high_quality_diploma_at_home')
+          h2= t('.receive_your_high_quality_diploma_at_home')
     .row
       .col-md-8
         = image_tag @result.diploma.url(:freemium), class: "result-diploma"
