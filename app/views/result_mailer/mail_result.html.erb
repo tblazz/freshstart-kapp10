@@ -165,7 +165,7 @@
       <div class="result-share-links-left" style="margin: 0 40px 20px; text-align: center; width: 250px;">
         <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
         <% if ENV['FB_APP_ID'].present? %>
-          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{result_url}" %>
+          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{result_url}&redirect_uri=#{result_url}" %>
         <% else %>
           <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{result_url}&quote=#{quote}&hashtag=%23Kapp10" %>
         <% end %>
