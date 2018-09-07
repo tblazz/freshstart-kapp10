@@ -10,7 +10,7 @@
 <% url = @result.diploma.url(:freemium) %>
 <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
 <% if ENV['FB_APP_ID'].present? %>
-  <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{request.url}" %>
+  <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{request.url}&redirect_uri=#{request.url}" %>
 <% else %>
   <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{request.url}&quote=#{quote}&hashtag=%23Kapp10" %>
 <% end %>
