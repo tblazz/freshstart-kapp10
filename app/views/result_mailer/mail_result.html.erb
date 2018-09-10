@@ -139,7 +139,7 @@
 
     <div class="result-message" style="margin: auto; width: 80%;">
       <p class="result-message-text" style="font-size: 16px; text-transform: uppercase;">
-        <strong>Bravo <%= @result.first_name %> <%= @result.last_name %></strong>,
+        Bravo <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
         Tu es
         <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
         <br/>
