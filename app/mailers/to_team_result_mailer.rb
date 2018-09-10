@@ -12,6 +12,6 @@ class ToTeamResultMailer < ApplicationMailer
 
     subject = I18n.t('mail_to_team_original_diploma_subject', edition_name_mail: @result.edition.event.name)
 
-    mail to: I18n.t('mail_sender', sender_mail: @result.race.email_sender), from: I18n.t('mail_sender', sender_mail: @result.race.email_sender), subject: subject
+    mail to: ADMIN_EMAIL, from: ADMIN_EMAIL, subject: subject
   end
 end
