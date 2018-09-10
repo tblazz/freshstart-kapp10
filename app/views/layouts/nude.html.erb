@@ -7,12 +7,24 @@
     Kapp10 - FreshStart
   </title>
   <meta property="og:url"           content='<%= yield_meta_tag(:url, 'http://www.kapp10.com') %>' />
-  <meta property="og:type"          content="website" />
+  <meta property="og:type"          content='<%= yield_meta_tag(:type, 'website') %>' />
+  <meta property="og:site_name"     content='<%= yield_meta_tag(:site_name, 'Kappsports') %>' />
   <meta property="og:title"         content='<%= yield_meta_tag(:title, 'Mes résultats') %>' />
   <meta property="og:description"   content='<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>' />
   <meta property="og:image"         content='<%= yield_meta_tag(:image, 'http://kapp10.com/wp-content/uploads/2014/09/themo-logo-01.png') %>' />
 
-  <meta name="twitter:card" content="summary">
+  <% if content_for? :meta_image_width %>
+    <meta property="og:image:width" content='<%= content_for(:meta_image_width) %>' />
+  <% end %>
+  <% if content_for? :meta_image_height %>
+    <meta property="og:image:height" content='<%= content_for(:meta_image_height) %>' />
+  <% end %>
+
+  <% if ENV['FB_APP_ID'].present? %>
+    <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
+  <% end %>
+
+  <meta name="twitter:card" content="<%= yield_meta_tag(:twitter_card, 'summary') %>">
   <meta name="twitter:site" content="@google">
   <meta name="twitter:title" content="<%= yield_meta_tag(:title, 'Mes résultats') %>">
   <meta name="twitter:description" content="<%= yield_meta_tag(:description, 'Les résultats de ma dernière course') %>">
@@ -26,6 +38,11 @@
 <body>
   <div class="container-fluid">
     <div class="content_frame">
+      <div>
+        <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>"><%= value %></div>
+        <% end %>
+      </div>
       <%= yield %>
     </div>
   </div>
@@ -33,4 +50,3 @@
   <!-- javascript_include_tag '//platform.twitter.com/widgets.js', :async => true %>-->
 </body>
 </html>
-

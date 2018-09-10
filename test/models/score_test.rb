@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: scores
+#
+#  id         :integer          not null, primary key
+#  runner_id  :integer
+#  points     :integer
+#  race_type  :string
+#  date       :datetime
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 require "test_helper"
 
 describe Score do

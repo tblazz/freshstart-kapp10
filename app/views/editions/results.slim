@@ -5,8 +5,8 @@ h1 Résultats
       h2= @edition.event.name
   .row
     .col-md-12
-      = link_to 'Info course', event_edition_path(@edition.event, @edition), class: 'btn btn-default'
-      = link_to 'Resultats', results_event_edition_path(@edition.event, @edition), class: 'btn btn-default'
+      = render 'menu'
+
   .row
     .col-md-9
       table.table.table-striped.table-bordered.table-compacted
@@ -55,16 +55,16 @@ h1 Résultats
   .row
     .col-sm-12.top-buffer
       /! Nav tabs
-      ul.nav.nav-tabs role="tablist" 
-        li.active role="presentation" 
+      ul.nav.nav-tabs role="tablist"
+        li.active role="presentation"
           a aria-controls="results" data-toggle="tab" href="#results" role="tab"  Résultats
-        li role="presentation" 
+        li role="presentation"
           a aria-controls="stats" data-toggle="tab" href="#stats" role="tab"  Statistiques
-        li role="presentation" 
+        li role="presentation"
           a aria-controls="widget" data-toggle="tab" href="#widget" role="tab"  Widget
       /! Tab panes
       .tab-content
-        #results.tab-pane.active role="tabpanel" 
+        #results.tab-pane.active role="tabpanel"
           - if @edition.results.empty?
             p Aucun résultat n'a encore été fourni
           - else
@@ -76,9 +76,9 @@ h1 Résultats
                 = submit_tag "Search", :name => nil, class: 'btn btn-warning'
             #results_table
               = render 'races/results'
-        #stats.tab-pane role="tabpanel" 
+        #stats.tab-pane role="tabpanel"
           = render partial: 'races/statistics'
-        #widget.tab-pane role="tabpanel" 
+        #widget.tab-pane role="tabpanel"
           .col-sm-12.top-buffer.text-center
             p
               - if @edition.widget_generated_at.nil?
@@ -94,4 +94,3 @@ h1 Résultats
             .col-sm-12.top-buffer
               h4 Widget
               = @edition.widget_gist.html_safe
-      

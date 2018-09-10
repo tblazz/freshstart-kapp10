@@ -1,4 +1,7 @@
 Rails.application.configure do
+  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
+  PERFORM_SENDING = true
+  DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -63,6 +66,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default_url_options = { host: DOMAIN_URL }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -77,8 +81,4 @@ Rails.application.configure do
   Rails.application.config.active_job.queue_adapter = :sidekiq
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
-
-  WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
-  PERFORM_SENDING = true
-  DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
 end

@@ -50,7 +50,7 @@ class EditionsController < ApplicationController
 
   def update
     if @edition.update(edition_params)
-      updload_results if edition_params[:raw_results]
+      upload_results if edition_params[:raw_results]
       redirect_to event_path(@edition.event), notice: "Edition mise à jour."
     else
       render :edit
@@ -111,6 +111,7 @@ class EditionsController < ApplicationController
   end
 
   private
+
   def set_edition
     @edition = Edition.find(params[:id])
   end
@@ -130,7 +131,11 @@ class EditionsController < ApplicationController
         :template,
         :external_link,
         :external_link_button,
-        :event_id
+        :event_id,
+        :sendable_at_home,
+        :sendable_at_home_price,
+        :download_chargeable,
+        :download_chargeable_price
     )
   end
 
@@ -142,7 +147,7 @@ class EditionsController < ApplicationController
     %w[asc desc].include?(params[:direction]) ?  params[:direction] : "asc"
   end
 
-  def updload_results
+  def upload_results
     UploadResults.new(@edition.id).call
   end
 end

@@ -13,15 +13,19 @@
 //= require jquery2
 //= require jquery_ujs
 //= require retina.js
+//= require s3_direct_upload
 //= require bootstrap-sprockets
+//= require bootstrap-switch
+//= require_tree .
 
 
 $(function () {
-	$(document).on('click', '#results_table th a, .pagination a', function(){
+	$(document).on('click', '#results_table th a', function(){
 		$.getScript(this.href);
     return false;
 	});
 	$(document).on('keyup', '#results_search input', function(){
 		$.get($('#results_search').attr('action'), $('#results_search').serialize(), null, 'script');
 	});
+  $('.bootstrap-switch').bootstrapSwitch();
 });

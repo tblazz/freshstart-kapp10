@@ -63,7 +63,7 @@
       <tr>
         <th>Coureurs sans diplômes</th>
         <td>
-          <%= @race.results.where(diploma_url: nil).count%>
+          <%= @race.results.where(diploma_generated_at: nil).count%>
         </td>
       </tr>
       <tr>
@@ -73,7 +73,7 @@
         </td>
       </tr>
       <tr>
-        <th>Lien externe boutton</th>
+        <th>Lien externe bouton</th>
         <td>
           <%= @race.external_link_button %>
         </td>

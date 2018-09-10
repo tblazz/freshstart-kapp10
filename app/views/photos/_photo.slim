@@ -1,0 +1,11 @@
+.thumbnail
+  = image_tag photo.image.url, class: 'img-photo', alt: 'photo'
+  = simple_form_for photo, remote: true do |f|
+    .caption
+      .form-group
+        .input-group
+          .input-group-addon bib
+          = f.input :bib, label: false, value: photo.bib
+      = f.submit "Enregistrer", class: 'btn-default btn-group-justified', data: { disable_with: "Enregistrement..." }
+    .caption
+      = link_to 'Supprimer', photo, method: :delete, data: { confirm: 'Êtes-vous sûr(e)' }

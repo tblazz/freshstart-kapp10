@@ -1,5 +1,7 @@
 fr:
   mail_subject: "Résultat %{edition_name_mail}"
+  mail_original_diploma_subject: "Résultat %{edition_name_mail} : votre diplôme en haute qualité"
+  mail_to_team_original_diploma_subject: "Résultat %{edition_name_mail} : diplôme à envoyer à domicile"
   mail_sender: "\"%{sender_mail}\" <contact@kapp10.com>"
   mail_message_template: "%{sms_message}
                           %{html_tag}%{html_tag}
@@ -12,7 +14,7 @@ fr:
                           %{html_tag}%{html_tag}
                           Télécharger Kapp10 sur iOS : https://itunes.apple.com/us/app/kapp10-partage-moments-sportifs/id1006680526
                           Télécharger Kapp10 sur Android : https://play.google.com/store/apps/details?id=com.kappsports.kapp10"
-  sms_message_template: "%{name}, %{edition_name_mail} te félicite. Tu finis %{rank} en %{time} ! Partage ton diplôme : %{url}. Voici tous les résultats ! %{results_url}"
+  sms_message_template: "%{name}, %{edition_name_mail} te félicite. Tu finis %{rank} en %{time} ! Obtiens ton diplôme en haute qualité ici : %{url}. Voici tous les résultats ! %{results_url}"
   messenger_message_template: "%{name}, %{edition_name_mail} te félicite. Tu finis %{rank} en %{time} ! Partage ton diplôme : "
   first_suffix: "er"
   second_suffix: "nd"
@@ -24,6 +26,7 @@ fr:
   default: "Bonjour %{first_name}. Ma mission consiste uniquement à vous envoyer vos résultats lorsque vous franchissez la ligne d'arrivée. Vous verrez, c'est très sympa ! En attendant votre prochaine course, vous me feriez drôlement plaisir si vous alliez découvrir nos applications Kapp10 pour suivre l'actualité Trail & Running. Bonne course et à bientôt !"
   kapp10_title: "Kapp10"
   kapp10_subtitle: "Le Média Trail & Running fait par et pour les coureurs"
+
   views:
     pagination:
       last: '>>'
@@ -31,9 +34,21 @@ fr:
       next: '>'
       previous: '<'
       truncate: '...'
-#  receive: "Recevoir"
-#  dont_receive: "Ne pas recevoir"
-#  intro: "Bienvenue sur le Bot Fresh start. Souhaitez-vous recevoir vos résultats de course ?"
-#  receive_message: "C'est noté ! Nous vous enverrons aussi sur Messenger les résultats de vos prochaines courses prises en charge par Fresh Start !"
-#  dont_receive_message: "C'est noté ! Nous ne vous enverrons plus sur Messenger les résultats de vos prochaines courses."
-
+  payments:
+    show:
+      download_your_high_quality_diploma: Téléchargez votre diplôme en haute définition
+      receive_your_high_quality_diploma_at_home: Recevez votre diplôme imprimé à domicile
+      you_will_receive_the_download_link_by_email: Vous recevrez le lien de téléchargement par email
+      fill_your_address: Merci de renseigner l'adresse postale à laquelle vous souhaitez que le diplôme soit envoyé
+      fill_your_email: Merci de renseigner votre email
+      fee: Tarif
+      you_already_paid: Vous avez déjà payé
+      first_name: Prénom
+      last_name: Nom
+      address: Adresse
+      postal_code: Code Postal
+      city: Ville
+      country: Pays
+    stripe_submit_button:
+      order_your_diploma: Commandez votre diplôme
+      payment: Paiement

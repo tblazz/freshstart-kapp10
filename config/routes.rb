@@ -47,11 +47,20 @@ Rails.application.routes.draw do
         delete 'delete_results'
         get 'pairing', to: 'photos#index'
       end
+
+      resources :photos, only: %I[index create destroy] do
+        collection do
+          delete :destroy_all
+        end
+      end
     end
   end
 
-  resources :photos
-  resources :results, only: :show
+  resources :photos, only: %I[show update destroy]
+
+  resources :results, only: :show do
+    resource :payment, only: [:show, :create]
+  end
   resources :runners, only: [:index, :show]
   resources :clients do
     member do
@@ -75,4 +84,7 @@ Rails.application.routes.draw do
   end
   mount Sidekiq::Web, at: '/jobs'
 
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: '/letter_opener'
+  end
 end
