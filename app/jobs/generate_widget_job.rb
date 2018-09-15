@@ -7,14 +7,11 @@ class GenerateWidgetJob < ActiveJob::Base
   def perform(edition_id)
     @edition = Edition.find(edition_id)
 		@categories = @edition.results.pluck(:categ).uniq
-		p @edition.results.count
-		p @edition.results.count
-		p @edition.results.count
 
 		@categories_sorted = Hash.new
 		@edition_longest_name = Hash.new
 		@edition_lines = Hash.new
-		@edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |edition, results|
+		@edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results|
 			@edition_longest_name[edition] = results.pluck(:last_name).compact.group_by(&:size).max.last[0].length
 			female_sorted = results.select do |result|
 				result['sex'] && result['sex'] == "F"
@@ -23,7 +20,7 @@ class GenerateWidgetJob < ActiveJob::Base
 				result['sex'] && (result['sex'] == "M" || result['sex'] == 'H')
 			end
 			all_sorted = results.select do |result|
-				result['sex'] && (result['sex'] == "M" || result['sex'] == "F" || result['sex'] == "" || result['sex'] == 'H')
+				result['sex'] && (result['sex'] == "M" || result['sex'] == "H" || result['sex'] == "" || result['sex'] == 'F')
 			end
 			female_categories = female_sorted.map { |f| f['categ'] }.uniq
 			male_categories = male_sorted.map { |m| m['categ'] }.uniq
