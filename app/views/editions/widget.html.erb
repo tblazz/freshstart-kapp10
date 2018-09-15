@@ -12,73 +12,72 @@
   <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
     <style>
       #tab_<%= edition.parameterize %>:checked ~ #mainResultsContent #resultsContainer #content_<%= edition.parameterize %> { display: block; }
-   </style>
+    </style>
   <% end %>
 <% end %>
 
 <body>
-	<div class="container">
-		<% coder = HTMLEntities.new %>
-		<div class="generalInfoBox">
-			<div class="leftCol">
-				<h2>3h de Camiran course et marche</h2>
-				<ul id="courseInfoList">
-					<li>
-					  <span class="image imageRoute">
-					    <img src="<%= Edition::S3_BASE_URL %>/images/imageRoute.jpg" alt="imageRoute" />
-					  </span>
-					  <div class="content">
-					    <h3>Trail</h3>
-					  </div>
-					</li>
-					<li>
-					  <span class="image imageLocalite">
-					    <img src="<%= Edition::S3_BASE_URL %>/images/icoLocality.png" alt="Creyesse" />
-					  </span>
-					  <div class="content">
-  					  <h3>Creysse</h3>
-  					  <p>Dordogne</p>
-					  </div>
-					</li>
-					<li>
-					  <span class="image imageDistance">
-					    <img src="<%= Edition::S3_BASE_URL %>/images/icoDistance.png" alt="Facebook Icon" />
-					  </span>
-					  <div class="content">
-					  <h3>5km, 10.6km</h3>
-					  </div>
-					</li>
-				</ul>
-			</div>
-			<div class="rightCol">
-				<ul class="list-inline">
-					<li class="date">Dim. 21 jan. 2018</li>
-					<li class="participant">356 <span>finisseurs</span></li>
-				</ul>
-			</div>
-		</div>
+  <div class="container">
+    <% coder = HTMLEntities.new %>
+    <div class="generalInfoBox">
+      <div class="leftCol">
+        <h2>3h de Camiran course et marche</h2>
+        <ul id="courseInfoList">
+          <li>
+            <span class="image imageRoute">
+              <img src="<%= Edition::S3_BASE_URL %>/images/imageRoute.jpg" alt="imageRoute" />
+            </span>
+            <div class="content">
+              <h3>Trail</h3>
+            </div>
+          </li>
+          <li>
+            <span class="image imageLocalite">
+              <img src="<%= Edition::S3_BASE_URL %>/images/icoLocality.png" alt="Creyesse" />
+            </span>
+            <div class="content">
+              <h3>Creysse</h3>
+              <p>Dordogne</p>
+            </div>
+          </li>
+          <li>
+            <span class="image imageDistance">
+              <img src="<%= Edition::S3_BASE_URL %>/images/icoDistance.png" alt="Facebook Icon" />
+            </span>
+            <div class="content">
+            <h3>5km, 10.6km</h3>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="rightCol">
+        <ul class="list-inline">
+          <li class="date">Dim. 21 jan. 2018</li>
+          <li class="participant">356 <span>finisseurs</span></li>
+        </ul>
+      </div>
+    </div>
 
-		<%
-		results_sex_any = @edition.results.pluck(:sex).any?
-		results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
-		results_categ_any = @edition.results.pluck(:categ).any?
-		results_categ_rank_any = @edition.results.pluck(:categ_rank).any?
-		results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
-		%>
+    <%
+    results_sex_any = @edition.results.pluck(:sex).any?
+    results_sex_rank_any = @edition.results.pluck(:sex_rank).any?
+    results_categ_any = @edition.results.pluck(:categ).any?
+    results_categ_rank_any = @edition.results.pluck(:categ_rank).any?
+    results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
+    %>
 
-		<div class="tableContainer">
-
-			<% if @edition.races_count > 0 %>
-			  <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(edition, results), index| %>
+    <div class="tableContainer">
+      <% if @edition.races_count > 0 %>
+        <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(edition, results), index| %>
           <input id="tab_<%= edition.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
           <label for="tab_<%= edition.parameterize %>" class="tabRacesCount"><%= edition %></label>
-				<% end %>
-			  <div class="tableCaption">
+        <% end %>
+        <div class="tableCaption">
           Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
         </div>
-			<% end %>
+      <% end %>
 
-			<div class="filtersConteners">
+      <div class="filtersConteners">
         <div class="kapp10Filters">
           <% if results_sex_any %>
             <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
@@ -104,108 +103,108 @@
         </div>
       </div>
 
-			<div id="pagination_container"></div>
-				<div class="headTableContainer desktop-only">
-					<div class="headTableWrapper">
-						<div class="horizontalScrollContainer">
-							<div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
-							<div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
-						</div>
-						<table id="resultsHead">
-							<thead>
-								<tr>
-									<th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
-									<th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
-									<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
-									<th>Temps</th>
-									<%= "<th>Sexe</th>" if results_sex_any %>
-									<%= "<th>Class.<br>Sexe</th>" if results_sex_rank_any %>
-									<%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
-									<%= "<th>Class.<br>Categ.</th>" if results_categ_rank_any %>
-								</tr>
-							</thead>
-						</table>
-					</div>
-				</div>
-				<div class="loading"><img src="<%= Edition::S3_BASE_URL %>/loading.gif"></div>
-				<div id="mainResultsContent">
-					<div id="resultsContainer">
-					<% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
-						<% edition_line = [] %>
-					  <section id="content_<%= edition.parameterize unless edition.nil? %>">
-							<div class="scrollbar desktop-only" id="scrollbar_<%= edition.parameterize unless edition.nil? %>">
-								<div class="scrollbar-track" id="scrollbarTrack_<%= edition.parameterize unless edition.nil? %>"></div>
-									<div class="scrollbar-thumb" id="scrollbarThumb_<%= edition.parameterize unless edition.nil? %>"></div>
-							</div>
-							<div class="fixedTable">
-								<div class="tableWrapper" id="tableWrapper_tab_<%= edition.parameterize unless edition.nil? %>" onscroll="onTableWrapperScroll()">
-							    <table class='results' id='widgetResults'>
-										<thead class="mobileOnly">
-											<tr>
-												<th name="rank">Class.<br>Scratch</th>
-												<th name="name">Nom</th>
-												<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
-												<th name="time">Temps</th>
-												<%= '<th name="sex">Sexe</th>' if results_sex_any %>
-												<%= '<th name="sex_rank">Class.<br>Sexe</th>' if results_sex_rank_any %>
-												<%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
-												<%= '<th name="categ_rank">Class.<br>Categ.</th>' if results_categ_rank_any %>
-											</tr>
-										</thead>
-							      <tbody>
-							      <%
+      <div id="pagination_container"></div>
+        <div class="headTableContainer desktop-only">
+          <div class="headTableWrapper">
+            <div class="horizontalScrollContainer">
+              <div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
+              <div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
+            </div>
+            <table id="resultsHead">
+              <thead>
+                <tr>
+                  <th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
+                  <th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
+                  <%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
+                  <th>Temps</th>
+                  <%= "<th>Sexe</th>" if results_sex_any %>
+                  <%= "<th>Class.<br>Sexe</th>" if results_sex_rank_any %>
+                  <%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
+                  <%= "<th>Class.<br>Categ.</th>" if results_categ_rank_any %>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+        <div class="loading"><img src="<%= Edition::S3_BASE_URL %>/loading.gif"></div>
+        <div id="mainResultsContent">
+          <div id="resultsContainer">
+          <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
+            <% edition_line = [] %>
+            <section id="content_<%= edition.parameterize unless edition.nil? %>">
+              <div class="scrollbar desktop-only" id="scrollbar_<%= edition.parameterize unless edition.nil? %>">
+                <div class="scrollbar-track" id="scrollbarTrack_<%= edition.parameterize unless edition.nil? %>"></div>
+                  <div class="scrollbar-thumb" id="scrollbarThumb_<%= edition.parameterize unless edition.nil? %>"></div>
+              </div>
+              <div class="fixedTable">
+                <div class="tableWrapper" id="tableWrapper_tab_<%= edition.parameterize unless edition.nil? %>" onscroll="onTableWrapperScroll()">
+                  <table class='results' id='widgetResults'>
+                    <thead class="mobileOnly">
+                      <tr>
+                        <th name="rank">Class.<br>Scratch</th>
+                        <th name="name">Nom</th>
+                        <%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
+                        <th name="time">Temps</th>
+                        <%= '<th name="sex">Sexe</th>' if results_sex_any %>
+                        <%= '<th name="sex_rank">Class.<br>Sexe</th>' if results_sex_rank_any %>
+                        <%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
+                        <%= '<th name="categ_rank">Class.<br>Categ.</th>' if results_categ_rank_any %>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    <%
                       results.each_with_index do |result, i|
-  		                  full_name = "#{result.first_name} #{result.last_name}"
-  		                  name = full_name.blank? ? result.name : full_name
+                        full_name = "#{result.first_name} #{result.last_name}"
+                        name = full_name.blank? ? result.name : full_name
                         result.sex ||= ""
-  											result.sex = "M" if result.sex == "H"
-  											result.categ ||= ""
-  											edition_line[i] = ""
-  											edition_line[i] += '<tr class="' + result.sex + '" data-search="' + I18n.transliterate(name).upcase + '" data-sexe-search="' + result.sex + '" data-category-search="' + result.categ + '" data-bib-search="' + result.bib + '">' + "\n"
-  											edition_line[i] += '<td class="center fixedColumn">' + result.rank.to_s + '</td>' + "\n"
-  											edition_line[i] += '<td class="left fixedColumnWithMargin">' + coder.encode(name, :named).html_safe + '</td>' + "\n"
-  											unless results_bib_any.empty?
-  												unless result.bib.to_i < 0
-  													edition_line[i] += '<td class="center">' + result.bib.to_s + '</td>' + "\n"
-  												else
-  													edition_line[i] += '<td class="center">-</td>' + "\n"
-  												end
-  											end
-  											edition_line[i] += '<td class="center">' + result.time + '</td>' + "\n"
-  											if results_sex_any
+                        result.sex = "M" if result.sex == "H"
+                        result.categ ||= ""
+                        edition_line[i] = ""
+                        edition_line[i] += '<tr class="' + result.sex + '" data-search="' + I18n.transliterate(name).upcase + '" data-sexe-search="' + result.sex + '" data-category-search="' + result.categ + '" data-bib-search="' + result.bib + '">' + "\n"
+                        edition_line[i] += '<td class="center fixedColumn">' + result.rank.to_s + '</td>' + "\n"
+                        edition_line[i] += '<td class="left fixedColumnWithMargin">' + coder.encode(name, :named).html_safe + '</td>' + "\n"
+                        unless results_bib_any.empty?
+                          unless result.bib.to_i < 0
+                            edition_line[i] += '<td class="center">' + result.bib.to_s + '</td>' + "\n"
+                          else
+                            edition_line[i] += '<td class="center">-</td>' + "\n"
+                          end
+                        end
+                        edition_line[i] += '<td class="center">' + result.time + '</td>' + "\n"
+                        if results_sex_any
                           edition_line[i] += '<td class="center">' + (result.sex || '-') + '</td>' + "\n"
-  											end
-  											if results_sex_rank_any
-  												edition_line[i] += '<td class="center">' + (result.sex_rank&.to_s || '-') + '</td>' + "\n"
-  											end
-  											if results_categ_any
-  												edition_line[i] += '<td class="center">' + (result.categ&.to_s || '-') + '</td>' + "\n"
-  											end
-  											if results_categ_rank_any
-  												edition_line[i] += '<td class="center">' + (result.categ_rank&.to_s || '-') + '</td>' + "\n"
-  											end
-  										  edition_line[i] += '</tr>' + "\n"
+                        end
+                        if results_sex_rank_any
+                          edition_line[i] += '<td class="center">' + (result.sex_rank&.to_s || '-') + '</td>' + "\n"
+                        end
+                        if results_categ_any
+                          edition_line[i] += '<td class="center">' + (result.categ&.to_s || '-') + '</td>' + "\n"
+                        end
+                        if results_categ_rank_any
+                          edition_line[i] += '<td class="center">' + (result.categ_rank&.to_s || '-') + '</td>' + "\n"
+                        end
+                        edition_line[i] += '</tr>' + "\n"
                       end
-  		              %>
-							      </tbody>
-							    </table>
-								</div>
-							</div>
-							<p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
-					  </section>
-						<% key = '#content_' + edition.parameterize %>
-						<% @edition_lines[key] = edition_line %>
-					<% end %>
+                    %>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <p class="noResults" style="display: none; text-align: center;">Pas de r&eacute;sultat</p>
+            </section>
+            <% key = '#content_' + edition.parameterize %>
+            <% @edition_lines[key] = edition_line %>
+          <% end %>
           <script>
             edition_lines = [<%= @edition_lines.to_json %>][0];
             categoriesSorted = [<%= @categories_sorted.to_json %>];
             longestName = [<%= @edition_longest_name.to_json %>];
           </script>
-				</div>
-			</div>
-		</div>
+        </div>
+      </div>
+    </div>
 
-    <p style="color:black;height:23px;">
+    <p style="color: black; height: 23px;">
       <em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%= I18n.l @generated_at %>.</em>
     </p>
 
