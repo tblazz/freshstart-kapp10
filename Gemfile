@@ -44,7 +44,11 @@ gem 'money-rails'
 gem 'open_uri_redirections'
 gem 'kaminari'
 
+gem 'doorkeeper', '~> 4.2.6'
+gem 'active_model_serializers', '~> 0.10.7'
+
 group :development, :test do
+  gem 'byebug'
   gem 'minitest-rails'
   gem 'dotenv-rails', '~> 2.1.1' # parsing du fichier ENV en dev
   gem 'minitest-rails-capybara'
@@ -60,11 +64,11 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'byebug'
   gem "letter_opener_web"
 end
 
 group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
+  gem 'dox', require: false
 end

@@ -1,0 +1,845 @@
+{
+  "info": {
+    "name": "Freshstart_API_V1.paw",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "version": "v0.0.0"
+  },
+  "item": [
+    {
+      "name": "Sécurité",
+      "item": [
+        {
+          "name": "Obtenir un jeton d'accès à l'API",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/oauth/token",
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"grant_type\\\": \\\"client_credentials\\\",\\n  \\\"client_id\\\": \\\"ff8182fd0d97f4b6725429ed727f4f6bf599b80120f0505cb902095f90fb060e\\\",\\n  \\\"client_secret\\\": \\\"9ce5909d6e0b07610a108b3f9ae3614ae5cc096d375ff1d87eb99057787d1f6e\\\"\\n}\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Évènements",
+      "item": [
+        {
+          "name": "Obtenir la liste des évènements",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"event\\\": {\\n    \\\"name\\\": \\\"Event_16\\\",\\n    \\\"place\\\": \\\"Place_16\\\",\\n    \\\"website\\\": \\\"www.event_16.com\\\",\\n    \\\"facebook\\\": \\\"Event_16\\\",\\n    \\\"twitter\\\": \\\"@Event_16\\\",\\n    \\\"instagram\\\": \\\"@Event_16\\\",\\n    \\\"contact\\\": \\\"contact@event_16.com\\\",\\n    \\\"email\\\": \\\"contact@event_16.com\\\",\\n    \\\"phone\\\": \\\"+331616161616161616\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events/189",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Modifier un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events/189",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"event\\\": {\\n    \\\"name\\\": \\\"Event_20\\\",\\n    \\\"place\\\": \\\"Place_21\\\",\\n    \\\"website\\\": \\\"www.event_21.com\\\",\\n    \\\"facebook\\\": \\\"Event_21\\\",\\n    \\\"twitter\\\": \\\"@Event_21\\\",\\n    \\\"instagram\\\": \\\"@Event_21\\\",\\n    \\\"contact\\\": \\\"contact@event_21.com\\\",\\n    \\\"email\\\": \\\"contact@event_21.com\\\",\\n    \\\"phone\\\": \\\"+332121212121212121\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events/189",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Éditions",
+      "item": [
+        {
+          "name": "Obtenir la liste des éditions d'un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events/{event_id}/editions",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer une édition pour un évènement",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/events/189/editions",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"edition\\\": {\\n    \\\"date\\\": \\\"2017-12-22T11:18:17+00:00\\\",\\n    \\\"description\\\": \\\"Desc_5\\\",\\n    \\\"email_sender\\\": \\\"contact@race_5.com\\\",\\n    \\\"email_name\\\": \\\"Race_5\\\",\\n    \\\"hashtag\\\": \\\"#HASH5\\\",\\n    \\\"results_url\\\": \\\"results_5.com\\\",\\n    \\\"sms_message\\\": \\\"Congratulation for Race5\\\",\\n    \\\"raw_results_file_name\\\": \\\"raw_Race5\\\",\\n    \\\"raw_results_content_type\\\": \\\"text/csv\\\",\\n    \\\"raw_results_file_size\\\": 19024,\\n    \\\"background_image_file_name\\\": \\\"raw_Race5\\\",\\n    \\\"background_image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"background_image_file_size\\\": 19024,\\n    \\\"template\\\": \\\"Template_5\\\",\\n    \\\"external_link\\\": \\\"Race5.com\\\",\\n    \\\"external_link_button\\\": \\\"Button_race5.com\\\"\\n  }\\n}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Modifier une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"edition\\\": {\\n    \\\"date\\\": \\\"2017-12-22T11:18:17+00:00\\\",\\n    \\\"description\\\": \\\"Desc_12\\\",\\n    \\\"email_sender\\\": \\\"contact@race_12.com\\\",\\n    \\\"email_name\\\": \\\"Race_12\\\",\\n    \\\"hashtag\\\": \\\"#HASH12\\\",\\n    \\\"results_url\\\": \\\"results_12.com\\\",\\n    \\\"sms_message\\\": \\\"Congratulation for Race12\\\",\\n    \\\"raw_results_file_name\\\": \\\"raw_Race12\\\",\\n    \\\"raw_results_content_type\\\": \\\"text/csv\\\",\\n    \\\"raw_results_file_size\\\": 19024,\\n    \\\"background_image_file_name\\\": \\\"raw_Race12\\\",\\n    \\\"background_image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"background_image_file_size\\\": 19024,\\n    \\\"template\\\": \\\"Template_11\\\",\\n    \\\"external_link\\\": \\\"Race12.com\\\",\\n    \\\"external_link_button\\\": \\\"Button_race12.com\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Courses",
+      "item": [
+        {
+          "name": "Obtenir la liste des courses d'une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/races",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer une nouvelle course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/races",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"race\\\": {\\n    \\\"name\\\": \\\"Race_18\\\",\\n    \\\"email_sender\\\": \\\"contact@race_17.com\\\",\\n    \\\"email_name\\\": \\\"Race_17\\\",\\n    \\\"date\\\": \\\"2017-12-22T11:18:18+00:00\\\",\\n    \\\"hashtag\\\": \\\"#HASH17\\\",\\n    \\\"results_url\\\": \\\"results_17.com\\\",\\n    \\\"sms_message\\\": \\\"Congratulation for Race17\\\",\\n    \\\"raw_results_file_name\\\": \\\"raw_Race17\\\",\\n    \\\"raw_results_content_type\\\": \\\"text/csv\\\",\\n    \\\"raw_results_file_size\\\": 19024,\\n    \\\"background_image_file_name\\\": \\\"raw_Race17\\\",\\n    \\\"background_image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"background_image_file_size\\\": 19024,\\n    \\\"template\\\": \\\"Template_17\\\",\\n    \\\"external_link\\\": \\\"Race17.com\\\",\\n    \\\"external_link_button\\\": \\\"Button_race17.com\\\",\\n    \\\"coef\\\": \\\"17\\\",\\n    \\\"category\\\": \\\"Category_17\\\",\\n    \\\"department\\\": \\\"Department_17\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Modifier une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"race\\\": {\\n    \\\"name\\\": \\\"Race_20\\\",\\n    \\\"email_sender\\\": \\\"contact@race_20.com\\\",\\n    \\\"email_name\\\": \\\"Race_20\\\",\\n    \\\"date\\\": \\\"2017-12-22T11:18:18+00:00\\\",\\n    \\\"hashtag\\\": \\\"#HASH20\\\",\\n    \\\"results_url\\\": \\\"results_20.com\\\",\\n    \\\"sms_message\\\": \\\"Congratulation for Race20\\\",\\n    \\\"raw_results_file_name\\\": \\\"raw_Race20\\\",\\n    \\\"raw_results_content_type\\\": \\\"text/csv\\\",\\n    \\\"raw_results_file_size\\\": 19024,\\n    \\\"background_image_file_name\\\": \\\"raw_Race20\\\",\\n    \\\"background_image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"background_image_file_size\\\": 19024,\\n    \\\"template\\\": \\\"Template_20\\\",\\n    \\\"external_link\\\": \\\"Race20.com\\\",\\n    \\\"external_link_button\\\": \\\"Button_race20.com\\\",\\n    \\\"coef\\\": \\\"20\\\",\\n    \\\"category\\\": \\\"Category_20\\\",\\n    \\\"department\\\": \\\"Department_20\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Résultats",
+      "item": [
+        {
+          "name": "Obtenir les résultats d'une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Obtenir les résultats d'une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Obtenir les résultats d'un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners/158/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer un résultat pour une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"result\\\": {\\n    \\\"name\\\": \\\"Result_7\\\",\\n    \\\"phone\\\": \\\"+3377777777\\\",\\n    \\\"mail\\\": \\\"contact@7.com\\\",\\n    \\\"rank\\\": \\\"7\\\",\\n    \\\"country\\\": \\\"FR\\\",\\n    \\\"bib\\\": \\\"Bib_7\\\",\\n    \\\"categ_rank\\\": \\\"7\\\",\\n    \\\"categ\\\": \\\"Categ_7\\\",\\n    \\\"sex_rank\\\": \\\"7\\\",\\n    \\\"sex\\\": \\\"M\\\",\\n    \\\"time\\\": \\\"7'7''7'\\\",\\n    \\\"speed\\\": \\\"7km/h\\\",\\n    \\\"message\\\": \\\"Congrats ! 7\\\",\\n    \\\"race_detail\\\": \\\"Race 7\\\",\\n    \\\"diploma_url\\\": \\\"www.result_7.com\\\",\\n    \\\"points\\\": \\\"7\\\",\\n    \\\"first_name\\\": \\\"First_7\\\",\\n    \\\"last_name\\\": \\\"Last_7\\\",\\n    \\\"dob\\\": \\\"2017-12-22T11:18:19+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Créer un résultat pour une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"result\\\": {\\n    \\\"name\\\": \\\"Result_7\\\",\\n    \\\"phone\\\": \\\"+3377777777\\\",\\n    \\\"mail\\\": \\\"contact@7.com\\\",\\n    \\\"rank\\\": \\\"7\\\",\\n    \\\"country\\\": \\\"FR\\\",\\n    \\\"bib\\\": \\\"Bib_7\\\",\\n    \\\"categ_rank\\\": \\\"7\\\",\\n    \\\"categ\\\": \\\"Categ_7\\\",\\n    \\\"sex_rank\\\": \\\"7\\\",\\n    \\\"sex\\\": \\\"M\\\",\\n    \\\"time\\\": \\\"7'7''7'\\\",\\n    \\\"speed\\\": \\\"7km/h\\\",\\n    \\\"message\\\": \\\"Congrats ! 7\\\",\\n    \\\"race_detail\\\": \\\"Race 7\\\",\\n    \\\"diploma_url\\\": \\\"www.result_7.com\\\",\\n    \\\"points\\\": \\\"7\\\",\\n    \\\"first_name\\\": \\\"First_7\\\",\\n    \\\"last_name\\\": \\\"Last_7\\\",\\n    \\\"dob\\\": \\\"2017-12-22T11:18:19+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Créer un résultat pour un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners/158/results",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"result\\\": {\\n    \\\"name\\\": \\\"Result_7\\\",\\n    \\\"phone\\\": \\\"+3377777777\\\",\\n    \\\"mail\\\": \\\"contact@7.com\\\",\\n    \\\"rank\\\": \\\"7\\\",\\n    \\\"country\\\": \\\"FR\\\",\\n    \\\"bib\\\": \\\"Bib_7\\\",\\n    \\\"categ_rank\\\": \\\"7\\\",\\n    \\\"categ\\\": \\\"Categ_7\\\",\\n    \\\"sex_rank\\\": \\\"7\\\",\\n    \\\"sex\\\": \\\"M\\\",\\n    \\\"time\\\": \\\"7'7''7'\\\",\\n    \\\"speed\\\": \\\"7km/h\\\",\\n    \\\"message\\\": \\\"Congrats ! 7\\\",\\n    \\\"race_detail\\\": \\\"Race 7\\\",\\n    \\\"diploma_url\\\": \\\"www.result_7.com\\\",\\n    \\\"points\\\": \\\"7\\\",\\n    \\\"first_name\\\": \\\"First_7\\\",\\n    \\\"last_name\\\": \\\"Last_7\\\",\\n    \\\"dob\\\": \\\"2017-12-22T11:18:19+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir les résultat",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/results/a3b3013b-dd25-4323-a5cd-04abad66abf3",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Modifier un résultat",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/results/a3b3013b-dd25-4323-a5cd-04abad66abf3",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"result\\\": {\\n    \\\"name\\\": \\\"Result_16\\\",\\n    \\\"phone\\\": \\\"+331616161616161616\\\",\\n    \\\"mail\\\": \\\"contact@16.com\\\",\\n    \\\"rank\\\": \\\"16\\\",\\n    \\\"country\\\": \\\"FR\\\",\\n    \\\"bib\\\": \\\"Bib_16\\\",\\n    \\\"categ_rank\\\": \\\"16\\\",\\n    \\\"categ\\\": \\\"Categ_16\\\",\\n    \\\"sex_rank\\\": \\\"16\\\",\\n    \\\"sex\\\": \\\"M\\\",\\n    \\\"time\\\": \\\"16'16''16'\\\",\\n    \\\"speed\\\": \\\"16km/h\\\",\\n    \\\"message\\\": \\\"Congrats ! 16\\\",\\n    \\\"race_detail\\\": \\\"Race 16\\\",\\n    \\\"diploma_url\\\": \\\"www.result_16.com\\\",\\n    \\\"points\\\": \\\"16\\\",\\n    \\\"first_name\\\": \\\"First_16\\\",\\n    \\\"last_name\\\": \\\"Last_16\\\",\\n    \\\"dob\\\": \\\"2017-12-22T11:18:19+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un résultat",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/results/a3b3013b-dd25-4323-a5cd-04abad66abf3",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Photos",
+      "item": [
+        {
+          "name": "Obtenir la liste des photos d'une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb/photos",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Obtenir la liste des photos d'une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/photos",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer une photo pour une course",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/races/9d136b11-6487-4eaf-8461-5a7d4c2c5dbb/photos",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"photo\\\": {\\n    \\\"suggested_bibs\\\": \\\"Suggested_bib_6\\\",\\n    \\\"bib\\\": \\\"Bib_7\\\",\\n    \\\"image_file_name\\\": \\\"test_7.jpg\\\",\\n    \\\"image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"image_file_size\\\": 19024,\\n    \\\"image_updated_at\\\": \\\"2017-12-22T11:18:18+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir une photo",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/photos/",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer une photo pour une édition",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/editions/190/photos",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"photo\\\": {\\n    \\\"suggested_bibs\\\": \\\"Suggested_bib_9\\\",\\n    \\\"bib\\\": \\\"Bib_9\\\",\\n    \\\"image_file_name\\\": \\\"test_912.jpg\\\",\\n    \\\"image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"image_file_size\\\": 19024,\\n    \\\"image_updated_at\\\": \\\"2017-12-22T11:18:18+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Modifier une photo",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/photos/",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"photo\\\": {\\n    \\\"suggested_bibs\\\": \\\"Suggested_bib_12\\\",\\n    \\\"bib\\\": \\\"Bib_12\\\",\\n    \\\"image_file_name\\\": \\\"test_12.jpg\\\",\\n    \\\"image_content_type\\\": \\\"image/jpg\\\",\\n    \\\"image_file_size\\\": 19024,\\n    \\\"image_updated_at\\\": \\\"2017-12-22T11:18:18+00:00\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer une photo",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/photos/",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Coureur",
+      "item": [
+        {
+          "name": "Obtenir la liste des coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Créer un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"runner\\\": {\\n    \\\"id_key\\\": \\\"ID_21\\\",\\n    \\\"first_name\\\": \\\"First_20\\\",\\n    \\\"last_name\\\": \\\"Last_20\\\",\\n    \\\"dob\\\": \\\"2017-11-16 11:05:06\\\",\\n    \\\"department\\\": \\\"40\\\",\\n    \\\"sex\\\": \\\"M\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Obtenir un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners/158",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Modifier un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners/158",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"string\",\n  \"default\": \"{\\n  \\\"runner\\\": {\\n    \\\"id_key\\\": \\\"ID_25\\\",\\n    \\\"first_name\\\": \\\"First_24\\\",\\n    \\\"last_name\\\": \\\"Last_25\\\",\\n    \\\"dob\\\": \\\"2017-11-16 11:05:06\\\",\\n    \\\"department\\\": \\\"40\\\",\\n    \\\"sex\\\": \\\"M\\\"\\n  }\\n}\\n\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Supprimer un coureur",
+          "request": {
+            "url": "https://freshstart-kapp10-dev.herokuapp.com/api/v1/runners/158",
+            "auth": {
+              "type": "oauth2"
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
