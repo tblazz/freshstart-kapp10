@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
 
 
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/widget-dev.kapp10.com/fonts/stylesheet.css">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyle.css">
+<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/fonts/stylesheet.css">
+<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyleClient.css">
 
 <style>
 	/*CSS file*/
@@ -40,7 +40,7 @@
 
 					<li>
 					  <span class="image imageRoute">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/widget-dev.kapp10.com/images/imageRoute.jpg" alt="imageRoute" />
+					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/imageRoute.jpg" alt="imageRoute" />
 					  </span>
 					  <div class="content">
 					    <h3>Trail</h3>
@@ -49,7 +49,7 @@
 
 					<li>
 					  <span class="image imageLocalite">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/widget-dev.kapp10.com/images/icoLocality.png" alt="Creyesse" />
+					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/icoLocality.png" alt="Creyesse" />
 					  </span>
 					  <div class="content">
 					  <h3>Creysse</h3>
@@ -59,7 +59,7 @@
 
 					<li>
 					  <span class="image imageDistance">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/widget-dev.kapp10.com/images/icoDistance.png" alt="Facebook Icon" />
+					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/icoDistance.png" alt="Facebook Icon" />
 					  </span>
 					  <div class="content">
 					  <h3>5km, 10.6km</h3>
@@ -102,7 +102,7 @@
 						Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
 					  </div>
 
-				<%end%>
+				<% end %>
 
 
 			<div class="filtersConteners">
