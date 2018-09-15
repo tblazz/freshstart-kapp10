@@ -70,11 +70,11 @@
 
 			<% if @edition.races_count > 0 %>
 			  <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(edition, results), index| %>
-				  <input id="tab_<%= edition.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
-				    <label for="tab_<%= edition.parameterize %>" class="tabRacesCount"><%= edition %></label>
-				 <% end %>
-			   <div class="tableCaption">
-         Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
+          <input id="tab_<%= edition.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
+          <label for="tab_<%= edition.parameterize %>" class="tabRacesCount"><%= edition %></label>
+				<% end %>
+			  <div class="tableCaption">
+          Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
 				</div>
 			<% end %>
 
@@ -82,7 +82,7 @@
 				<div class="kapp10Filters">
 					<% if results_sex_any %>
 						<select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
-							<option value="all">Sexe</option>
+              <option value="all">Sexe</option>
 							<option value="M">Hommes</option>
 							<option value="F">Femmes</option>
 						</select>
@@ -91,7 +91,7 @@
 						<select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
 							<option value="all">Toutes les cat&eacute;gories</option>
 							<% @categories.each do |category| %>
-								<option value="<%= category %>"><%= category %></option>
+                <option value="<%= category %>"><%= category %></option>
 							<% end %>
 						</select>
 					<% end %>
