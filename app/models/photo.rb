@@ -34,7 +34,7 @@ class Photo < ApplicationRecord
   # Override
   # Store an unescaped version of the escaped URL that Amazon returns from direct upload.
   def direct_image_url=(escaped_url)
-    write_attribute(:direct_image_url, (CGI.unescape(escaped_url) rescue nil))
+    write_attribute(:direct_image_url, (CGI.unescape(escaped_url) rescue ''))
   end
 
   # Determines if file requires post-processing (image resizing, etc)
@@ -58,6 +58,9 @@ class Photo < ApplicationRecord
   # Set attachment attributes from the direct upload
   # @note Retry logic handles S3 "eventual consistency" lag.
   def set_image_attributes
+    self.direct_image_url ||= ''
+    return unless self.direct_image_url.present?
+
     tries ||= 5
     direct_image_url_data = DIRECT_IMAGE_URL_FORMAT.match(direct_image_url)
     direct_upload_head = KAPP10_FINISHLINE_BUCKET.object(direct_image_url_data[:path]).get
@@ -78,6 +81,8 @@ class Photo < ApplicationRecord
 
   # Queue file processing
   def queue_processing
+    return unless self.direct_image_url.present?
+    
     PhotoTransferAndCleanupJob.perform_later id
     DetectBibJob.perform_later id
   end

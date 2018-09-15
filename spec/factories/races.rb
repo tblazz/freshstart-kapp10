@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :race do
+    association :edition, factory: :edition
     sequence(:name) {|n| "Race_#{n}"}
     sequence(:email_sender) {|n| "contact@race_#{n}.com"}
     sequence(:email_name) {|n| "Race_#{n}"}
@@ -19,6 +20,6 @@ FactoryGirl.define do
     sequence(:coef) {|n| "#{n}"}
     sequence(:category) {|n| "Category_#{n}"}
     sequence(:department) {|n| "Department_#{n}"}
-    edition
+    race_type ['trail', 'route', 'funrace'].sample
   end
 end

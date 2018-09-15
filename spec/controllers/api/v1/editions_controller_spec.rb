@@ -7,8 +7,7 @@ RSpec.describe API::V1::EditionsController, api: true, type: :controller do
   let!(:edition) { @edition = create(:edition, event: event) }
   let(:valid_attributes) { attributes_for(:edition, event: event) }
   let(:invalid_attributes) { attributes_for(:edition, template: nil, event: event) }
-  let(:token) {double :acceptable? => true, resource_owner_id: nil}
-
+  let(:token) { double :acceptable? => true, resource_owner_id: nil }
 
   before do
     allow(controller).to receive(:doorkeeper_token) {token}
@@ -60,21 +59,21 @@ RSpec.describe API::V1::EditionsController, api: true, type: :controller do
 
     context 'With valid parameters' do
       it 'create a new edition for an event', :dox do
-        post :create, params: {event_id: @event.id, edition: valid_attributes}
+        post :create, params: { event_id: @event.id, edition: valid_attributes }
         expect(response).to have_http_status(201)
       end
     end
 
     context 'With invalid parameters' do
       it 'return Unprocessable entity', :dox do
-        post :create, params: {event_id: @event.id, edition: invalid_attributes}
+        post :create, params: { event_id: @event.id, edition: invalid_attributes }
         expect(response).to have_http_status(422)
       end
     end
 
     context 'Without parameters' do
       it 'return Bad request', :dox do
-        post :create, params: {event_id: @event.id}
+        post :create, params: { event_id: @event.id }
         expect(response).to have_http_status(400)
       end
     end

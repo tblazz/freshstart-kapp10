@@ -118,5 +118,4 @@ class API::V1::PhotosController < API::V1::ApplicationController
         :edition_id
     )
   end
-
 end

@@ -99,7 +99,8 @@ class API::V1::RacesController < API::V1::ApplicationController
         :edition_id,
         :coef,
         :category,
-        :department
+        :department,
+        :race_type
     )
   end
 

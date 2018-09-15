@@ -33,14 +33,6 @@
 #
 
 class Race < ActiveRecord::Base
-  # has_attached_file :raw_results
-  # has_attached_file :background_image, styles: { medium: "300x300", standard: "1024x1024" }
-
-  # Relations
-  # has_many :results, dependent: :destroy
-  # has_many :photos
-
-
   belongs_to :edition
   has_many :scores
   has_many :runners, through: :scores
@@ -48,16 +40,5 @@ class Race < ActiveRecord::Base
   has_many :photos
 
   delegate :event, to: :edition, allow_nil: true
-
-  #
-  #
-  # # Validations
-  # validates_attachment_content_type :raw_results, :content_type => ["text/plain", "text/csv", "application/vnd.ms-excel", "text/comma-separated-values",  Paperclip::ContentTypeDetector::SENSIBLE_DEFAULT]
-  # validates_attachment_content_type :background_image, content_type: /\Aimage\/.*\z/
-  # validates_presence_of :name, :date, :template
-  # validates :date, uniqueness: { scope: :name }
-
-
   validates :race_type, inclusion: { in: ['trail', 'route', 'funrace'] }
-
 end

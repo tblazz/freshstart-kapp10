@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :edition do
-    date {DateTime.now.to_s}
+    association :event, factory: :event
+    date { DateTime.now.to_s }
     sequence(:description) {|n| "Desc_#{n}"}
     sequence(:email_sender) {|n| "contact@race_#{n}.com"}
     sequence(:email_name) {|n| "Race_#{n}"}
@@ -16,6 +17,9 @@ FactoryGirl.define do
     sequence(:template) {|n| "Template_#{n}"}
     sequence(:external_link) {|n| "Race#{n}.com"}
     sequence(:external_link_button) {|n| "Button_race#{n}.com"}
-    event
+    sendable_at_home false
+    sendable_at_home_price_cents 0.0
+    download_chargeable false
+    download_chargeable_price_cents 0.0
   end
 end
