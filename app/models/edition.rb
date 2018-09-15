@@ -60,6 +60,8 @@ class Edition < ApplicationRecord
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']
 
+  S3_BASE_URL = "https://#{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}"
+
   before_save do |race|
     self.sms_message = I18n.t('sms_message_template') if self.sms_message.blank?
   end
@@ -93,21 +95,21 @@ class Edition < ApplicationRecord
   end
 
   def widget_url
-    "https://<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}"
+    "#{S3_BASE_URL}/#{widget_storage_name}"
   end
 
   def photos_widget_url
-    "https://<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}"
+    "#{S3_BASE_URL}/#{photos_widget_storage_name}"
   end
 
   def widget_gist
     %(
-	<iframe class='kapp10-embed' src="//<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
+	<iframe class='kapp10-embed' src="#{widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1100px;" scrolling="no"></iframe>)
   end
 
   def photos_widget_gist
     %(
-			<iframe class='kapp10-embed' src="//<%= #{ENV['AWS_S3_HOST_NAME_REGION']}.amazonaws.com/#{ENV['S3_WIDGET_BUCKET']}/#{photos_widget_storage_name}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>)
+			<iframe class='kapp10-embed' src="#{photos_widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1000px;" scrolling="no"></iframe>)
   end
 
   def generate_diplomas
