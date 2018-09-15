@@ -11,7 +11,7 @@
 <% if @edition.races_count > 0 %>
   <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
     <style>
-		  #tab_<%= edition.parameterize %>:checked ~ #mainResultsContent #resultsContainer #content_<%= edition.parameterize %> { display: block; }
+      #tab_<%= edition.parameterize %>:checked ~ #mainResultsContent #resultsContainer #content_<%= edition.parameterize %> { display: block; }
    </style>
   <% end %>
 <% end %>
