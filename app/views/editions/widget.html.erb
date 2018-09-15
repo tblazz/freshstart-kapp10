@@ -2,72 +2,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget4.js"></script>
-<!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,800" rel="stylesheet"> -->
-<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
+<script src="<%= Edition::S3_BASE_URL %>/widget4.js"></script>
+<link href="fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/widget.min.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/fonts/stylesheet.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyleClient.css">
 
-
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/fonts/stylesheet.css">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyleClient.css">
-
-<style>
-	/*CSS file*/
-
-</style>
-
-<style>
 <% if @edition.races_count > 0 %>
-	<%= @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).map  { |edition, results|
-		"#tab_#{edition.parameterize}:checked ~ #mainResultsContent #resultsContainer #content_#{edition.parameterize}"}.join(',')%>  {
-			display: block;
-		}
-<%end%>
-</style>
+  <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
+    <style>
+      #tab_<%= edition.parameterize %>:checked ~ #mainResultsContent #resultsContainer #content_<%= edition.parameterize %> { display: block; }
+   </style>
+  <% end %>
+<% end %>
+
 <body>
 	<div class="container">
-		<%coder = HTMLEntities.new%>
-		<!-- <h1><%=coder.encode(@edition.event.name, :named).html_safe%> - <%=I18n.l @edition.date%></h1> -->
-		<!-- <div class="btnContainer">
-			<a href="#" class="BtnReturn">Revenir a la liste des courses</a>
-		</div> -->
-
+		<% coder = HTMLEntities.new %>
 		<div class="generalInfoBox">
 			<div class="leftCol">
 				<h2>3h de Camiran course et marche</h2>
-
 				<ul id="courseInfoList">
-
 					<li>
 					  <span class="image imageRoute">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/imageRoute.jpg" alt="imageRoute" />
+					    <img src="<%= Edition::S3_BASE_URL %>/images/imageRoute.jpg" alt="imageRoute" />
 					  </span>
 					  <div class="content">
 					    <h3>Trail</h3>
 					  </div>
 					</li>
-
 					<li>
 					  <span class="image imageLocalite">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/icoLocality.png" alt="Creyesse" />
+					    <img src="<%= Edition::S3_BASE_URL %>/images/icoLocality.png" alt="Creyesse" />
 					  </span>
 					  <div class="content">
-					  <h3>Creysse</h3>
-					  <p>Dordogne</p>
+  					  <h3>Creysse</h3>
+  					  <p>Dordogne</p>
 					  </div>
 					</li>
-
 					<li>
 					  <span class="image imageDistance">
-					    <img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/images/icoDistance.png" alt="Facebook Icon" />
+					    <img src="<%= Edition::S3_BASE_URL %>/images/icoDistance.png" alt="Facebook Icon" />
 					  </span>
 					  <div class="content">
 					  <h3>5km, 10.6km</h3>
 					  </div>
 					</li>
-
 				</ul>
-
 			</div>
 			<div class="rightCol">
 				<ul class="list-inline">
@@ -75,7 +56,7 @@
 					<li class="participant">356 <span>finisseurs</span></li>
 				</ul>
 			</div>
-		</div> <!-- generalInfoBox -->
+		</div>
 
 		<%
 		results_sex_any = #@edition.results.pluck(:sex).any?
@@ -84,55 +65,45 @@
 		results_categ_rank_any = #@edition.results.pluck(:categ_rank).any?
 		# results_bib_any = @edition.results.where(bib: 0..Float::INFINITY)
 		%>
-		<!-- --------------------start---------------------- -->
 
 		<div class="tableContainer">
 
-			<!--  -->
-
-				<% if @edition.races_count>0%>
-
-					  <!-- <h2 class="resultat">Résultat</h2> -->
-					  <% first = true
-					  @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |edition, results|%>
-					    <input id="tab_<%=edition.parameterize%>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<%if first%>checked<% first=false; end%>>
-					    <label for="tab_<%=edition.parameterize%>" class="tabRacesCount"><%=edition%></label>
-					  <%end%>
-					  <div class="tableCaption">
-						Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
-					  </div>
-
+			<% if @edition.races_count > 0 %>
+			  <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(edition, results), index| %>
+          <input id="tab_<%= edition.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
+          <label for="tab_<%= edition.parameterize %>" class="tabRacesCount"><%= edition %></label>
 				<% end %>
-
+			  <div class="tableCaption">
+          Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
+        </div>
+			<% end %>
 
 			<div class="filtersConteners">
-				<div class="kapp10Filters">
-					<!-- <p id="filterCaption">Filter les R&eacute;sultats</p> -->
-					<% if results_sex_any %>
-						<select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
-							<option value="all">Sexe</option>
-							<option value="M">Hommes</option>
-							<option value="F">Femmes</option>
-						</select>
-					<% end %>
-					<% if @categories && @categories.count > 1 %>
-						<select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
-							<option value="all">Toutes les cat&eacute;gories</option>
-							<% @categories.each do |category| %>
-								<option value="<%= category %>"><%= category %></option>
-							<% end %>
-						</select>
-					<% end %>
-				</div>
-				<div class="kapp10Research">
-					<input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
-					<div id="closingCircleResearch" onclick="reset_participant_filter()"><span id="closingCrossResearch">x</span></div>
-				</div>
-			</div> <!-- end filtersConteners -->
+        <div class="kapp10Filters">
+          <% if results_sex_any %>
+            <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
+              <option value="all">Sexe</option>
+              <option value="M">Hommes</option>
+              <option value="F">Femmes</option>
+            </select>
+          <% end %>
+          <% if @categories && @categories.count > 1 %>
+            <select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
+              <option value="all">Toutes les cat&eacute;gories</option>
+              <% @categories.each do |category| %>
+                <option value="<%= category %>"><%= category %></option>
+              <% end %>
+            </select>
+          <% end %>
+        </div>
+        <div class="kapp10Research">
+          <input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
+          <div id="closingCircleResearch" onclick="reset_participant_filter()">
+            <span id="closingCrossResearch">x</span>
+          </div>
+        </div>
+      </div>
 
-			<!-- <div class="tableCaption">
-				Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
-			</div> -->
 			<div id="pagination_container"></div>
 				<div class="headTableContainer desktop-only">
 					<div class="headTableWrapper">
@@ -147,7 +118,7 @@
 									<th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
 									<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
 									<th>Temps</th>
-									<%= "<th>Sexe</th>"  if results_sex_any %>
+									<%= "<th>Sexe</th>" if results_sex_any %>
 									<%= "<th>Class.<br>Sexe</th>" if results_sex_rank_any %>
 									<%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
 									<%= "<th>Class.<br>Categ.</th>" if results_categ_rank_any %>
@@ -156,20 +127,18 @@
 						</table>
 					</div>
 				</div>
-				<div class="loading"><img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
+				<div class="loading"><img src="<%= Edition::S3_BASE_URL %>/loading.gif"></div>
 				<div id="mainResultsContent">
 					<div id="resultsContainer">
-					<%
-					  @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each  do |edition, results|
-							edition_line = []
-					%>
-					  <section id="content_<%=edition.parameterize unless edition.nil?%>">
-							<div class="scrollbar desktop-only" id="scrollbar_<%=edition.parameterize unless edition.nil?%>">
-								<div class="scrollbar-track" id="scrollbarTrack_<%=edition.parameterize unless edition.nil?%>"></div>
-									<div class="scrollbar-thumb" id="scrollbarThumb_<%=edition.parameterize unless edition.nil?%>"></div>
+					<% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
+						<% edition_line = [] %>
+					  <section id="content_<%= edition.parameterize unless edition.nil? %>">
+							<div class="scrollbar desktop-only" id="scrollbar_<%= edition.parameterize unless edition.nil? %>">
+								<div class="scrollbar-track" id="scrollbarTrack_<%= edition.parameterize unless edition.nil? %>"></div>
+									<div class="scrollbar-thumb" id="scrollbarThumb_<%= edition.parameterize unless edition.nil? %>"></div>
 							</div>
 							<div class="fixedTable">
-								<div class="tableWrapper" id="tableWrapper_tab_<%=edition.parameterize unless edition.nil?%>" onscroll="onTableWrapperScroll()">
+								<div class="tableWrapper" id="tableWrapper_tab_<%= edition.parameterize unless edition.nil? %>" onscroll="onTableWrapperScroll()">
 							    <table class='results' id='widgetResults'>
 										<thead class="mobileOnly">
 											<tr>
@@ -177,106 +146,86 @@
 												<th name="name">Nom</th>
 												<%= '<th name="bib">Dossard</th>' unless results_bib_any.empty? %>
 												<th name="time">Temps</th>
-												<%= '<th name="sex">Sexe</th>'  if results_sex_any %>
+												<%= '<th name="sex">Sexe</th>' if results_sex_any %>
 												<%= '<th name="sex_rank">Class.<br>Sexe</th>' if results_sex_rank_any %>
 												<%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
 												<%= '<th name="categ_rank">Class.<br>Categ.</th>' if results_categ_rank_any %>
 											</tr>
 										</thead>
 							      <tbody>
-							      <%results.each_with_index do |result, i|
-		                                    full_name = "#{result.first_name} #{result.last_name}"
-		                                    name = full_name.blank? ? result.name : full_name
-											if result.sex.nil?
-												result.sex = ""
-											elsif result.sex == "H"
-												result.sex = "M"
-											end
-											result.categ = "" if result.categ.nil?
-											edition_line[i] = ""
-											edition_line[i] += '<tr class="'+result.sex+'" data-search="'+I18n.transliterate(name).upcase+'" data-sexe-search="'+result.sex+'" data-category-search="'+result.categ+'" data-bib-search="'+result.bib+'">' + "\n"
-											edition_line[i] += '<td class="center fixedColumn">'+result.rank.to_s+'</td>' + "\n"
-											edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode(name, :named).html_safe+'</td>' + "\n"
-											unless results_bib_any.empty?
-												unless result.bib.to_i < 0
-													edition_line[i] += '<td class="center">'+result.bib.to_s+'</td>' + "\n"
-												else
-													edition_line[i] += '<td class="center">-</td>' + "\n"
-												end
-											end
-											edition_line[i] += '<td class="center">'+result.time+'</td>' + "\n"
-											if results_sex_any
-												unless result.sex.nil?
-														edition_line[i] += '<td class="center">'+result.sex+'</td>' + "\n"
-												else
-														edition_line[i] += '<td class="center">-</td>' + "\n"
-												end
-											end
-											if results_sex_rank_any
-												unless result.sex_rank.nil?
-													edition_line[i] += '<td class="center">'+result.sex_rank.to_s+'</td>' + "\n"
-												else
-													edition_line[i] += '<td class="center">-</td>' + "\n"
-												end
-											end
-											if results_categ_any
-												unless result.categ.nil?
-													edition_line[i] +=  '<td class="center">'+result.categ.to_s+'</td>' + "\n"
-												else
-													edition_line[i] += '<td class="center">-</td>' + "\n"
-												end
-											end
-											if results_categ_rank_any
-												unless result.categ_rank.nil?
-													edition_line[i] += '<td class="center">'+result.categ_rank.to_s+'</td>' + "\n"
-												else
-													edition_line[i] += '<td class="center">-</td>' + "\n"
-												end
-											end
-										edition_line[i] += '</tr>' + "\n"
-		                          %>
-							      <%end%>
+							      <%
+                      results.each_with_index do |result, i|
+  		                  full_name = "#{result.first_name} #{result.last_name}"
+  		                  name = full_name.blank? ? result.name : full_name
+                        result.sex ||= ""
+  											result.sex = "M" if result.sex == "H"
+  											result.categ ||= ""
+  											edition_line[i] = ""
+  											edition_line[i] += '<tr class="' + result.sex + '" data-search="' + I18n.transliterate(name).upcase + '" data-sexe-search="' + result.sex + '" data-category-search="' + result.categ + '" data-bib-search="' + result.bib + '">' + "\n"
+  											edition_line[i] += '<td class="center fixedColumn">' + result.rank.to_s + '</td>' + "\n"
+  											edition_line[i] += '<td class="left fixedColumnWithMargin">' + coder.encode(name, :named).html_safe + '</td>' + "\n"
+  											unless results_bib_any.empty?
+  												unless result.bib.to_i < 0
+  													edition_line[i] += '<td class="center">' + result.bib.to_s + '</td>' + "\n"
+  												else
+  													edition_line[i] += '<td class="center">-</td>' + "\n"
+  												end
+  											end
+  											edition_line[i] += '<td class="center">' + result.time + '</td>' + "\n"
+  											if results_sex_any
+                          edition_line[i] += '<td class="center">' + (result.sex || '-') + '</td>' + "\n"
+  											end
+  											if results_sex_rank_any
+  												edition_line[i] += '<td class="center">' + (result.sex_rank&.to_s || '-') + '</td>' + "\n"
+  											end
+  											if results_categ_any
+  												edition_line[i] += '<td class="center">' + (result.categ&.to_s || '-') + '</td>' + "\n"
+  											end
+  											if results_categ_rank_any
+  												edition_line[i] += '<td class="center">' + (result.categ_rank&.to_s || '-') + '</td>' + "\n"
+  											end
+  										  edition_line[i] += '</tr>' + "\n"
+                      end
+  		              %>
 							      </tbody>
 							    </table>
 								</div>
 							</div>
 							<p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
 					  </section>
-						<%
-						key = '#content_'+edition.parameterize
-						@edition_lines[key] = edition_line
-						%>
-					<%end%>
-					<script>
-						edition_lines = [<%= @edition_lines.to_json %>][0];
-						categoriesSorted = [<%= @categories_sorted.to_json %>];
-						longestName = [<%= @edition_longest_name.to_json %>];
-					</script>
+						<% key = '#content_' + edition.parameterize %>
+						<% @edition_lines[key] = edition_line %>
+					<% end %>
+          <script>
+            edition_lines = [<%= @edition_lines.to_json %>][0];
+            categoriesSorted = [<%= @categories_sorted.to_json %>];
+            longestName = [<%= @edition_longest_name.to_json %>];
+          </script>
 				</div>
 			</div>
+		</div>
 
-		</div>  <!-- end tableContainer -->
+    <p style="color:black;height:23px;">
+      <em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%= I18n.l @generated_at %>.</em>
+    </p>
 
-		<!-- --------------------end---------------------- -->
+    <p style='text-align: center;color:black;height:23px;'>
+      <a style='text-decoration: none; color: black' href='http://kapp10.com'>
+        Pour toute r&eacute;clamation, demande de modification ou de
+        suppression d'information personnelle
+        merci de nous &eacute;crire à contact@kapp10.com
+      </a>
+    </p>
+  </div>
 
-		<p style="color:black;height:23px;"><em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%=I18n.l @generated_at%>.</em></p>
-		<p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
-	</div> <!-- #end container -->
-
-	<script>
-
-		jQuery(document).ready(function($) {
-			var pagination_container = $('#pagination_container').detach();
-			$('.tableContainer').append(pagination_container);
-
-			var precedentPaginationBtn = $('.page-item.first a');
-			var suivantPaginationBtn = $('.page-item.last a');
-			//
-			precedentPaginationBtn.empty().append('Précédent');
-			suivantPaginationBtn.empty().append('Suivant');
-		});
-
-
-
-	</script>
+  <script>
+    jQuery(document).ready(function($) {
+      var pagination_container = $('#pagination_container').detach();
+      $('.tableContainer').append(pagination_container);
+      var precedentPaginationBtn = $('.page-item.first a');
+      var suivantPaginationBtn = $('.page-item.last a');
+      precedentPaginationBtn.empty().append('Précédent');
+      suivantPaginationBtn.empty().append('Suivant');
+    });
+  </script>
 </body>
