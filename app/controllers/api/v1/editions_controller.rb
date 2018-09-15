@@ -3,7 +3,7 @@ class API::V1::EditionsController < API::V1::ApplicationController
   before_action :set_event, only: [:index, :show, :create]
 
   def index
-    @editions = Edition.where(event: @event).order('created_at desc')
+    @editions = @event.editions.order('created_at desc')
     render json: @editions, root: 'editions'
   end
 
@@ -66,14 +66,13 @@ class API::V1::EditionsController < API::V1::ApplicationController
   end
 
   private
+
   def set_event
     @event = Event.find_by(id: params[:event_id])
   end
 
   def set_edition
-    if params[:id]
-      @edition = Edition.find_by(id: params[:id])
-    end
+    @edition = Edition.find_by(id: params[:id]) if params[:id]
   end
 
   def edition_params
@@ -97,5 +96,4 @@ class API::V1::EditionsController < API::V1::ApplicationController
         :background_image_file_size,
     )
   end
-
 end
