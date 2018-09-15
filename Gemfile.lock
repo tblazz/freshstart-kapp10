@@ -74,7 +74,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    charlock_holmes_bundle_icu (0.6.9.2)
     case_transform (0.2)
       activesupport
     charlock_holmes (0.7.6)

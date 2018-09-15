@@ -21,7 +21,6 @@ RSpec.describe API::V1::EditionsController, api: true, type: :controller do
       get :index, params: {event_id: @event.id}
       expect(response).to have_http_status(200)
     end
-
   end
 
   describe 'GET #show' do
@@ -123,5 +122,4 @@ RSpec.describe API::V1::EditionsController, api: true, type: :controller do
       end
     end
   end
-
 end
