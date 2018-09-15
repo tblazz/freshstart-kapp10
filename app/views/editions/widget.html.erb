@@ -75,32 +75,34 @@
 				<% end %>
 			  <div class="tableCaption">
           Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
-				</div>
+        </div>
 			<% end %>
 
 			<div class="filtersConteners">
-				<div class="kapp10Filters">
-					<% if results_sex_any %>
-						<select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
+        <div class="kapp10Filters">
+          <% if results_sex_any %>
+            <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
               <option value="all">Sexe</option>
-							<option value="M">Hommes</option>
-							<option value="F">Femmes</option>
-						</select>
-					<% end %>
-					<% if @categories && @categories.count > 1 %>
-						<select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
-							<option value="all">Toutes les cat&eacute;gories</option>
-							<% @categories.each do |category| %>
+              <option value="M">Hommes</option>
+              <option value="F">Femmes</option>
+            </select>
+          <% end %>
+          <% if @categories && @categories.count > 1 %>
+            <select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
+              <option value="all">Toutes les cat&eacute;gories</option>
+              <% @categories.each do |category| %>
                 <option value="<%= category %>"><%= category %></option>
-							<% end %>
-						</select>
-					<% end %>
-				</div>
-				<div class="kapp10Research">
-					<input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
-					<div id="closingCircleResearch" onclick="reset_participant_filter()"><span id="closingCrossResearch">x</span></div>
-				</div>
-			</div>
+              <% end %>
+            </select>
+          <% end %>
+        </div>
+        <div class="kapp10Research">
+          <input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
+          <div id="closingCircleResearch" onclick="reset_participant_filter()">
+            <span id="closingCrossResearch">x</span>
+          </div>
+        </div>
+      </div>
 
 			<div id="pagination_container"></div>
 				<div class="headTableContainer desktop-only">
@@ -193,34 +195,37 @@
 					  </section>
 						<% key = '#content_' + edition.parameterize %>
 						<% @edition_lines[key] = edition_line %>
-					<%end%>
-					<script>
-						edition_lines = [<%= @edition_lines.to_json %>][0];
-						categoriesSorted = [<%= @categories_sorted.to_json %>];
-						longestName = [<%= @edition_longest_name.to_json %>];
-					</script>
+					<% end %>
+          <script>
+            edition_lines = [<%= @edition_lines.to_json %>][0];
+            categoriesSorted = [<%= @categories_sorted.to_json %>];
+            longestName = [<%= @edition_longest_name.to_json %>];
+          </script>
 				</div>
 			</div>
 		</div>
 
-		<p style="color:black;height:23px;">
+    <p style="color:black;height:23px;">
       <em>R&eacute;sultats g&eacute;n&eacute;r&eacute;s le <%= I18n.l @generated_at %>.</em>
     </p>
-		<p style='text-align: center;color:black;height:23px;'>
+
+    <p style='text-align: center;color:black;height:23px;'>
       <a style='text-decoration: none; color: black' href='http://kapp10.com'>
-        Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com
+        Pour toute r&eacute;clamation, demande de modification ou de
+        suppression d'information personnelle
+        merci de nous &eacute;crire à contact@kapp10.com
       </a>
     </p>
-	</div>
+  </div>
 
-	<script>
-		jQuery(document).ready(function($) {
-			var pagination_container = $('#pagination_container').detach();
-			$('.tableContainer').append(pagination_container);
-			var precedentPaginationBtn = $('.page-item.first a');
-			var suivantPaginationBtn = $('.page-item.last a');
-			precedentPaginationBtn.empty().append('Précédent');
-			suivantPaginationBtn.empty().append('Suivant');
-		});
-	</script>
+  <script>
+    jQuery(document).ready(function($) {
+      var pagination_container = $('#pagination_container').detach();
+      $('.tableContainer').append(pagination_container);
+      var precedentPaginationBtn = $('.page-item.first a');
+      var suivantPaginationBtn = $('.page-item.last a');
+      precedentPaginationBtn.empty().append('Précédent');
+      suivantPaginationBtn.empty().append('Suivant');
+    });
+  </script>
 </body>
