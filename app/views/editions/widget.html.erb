@@ -3,13 +3,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <script src="<%= Edition::S3_BASE_URL %>/widget4.js"></script>
-<link href="fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/widget.min.css">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/fonts/stylesheet.css">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyleClient.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyle.css">
 
 <% if @edition.races_count > 0 %>
-  <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
+  <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each do |edition, results| %>
     <style>
       #tab_<%= edition.parameterize %>:checked ~ #mainResultsContent #resultsContainer #content_<%= edition.parameterize %> { display: block; }
     </style>
@@ -21,7 +22,7 @@
     <% coder = HTMLEntities.new %>
     <div class="generalInfoBox">
       <div class="leftCol">
-        <h2>3h de Camiran course et marche</h2>
+        <h2><%= @edition.event.name %></h2>
         <ul id="courseInfoList">
           <li>
             <span class="image imageRoute">
@@ -36,8 +37,7 @@
               <img src="<%= Edition::S3_BASE_URL %>/images/icoLocality.png" alt="Creyesse" />
             </span>
             <div class="content">
-              <h3>Creysse</h3>
-              <p>Dordogne</p>
+              <h3><%= @edition.event.place %> (<%= @edition.event.department %>)</h3>
             </div>
           </li>
           <li>
@@ -45,15 +45,15 @@
               <img src="<%= Edition::S3_BASE_URL %>/images/icoDistance.png" alt="Facebook Icon" />
             </span>
             <div class="content">
-            <h3>5km, 10.6km</h3>
+            <h3><%= @edition.results.pluck(:race_detail).uniq.join(', ')%></h3>
             </div>
           </li>
         </ul>
       </div>
       <div class="rightCol">
         <ul class="list-inline">
-          <li class="date">Dim. 21 jan. 2018</li>
-          <li class="participant">356 <span>finisseurs</span></li>
+          <li class="date"><%= @edition.date.strftime('%a. %d %b. %Y') %></li>
+          <li class="participant"><%= @edition.results.count %><span>finisseurs</span></li>
         </ul>
       </div>
     </div>
@@ -68,9 +68,9 @@
 
     <div class="tableContainer">
       <% if @edition.races_count > 0 %>
-        <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(edition, results), index| %>
-          <input id="tab_<%= edition.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
-          <label for="tab_<%= edition.parameterize %>" class="tabRacesCount"><%= edition %></label>
+        <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(race_detail, results), index| %>
+          <input id="tab_<%= race_detail.parameterize %>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<% if index.zero? %>checked<% end %>>
+          <label for="tab_<%= race_detail.parameterize %>" class="tabRacesCount"><%= race_detail %></label>
         <% end %>
         <div class="tableCaption">
           Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
