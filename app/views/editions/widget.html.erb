@@ -37,7 +37,12 @@
               <img src="<%= Edition::S3_BASE_URL %>/images/icoLocality.png" alt="Creyesse" />
             </span>
             <div class="content">
-              <h3><%= @edition.event.place %> (<%= @edition.event.department %>)</h3>
+              <h3>
+                <%= @edition.event.place %>
+                <% if @edition.event.department.present? %>
+                  (<%= @edition.event.department %>)
+                <% end %>
+              </h3>
             </div>
           </li>
           <li>
@@ -53,7 +58,7 @@
       <div class="rightCol">
         <ul class="list-inline">
           <li class="date"><%= @edition.date.strftime('%a. %d %b. %Y') %></li>
-          <li class="participant"><%= @edition.results.count %><span>finisseurs</span></li>
+          <li class="participant"><%= @edition.results.count %><span> finisseurs</span></li>
         </ul>
       </div>
     </div>
