@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/fonts/stylesheet.css">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyle.css">
 
-<%= @types.map do |type| %>
+<% @types.map do |type| %>
   <style>
     #tab_<%= type %>:checked ~ #mainResultsContent #resultsContainer #content_<%= type %> {
       display: block;
@@ -42,144 +42,144 @@
     </div>
 
     <div class="tableContainer">
-        <%
-           results_sex_any = true
-           results_sex_rank_any = true
-           results_categ_any = true
-           results_categ_rank_any = true
-        %>
+      <%
+         results_sex_any = true
+         results_sex_rank_any = true
+         results_categ_any = true
+         results_categ_rank_any = true
+      %>
 
-        <% first = true
-           @types.each  do |type|%>
-             <input id="tab_<%=type%>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<%if first%>checked<% first=false; end%>>
-             <label for="tab_<%=type%>" class="tabRacesCount"><%=type.capitalize%></label>
-        <% end %>
-        <div class="tableCaption">
-          Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
-        </div>
+      <% first = true %>
+      <% @types.each do |type| %>
+        <input id="tab_<%=type%>" class='tab' type="radio" name="tabs" onclick="updateSelectedRaces()"<%if first%>checked<% first=false; end%>>
+        <label for="tab_<%=type%>" class="tabRacesCount"><%= type.capitalize %></label>
+      <% end %>
+      <div class="tableCaption">
+        Scroll vertical et horizontal pour lire tous les r&eacute;sultats avec &harr; et &#8597;
+      </div>
 
-        <div class="filtersConteners">
-          <div class="kapp10Filters">
-            <% if results_sex_any %>
-                <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
-                  <option value="all">Sexe</option>
-                  <option value="M">Hommes</option>
-                  <option value="F">Femmes</option>
-                </select>
-            <% end %>
-            <% if @categories && @categories.count > 1 %>
-                <select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
-                  <option value="all">Toutes les cat&eacute;gories</option>
-                  <% @categories.each do |category| %>
-                      <option value="<%= category %>"><%= category %></option>
-                  <% end %>
-                </select>
-            <% end %>
-          </div>
-          <div class="kapp10Research">
-            <input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
-            <div id="closingCircleResearch" onclick="reset_participant_filter()"><span id="closingCrossResearch">x</span></div>
-          </div>
+      <div class="filtersConteners">
+        <div class="kapp10Filters">
+          <% if results_sex_any %>
+              <select name="filterSexe" id="filterSexe" class="filtersSearch filterSexeBg" onchange="participant_filter()">
+                <option value="all">Sexe</option>
+                <option value="M">Hommes</option>
+                <option value="F">Femmes</option>
+              </select>
+          <% end %>
+          <% if @categories && @categories.count > 1 %>
+              <select name="filterCategory" id="filterCategory" class="filtersSearch filtersCategory filterCategoryBg" onchange="participant_filter()">
+                <option value="all">Toutes les cat&eacute;gories</option>
+                <% @categories.each do |category| %>
+                    <option value="<%= category %>"><%= category %></option>
+                <% end %>
+              </select>
+          <% end %>
         </div>
+        <div class="kapp10Research">
+          <input type="text" id="kapp10-filter" class="filterSearchBg" onkeyup="participant_filter()" placeholder="Rechercher un coureur...">
+          <div id="closingCircleResearch" onclick="reset_participant_filter()"><span id="closingCrossResearch">x</span></div>
+        </div>
+      </div>
 
-        <div id="pagination_container"></div>
-        <div class="headTableContainer desktop-only">
-          <div class="headTableWrapper">
-            <div class="horizontalScrollContainer">
-              <div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
-              <div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
-            </div>
-            <table id="resultsHead">
-              <thead>
-              <tr>
-                <th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
-                <th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
-                <th>Pts</th>
-                <%= "<th>Sexe</th>"  if results_sex_any %>
-                <%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
-                <%= "<th>Nb courses</th>" %>
-              </tr>
-              </thead>
-            </table>
+      <div id="pagination_container"></div>
+      <div class="headTableContainer desktop-only">
+        <div class="headTableWrapper">
+          <div class="horizontalScrollContainer">
+            <div class="scrollLeftContainer"><span class="iconeArrow arrowLeft"></span></div>
+            <div class="scrollRightContainer"><span class="iconeArrow arrowRight"></span></div>
           </div>
+          <table id="resultsHead">
+            <thead>
+            <tr>
+              <th class="fixedColumn"><span id="fixedAlign">Class.<br>Scratch</span></th>
+              <th class="fixedColumnWithMargin"><span id="fixedAlignMargin">Nom</span></th>
+              <th>Pts</th>
+              <%= "<th>Sexe</th>"  if results_sex_any %>
+              <%= "<th>Cat&eacute;gorie</th>" if results_categ_any %>
+              <%= "<th>Nb courses</th>" %>
+            </tr>
+            </thead>
+          </table>
         </div>
-        <div class="loading"><img src="<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
-        <div id="mainResultsContent">
-          <div id="resultsContainer">
-            <% @scores.group_by { |s| s[6] }.each  do |type, scores| %>
-              <% edition_line = [] %>
-                <section id="content_<%=type unless type.nil?%>">
-                  <div class="scrollbar desktop-only" id="scrollbar_<%=type unless type.nil?%>">
-                    <div class="scrollbar-track" id="scrollbarTrack_<%=type unless type.nil?%>"></div>
-                    <div class="scrollbar-thumb" id="scrollbarThumb_<%=type unless type.nil?%>"></div>
+      </div>
+      <div class="loading"><img src="<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
+      <div id="mainResultsContent">
+        <div id="resultsContainer">
+          <% @scores.group_by { |s| s[6] }.each  do |type, scores| %>
+            <% edition_line = [] %>
+              <section id="content_<%=type unless type.nil?%>">
+                <div class="scrollbar desktop-only" id="scrollbar_<%=type unless type.nil?%>">
+                  <div class="scrollbar-track" id="scrollbarTrack_<%=type unless type.nil?%>"></div>
+                  <div class="scrollbar-thumb" id="scrollbarThumb_<%=type unless type.nil?%>"></div>
+                </div>
+                <div class="fixedTable">
+                  <div class="tableWrapper" id="tableWrapper_tab_<%=type unless type.nil?%>" onscroll="onTableWrapperScroll()">
+                    <table class='results' id='widgetResults'>
+                      <thead class="mobileOnly">
+                      <tr>
+                        <th name="rank">Class.<br>Scratch</th>
+                        <th name="name">Nom</th>
+                        <th name="point">Points</th>
+                        <%= '<th name="sex">Sexe</th>'  if results_sex_any %>
+                        <%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
+                        <%= '<th name="nb_courses">Nb. courses</th>' %>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <% scores.sort_by { |s| s[2] }.reverse.each_with_index do |score, i|
+                        edition_line[i] = ""
+                        edition_line[i] += "<tr class=\"#{score[4]}\" data-search=\"#{I18n.transliterate("#{score[1]} #{score[0]}".upcase)}\" data-sexe-search=\"#{score[4]}\" data-category-search=\"#{score[5]}\" data-bib-search=\"#{score[5]}\">  \n"
+                        edition_line[i] += '<td class="center fixedColumn">' + (i+1).to_s + '</td>' + "\n"
+                        edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score[0]} #{score[1]}", :named).html_safe+'</td>' + "\n"
+                        edition_line[i] += '<td class="center">'+score[2].to_s+'</td>' + "\n"
+                        if results_sex_any
+                          unless score[4].nil?
+                            edition_line[i] += '<td class="center">'+score[4]+'</td>' + "\n"
+                          else
+                            edition_line[i] += '<td class="center">-</td>' + "\n"
+                          end
+                        end
+                        if results_categ_any
+                          unless score[5].nil?
+                            edition_line[i] +=  '<td class="center">'+score[5].to_s+'</td>' + "\n"
+                          else
+                            edition_line[i] += '<td class="center">-</td>' + "\n"
+                          end
+                        end
+                        if results_categ_rank_any
+                          unless score.nil?
+                            edition_line[i] += '<td class="center">'+score[3].to_s+'</td>' + "\n"
+                          else
+                            edition_line[i] += '<td class="center">-</td>' + "\n"
+                          end
+                        end
+                        edition_line[i] += '</tr>' + "\n"
+                      %>
+                      <% end %>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="fixedTable">
-                    <div class="tableWrapper" id="tableWrapper_tab_<%=type unless type.nil?%>" onscroll="onTableWrapperScroll()">
-                      <table class='results' id='widgetResults'>
-                        <thead class="mobileOnly">
-                        <tr>
-                          <th name="rank">Class.<br>Scratch</th>
-                          <th name="name">Nom</th>
-                          <th name="point">Points</th>
-                          <%= '<th name="sex">Sexe</th>'  if results_sex_any %>
-                          <%= '<th name="categ">Cat&eacute;gorie</th>' if results_categ_any %>
-                          <%= '<th name="nb_courses">Nb. courses</th>' %>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <% scores.sort_by { |s| s[2] }.reverse.each_with_index do |score, i|
-                          edition_line[i] = ""
-                          edition_line[i] += "<tr class=\"#{score[4]}\" data-search=\"#{I18n.transliterate("#{score[1]} #{score[0]}".upcase)}\" data-sexe-search=\"#{score[4]}\" data-category-search=\"#{score[5]}\" data-bib-search=\"#{score[5]}\">  \n"
-                          edition_line[i] += '<td class="center fixedColumn">' + (i+1).to_s + '</td>' + "\n"
-                          edition_line[i] += '<td class="left fixedColumnWithMargin">'+coder.encode("#{score[0]} #{score[1]}", :named).html_safe+'</td>' + "\n"
-                          edition_line[i] += '<td class="center">'+score[2].to_s+'</td>' + "\n"
-                          if results_sex_any
-                            unless score[4].nil?
-                              edition_line[i] += '<td class="center">'+score[4]+'</td>' + "\n"
-                            else
-                              edition_line[i] += '<td class="center">-</td>' + "\n"
-                            end
-                          end
-                          if results_categ_any
-                            unless score[5].nil?
-                              edition_line[i] +=  '<td class="center">'+score[5].to_s+'</td>' + "\n"
-                            else
-                              edition_line[i] += '<td class="center">-</td>' + "\n"
-                            end
-                          end
-                          if results_categ_rank_any
-                            unless score.nil?
-                              edition_line[i] += '<td class="center">'+score[3].to_s+'</td>' + "\n"
-                            else
-                              edition_line[i] += '<td class="center">-</td>' + "\n"
-                            end
-                          end
-                          edition_line[i] += '</tr>' + "\n"
-                        %>
-                        <% end %>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                  <p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
-                </section>
-                <%
-                   key = '#content_'+type
-                   @edition_lines[key] = edition_line
-                %>
-            <% end %>
-            <script>
-                edition_lines = [<%= @edition_lines.to_json %>][0];
-                console.log(edition_lines);
-                lines_count = <%= @edition_lines.count %>;
-                console.log(lines_count);
-                categoriesSorted = [<%= @categories_sorted.to_json %>];
-                console.log('categoriesSorted =');
-                console.log(categoriesSorted);
-                longestName = [<%= @edition_longest_name.to_json %>];
-            </script>
-          </div>
+                </div>
+                <p class="noResults" style="display:none;text-align:center;">Pas de r&eacute;sultat</p>
+              </section>
+              <%
+                 key = '#content_'+type
+                 @edition_lines[key] = edition_line
+              %>
+          <% end %>
+          <script>
+              edition_lines = [<%= @edition_lines.to_json %>][0];
+              console.log(edition_lines);
+              lines_count = <%= @edition_lines.count %>;
+              console.log(lines_count);
+              categoriesSorted = [<%= @categories_sorted.to_json %>];
+              console.log('categoriesSorted =');
+              console.log(categoriesSorted);
+              longestName = [<%= @edition_longest_name.to_json %>];
+          </script>
         </div>
+      </div>
     </div>
 
     <p style='text-align: center;color:black;height:23px;'>
