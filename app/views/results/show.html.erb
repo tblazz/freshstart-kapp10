@@ -7,6 +7,9 @@
 <%= content_for :meta_type, 'fitness.achievement' %>
 <%= content_for :meta_twitter_card, 'summary_large_image' %>
 
+<% body_font_color = @result.edition.template == 'template_raid' ? '#fff' : '000' %>
+<% body_background = @result.edition.template == 'template_raid' ? sanitize("url(\"/templates/template_raid/images/SFR_Fond_A3paysage_Bleu.png\")") : '#fff' %>
+
 <% url = @result.diploma.url(:freemium) %>
 <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
 <% if ENV['FB_APP_ID'].present? %>
@@ -17,6 +20,8 @@
 
 <style>
   body {
+    background-image: <%= body_background %>;
+    color: <%= body_font_color %>;
     font-family: Lato;
   }
 
@@ -59,11 +64,11 @@
   }
 
   .result-share-links .result-share-link {
+    color: inherit;
     text-decoration: none;
   }
 
   .result-share-links .result-share-link > .result-share-link-text {
-    color: #000;
     font-size: 16px;
     text-transform: uppercase;
   }
@@ -107,6 +112,7 @@
   }
 
   .result-footer > .result-footer-link {
+    color: inherit;
     margin: 0 55px 20px;
     text-align: center;
     text-decoration: none;
@@ -115,7 +121,6 @@
 
   .result-footer > .result-footer-link > .result-footer-link-text {
     font-size: 16px;
-    color: #000;
     text-transform: uppercase;
   }
 
@@ -136,9 +141,13 @@
 </script>
 <div class="result-message">
   <p class="result-message-text">
-    Bravo <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
-    <br/>
-    Tu es
+    <% if @result.edition.template == 'template_raid' %>
+      <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
+      Vous êtes
+    <% else %>
+      Bravo <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
+      Tu es
+    <% end %>
     <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
     <br/>
     <span class="result-rank">
