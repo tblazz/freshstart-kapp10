@@ -57,7 +57,7 @@
       </div>
       <div class="rightCol">
         <ul class="list-inline">
-          <li class="date"><%= @edition.date.strftime('%a. %d %b. %Y') %></li>
+          <li class="date"><%= I18n.localize(@edition.date, format: '%a. %d %b %Y') %></li>
           <li class="participant"><%= @edition.results.count %><span> finisseurs</span></li>
         </ul>
       </div>
