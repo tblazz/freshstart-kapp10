@@ -9,7 +9,7 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
     scores = []
 
     # get races
-    race_ids = @challenge.races.pluck(:id).compact
+    race_ids = @challenge.race_ids.compact
     # get runners
     runner_ids = Result.where(race_id: race_ids).pluck(:runner_id).compact
 
@@ -39,7 +39,6 @@ class GenerateChallengeWidgetJob < ActiveJob::Base
 
       @categories_sorted[race_type] = { F: female_categories, M: male_categories, ALL: all_categories }
     end
-    @generated_at = Time.now
     erb_file = "#{Rails.root}/app/views/challenges/widget.html.erb"
     erb_str = File.read(erb_file)
     renderer = ERB.new(erb_str)

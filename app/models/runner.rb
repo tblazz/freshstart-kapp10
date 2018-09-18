@@ -18,6 +18,7 @@ class Runner < ApplicationRecord
   # Relations
   has_many :results
   has_many :scores
+  has_many :photos
 
   # Validations
   validates :first_name, presence: true, length: { in: 2..30 }
@@ -37,6 +38,7 @@ class Runner < ApplicationRecord
   end
 
   private
+  
   def generate_id_key
     id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
   end

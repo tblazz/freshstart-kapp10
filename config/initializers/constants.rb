@@ -42,6 +42,10 @@ SMS_PATH = 'https://api.allmysms.com/http/9.0/sendSms/'
 BITLY_LOGIN = ENV['BITLY_LOGIN']
 BITLY_API_KEY = ENV['BITLY_API_KEY']
 
+#paramètres admin
+ADMIN_LOGIN = ENV['ADMIN_LOGIN']
+ADMIN_PASSWORD = ENV['ADMIN_PASSWORD']
+
 #constantes pour Messenger
 MESSENGER_MESSAGE_LENGTH = 320
 #expiration time of the saved WIT context in redis for a user (in seconds)

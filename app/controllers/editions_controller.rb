@@ -20,26 +20,6 @@ class EditionsController < ApplicationController
     else
       render :new
     end
-
-    # @photos = params[:race][:photos]  || []
-    # params[:race].delete(:photos)
-    #
-    # respond_to do |format|
-    #   if @race.save
-    #
-    #     decode_results if race_params[:raw_results]
-    #
-    #     @photos.each do |photo|
-    #       @race.photos.create({image: photo})
-    #     end
-    #
-    #     format.html { redirect_to @race, notice: 'race was successfully created.' }
-    #     format.json { render :show, status: :created, location: @race }
-    #   else
-    #     format.html { render :new }
-    #     format.json { render json: @Race.errors, status: :unprocessable_entity }
-    #   end
-    # end
   end
 
   def show
