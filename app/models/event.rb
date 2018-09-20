@@ -23,7 +23,7 @@
 #
 
 class Event < ApplicationRecord
-  has_many :editions
+  has_many :editions, dependent: :nullify
   has_many :races, through: :editions
   belongs_to :challenge
   has_many :runners, through: :editions

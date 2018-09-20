@@ -135,6 +135,7 @@
         <div id="mainResultsContent">
           <div id="resultsContainer">
           <% @edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results| %>
+            <% next if edition.nil? %>
             <% edition_line = [] %>
             <section id="content_<%= edition.parameterize unless edition.nil? %>">
               <div class="scrollbar desktop-only" id="scrollbar_<%= edition.parameterize unless edition.nil? %>">
