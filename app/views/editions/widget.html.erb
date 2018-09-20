@@ -176,7 +176,7 @@
                             edition_line[i] += '<td class="center">-</td>' + "\n"
                           end
                         end
-                        edition_line[i] += '<td class="center">' + result.time + '</td>' + "\n"
+                        edition_line[i] += '<td class="center">' + (result.time || '-') + '</td>' + "\n"
                         if results_sex_any
                           edition_line[i] += '<td class="center">' + (result.sex || '-') + '</td>' + "\n"
                         end
