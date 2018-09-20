@@ -23,24 +23,17 @@
 #
 
 class Event < ApplicationRecord
-  # Relations
   has_many :editions
   has_many :races, through: :editions
   belongs_to :challenge
   has_many :runners, through: :editions
 
-  # Validations
   validates :name, presence: true, length: { in: 2..50 }
-  # validates :place, presence: true, length: { in: 2..30 }
-  # validates :contact, presence: true
-  # validates :email, presence: true, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
 
-  # Scopes
   scope :with_client, ->(client_id) { where('client_1=? OR client_2=? OR client_3=?', client_id, client_id, client_id) }
 
   def self.import(file)
     CSV.foreach(file.path, col_sep: ';', row_sep: :auto, headers: true) do |row|
-      p row
       Event.create(name: row[0],
                    place: row[1],
                    website: row[2],

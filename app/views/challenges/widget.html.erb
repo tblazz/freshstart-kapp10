@@ -3,11 +3,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script src="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-challenge.min.js"></script>
+<script src="<%= Edition::S3_BASE_URL %>/widget-challenge.min.js"></script>
 
 <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-<link rel="stylesheet" href="https://s3-eu-west-1.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
-
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/widget.min.css">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/fonts/stylesheet.css">
 <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyle.css">
 
