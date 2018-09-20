@@ -313,7 +313,7 @@ function display_filtered_events(filters, i) {
     else
       name_filter_ok = -1;
   }
-  
+
   if (department_filter_ok > -1 && type_filter_ok > -1 && month_filter_ok > -1 && name_filter_ok > -1)
     return event_lines[i];
   return "";

@@ -6,22 +6,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<!-- <script src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-client.min.js"></script> -->
-<script src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-client.js"></script> 
+<script src="<%= Edition::S3_BASE_URL %>/widget-client.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget.min.css">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/widget-client.min.css">
-
-
-<!-- add fonts -->
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/fonts/stylesheet.css">
-<link rel="stylesheet" href="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/newStyleClient.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/widget.min.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/widget-client.min.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/fonts/stylesheet.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyle.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/newStyleClient.css">
 
 <body>
   <div class="container">
-
-    <!-- <a class='btn btn-danger' id="back-button" style="display: none" onclick="displayEventsPage()">Revenir à la liste des courses</a> -->
-
     <div class="filtersConteners">
       <div class="kapp10Filters">
         <select name="filterMonth" id="filterMonth" class="filtersSearch filterMoisBg" onchange="eventsFilter()">
@@ -40,54 +34,44 @@
               <option value="<%= type %>"><%= type %></option>
           <% end %>
         </select>
-
       </div>
 
       <div class="kapp10Research">
         <input type="text" id="kapp10-filter" placeholder="Rechercher..." class="filtersSearch filterSearchBg" onkeyup="eventsFilter()"/>
       </div>
-    </div> <!-- filtersConteners -->
+    </div>
 
-    <div class="text-center pagination-bloc"><div id="pagination_container"></div></div>
+    <div class="text-center pagination-bloc">
+      <div id="pagination_container">
+      </div>
+    </div>
 
-    <div id="allsections"></div>
+    <div id="allsections">
+    </div>
+
     <div id="mainResultsContent">
       <div id="resultsContainer">
         <section id="content">
-
-
-
-          <div class="loading"><img src="https://<%= ENV['AWS_S3_HOST_NAME_REGION'] %>.amazonaws.com/<%= ENV['S3_WIDGET_BUCKET'] %>/loading.gif"></div>
-
-          <!--<div class="scrollbar desktop-only" id="scrollbar">-->
-            <!--<div class="scrollbar-track" id="scrollbarTrack"></div>-->
-            <!--<div class="scrollbar-thumb" id="scrollbarThumb"></div>-->
-          <!--</div>-->
-
+          <div class="loading">
+            <img src="<%= Edition::S3_BASE_URL %>/loading.gif">
+          </div>
           <div class="fixedTable">
             <div class="tableWrapper" id="tableWrapper_tab">
               <div class="event-results">
                 <% @events.each do |event| %>
-
                   <div class='event col-xs-12 firstTd striped'>
+                    <h3><%= event.name %></h3>
+                    <ul>
+                      <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'><%= event.department %></div></li>
+                      <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'><%= event.races.map(&:name).uniq.join(', ') %></div></li>
+                      <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'><% event.races.map(&:race_type).reject(&:blank?).join(', ') %></div></li>
+                    </ul>
 
-
-                        <h3><%= event.name %></h3>
-                        <ul>
-                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/lieu.png'><%= event.department %></div></li>
-                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/distance.png'><%= event.races.map(&:name).uniq.join(', ') %></div></li>
-                          <li><div class='logo-edition'><img src='https://evenementwidget.herokuapp.com/assets/images/type.png'><% event.races.map(&:race_type).reject(&:blank?).join(', ') %></div></li>
-                        </ul>
-
-
-
-                        <div class="theDate">
-                          <div class="myDate"><div class="pull-right"><%= event.editions.last.date.strftime('%d/%m/%Y') %></div></div>
-                          <div class='row'><div class='pull-right results-count'><div><%= "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 %></div></div></div>
-                          <div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('<%= event.editions.last.widget_url %>')\">Voir les résultats</a></div></div>
-                        </div>
-
-
+                    <div class="theDate">
+                      <div class="myDate"><div class="pull-right"><%= event.editions.last.date.strftime('%d/%m/%Y') %></div></div>
+                      <div class='row'><div class='pull-right results-count'><div><%= "#{event.editions.last.results.count} finisseurs" if event.editions.last.results.count > 0 %></div></div></div>
+                      <div class='row'><div class='pull-right results-button'><a class='btn btn-warning' onclick=\"displayResultsPage('<%= event.editions.last.widget_url %>')\">Voir les résultats</a></div></div>
+                    </div>
                   </div>
                 <% end %>
               </div>
@@ -98,7 +82,7 @@
     </div>
 
     <div id="noResults" style="text-align:center;" class="alert alert-danger">
-        <strong>Pas de course</strong>
+      <strong>Pas de course</strong>
     </div>
 
     <div id="result-iframe">
@@ -107,33 +91,23 @@
     <p style='text-align: center;color:black;height:23px;'><a style='text-decoration: none; color: black' href='http://kapp10.com'>Pour toute r&eacute;clamation, demande de modification ou de suppression d'information personnelle, merci de nous &eacute;crire à contact@kapp10.com</a></p>
 </div>
 
-<script>
-  var events = [<%= @event_array.to_json %>][0];
-  var event_lines = [<%= @event_lines.to_json %>][0];
-  function race_select() {
-    var source = $('#filterRace').val();
-    $('.kapp10-embed').attr('src', source);
-  }
-</script>
+  <script>
+    var events = [<%= @event_array.to_json %>][0];
+    var event_lines = [<%= @event_lines.to_json %>][0];
+    function race_select() {
+      var source = $('#filterRace').val();
+      $('.kapp10-embed').attr('src', source);
+    }
+  </script>
 
-<script>
-
+  <script>
     jQuery(document).ready(function($) {
       var pagination_container = $('#pagination_container').detach();
       $('div.container').append(pagination_container);
-
       var precedentPaginationBtn = $('.page-item.first a');
       var suivantPaginationBtn = $('.page-item.last a');
-      //
       precedentPaginationBtn.empty().append('Précédent');
       suivantPaginationBtn.empty().append('Suivant');
-
-
-
     });
-
-
-
   </script>
-
 </body>
