@@ -5,13 +5,15 @@ class GenerateWidgetJob < ActiveJob::Base
   queue_as :normal
 
   def perform(edition_id)
-    @edition = Edition.find(edition_id)
+    @edition = Edition.includes(:results).find(edition_id)
 		@categories = @edition.results.pluck(:categ).uniq
 
 		@categories_sorted = Hash.new
 		@edition_longest_name = Hash.new
 		@edition_lines = Hash.new
-		@edition.results.order([:race_detail,:rank]).group_by(&:race_detail).each do |edition, results|
+		@edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each do |edition, results|
+      next if edition.nil?
+
 			@edition_longest_name[edition] = results.pluck(:last_name).compact.group_by(&:size).max.last[0].length
 			female_sorted = results.select do |result|
 				result['sex'] && result['sex'] == "F"
