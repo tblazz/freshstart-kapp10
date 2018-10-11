@@ -49,7 +49,7 @@ Rails.application.configure do
   WKHTMLTOIMAGE_PATH = '/usr/local/bin/wkhtmltoimage'
   PERFORM_SENDING = true
 
-  Rails.application.config.active_job.queue_adapter = :inline
+  Rails.application.config.active_job.queue_adapter = :sidekiq
 
   #parameter for HTTParty to check the authenticity of SSL certificate
   VERIFY_SSL = false

@@ -1,8 +1,14 @@
-require 'httparty'
 class HiveUrlShortner
 
   def shorten(url)
-    response = HTTParty.get("https://hive.am/api?api=#{ENV['HIVE_API_KEY']}&url=#{url}")
-    JSON.parse(response.parsed_response)['short']
+    api_key = ENV['HIVE_API_KEY']
+    query = "https://hive.am/api?api=#{api_key}&url=#{url}"
+
+    response = RestClient::Request.new(
+      method: :get,
+      url: query
+    ).execute
+
+    JSON.parse(response)['short']
   end
 end

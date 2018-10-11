@@ -21,12 +21,11 @@ class SMS
     template % {
       name: shortable_name,
       time: time,
-      url: image_path,
       edition_name_mail: edition_name_mail,
       rank: rank,
       edition_detail: edition_detail,
-      results_url: results_url,
-      url: url
+      results_url: HiveUrlShortner.new.shorten(results_url),
+      url: HiveUrlShortner.new.shorten(image_path)
     }
   end
 
