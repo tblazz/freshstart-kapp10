@@ -112,6 +112,12 @@
       var suivantPaginationBtn = $('.page-item.last a');
       precedentPaginationBtn.empty().append('Précédent');
       suivantPaginationBtn.empty().append('Suivant');
+      //
+      $('.page-link').click(function(event) {
+        event.preventDefault();
+        precedentPaginationBtn.empty().append('Précédent');
+        suivantPaginationBtn.empty().append('Suivant');
+      });
     });
   </script>
 </body>
