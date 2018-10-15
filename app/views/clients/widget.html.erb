@@ -113,7 +113,7 @@
       precedentPaginationBtn.empty().append('Précédent');
       suivantPaginationBtn.empty().append('Suivant');
       //
-      $('.page-link').click(function(event) {
+      $(document).('click', 'a.page-link', function(event) {
         event.preventDefault();
         console.log('clicked');
         $('.page-item.first a').empty().append('Précédent');
