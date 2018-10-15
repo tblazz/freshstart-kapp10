@@ -115,6 +115,9 @@
       //
       $('.page-link').click(function(event) {
         event.preventDefault();
+        console.log('clicked');
+        var precedentPaginationBtn = $('.page-item.first a');
+        var suivantPaginationBtn = $('.page-item.last a');
         precedentPaginationBtn.empty().append('Précédent');
         suivantPaginationBtn.empty().append('Suivant');
       });
