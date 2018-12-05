@@ -48,6 +48,9 @@ class Result < ActiveRecord::Base
                               source_file_options: { freemium: '-density 72' }
   validates_attachment_content_type :diploma, content_type: /\Aimage\/.*\z/
 
+  # Scopes
+  scope :this_year, -> { where('created_at > ?', Date.current.beginning_of_year) }
+  
   def sent_message
     sms.message
   end

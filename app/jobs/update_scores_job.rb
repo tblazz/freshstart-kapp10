@@ -4,31 +4,18 @@ class UpdateScoresJob < ActiveJob::Base
   def perform
     Score.delete_all
 
-    Runner.find_each do |runner|
-      p '------------'
-      p 'Runner :'
-      p runner.id
-      p '------------'
-
-      all_results = runner.results.this_year
-      next if all_results.count < 1
-
+    runner_points = Result.joins(:race).group("results.runner_id, races.race_type").order("SUM(points) DESC").pluck("results.runner_id, SUM(results.points), races.race_type")
+    runner_points.each do |r|
       begin
-        h = {}
-
-        all_results.group_by { |r| r.race.race_type }.each do |race_type, results|
-          h[race_type] = results.map(&:points).compact.sum
-        end
-
-        h.each do |race_type, points|
-          Score.create(runner_id: runner.id, points: points, race_type: race_type)
-        end
+        Score.create(runner_id: r[0], points: r[1].to_i, race_type: r[2])
       rescue => e
-        p "## ERROR ## : #{runner.id}"
-        p e
-        next
+          p "## ERROR ## : #{r[0]}"
+          p e
+          next
       end
-
     end
+
+    sql = "UPDATE Results SET processed = TRUE WHERE runner_id IS NOT NULL AND processed = FALSE"
+    ActiveRecord::Base.connection.execute(sql)
   end
 end

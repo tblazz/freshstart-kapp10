@@ -18,7 +18,7 @@ class ChallengesController < ApplicationController
 
   def index
     @challenges = Challenge.all
-    @new_results = Result.where(processed: false).count
+    @new_results = Result.where(processed: false).where.not(runner_id: nil).count
   end
 
   def edit

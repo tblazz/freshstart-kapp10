@@ -6,7 +6,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
 
   def perform(client_id)
     @client = Client.find(client_id)
-    @events = Event.with_client(@client.id).sort { |a,b| a.editions.last.date <=> b.editions.last.date }.reverse
+    @events = Event.with_client(@client.id).where(id: Edition.pluck(:event_id)).sort { |a,b| a.editions.last.date <=> b.editions.last.date }.reverse
 
     @event_array = []
     @event_lines = []
