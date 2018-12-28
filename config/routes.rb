@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
   get 'results_stand_by', to: 'results#stand_by', as: 'stand_by'
+
+  get 'mail_viewers/result/:id', to: 'mail_viewers#result', as: 'result_mail_viewer'
+
   resources :races do
     member do
       post 'send_results'

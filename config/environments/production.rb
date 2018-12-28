@@ -2,6 +2,7 @@ Rails.application.configure do
   WKHTMLTOIMAGE_PATH = Rails.root.join('bin', 'wkhtmltoimage').to_s
   PERFORM_SENDING = true
   DOMAIN_URL = "https://freshstart-kapp10.herokuapp.com"
+  HOST = "freshstart-kapp10.herokuapp.com"
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
@@ -67,6 +68,8 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = { host: DOMAIN_URL }
+
+  default_url_options[:host] = HOST
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

@@ -54,5 +54,8 @@ Rails.application.configure do
   #parameter for HTTParty to check the authenticity of SSL certificate
   VERIFY_SSL = false
   # DOMAIN_URL = "https://kapp10-finishline.herokuapp.com"
-  DOMAIN_URL = "http://localhost:5000"
+  DOMAIN_URL = "http://localhost:3000"
+  HOST = "localhost:3000"
+
+  default_url_options[:host] = HOST 
 end
