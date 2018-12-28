@@ -25,7 +25,7 @@ class SMS
       rank: rank,
       edition_detail: edition_detail,
       results_url: HiveUrlShortner.new.shorten(results_url),
-      url: HiveUrlShortner.new.shorten(image_path)
+      url: HiveUrlShortner.new.shorten(url)
     }
   end
 
