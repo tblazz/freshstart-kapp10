@@ -67,11 +67,11 @@ class Result < ActiveRecord::Base
       rank: "#{rank}#{rank_total}",
       template: edition.sms_message,
       edition_detail: race_detail,
-      results_url: result_mail_viewer_url,
+      results_url: edition.results_url,
       phone_number: phone,
       image_path: diploma.url(:freemium),
       campaign: "#{edition.event.name.parameterize}-#{edition.date}",
-      url: Rails.application.routes.url_helpers.result_url(id, host: DOMAIN_URL)
+      url: Rails.application.routes.url_helpers.result_mail_viewer_url(id, host: DOMAIN_URL)
     )
   end
 
@@ -95,11 +95,5 @@ class Result < ActiveRecord::Base
 	  else
 	    where nil
 	  end
-  end
-  
-  private
-
-  def result_mail_viewer_url
-    Rails.application.routes.url_helpers.result_mail_viewer_url(id)
   end
 end
