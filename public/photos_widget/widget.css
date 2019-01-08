@@ -271,7 +271,8 @@ select.filtersSearch{
     top: 0;
     left: 0;
     color: white;
-    font-size: 14px;
+    font-size: 12px;
+    text-align: center;
 }
 
 .photo-front-hover-container:hover .photo-hover{

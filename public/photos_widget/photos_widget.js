@@ -97,7 +97,7 @@ function filterPhotos(pageNumber = 1) {
       photoHoverTextElements.push(photoData.name)
     }
 
-    const photoHoverText = photoHoverTextElements.join(' - ')
+    const photoHoverText = photoHoverTextElements.join('<br>')
 
     let photoHoverTextHTML = ''
     if (photoHoverText !== '') {
