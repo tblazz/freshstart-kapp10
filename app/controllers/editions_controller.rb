@@ -49,6 +49,16 @@ class EditionsController < ApplicationController
     redirect_to event_edition_path(@edition.event, @edition), notice: "Le widget est en cours de génération."
   end
 
+  def photos_widget
+    @edition    = Edition.find(params[:id])
+    @categories = @edition.results.pluck(:categ).uniq.sort
+    @results    = @edition.results
+    @photos     = @edition.photos
+
+    @generated_at = Time.now
+    render layout: 'photos_widget_layout'
+  end
+
   def results
     @runner = @edition.results.empty? ? Result.last : @edition.results.order("RANDOM()").limit(1).first
     @results = @edition.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])

@@ -23,3 +23,7 @@
 
 .byebug_history
 google_cloud_keyfile.json
+
+app/.DS_Store
+app/assets/.DS_Store
+public/.DS_Store
