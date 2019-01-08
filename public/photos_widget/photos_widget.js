@@ -8,10 +8,12 @@ function resizePhotoContainers(){
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const searchInput    = document.getElementById('kapp10-filter')
-  const sexSelect      = document.getElementById('filterSexe')
-  const categorySelect = document.getElementById('filterCategory')
-  const raceDetailTabs = document.querySelectorAll('.race_detail_tab')
+  const searchInput     = document.getElementById('kapp10-filter')
+  const sexSelect       = document.getElementById('filterSexe')
+  const categorySelect  = document.getElementById('filterCategory')
+  const raceDetailTabs  = document.querySelectorAll('.race_detail_tab')
+  const pagePreviousBtn = document.getElementById('page-previous')
+  const pageNextBtn     = document.getElementById('page-next')
   
   filterPhotos()
 
@@ -22,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   raceDetailTabs.forEach(raceDetailTab => {
     raceDetailTab.addEventListener('click', () => filterPhotos())
   })
+
+  pagePreviousBtn.addEventListener('click', event => filterPhotos(Number.parseInt(event.currentTarget.dataset.pageNumber)))
+  pageNextBtn.addEventListener('click', event => filterPhotos(Number.parseInt(event.currentTarget.dataset.pageNumber)))
 })
 
 window.addEventListener('resize', () => {
@@ -158,14 +163,14 @@ function filterPhotos(pageNumber = 1) {
     if (pageNumber === 1) {
       pagePreviousBtn.classList.add('d-none')
     } else {
-      pagePreviousBtn.addEventListener('click', event => filterPhotos(pageNumber - 1))
+      pagePreviousBtn.dataset.pageNumber = pageNumber - 1
       pagePreviousBtn.classList.remove('d-none')
     }
 
     if (pageNumber === numberOfPages) {
       pageNextBtn.classList.add('d-none')
     } else {
-      pageNextBtn.addEventListener('click', event => filterPhotos(pageNumber + 1))
+      pageNextBtn.dataset.pageNumber = pageNumber + 1
       pageNextBtn.classList.remove('d-none')
     }
   } else {
