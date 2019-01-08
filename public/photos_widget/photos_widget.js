@@ -97,10 +97,6 @@ function filterPhotos(pageNumber = 1) {
       photoHoverTextElements.push(photoData.name)
     }
 
-    photoHoverTextElements.push(photoData.race)
-    photoHoverTextElements.push(photoData.sex)
-    photoHoverTextElements.push(photoData.categ)
-
     const photoHoverText = photoHoverTextElements.join(' - ')
 
     let photoHoverTextHTML = ''
@@ -123,7 +119,7 @@ function filterPhotos(pageNumber = 1) {
   })
   
   if (photoDataFiltered.length === 0) {
-    photosContainerRow.innerHTML = '<div class="col-12 noResults">Pas de résultat</div>'
+    photosContainerRow.innerHTML = '<div class="col-12 noResults">Pas de résultats</div>'
   }
 
   if (numberOfPages > 1) {
