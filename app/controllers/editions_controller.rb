@@ -55,6 +55,16 @@ class EditionsController < ApplicationController
     @results    = @edition.results
     @photos     = @edition.photos.map do |photo|
       result = @results.select{ |r| r.bib === photo.bib }.first
+      
+      if result
+        if result.name
+          name = result.name
+        else
+          name = "#{result.first_name} #{result.last_name}"
+        end
+      else
+        name = ''
+      end
 
       {
         id:    photo.id,
@@ -63,7 +73,7 @@ class EditionsController < ApplicationController
         race:  result ? result.race_detail.parameterize : '',
         sex:   result ? result.sex.parameterize : '',
         categ: result ? result.categ.parameterize : '',
-        name:  result ? result.name : '',
+        name:  name,
       }
     end
 

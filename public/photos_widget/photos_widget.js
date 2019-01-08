@@ -87,22 +87,35 @@ function filterPhotos(pageNumber = 1) {
 
   photosContainerRow.innerHTML = ''
   photoDataFiltered.forEach(photoData => {
-    let photoHoverHTML
+    let photoHoverTextElements = []
 
     if (photoData.bib !== '') {
-      photoHoverHTML = '<div class="photo-hover">' +
-        `<p>#${photoData.bib} - ${photoData.name} - ${photoData.race} - ${photoData.sex} - ${photoData.categ}</p>` +
-        '<p><i class="fas fa-download"></i></p>' +
-      '</div>'
-    } else {
-      photoHoverHTML = ''
+      photoHoverTextElements.push(`#${photoData.bib}`)
+    }
+
+    if (photoData.name !== '') {
+      photoHoverTextElements.push(photoData.name)
+    }
+
+    photoHoverTextElements.push(photoData.race)
+    photoHoverTextElements.push(photoData.sex)
+    photoHoverTextElements.push(photoData.categ)
+
+    const photoHoverText = photoHoverTextElements.join(' - ')
+
+    let photoHoverTextHTML = ''
+    if (photoHoverText !== '') {
+      photoHoverTextHTML = `<p>${photoHoverText}</p>`
     }
 
     const photoHTML = `<div class="col-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
         `<a href="${photoData.url}" target="_blank">` +
           `<div class="photo-front-hover-container">` +
             `<div class="photo-front" style="background-image: url('${photoData.url}'); background-color: black; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>` +
-            photoHoverHTML +
+            '<div class="photo-hover">' +
+              photoHoverTextHTML +
+              '<p><i class="fas fa-download"></i></p>' +
+            '</div>'
           '</div>' +
           '</a>' +
       '</div>'
