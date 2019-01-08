@@ -279,14 +279,6 @@ select.filtersSearch{
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-.photo-front .photo{
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-}
-
 label {
     display: inline-block;
     margin: 0 0 -1px;

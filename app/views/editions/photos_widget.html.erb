@@ -119,35 +119,8 @@
       </div>
       <div class="margin-top-24">
         <div class="container photos-container margin-top-24">
-          <div class="row">
-            <% @photos.each do |photo| %>
-              <div class="col-6 col-sm-6 col-md-3 col-lg-2 photo-container d-none" data-photo-id="<%= photo.id %>">
-                <% if photo.bib %>
-                  <% result = @results.select{ |r| r.bib === photo.bib }.first %>
-                  <% if result %>
-                    <div class="photo-data d-none" data-photo-id="<%= photo.id %>" data-race="<%= result.race_detail.parameterize %>" data-sex="<%= result.sex.parameterize %>" data-categ="<%= result.categ.parameterize %>" data-bib="<%= result.bib %>" data-name="<%= result.name %>"></div>
-                  <% end %>
-                <% end %>
-                <% photo_url = photo.image.url %>
-                <a href="<%= photo_url %>" target="_blank">
-                  <div class="photo-front-hover-container">
-                    <div class="photo-front" style="background-image: url('<%= photo_url %>'); background-color: black; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>
-                    <% if photo.bib %>
-                      <div class="photo-hover">
-                        <% if result %>
-                          <p><%= "##{photo.bib} - #{result.name} - #{result.race_detail.parameterize} - #{result.sex.parameterize} - #{result.categ.parameterize}" %></p>
-                        <% else %>
-                          <p><%= "##{photo.bib}" %></p>
-                        <% end %>
-                        <p><i class="fas fa-download"></i></p>
-                      </div>
-                    <% end %>
-                  </div>
-                </a>
-              </div>
-            <% end %>
-            <div class="col-12 noResults d-none">Pas de résultat</div>
-          </div>
+          <div id="photos-data" class="d-none" data-photos-data="<%= @photos_json %>"></div>
+          <div class="row"></div>
         </div>
         <div class="pagination-container margin-top-24 d-none">
           <ul class="pagination">

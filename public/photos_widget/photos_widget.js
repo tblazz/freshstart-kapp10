@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const raceDetailTabs = document.querySelectorAll('.race_detail_tab')
   
   filterPhotos()
-  resizePhotoContainers()
 
   searchInput.addEventListener('keyup', () => filterPhotos())
   sexSelect.addEventListener('change', () => filterPhotos())
@@ -38,9 +37,7 @@ function filterPhotos(pageNumber = 1) {
   const sexSelectedValue      = sexSelect.value
   const categorySelectedValue = categorySelect.value
   const raceTabSelectedValue  = raceTabSelected.dataset.value
-  const photosDataElements    = document.querySelectorAll('.photo-data')
-  const photosContainer       = document.querySelectorAll('.photo-container')
-  const noResultsDiv          = document.querySelector('.noResults')
+  const photosContainerRow    = document.querySelector('.photos-container .row')
   const numberPhotosByPage    = 48
   const paginationContainer   = document.querySelector('.pagination-container')
   const pageNumbersElements   = document.querySelector('.page-numbers')
@@ -49,17 +46,7 @@ function filterPhotos(pageNumber = 1) {
 
   let activePage, pageBtnElement
 
-  const photosData = Array.from(photosDataElements).map(element => {
-    const data = {
-      id:    element.dataset.photoId,
-      race:  element.dataset.race,
-      sex:   element.dataset.sex,
-      categ: element.dataset.categ,
-      name:  element.dataset.name,
-      bib:   element.dataset.bib,
-    }
-    return data
-  })
+  const photosData = JSON.parse(document.getElementById('photos-data').dataset.photosData)
 
   let photoDataFiltered = photosData
   
@@ -97,17 +84,34 @@ function filterPhotos(pageNumber = 1) {
 
   // Filter on the first page
   photoDataFiltered = photoDataFiltered.slice((pageNumber - 1) * numberPhotosByPage, pageNumber * numberPhotosByPage)
-  
-  photosContainer.forEach(photoContainer => {
-    if (photoDataFiltered.map(data => data.id).includes(photoContainer.dataset.photoId)) {
-      photoContainer.classList.remove('d-none')
-      noResultsDiv.classList.add('d-none')
+
+  photosContainerRow.innerHTML = ''
+  photoDataFiltered.forEach(photoData => {
+    let photoHoverHTML
+
+    if (photoData.bib !== '') {
+      photoHoverHTML = '<div class="photo-hover">' +
+        `<p>#${photoData.bib} - ${photoData.name} - ${photoData.race} - ${photoData.sex} - ${photoData.categ}</p>` +
+        '<p><i class="fas fa-download"></i></p>' +
+      '</div>'
     } else {
-      photoContainer.classList.add('d-none')
+      photoHoverHTML = ''
     }
+
+    const photoHTML = `<div class="col-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
+        `<a href="${photoData.url}" target="_blank">` +
+          `<div class="photo-front-hover-container">` +
+            `<div class="photo-front" style="background-image: url('${photoData.url}'); background-color: black; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>` +
+            photoHoverHTML +
+          '</div>' +
+          '</a>' +
+      '</div>'
+      photosContainerRow.insertAdjacentHTML('beforeend', photoHTML)
   })
   
-  if (photoDataFiltered.length === 0) noResultsDiv.classList.remove('d-none')
+  if (photoDataFiltered.length === 0) {
+    photosContainerRow.innerHTML = '<div class="col-12 noResults">Pas de résultat</div>'
+  }
 
   if (numberOfPages > 1) {
     let beginningNumberPage, endNumberPage
@@ -158,4 +162,6 @@ function filterPhotos(pageNumber = 1) {
   } else {
     paginationContainer.classList.add('d-none')
   }
+
+  resizePhotoContainers()
 }

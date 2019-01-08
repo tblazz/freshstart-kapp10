@@ -53,7 +53,21 @@ class EditionsController < ApplicationController
     @edition    = Edition.find(params[:id])
     @categories = @edition.results.pluck(:categ).uniq.sort
     @results    = @edition.results
-    @photos     = @edition.photos
+    @photos     = @edition.photos.map do |photo|
+      result = @results.select{ |r| r.bib === photo.bib }.first
+
+      {
+        id:    photo.id,
+        url:   photo.image.url,
+        bib:   photo.bib,
+        race:  result ? result.race_detail.parameterize : '',
+        sex:   result ? result.sex.parameterize : '',
+        categ: result ? result.categ.parameterize : '',
+        name:  result ? result.name : '',
+      }
+    end
+
+    @photos_json = @photos.to_json
 
     @generated_at = Time.now
     render layout: 'photos_widget_layout'
