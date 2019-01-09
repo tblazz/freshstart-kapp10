@@ -109,7 +109,7 @@ class Edition < ApplicationRecord
 
   def photos_widget_gist
     %(
-			<iframe class='kapp10-embed' src="#{photos_widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1800px;" scrolling="no"></iframe>)
+			<iframe class='kapp10-embed' src="#{photos_widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1400px;" scrolling="no"></iframe>)
   end
 
   def generate_diplomas
