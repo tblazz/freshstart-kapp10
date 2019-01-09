@@ -1,5 +1,5 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget, :generate_diplomas, :delete_diplomas, :send_results]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget, :generate_photos_widget, :generate_diplomas, :delete_diplomas, :send_results]
   helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
@@ -49,12 +49,17 @@ class EditionsController < ApplicationController
     redirect_to event_edition_path(@edition.event, @edition), notice: "Le widget est en cours de génération."
   end
 
+  def generate_photos_widget
+    GeneratePhotosWidgetJob.perform_now(@edition.id)
+    redirect_to results_event_edition_path(@edition.event, @edition), notice: "Le widget photo est en cours de génération."
+  end
+
   def photos_widget
     @edition    = Edition.find(params[:id])
     @categories = @edition.results.pluck(:categ).uniq.sort
-    @results    = @edition.results
-    @photos     = @edition.photos.map do |photo|
-      result = @results.select{ |r| r.bib === photo.bib }.first
+    results     = @edition.results
+    photos      = @edition.photos.map do |photo|
+      result = results.select{ |r| r.bib === photo.bib }.first
       
       if result
         if result.name
@@ -67,7 +72,6 @@ class EditionsController < ApplicationController
       end
 
       {
-        id:    photo.id,
         url:   photo.image.url,
         bib:   photo.bib,
         race:  result ? result.race_detail.parameterize : '',
@@ -77,9 +81,9 @@ class EditionsController < ApplicationController
       }
     end
 
-    @photos_json = @photos.to_json
-
+    @photos_json  = photos.to_json
     @generated_at = Time.now
+    
     render layout: 'photos_widget_layout'
   end
 

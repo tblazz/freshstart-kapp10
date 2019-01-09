@@ -62,6 +62,8 @@ h1 Résultats
           a aria-controls="stats" data-toggle="tab" href="#stats" role="tab"  Statistiques
         li role="presentation"
           a aria-controls="widget" data-toggle="tab" href="#widget" role="tab"  Widget
+        li role="presentation"
+          a aria-controls="photos-widget" data-toggle="tab" href="#photos-widget" role="tab"  Widget Photos
       /! Tab panes
       .tab-content
         #results.tab-pane.active role="tabpanel"
@@ -94,3 +96,21 @@ h1 Résultats
             .col-sm-12.top-buffer
               h4 Widget
               = @edition.widget_gist.html_safe
+        
+        #photos-widget.tab-pane role="tabpanel"
+          .col-sm-12.top-buffer.text-center
+            p
+              - if @edition.photos_widget_generated_at.nil?
+                | Le Widget Photos n'a pas encore été généré.
+              - else
+                | Widget Photos généré le #{I18n.l @edition.photos_widget_generated_at}.
+            = link_to "Générer le Widget Photos", generate_photos_widget_event_edition_path(@edition.event, @edition), class: "btn btn-primary", "data-method" => :post
+            = link_to "Afficher le Widget Photos", @edition.photos_widget_url, class: "btn btn-default", target: "_widget" unless @edition.photos_widget_generated_at.nil?
+          - unless @edition.photos_widget_generated_at.nil?
+            .col-sm-12
+              h4 Code pour afficher le Widget Photos
+              textarea.form-control rows="5" = @edition.photos_widget_gist
+            .col-sm-12.top-buffer
+              h4 Widget Photos
+              = @edition.photos_widget_gist.html_safe
+        
