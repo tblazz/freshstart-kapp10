@@ -26,11 +26,6 @@ body{
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 400;
     background: rgb(255,255,255); 
-   
-    /* background: -moz-linear-gradient(-10deg, rgba(255,255,255,1) 0%,rgba(247,247,247,1) 49.5%,rgb(202, 196, 196) 50%,rgba(255,249,249,1) 50.5%,rgba(255,255,255,1) 100%);
-    background: -webkit-linear-gradient(-10deg, rgba(255,255,255,1) 0%,rgba(247,247,247,1) 49.5%,rgb(202, 196, 196) 50%,rgba(255,249,249,1) 50.5%,rgba(255,255,255,1) 100%);
-    background: linear-gradient(100deg, rgba(255,255,255,1) 0%,rgba(247,247,247,1) 49.5%,rgb(202, 196, 196) 50%,rgba(255,249,249,1) 50.5%,rgba(255,255,255,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ); */
 }
 
 
@@ -146,19 +141,17 @@ input#kapp10-filter:-moz-placeholder { /* Firefox 18- */
 }
 
 select.filtersSearch{
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat !important; 
   background-image: none;
   padding: 0 40px;
 }
 .filterSexeBg{
-  background-image: none;
   background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoSexe.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
   background-position: left 10px center ,  right 10px center !important;
   background-size: 26px 24px, 11px 11px !important;
+
 }
 .filterCategoryBg{
-  /*background: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoCategory.png) left center no-repeat;*/
-  background-image: none;
   background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoCategory.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
   background-position: left 10px center ,  right 10px center !important;
   background-size: 20px 24px, 11px 11px !important;
@@ -254,6 +247,11 @@ select.filtersSearch{
     padding: 8px;
 }
 
+.photos-container .row{
+    max-height: 800px;
+    overflow-y: auto;
+}
+
 .photo-front-hover-container{
     position: relative;
     cursor: pointer;
@@ -317,7 +315,6 @@ select.filtersSearch {
     -moz-appearance: none;
     height: 37px;
     color: #757575;
-    /* padding: 0 25px; */
     background-color: #fff;
     border-color: #ccc;
     background-position: 95% 50%;
