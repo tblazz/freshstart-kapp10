@@ -275,6 +275,10 @@ input#kapp10-filter:-moz-placeholder { /* Firefox 18- */
     text-align: center;
 }
 
+.photo-hover p {
+    margin-bottom: 8px;
+}
+
 .photo-hover p:last-child {
     margin-bottom: 0;
 }
