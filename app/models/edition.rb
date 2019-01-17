@@ -86,6 +86,37 @@ class Edition < ApplicationRecord
     @phones_count ||= results.pluck(:phone).select{|phone| phone =~ PHONE_REGEX}.length
   end
 
+  def get_widget_photos_json
+    results     = self.results
+    photos      = self.photos.map do |photo|
+      result = results.select{ |r| r.bib === photo.bib }.first
+      
+      if result
+        if result.name
+          name = result.name
+        else
+          name = "#{result.first_name} #{result.last_name}"
+        end
+      else
+        name = ''
+      end
+
+      {
+        url:   photo.image.url,
+        bib:   photo.bib,
+        rank:  (result && result.rank) ? result.rank : results.size + 1,
+        race:  result ? result.race_detail.parameterize : '',
+        sex:   result ? result.sex.parameterize : '',
+        categ: result ? result.categ.parameterize : '',
+        name:  name,
+      }
+    end
+
+    photos = photos.sort_by{|photo| photo[:rank]}
+    
+    photos.to_json
+  end
+
   def widget_storage_name
     "results/#{self.date.year}/#{self.date.month}/#{self.id}"
   end

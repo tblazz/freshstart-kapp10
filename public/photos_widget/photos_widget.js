@@ -3,21 +3,42 @@ function resizePhotoContainers(){
   const photoContainer  = document.querySelector(".photo-container:not(.d-none)")
   if (photoContainer){
     const photoContainerWidth = photoContainer.offsetWidth
-    photoContainers.forEach(photoContainer => photoContainer.style.height = `${photoContainerWidth}px`)
+    photoContainers.forEach(photoContainer => {
+      photoContainer.style.maxHeight = `${photoContainerWidth}px`
+    })
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const searchInput     = document.getElementById('kapp10-filter')
-  const sexSelect       = document.getElementById('filterSexe')
-  const categorySelect  = document.getElementById('filterCategory')
-  const raceDetailTabs  = document.querySelectorAll('.race_detail_tab')
-  const pagePreviousBtn = document.getElementById('page-previous')
-  const pageNextBtn     = document.getElementById('page-next')
+  const searchInputContainer    = document.getElementById('search-input-container')
+  const searchInput             = document.getElementById('kapp10-filter')
+  const recognitionSelect       = document.getElementById('filterRecognition')
+  const filterSexContainer      = document.getElementById('filter-sex-container')
+  const sexSelect               = document.getElementById('filterSexe')
+  const filtercategoryContainer = document.getElementById('filter-category-container')
+  const categorySelect          = document.getElementById('filterCategory')
+  const raceDetailTabs          = document.querySelectorAll('.race_detail_tab')
+  const allRacesTab             = document.getElementById('tab_all')
+  const pagePreviousBtn         = document.getElementById('page-previous')
+  const pageNextBtn             = document.getElementById('page-next')
   
   filterPhotos()
 
   searchInput.addEventListener('keyup', () => filterPhotos())
+  recognitionSelect.addEventListener('change', () => {
+    // Filter on Recognition
+    if (recognitionSelect.value === 'without_recognition') {
+      allRacesTab.checked = true
+      filterSexContainer.classList.add('d-none')
+      filtercategoryContainer.classList.add('d-none')
+      searchInputContainer.classList.add('d-none')
+    } else {
+      filterSexContainer.classList.remove('d-none')
+      filtercategoryContainer.classList.remove('d-none')
+      searchInputContainer.classList.remove('d-none')
+    }
+    filterPhotos()
+  })
   sexSelect.addEventListener('change', () => filterPhotos())
   if (categorySelect) categorySelect.addEventListener('change', () => filterPhotos())
 
@@ -31,23 +52,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('resize', () => {
   resizePhotoContainers()
+
+  const pageNumber = Number.parseInt(document.querySelector('.page-number.active').dataset.pageNumber)
+  filterPhotos(pageNumber)
 })
 
+function getNumberOfPhotos(){
+  if (window.innerWidth >= 992){
+    return 60
+  } else if (window.innerWidth >= 768) {
+    return 40
+  } else {
+    return 20
+  }
+}
+
 function filterPhotos(pageNumber = 1) {
-  const searchInput           = document.getElementById('kapp10-filter')
-  const sexSelect             = document.getElementById('filterSexe')
-  const categorySelect        = document.getElementById('filterCategory')
-  const raceTabSelected       = document.querySelector('.race_detail_tab:checked')
-  const searchInputValue      = searchInput.value
-  const sexSelectedValue      = sexSelect.value
-  const categorySelectedValue = categorySelect.value
-  const raceTabSelectedValue  = raceTabSelected.dataset.value
-  const photosContainerRow    = document.querySelector('.photos-container .row')
-  const numberPhotosByPage    = 48
-  const paginationContainer   = document.querySelector('.pagination-container')
-  const pageNumbersElements   = document.querySelector('.page-numbers')
-  const pagePreviousBtn       = document.getElementById('page-previous')
-  const pageNextBtn           = document.getElementById('page-next')
+  const searchInput              = document.getElementById('kapp10-filter')
+  const recognitionSelect        = document.getElementById('filterRecognition')
+  const sexSelect                = document.getElementById('filterSexe')
+  const categorySelect           = document.getElementById('filterCategory')
+  const raceTabSelected          = document.querySelector('.race_detail_tab:checked')
+  const searchInputValue         = searchInput.value
+  const recognitionSelectedValue = recognitionSelect.value
+  const sexSelectedValue         = sexSelect.value
+  const categorySelectedValue    = categorySelect.value
+  const raceTabSelectedValue     = raceTabSelected.dataset.value
+  const photosContainerRow       = document.querySelector('.photos-container .row')
+  const numberPhotosByPage       = getNumberOfPhotos()
+  const paginationContainer      = document.querySelector('.pagination-container')
+  const pageNumbersElements      = document.querySelector('.page-numbers')
+  const pagePreviousBtn          = document.getElementById('page-previous')
+  const pageNextBtn              = document.getElementById('page-next')
 
   let activePage, pageBtnElement
 
@@ -58,9 +94,21 @@ function filterPhotos(pageNumber = 1) {
   photoDataFiltered = photoDataFiltered.filter(data => {
     let photoToKeep = true
     
-    // Filter on Race
-    photoToKeep = photoToKeep && (data.race === raceTabSelectedValue)
+    // Filter on Recognition
+    if (recognitionSelectedValue !== 'all') {
+      if (recognitionSelectedValue === 'with_recognition') {
+        photoToKeep = photoToKeep && (data.bib !== null)
+      } else if (recognitionSelectedValue === 'without_recognition') {
+        return data.bib === null
+      }
+    }
 
+    // Filter on Race
+    if (raceTabSelectedValue !== 'all') {
+      photoToKeep = photoToKeep && (data.race === raceTabSelectedValue)
+    }
+
+    
     // Filter on Sex
     if (sexSelectedValue !== 'all') {
       photoToKeep = photoToKeep && (data.sex === sexSelectedValue)
@@ -94,7 +142,7 @@ function filterPhotos(pageNumber = 1) {
   photoDataFiltered.forEach(photoData => {
     let photoHoverTextElements = []
 
-    if (photoData.bib !== '') {
+    if (photoData.bib !== null && photoData.bib !== '') {
       photoHoverTextElements.push(`#${photoData.bib}`)
     }
 
@@ -112,7 +160,9 @@ function filterPhotos(pageNumber = 1) {
     const photoHTML = `<div class="col-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
         `<a href="${photoData.url}" target="_blank">` +
           `<div class="photo-front-hover-container">` +
-            `<div class="photo-front" style="background-image: url('${photoData.url}'); background-color: black; background-repeat: no-repeat; background-size: contain; background-position: center;"></div>` +
+            '<div class="photo-front">' +
+              `<img src="${photoData.url}">` +
+            '</div>' +
             '<div class="photo-hover">' +
               photoHoverTextHTML +
               '<p><i class="fas fa-download"></i></p>' +

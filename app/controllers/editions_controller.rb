@@ -55,33 +55,9 @@ class EditionsController < ApplicationController
   end
 
   def photos_widget
-    @edition    = Edition.find(params[:id])
-    @categories = @edition.results.pluck(:categ).uniq.sort
-    results     = @edition.results
-    photos      = @edition.photos.map do |photo|
-      result = results.select{ |r| r.bib === photo.bib }.first
-      
-      if result
-        if result.name
-          name = result.name
-        else
-          name = "#{result.first_name} #{result.last_name}"
-        end
-      else
-        name = ''
-      end
-
-      {
-        url:   photo.image.url,
-        bib:   photo.bib,
-        race:  result ? result.race_detail.parameterize : '',
-        sex:   result ? result.sex.parameterize : '',
-        categ: result ? result.categ.parameterize : '',
-        name:  name,
-      }
-    end
-
-    @photos_json  = photos.to_json
+    @edition      = Edition.find(params[:id])
+    @categories   = @edition.results.pluck(:categ).uniq.sort
+    @photos_json  = @edition.get_widget_photos_json
     @generated_at = Time.now
     
     render layout: 'photos_widget_layout'

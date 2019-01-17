@@ -6,7 +6,7 @@ body{
     margin: 40px 0 20px 0;
 }
 .BtnReturn{
-  border-radius: 20px;
+    border-radius: 20px;
     background-color: #fb9c00;
     padding: 11px 26px;
     color: #fff;
@@ -82,8 +82,6 @@ font-size: 14px;
   width:34px; height:25px;
 }
 
- 
-
 #courseInfoList > .imageDistance,
 #courseInfoList > .imageDistance > img{
   width:25px; height:25px;
@@ -113,9 +111,6 @@ input:checked+label {
 
 select.filtersSearch,.kapp10Research {height:58px;}
 /*==============end tableContainer=====================*/
-select#filterSexe{font-weight: 900 !important;font-family: 'Oswald', sans-serif;}
-select#filterCategory{font-weight: 900 !important;font-family: 'Oswald', sans-serif;}
-
 input#kapp10-filter::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   font-family: 'Oswald', sans-serif;
   font-weight: 900 !important;
@@ -140,24 +135,19 @@ input#kapp10-filter:-moz-placeholder { /* Firefox 18- */
     width: 100%;
 }
 
-select.filtersSearch{
-  background-repeat: no-repeat !important; 
-  background-image: none;
-  padding: 0 40px;
-}
 .filterSexeBg{
-  background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoSexe.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
-  background-position: left 10px center ,  right 10px center !important;
-  background-size: 26px 24px, 11px 11px !important;
+    background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoSexe.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
+    background-position: left 10px center, right 10px center !important;
+    background-size: 26px 24px, 11px 11px !important;
 
 }
 .filterCategoryBg{
-  background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoCategory.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
-  background-position: left 10px center ,  right 10px center !important;
-  background-size: 20px 24px, 11px 11px !important;
+    background-image: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoCategory.png), url(https://s3-eu-west-1.amazonaws.com/results-widget.kapp10.com/sort-down.png) !important;
+    background-position: left 10px center, right 10px center !important;
+    background-size: 20px 24px, 11px 11px !important;
 }
 .filterSearchBg{
-  background: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoSearch.png) left 10px center no-repeat;
+    background: url(http://i1231.photobucket.com/albums/ee509/jemmeli/icoSearch.png) left 10px center no-repeat;
     padding-left: 40px !important;
 }
 
@@ -175,6 +165,9 @@ select.filtersSearch{
 }
 .margin-top-24{
     margin-top: 24px; 
+}
+.margin-bottom-24{
+    margin-bottom: 24px; 
 }
 .pagination {
     margin: 0;
@@ -238,18 +231,16 @@ select.filtersSearch{
     margin-right: 0;
 }
 
-.photos-container{
+.photos-container, .photo-front, .photo-hover, .photo-front > img {
     border-radius: 8px;
+}
+
+.photos-container{
     border: 1px solid #ccc;
 }
 
 .photos-container .row, .photo-container{
     padding: 8px;
-}
-
-.photos-container .row{
-    max-height: 800px;
-    overflow-y: auto;
 }
 
 .photo-front-hover-container{
@@ -259,8 +250,6 @@ select.filtersSearch{
 
 .photo-front, .photo-hover{
     width: 100%;
-    height: 100%;
-    border-radius: 8px;
 }
 
 .photo-front{
@@ -268,14 +257,26 @@ select.filtersSearch{
     background-color: black;
 }
 
+.photo-front > img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto; height: auto;
+}
+
 .photo-hover{
     display: none;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
     color: white;
     font-size: 12px;
     text-align: center;
+}
+
+.photo-hover p:last-child {
+    margin-bottom: 0;
 }
 
 .photo-front-hover-container:hover .photo-hover{
@@ -310,6 +311,9 @@ input:checked+label {
 
 
 select.filtersSearch {
+    font-weight: 900 !important;
+    font-family: 'Oswald', sans-serif;
+    padding: 0 40px;
     border-radius: 6px;
     -webkit-appearance: none;
     -moz-appearance: none;

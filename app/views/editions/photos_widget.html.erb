@@ -21,8 +21,9 @@
 
 <!-- Photos widget assets on AWS -->
 <script src="<%= Edition::S3_BASE_URL %>/photos/assets/photos_widget.js"></script>
-<!-- <link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/photos/assets/photos_widget.css"> -->
-<link rel="stylesheet" href="/photos_widget/photos_widget.css">
+<link rel="stylesheet" href="<%= Edition::S3_BASE_URL %>/photos/assets/photos_widget.css">
+<!-- <script src="/photos_widget/photos_widget.js"></script> -->
+<!-- <link rel="stylesheet" href="/photos_widget/photos_widget.css"> -->
 
 <body>
   <div class="container">
@@ -83,25 +84,34 @@
 
     <div class="tableContainer margin-top-24">
       <div class="container p-0">
-        <div class="row">
+        <div id="races-tabs-container" class="row margin-bottom-24">
           <% if @edition.races_count > 0 %>
-            <div class="col-12">  
+            <div class="col-12">
+              <input id="tab_all" data-value="all" class='tab race_detail_tab' type="radio" name="tabs" checked="checked">
+              <label for="tab_all" class="tabRacesCount">Toutes les courses</label> 
               <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(race_detail, results), index| %>
-                <input id="tab_<%= race_detail.parameterize %>" data-value="<%= race_detail.parameterize %>" class='tab race_detail_tab' type="radio" name="tabs" <% if index.zero? %>checked<% end %>>
+                <input id="tab_<%= race_detail.parameterize %>" data-value="<%= race_detail.parameterize %>" class='tab race_detail_tab' type="radio" name="tabs">
                 <label for="tab_<%= race_detail.parameterize %>" class="tabRacesCount"><%= race_detail %></label>
               <% end %>
             </div>
           <% end %>
         </div>
-        <div class="row p-0 d-flex justify-content-between filtersConteners margin-top-24">
-          <div class="kapp10Filter col-sm-12 col-md-3">
+        <div class="row p-0 d-flex justify-content-between filtersConteners">
+          <div class="kapp10Filter col-sm-12 col-md-4">
+            <select name="filterRecognition" id="filterRecognition" class="search-input filtersSearch filterSexeBg">
+              <option value="all">Reconnaissance du coureur</option>
+              <option value="with_recognition">Photos avec coureurs reconnus</option>
+              <option value="without_recognition">Photos sans coureurs reconnus</option>
+            </select>
+          </div>
+          <div id="filter-sex-container" class="kapp10Filter col-sm-12 col-md-4">
             <select name="filterSexe" id="filterSexe" class="search-input filtersSearch filterSexeBg">
               <option value="all">Sexe</option>
               <option value="m">Hommes</option>
               <option value="f">Femmes</option>
             </select>
           </div>
-          <div class="kapp10Filter col-sm-12 col-md-3">
+          <div id="filter-category-container" class="kapp10Filter col-sm-12 col-md-4">
             <% if @categories %>
               <select name="filterCategory" id="filterCategory" class="search-input filtersSearch filtersCategory filterCategoryBg">
                 <option value="all">Toutes les cat&eacute;gories</option>
@@ -111,8 +121,8 @@
               </select>
             <% end %>
           </div>
-          <div class="kapp10Research col-sm-12 col-md-6">
-            <input type="text" id="kapp10-filter" class="search-input filterSearchBg" placeholder="Rechercher par nom ou par dossard">
+          <div id="search-input-container" class="kapp10Research col-sm-12 col-md-12">
+            <input type="text" id="kapp10-filter" class="search-input filterSearchBg" placeholder="Rechercher un coureur par nom ou par n° de dossard">
             <div id="closingCircleResearch">
                 <span id="closingCrossResearch">x</span>
             </div>
