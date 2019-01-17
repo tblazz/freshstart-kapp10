@@ -276,7 +276,7 @@ input#kapp10-filter:-moz-placeholder { /* Firefox 18- */
 }
 
 .photo-hover p {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
 .photo-hover p:last-child {
