@@ -102,7 +102,7 @@ class Edition < ApplicationRecord
       end
 
       {
-        url:   photo.image.url,
+        url:   ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
         bib:   photo.bib,
         rank:  (result && result.rank) ? result.rank : results.size + 1,
         race:  result ? result.race_detail.parameterize : '',

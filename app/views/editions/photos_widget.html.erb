@@ -87,11 +87,19 @@
         <div id="races-tabs-container" class="row margin-bottom-24">
           <% if @edition.races_count > 0 %>
             <div class="col-12">
-              <input id="tab_all" data-value="all" class='tab race_detail_tab' type="radio" name="tabs" checked="checked">
-              <label for="tab_all" class="tabRacesCount">Toutes les courses</label> 
+              <% if @edition.races_count > 1 %>
+                <input id="tab_all" data-value="all" class='tab race_detail_tab' type="radio" name="tabs" checked="checked">
+                <label for="tab_all" class="tabRacesCount">Toutes les courses</label> 
+              <% end %>
               <% @edition.results.order([:race_detail, :rank]).group_by(&:race_detail).each_with_index do |(race_detail, results), index| %>
-                <input id="tab_<%= race_detail.parameterize %>" data-value="<%= race_detail.parameterize %>" class='tab race_detail_tab' type="radio" name="tabs">
-                <label for="tab_<%= race_detail.parameterize %>" class="tabRacesCount"><%= race_detail %></label>
+                <% if @edition.races_count == 1
+                  race_name = 'all'
+                else
+                  race_name = race_detail.parameterize
+                end %>
+
+                <input id="tab_<%= race_name %>" data-value="<%= race_name %>" class='tab race_detail_tab' type="radio" name="tabs" <%= 'checked="checked"' if @edition.races_count == 1 %>>
+                <label for="tab_<%= race_name %>" class="tabRacesCount"><%= race_detail %></label>
               <% end %>
             </div>
           <% end %>
