@@ -335,7 +335,8 @@ select.filtersSearch {
     select.filtersSearch {
         -moz-appearance: button-arrow-next;
         -webkit-appearance: auto;
-        background: 0 0
+        background: 0 0;
+        background-repeat: no-repeat;
     }
 }
 
