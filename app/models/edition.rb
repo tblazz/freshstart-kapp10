@@ -90,7 +90,7 @@ class Edition < ApplicationRecord
     results     = self.results
     photos      = self.photos.map do |photo|
       result = results.select{ |r| r.bib === photo.bib }.first
-      
+
       if result
         if result.name
           name = result.name
@@ -113,7 +113,7 @@ class Edition < ApplicationRecord
     end
 
     photos = photos.sort_by{|photo| photo[:rank]}
-    
+
     photos.to_json
   end
 

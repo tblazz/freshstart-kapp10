@@ -103,6 +103,8 @@ Rails.application.routes.draw do
         resources :editions, shallow: true
       end
 
+      resources :details, only: [:index]
+
       resources :editions, concerns: [:result_attachable, :photo_attachable] do
         resources :races, shallow: true, concerns: [:result_attachable, :photo_attachable]
       end
