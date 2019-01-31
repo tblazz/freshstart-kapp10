@@ -2,15 +2,8 @@ class API::V1::EventsController < API::V1::ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   def index
-    if params["search-input"]
-      event_name = params["search-input"]
-      @events = Event.where("name ILIKE ?", "%#{event_name}%" ).first(8)
-
-      render json: @events
-    else
-      @events = Event.order('created_at desc')
-      render json: @events, root: 'events'
-    end
+    @events = Event.order('created_at desc')
+    render json: @events, root: 'events'
   end
 
   def show
