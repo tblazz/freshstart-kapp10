@@ -6,7 +6,7 @@ class API::V1::SearchesController < API::V1::ApplicationController
 
       @detailed_events = set_detailed_events(@events)
     else
-      @events = Event.order(id: :desc).limit(8)
+      @events = Event.order(id: :asc).limit(8)
       @detailed_events = set_detailed_events(@events)
     end
 
