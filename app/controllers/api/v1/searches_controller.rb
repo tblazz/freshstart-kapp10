@@ -3,10 +3,57 @@ class API::V1::SearchesController < API::V1::ApplicationController
     if params["search_input"]
       event_name = params["search_input"]
       @events = Event.where("name ILIKE ?", "%#{event_name}%" ).limit(8)
+
+      @detailed_events = set_detailed_events(@events)
     else
-      @events = Event.order(id: :desc).limit(10)
+      @events = Event.order(id: :desc).limit(8)
+      @detailed_events = set_detailed_events(@events)
     end
 
-    render json: @events
+    render json: @detailed_events
+  end
+
+  private
+
+  def set_detailed_events(events)
+    detailed_events = events.map do |event|
+      {
+        id: event.id,
+        name: event.name,
+        place: event.place,
+        website: event.website,
+        contact: event.contact,
+        email: event.email,
+        phone: event.phone,
+        department: event.department,
+        editions_count: event.editions.count,
+        editions: set_detailed_editions(event)
+      }
+    end
+  end
+
+  def set_detailed_editions(event)
+    event.editions.map do |edition|
+      {
+        date: edition.date,
+        description: edition.description,
+        races_count: edition.races.count,
+        races: set_detailed_race(edition)
+      }
+    end
+  end
+
+  def set_detailed_race(edition)
+    edition.races.map do |race|
+      {
+        name: race.name,
+        date: race.date,
+        coef: race.coef,
+        category: race.category,
+        department: race.department,
+        race_type: race.race_type,
+        runners_count: race.results.count
+      }
+    end
   end
 end
