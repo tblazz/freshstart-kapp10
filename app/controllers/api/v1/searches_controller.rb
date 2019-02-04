@@ -38,7 +38,7 @@ class API::V1::SearchesController < API::V1::ApplicationController
         date: edition.date,
         description: edition.description,
         races_count: edition.races.count,
-        runners_count: edition.results.count
+        runners_count: edition.results.count,
         races: set_detailed_race(edition)
       }
     end
