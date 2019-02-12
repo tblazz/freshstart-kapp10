@@ -11,10 +11,10 @@ resource "Editions" do
 
   # A specific endpoint
   get "api/v2/editions" do
-    parameter :with_results, "If set to `true`, return only editions with results."
+    parameter :with_lastest_results, "If set to `true`, return only editions with results."
     parameter :last, "Resturn the last `n` editions."
 
-    let(:with_results) { true }
+    let(:with_lastest_results) { true }
     let(:last) { 3 }
 
     example "Listing editions" do
