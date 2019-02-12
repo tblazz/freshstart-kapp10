@@ -56,7 +56,7 @@ class Edition < ApplicationRecord
   validates :sendable_at_home_price, numericality: { equal_to: 0, unless: :sendable_at_home? }
   validates :download_chargeable_price, numericality: { equal_to: 0, unless: :download_chargeable? }
 
-  def self.with_lastest_results(limit)
+  def self.with_lastest_results(limit = 3)
     return [] unless limit > 0
     
     last_result = Result.order(created_at: :desc).first
@@ -71,7 +71,7 @@ class Edition < ApplicationRecord
       matching_results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
       if matching_results.any?
         results << matching_results.first
-        editions << Edition.find(results.first.edition_id)
+        editions << Edition.find(matching_results.first.edition_id)
       end
     end
     
