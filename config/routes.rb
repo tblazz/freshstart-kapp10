@@ -114,6 +114,10 @@ Rails.application.routes.draw do
       resources :runners, concerns: [:result_attachable]
 
     end
+
+    namespace :v2 do
+      resources :editions, only: [:index]
+    end
   end
 
   #############################

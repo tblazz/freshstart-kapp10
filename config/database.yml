@@ -1,20 +1,14 @@
 development:
   adapter: postgresql
   encoding: utf8
-  host: localhost
   database: freshstart-dev2
   pool: 20
-  username: <%=ENV["DATABASE_USER"]%>
-  password:
 
 test:
   adapter: postgresql
   encoding: utf8
-  host: localhost
   database: freshstart_test
   pool: 20
-  username: <%=ENV["DATABASE_USER"]%>
-  password:
 
 staging:
   adapter: postgresql
