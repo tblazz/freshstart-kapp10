@@ -63,15 +63,19 @@ class Edition < ApplicationRecord
 
     return [] if last_result.nil?
 
+    results  = [last_result]
     editions = [Edition.find(last_result.edition_id)]
 
     
     (limit-1).times do
-      results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
-      editions << Edition.find(results.first.edition_id) if results.any?
+      matching_results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
+      if matching_results.any?
+        results << matching_results
+        editions << Edition.find(results.first.edition_id)
+      end
     end
     
-    editions
+    { editions: editions, results: results }
   end
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
