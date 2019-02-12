@@ -1,73 +1,77 @@
-h1 Evènement
-.event.col-sm-10.col-sm-offset-1
+.event
   .row
-    .col-md-6
+    .col-md-8.col-md-offset-2
+      h1 Evènement
+  
+  .row
+    .col-md-4.col-md-offset-2
       h2= @event.name
-    .col-md-6
+    .col-md-4
       .pull-right
-        = link_to "Modifier l'évènement", edit_event_path(@event), class: 'btn btn-warning'
+        = link_to "Modifier l'évènement", edit_event_path(@event), class: 'btn btn-warning margin-right-0'
 
-  .col-md-6
-    table.table.table-striped.table-bordered.table-compacted
-      tr
-        th id
-        td= @event.id
-      tr
-        th Nom
-        td= @event.name
-      tr
-        th Lieu
-        td= @event.place
-      tr
-        th Site internet
-        td= @event.website
-      tr
-        th Page Facebook
-        td= @event.facebook
-      tr
-        th Compte Twitter
-        td= @event.twitter
-      tr
-        th Compte Instagram
-        td= @event.instagram
-  .col-md-6
-    table.table.table-striped.table-bordered.table-compacted
-      tr
-        th Contact
-        td= @event.contact
-      tr
-        th Email du contact
-        td= @event.email
-      tr
-        th Téléphone du contact
-        td= @event.phone
-      tr
-        th Département
-        td= @event.department
-      tr
-        th Client 1
-        td= @client_1.try(:name)
-      tr
-        th Client 2
-        td= @client_2.try(:name)
-      tr
-        th Client 3
-        td= @client_3.try(:name)
-      tr
-        th Challenge
-        td= @event.challenge.try(:name)
-      tr
-        th Challenge Globale
-        td= @event.global_challenge ? 'Oui' : 'Non'
+  .row
+    .col-md-4.col-md-offset-2
+      table.table.table-striped.table-bordered.table-compacted
+        tr
+          th id
+          td= @event.id
+        tr
+          th Nom
+          td= @event.name
+        tr
+          th Lieu
+          td= @event.place
+        tr
+          th Site internet
+          td= @event.website
+        tr
+          th Page Facebook
+          td= @event.facebook
+        tr
+          th Compte Twitter
+          td= @event.twitter
+        tr
+          th Compte Instagram
+          td= @event.instagram
+    .col-md-4
+      table.table.table-striped.table-bordered.table-compacted
+        tr
+          th Contact
+          td= @event.contact
+        tr
+          th Email du contact
+          td= @event.email
+        tr
+          th Téléphone du contact
+          td= @event.phone
+        tr
+          th Département
+          td= @event.department
+        tr
+          th Client 1
+          td= @client_1.try(:name)
+        tr
+          th Client 2
+          td= @client_2.try(:name)
+        tr
+          th Client 3
+          td= @client_3.try(:name)
+        tr
+          th Challenge
+          td= @event.challenge.try(:name)
+        tr
+          th Challenge Globale
+          td= @event.global_challenge ? 'Oui' : 'Non'
 
 
 
   .row
-    .col-md-12
-      = link_to 'Ajouter une édition', new_event_edition_path(@event), class: 'btn btn-success'
+    .col-md-8.col-md-offset-2
+      = link_to 'Ajouter une édition', new_event_edition_path(@event), class: 'btn btn-success margin-left-0'
   hr
   .row
-    .col-md-12
+    .col-md-8.col-md-offset-2
       - if @event.editions.blank?
         p Il n'y pas encore d'édition créée pour cet évènement
       - else

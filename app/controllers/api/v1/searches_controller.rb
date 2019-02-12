@@ -1,12 +1,12 @@
 class API::V1::SearchesController < API::V1::ApplicationController
   def show
-    if params["search_input"]
-      event_name = params["search_input"]
-      @events = Event.where("name ILIKE ?", "%#{event_name}%" ).limit(8)
-
+    query_params = params["query_params"]
+    if query_params
+      event_name       = query_params
+      @events          = Event.where("name ILIKE ?", "%#{event_name}%" ).limit(8)
       @detailed_events = set_detailed_events(@events)
     else
-      @events = Event.order(id: :asc).limit(8)
+      @events          = Event.order(id: :asc).limit(8)
       @detailed_events = set_detailed_events(@events)
     end
 
