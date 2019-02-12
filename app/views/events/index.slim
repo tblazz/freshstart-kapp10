@@ -1,11 +1,14 @@
-h1 Evènements
+.row
+  .col-md-8.col-md-offset-2
+    h1 Evènements
+
 .row
   .col-md-8.col-md-offset-2
     .pull-right
       = link_to 'Liste Coureurs', runners_path, class:'btn btn-default'
       = link_to 'Liste Clients', clients_path, class:'btn btn-default'
       = link_to 'Liste Challenges', challenges_path, class:'btn btn-default'
-      = link_to 'Nouvel évènement', new_event_path, class:'btn btn-warning'
+      = link_to 'Nouvel évènement', new_event_path, class:'btn btn-warning margin-right-0'
 
 .row.events
   .col-md-8.col-md-offset-2

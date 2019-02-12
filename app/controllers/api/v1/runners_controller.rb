@@ -2,7 +2,7 @@ class API::V1::RunnersController < API::V1::ApplicationController
   before_action :set_runner, only: [:show, :edit, :update, :destroy]
 
   def index
-    @runners = Runner.order('created_at desc')
+    @runners = Runner.order('created_at desc').limit(10)
     render json: @runners, root: 'runners'
   end
 
