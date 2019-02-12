@@ -56,7 +56,23 @@ class Edition < ApplicationRecord
   validates :sendable_at_home_price, numericality: { equal_to: 0, unless: :sendable_at_home? }
   validates :download_chargeable_price, numericality: { equal_to: 0, unless: :download_chargeable? }
 
-  scope :with_results, -> { joins() }
+  def self.with_lastest_results(limit)
+    return [] unless limit > 0
+    
+    last_result = Result.order(created_at: :desc).first
+
+    return [] if last_result.nil?
+
+    editions = [Edition.find(last_result.edition_id)]
+
+    
+    (limit-1).times do
+      results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
+      editions << Edition.find(results.first.edition_id) if results.any?
+    end
+    
+    editions
+  end
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']
