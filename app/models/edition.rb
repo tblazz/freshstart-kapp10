@@ -70,7 +70,7 @@ class Edition < ApplicationRecord
     (limit-1).times do
       matching_results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
       if matching_results.any?
-        results << matching_results
+        results << matching_results.first
         editions << Edition.find(results.first.edition_id)
       end
     end

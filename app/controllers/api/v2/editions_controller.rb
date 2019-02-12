@@ -8,8 +8,10 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
     if query_params['with_lastest_results']
       editions_and_results = Edition.with_lastest_results(limit)
+
       @editions = editions_and_results[:editions]
       @results  = editions_and_results[:results]
+
       render json: { editions: @editions, results: @results }
     else
       @editions = Edition.order(created_at: :desc).offset(offset).limit(number_of_elements_by_page)
