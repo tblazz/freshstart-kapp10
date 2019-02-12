@@ -56,6 +56,7 @@ class Edition < ApplicationRecord
   validates :sendable_at_home_price, numericality: { equal_to: 0, unless: :sendable_at_home? }
   validates :download_chargeable_price, numericality: { equal_to: 0, unless: :download_chargeable? }
 
+  scope :with_results, -> { joins() }
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']

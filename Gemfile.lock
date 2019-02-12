@@ -269,6 +269,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    mustache (1.1.0)
     nenv (0.3.0)
     netrc (0.11.0)
     newrelic_rpm (4.1.0.333)
@@ -341,6 +342,10 @@ GEM
     rly (0.2.3)
     rollbar (2.14.1)
       multi_json
+    rspec (3.7.0)
+      rspec-core (~> 3.7.0)
+      rspec-expectations (~> 3.7.0)
+      rspec-mocks (~> 3.7.0)
     rspec-core (3.7.0)
       rspec-support (~> 3.7.0)
     rspec-expectations (3.7.0)
@@ -358,6 +363,10 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.0)
+    rspec_api_documentation (6.1.0)
+      activesupport (>= 3.0.0)
+      mustache (~> 1.0, >= 0.99.4)
+      rspec (~> 3.0)
     ruby_dep (1.5.0)
     rufus-scheduler (3.4.0)
       et-orbi (~> 1.0)
@@ -486,6 +495,7 @@ DEPENDENCIES
   redis (~> 3.3.3)
   rollbar
   rspec-rails (~> 3.0)
+  rspec_api_documentation
   s3_direct_upload
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
@@ -506,4 +516,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.16.2
+   1.17.2

@@ -60,6 +60,8 @@ group :development, :test do
   gem 'ffaker'
   gem 'factory_girl_rails'
   gem 'rspec-rails', '~> 3.0'
+  gem 'rspec_api_documentation'
+  gem 'shoulda-matchers'
 end
 
 group :development do
