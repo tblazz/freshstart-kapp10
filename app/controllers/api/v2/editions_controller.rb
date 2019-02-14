@@ -21,6 +21,21 @@ class API::V2::EditionsController < API::V2::ApplicationController
       end
 
       render json: { editions: @editions, races: @races, events: @events }
+
+    elsif query_params['with_next_races_data']
+      editions = Edition.next(limit)
+
+      @editions = editions
+      
+      @races = @editions.map do |edition|
+        edition.races.first
+      end
+
+      @events = @editions.map do |edition|
+        Event.find(edition.event_id)
+      end
+
+      render json: { editions: @editions, races: @races, events: @events }
     else
       @editions = Edition.order(created_at: :desc).offset(offset).limit(number_of_elements_by_page)
       render json: @editions

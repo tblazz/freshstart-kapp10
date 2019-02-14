@@ -78,6 +78,12 @@ class Edition < ApplicationRecord
     { editions: editions, results: results }
   end
 
+  def self.next(limit = 3)
+    return [] unless limit > 0
+    
+    where("date >= ?", Date.today).limit(limit)
+  end
+
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
   # ['template1', 'texte-ombre']
 
