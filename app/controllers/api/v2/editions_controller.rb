@@ -6,13 +6,21 @@ class API::V2::EditionsController < API::V2::ApplicationController
     page_number                = query_params['page_number'] || 1
     offset                     = (page_number - 1) * number_of_elements_by_page
 
-    if query_params['with_lastest_results']
+    if query_params['with_lastest_results_races_data']
       editions_and_results = Edition.with_lastest_results(limit)
 
       @editions = editions_and_results[:editions]
-      @results  = editions_and_results[:results]
+      results  = editions_and_results[:results]
+      
+      @races = results.map do |result|
+        Race.find(result.race_id)
+      end
 
-      render json: { editions: @editions, results: @results }
+      @events = @editions.map do |edition|
+        Event.find(edition.event_id)
+      end
+
+      render json: { editions: @editions, races: @races, events: @events }
     else
       @editions = Edition.order(created_at: :desc).offset(offset).limit(number_of_elements_by_page)
       render json: @editions
