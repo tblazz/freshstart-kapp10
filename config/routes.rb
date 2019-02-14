@@ -117,8 +117,8 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resources :editions, only: [:index]
-      
       resources :runners, only: [:index]
+      resources :featured_runners, only: [:index]
     end
   end
 
