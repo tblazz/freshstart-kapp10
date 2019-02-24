@@ -86,7 +86,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       end
     end
 
-    races = edition.races.map do |race|
+    races = edition.races.order(name: :asc).map do |race|
       if race.id == race_id
         race_results = results
         race_photos  = photos
