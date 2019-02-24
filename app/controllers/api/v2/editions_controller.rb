@@ -50,7 +50,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
     if query_params["race_id"]
       race_id = query_params["race_id"]
     else
-      race_id = edition.races.first.id
+      race_id = edition.races.order(name: :asc).first.id
     end
     race = Race.find(race_id)
 
