@@ -64,7 +64,8 @@ class API::V2::EditionsController < API::V2::ApplicationController
     if edition_mode == 'description'
       
     elsif edition_mode == 'results'
-      results = race.results.map do |res|
+      race_results = race.results||[]
+      results      = race_results.map do |res|
         {
           rank:       res.rank,
           first_name: res.runner.first_name,
@@ -110,6 +111,26 @@ class API::V2::EditionsController < API::V2::ApplicationController
       phone:   edition.event.phone,
       races:   races,
     }
+
+    render json: response
+  end
+
+  def calendar
+    query_params    = params['query_params'] || {}
+    current_date    = Date.parse(query_params['start_date']) || Time.now
+
+    month_beginning = Date.new(current_date.year, current_date.month, 1)
+    start_date      = month_beginning - 7.days
+    end_date        = Date.new(current_date.year, current_date.month, 1) + 1.month + 7.days
+
+    month_editions  = Edition.where('date >= ? AND date <= ?', start_date, end_date)
+    response        = month_editions.map do |edition|
+      {
+        id:   edition.id,
+        name: edition.description,
+        date: edition.date,
+      }
+    end
 
     render json: response
   end
