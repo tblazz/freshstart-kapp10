@@ -116,11 +116,14 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resources :editions, only: [:index, :show]
       get 'calendar', to: 'editions#calendar'
+      
+      resources :editions,         only: [:index, :show] do
+        resources :races,            only: [:index]
+      end
 
-      resources :runners, only: [:index, :show]
-      resources :events, only: [:index]
+      resources :events,           only: [:index]
+      resources :runners,          only: [:index, :show]
       resources :featured_runners, only: [:index]
     end
   end

@@ -38,58 +38,33 @@ class API::V2::EditionsController < API::V2::ApplicationController
       render json: { editions: editions, races: races, events: events }
 
     else
-
-
       @editions = Edition.order(:date)
   
       if query_params.present?
         begin_date = query_params[:begin_date]
         end_date   = query_params[:end_date]
+        place      = query_params[:place] || ""
+        types      = query_params[:types] || []
         
         if begin_date && begin_date != ''
-          @editions = Edition.where("DATE(date) >= ? AND DATE(date) <= ?", begin_date, end_date).order(:date)
+          @editions = @editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date).order(:date)
+        end
+
+        if place.present?
+          @editions = @editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%").order(:date)
+        end
+
+        if types.any?
+          @editions = @editions.joins(:races).where(races: {race_type: types })
         end
       end
 
       raw_editions = @editions.map do |edition|
-        event = edition.event
-
-        {
-          id:                              edition.id,
-          date:                            edition.date,
-          name:                            event.name,
-          place:                           event.place,
-          description:                     edition.description,
-          event_id:                        edition.event_id,
-          email_sender:                    edition.email_sender,
-          email_name:                      edition.email_name,
-          hashtag:                         edition.hashtag,
-          results_url:                     edition.results_url,
-          external_link:                   edition.external_link,
-          created_at:                      edition.created_at,
-          updated_at:                      edition.updated_at,
-          background_image_file_name:      edition.background_image_file_name#,
-          # sms_message:                     edition.sms_message,
-          # template:                        edition.template,
-          # widget_generated_at:             edition.widget_generated_at,
-          # photos_widget_generated_at:      edition.photos_widget_generated_at,
-          # external_link_button:            edition.external_link_button,
-          # raw_results_file_name:           edition.raw_results_file_name,
-          # raw_results_content_type:        edition.raw_results_content_type,
-          # raw_results_file_size:           edition.raw_results_file_size,
-          # raw_results_updated_at:          edition.raw_results_updated_at,
-          # background_image_content_type:   edition.background_image_content_type,
-          # background_image_file_size:      edition.background_image_file_size,
-          # background_image_updated_at:     edition.background_image_updated_at,
-          # sendable_at_home:                edition.sendable_at_home,
-          # sendable_at_home_price_cents:    edition.sendable_at_home_price_cents,
-          # download_chargeable:             edition.download_chargeable,
-          # download_chargeable_price_cents: edition.download_chargeable_price_cents,
-        }
+        edition_hash(edition)
       end
   
       render json: raw_editions
-     end
+    end
   end
 
   def show
@@ -183,5 +158,45 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     render json: response
+  end
+
+  private
+
+  def edition_hash(edition)
+    event = edition.event
+
+    {
+      id:                              edition.id,
+      date:                            edition.date,
+      name:                            event.name,
+      place:                           event.place,
+      description:                     edition.description,
+      event_id:                        edition.event_id,
+      email_sender:                    edition.email_sender,
+      email_name:                      edition.email_name,
+      hashtag:                         edition.hashtag,
+      results_url:                     edition.results_url,
+      external_link:                   edition.external_link,
+      created_at:                      edition.created_at,
+      updated_at:                      edition.updated_at,
+      background_image_file_name:      edition.background_image_file_name,
+      number_of_participants:          edition.runners_count#,
+      # sms_message:                     edition.sms_message,
+      # template:                        edition.template,
+      # widget_generated_at:             edition.widget_generated_at,
+      # photos_widget_generated_at:      edition.photos_widget_generated_at,
+      # external_link_button:            edition.external_link_button,
+      # raw_results_file_name:           edition.raw_results_file_name,
+      # raw_results_content_type:        edition.raw_results_content_type,
+      # raw_results_file_size:           edition.raw_results_file_size,
+      # raw_results_updated_at:          edition.raw_results_updated_at,
+      # background_image_content_type:   edition.background_image_content_type,
+      # background_image_file_size:      edition.background_image_file_size,
+      # background_image_updated_at:     edition.background_image_updated_at,
+      # sendable_at_home:                edition.sendable_at_home,
+      # sendable_at_home_price_cents:    edition.sendable_at_home_price_cents,
+      # download_chargeable:             edition.download_chargeable,
+      # download_chargeable_price_cents: edition.download_chargeable_price_cents,
+    }
   end
 end
