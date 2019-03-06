@@ -180,6 +180,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       created_at:                      edition.created_at,
       updated_at:                      edition.updated_at,
       background_image_file_name:      edition.background_image_file_name,
+      races:                           edition.races,
       number_of_participants:          edition.runners_count#,
       # sms_message:                     edition.sms_message,
       # template:                        edition.template,
