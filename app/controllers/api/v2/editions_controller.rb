@@ -55,7 +55,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
         end
 
         if types.any?
-          @editions = @editions.joins(:races).where(races: {race_type: types })
+          @editions = @editions.joins(:races).where(races: {race_type: types }).order(:date)
         end
       end
 
@@ -126,18 +126,8 @@ class API::V2::EditionsController < API::V2::ApplicationController
         photos:              race_photos,
       }
     end
-    
-    response = {
-      id:      edition.id,
-      name:    edition.description,
-      place:   edition.event.place,
-      date:    edition.date,
-      website: edition.event.website,
-      phone:   edition.event.phone,
-      races:   races,
-    }
 
-    render json: response
+    render json: edition_hash(edition)
   end
 
   def calendar
