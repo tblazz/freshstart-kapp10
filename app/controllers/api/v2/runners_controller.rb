@@ -57,8 +57,8 @@ class API::V2::RunnersController < API::V2::ApplicationController
     results_mode = query_params["results_mode"]||"last"
 
     response = {
-      runner_data:         get_runner_data,
-      runner_stats:        get_stats,
+      runner_data:  get_runner_data,
+      runner_stats: get_stats,
     }
 
     if results_mode == "last_results"

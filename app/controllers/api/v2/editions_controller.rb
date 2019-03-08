@@ -135,7 +135,16 @@ class API::V2::EditionsController < API::V2::ApplicationController
       }
     end
 
-    render json: edition_hash(edition)
+    response = {
+      name:    edition.description,
+      place:   edition.event.place,
+      date:    edition.date,
+      website: edition.event.website,
+      phone:   edition.event.phone,
+      races:   races,
+    }
+
+    render json: response
   end
 
   def calendar
