@@ -89,18 +89,26 @@ class API::V2::EditionsController < API::V2::ApplicationController
     if edition_mode == 'description'
       
     elsif edition_mode == 'results'
-      race_results = race.results||[]
-      results      = race_results.map do |res|
+      race_results = race.results.order(rank: :asc)||[]
+      categories   = race_results.pluck(:categ).uniq.map{|categ| categ.upcase}.sort
+      sexes        = race_results.map{|res| res.runner.sex.upcase}.uniq.sort
+      race_results = race_results.map do |res|
         {
           rank:       res.rank,
           first_name: res.runner.first_name,
           last_name:  res.runner.last_name,
-          sex:        res.runner.sex,
-          categ:      res.categ,
+          sex:        res.runner.sex.upcase,
+          categ:      res.categ.upcase,
           speed:      res.speed,
           time:       res.time,
         }
       end
+
+      results = {
+        categories: categories,
+        sexes:      sexes,
+        data:       race_results,
+      }
     elsif edition_mode == 'photos'
       results_with_photos = race.results.select{|result| result.photo.class == Photo}
       photos              = results_with_photos.map do |result|
@@ -154,6 +162,21 @@ class API::V2::EditionsController < API::V2::ApplicationController
         id:   edition.id,
         name: edition.description,
         date: edition.date,
+      }
+    end
+
+    render json: response
+  end
+
+  def search_list
+    query_params = params['query_params']||{}
+    search_query = query_params['search_query']||""
+
+    response     = Edition.where('description ILIKE ?', "#{search_query}%").order(description: :asc).limit(10)
+    response     = response.map do |edition|
+      {
+        id:   edition.id,
+        name: edition.description,
       }
     end
 

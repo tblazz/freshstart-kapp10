@@ -72,6 +72,22 @@ class API::V2::RunnersController < API::V2::ApplicationController
     render json: response
   end
 
+  def search_list
+    query_params = params['query_params']||{}
+    search_query = query_params['search_query']||""
+
+    response     = Runner.where('last_name ILIKE ?', "#{search_query}%").order(last_name: :asc).limit(10)
+    response     = response.map do |runner|
+      {
+        id:         runner.id,
+        first_name: runner.first_name,
+        last_name:  runner.last_name,
+      }
+    end
+
+    render json: response
+  end
+
   private
 
   def set_runner
