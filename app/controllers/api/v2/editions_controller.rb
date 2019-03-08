@@ -43,11 +43,16 @@ class API::V2::EditionsController < API::V2::ApplicationController
       if query_params.present?
         begin_date = query_params[:begin_date]
         end_date   = query_params[:end_date]
+        name       = query_params[:name]  || ""
         place      = query_params[:place] || ""
         types      = query_params[:types] || []
         
         if begin_date && begin_date != ''
           @editions = @editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date).order(:date)
+        end
+        
+        if name.present?
+          @editions = @editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{name.downcase}%").order(:date)
         end
 
         if place.present?
