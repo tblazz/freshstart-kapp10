@@ -1,10 +1,7 @@
 class API::V2::EditionsController < API::V2::ApplicationController
   def index
     query_params = params["query_params"] || {}
-    number_of_elements_by_page = query_params['number_of_elements_by_page'] || 24
-    limit                      = query_params['number_of_elements_by_page'] || 3
-    page_number                = query_params['page_number'] || 1
-    offset                     = (page_number - 1) * number_of_elements_by_page
+    limit        = query_params['limit'] || 3
 
     if query_params['with_lastest_results_races_data']
       editions_and_results = Edition.with_lastest_results(limit)
@@ -99,6 +96,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       sexes        = race_results.map{|res| res.runner.sex.upcase}.uniq.sort
       race_results = race_results.map do |res|
         {
+          runner_id:  res.runner.id,
           rank:       res.rank,
           first_name: res.runner.first_name,
           last_name:  res.runner.last_name,
