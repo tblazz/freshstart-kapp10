@@ -143,6 +143,8 @@ class API::V2::RunnersController < API::V2::ApplicationController
   def get_all_results
     @runner.results.map do |r|
       {
+        edition_id:          r.race.edition.id,
+        race_id:             r.race.id,
         race_name:           r.race.name,
         rank:                r.rank,
         participants_number: r.race.results.count,
@@ -173,6 +175,8 @@ class API::V2::RunnersController < API::V2::ApplicationController
 
     last_results.map do |r|
       {
+        edition_id:          r.race.edition.id,
+        race_id:             r.race.id,
         race_name:           r.race.name,
         rank:                r.rank,
         participants_number: r.race.results.count,
