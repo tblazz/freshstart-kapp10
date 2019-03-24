@@ -22,8 +22,6 @@ class API::V2::EditionsController < API::V2::ApplicationController
     elsif query_params['with_next_races_data']
       editions = Edition.next(limit)
 
-      editions = editions
-      
       races = editions.map do |edition|
         edition.races.first
       end
@@ -70,10 +68,11 @@ class API::V2::EditionsController < API::V2::ApplicationController
   end
 
   def show
-    edition_id   = params[:id]
-    edition      = Edition.find(edition_id)
+    edition_id = params[:id]
+    edition    = Edition.find(edition_id)
+    event      = edition.event
 
-    query_params  = params["query_params"]||{}
+    query_params = params["query_params"]||{}
     if query_params["race_id"]
       race_id = query_params["race_id"]
     else
@@ -88,9 +87,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       edition_mode  = edition_modes.first
     end
 
-    if edition_mode == 'description'
-      
-    elsif edition_mode == 'results'
+    if edition_mode == 'results'
       race_results = race.results.order(rank: :asc)||[]
       categories   = race_results.pluck(:categ).uniq.map{|categ| categ.upcase}.sort
       sexes        = race_results.map{|res| res.runner.sex.upcase}.uniq.sort
@@ -139,12 +136,13 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     response = {
-      name:    edition.description,
-      place:   edition.event.place,
-      date:    edition.date,
-      website: edition.event.website,
-      phone:   edition.event.phone,
-      races:   races,
+      event_name: event.name,
+      name:       edition.description,
+      place:      edition.event.place,
+      date:       edition.date,
+      website:    edition.event.website,
+      phone:      edition.event.phone,
+      races:      races,
     }
 
     render json: response
