@@ -135,6 +135,9 @@ class API::V2::EditionsController < API::V2::ApplicationController
       }
     end
 
+    p edition
+    p event
+
     response = {
       event_name: event.name,
       name:       edition.description,
@@ -144,7 +147,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       phone:      edition.event.phone,
       races:      races,
     }
-
+    
     render json: response
   end
 

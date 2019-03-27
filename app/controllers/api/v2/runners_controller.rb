@@ -61,12 +61,10 @@ class API::V2::RunnersController < API::V2::ApplicationController
       runner_stats: get_stats,
     }
 
-    if results_mode == "last_results"
-      response[:runner_last_results] = get_last_results(3)
-    elsif results_mode == "all_results"
-      response[:runner_all_results]  = get_all_results
+    if results_mode == "results"
+      response[:runner_results] = get_results
     elsif results_mode == "photos"
-      response[:runner_photos]       = get_photos
+      response[:runner_photos]  = get_photos
     end
 
     render json: response
@@ -140,12 +138,15 @@ class API::V2::RunnersController < API::V2::ApplicationController
     end
   end
 
-  def get_all_results
-    @runner.results.map do |r|
+  def get_results
+    runner_results = @runner.results.sort_by{|result| result.edition.date}.reverse
+    runner_results.map do |r|
       {
+        event_name:          r.race.edition.event.name,
         edition_id:          r.race.edition.id,
         race_id:             r.race.id,
         race_name:           r.race.name,
+        race_date:           r.race.date,
         rank:                r.rank,
         participants_number: r.race.results.count,
         speed:               r.speed,
@@ -169,23 +170,6 @@ class API::V2::RunnersController < API::V2::ApplicationController
     results_dates.select{|date| current_year_month == date.strftime("%Y%m")}.count
   end
   
-  def get_last_results(number_of_results)
-    sorted_results = @runner.results.sort_by{|result| result.edition.date}.reverse
-    last_results   = sorted_results.first(number_of_results)
-
-    last_results.map do |r|
-      {
-        edition_id:          r.race.edition.id,
-        race_id:             r.race.id,
-        race_name:           r.race.name,
-        rank:                r.rank,
-        participants_number: r.race.results.count,
-        speed:               r.speed,
-        time:                r.time,
-      }
-    end
-  end
-
   def occurrences_number(array)
     array.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
   end
