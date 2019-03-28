@@ -23,6 +23,9 @@
 #
 
 class Event < ApplicationRecord
+  geocoded_by :place
+  after_validation :geocode, if: :place_changed?
+
   has_many :editions, dependent: :nullify
   has_many :races, through: :editions
   belongs_to :challenge
