@@ -13,7 +13,7 @@ namespace :races do
       if race.date || race.edition.date
         new_datetime = Time.new(date.year, date.month, date.day) + 9.hours
         race.update(start_at: new_datetime)
-        puts "Set #{new_datetime} for #{race.name}"
+        puts "Set #{race.start_at} for #{race.name}"
       end
     end
 
