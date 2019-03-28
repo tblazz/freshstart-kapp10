@@ -3,17 +3,18 @@
 
 .event
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       h1 Info édition
   
   .row
-    .col-md-8.col-md-offset-2.text-center
+    .col-xs-12.text-center
       h2= @edition.event.name
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       = render 'menu'
   .row
-    .col-md-6.col-md-offset-2
+    / .col-xs-9
+    .col-xs-12
       table.table.table-striped.table-bordered.table-compacted
         tr
           th Date
@@ -22,23 +23,23 @@
           th Descriptif
           td= @edition.description
 
-    .col-md-2
+    / .col-xs-3
       /div= link_to 'Générer le widget', generate_widget_race_path(@edition), class: 'btn btn-primary', 'data-method' => :post
       /div= link_to 'Diffuser les infos', send_results_race_path(@edition), class: 'btn btn-warning', 'data-confirm' => 'Etes-vous sûr ?', 'data-method' => :post
       /div= link_to 'Valider', '', class: 'btn btn-warning'
 
 
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       = link_to 'Ajouter une course', new_race_path(edition_id: @edition), class: 'btn btn-success margin-left-0'
   hr
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       - if @edition.races.blank?
         p Il n'y pas encore de courses pour cette édition
       - else
         ul.nav.nav-tabs
-          - @edition.races.each_with_index do |race, i|
+          - @edition.races.order(name: :asc).each_with_index do |race, i|
             - if i == 0
               li.active= link_to race.name, "##{i}", data: {toggle: 'tab'}
             - else
@@ -46,7 +47,7 @@
 
 
         .tab-content
-          - @edition.races.each_with_index do |race, i|
+          - @edition.races.order(name: :asc).each_with_index do |race, i|
             - if i == 0
               = content_tag :div, class: 'tab-pane fade in active', id: i do
                 = render 'race_tab', race: race

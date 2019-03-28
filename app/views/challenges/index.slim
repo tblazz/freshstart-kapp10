@@ -1,12 +1,12 @@
 h1 Challenge
 .row
-  .col-md-8.col-md-offset-2
+  .col-xs-12
     .pull-right
       = link_to 'Nouveau challenge', new_challenge_path, class: 'btn btn-warning'
-      = link_to "Importer les #{@new_results} derniers résultats", update_scores_path, class: 'btn btn-danger'
+      = link_to "Importer les #{@new_results} derniers résultats", update_scores_path, class: 'btn btn-danger margin-right-0'
 
 .row.events
-  .col-md-8.col-md-offset-2
+  .col-xs-12
     table.table.table-bordered.table-default.table-striped
       thead
         tr
@@ -24,8 +24,6 @@ h1 Challenge
               .pull-right
                 = link_to 'Générer widget', generate_global_widget_path, class: 'btn btn-default'
                 = link_to 'Afficher le widget', Challenge.global_widget_url, class: 'btn btn-default', target: '_widget'
-        tr
-          td
 
         - @challenges.each do |challenge|
           tr

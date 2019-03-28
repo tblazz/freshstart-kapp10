@@ -2,14 +2,20 @@
   .col-md-9
     table.table.table-striped.table-bordered.table-compacted
       tr
-        th Nom:
+        th Nom
         td= race.name
       tr
-        th Coef:
+        th Coef
         td= race.coef
       tr
-        th Type de course:
+        th Distance en km
+        td= race.distance
+      tr
+        th Type de course
         td= race.race_type
+      tr
+        th Date et horaire du début de la course
+        td= race.start_at
 
   .col-md-3
     div= link_to "Editer course #{race.name}", edit_race_path(race), class: 'btn btn-default'

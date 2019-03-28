@@ -1,16 +1,16 @@
 .event
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       h1 Résultats
   .row
-    .col-md-8.col-md-offset-2.text-center
+    .col-xs-12.text-center
       h2= @edition.event.name
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       = render 'menu'
 
   .row
-    .col-md-6.col-md-offset-2
+    .col-9
       table.table.table-striped.table-bordered.table-compacted
         tr
           th Date
@@ -41,11 +41,11 @@
           td= @edition.runners_count
 
 
-    .col-md-2
+    .col-xs-3
       = image_tag @edition.background_image.url(:medium), class:'pull-right'
 
   .row
-    .col-md-8.col-md-offset-2
+    .col-xs-12
       = link_to "Editer", edit_event_edition_path(@edition.event, @edition), class: 'btn btn-default margin-left-0'
       = link_to "Retour à l'évènement", event_path(@edition.event), class: 'btn btn-default'
       = link_to "Générer les diplômes", generate_diplomas_event_edition_path(@edition.event, @edition), class: "btn btn-primary", "data-method" => :post
@@ -55,7 +55,7 @@
         = link_to "Envoyer", send_results_event_edition_path(@edition.event, @edition), class: "btn btn-warning margin-right-0", "data-confirm" => "Etes-vous sûr ?", "data-method" => :post
   hr
   .row
-    .col-md-8.col-md-offset-2.top-buffer
+    .col-xs-12.top-buffer
       /! Nav tabs
       ul.nav.nav-tabs role="tablist"
         li.active role="presentation"

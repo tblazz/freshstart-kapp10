@@ -12,7 +12,7 @@
         - else
           h2= t('.receive_your_high_quality_diploma_at_home')
     .row
-      .col-md-8
+      .col-xs-12
         = image_tag @result.diploma.url(:freemium), class: "result-diploma"
       .col-md-4
         = form_tag result_payment_path(result_id: @result.id) do

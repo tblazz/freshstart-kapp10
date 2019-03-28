@@ -2,7 +2,7 @@ h1 Coureurs
 
 #search
   .row.events
-    .col-md-6.col-md-offset-1
+    .col-xs-12
       .form-group
         = form_tag('/runners', method: 'get', remote: true, class: 'form-inline' ) do
           = text_field_tag :q, params[:q], placeholder: '', class: 'form-control'

@@ -157,7 +157,7 @@ function filterPhotos(pageNumber = 1) {
       photoHoverTextHTML = `<p>${photoHoverText}</p>`
     }
 
-    const photoHTML = `<div class="col-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
+    const photoHTML = `<div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
         `<a href="${photoData.url}" target="_blank">` +
           `<div class="photo-front-hover-container">` +
             '<div class="photo-front">' +
@@ -174,7 +174,7 @@ function filterPhotos(pageNumber = 1) {
   })
   
   if (photoDataFiltered.length === 0) {
-    photosContainerRow.innerHTML = '<div class="col-12 noResults">Pas de résultats</div>'
+    photosContainerRow.innerHTML = '<div class="col-xs-12 noResults">Pas de résultats</div>'
   }
 
   if (numberOfPages > 1) {

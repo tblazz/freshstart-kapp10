@@ -159,7 +159,9 @@ class RacesController < ApplicationController
       :coef,
       :category,
       :department,
-      :race_type
+      :race_type,
+      :start_at,
+      :distance,
     )
   end
 
