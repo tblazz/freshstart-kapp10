@@ -32,6 +32,25 @@ class Runner < ApplicationRecord
   # Scopes
   scope :with_name, -> (q) { where("lower(last_name) LIKE ? OR lower(first_name) LIKE ?", "%#{q.downcase}%", "%#{q.downcase}%") }
 
+  def self.real
+    keywords = [
+      '?',
+      '..',
+      ',,',
+      'inconnu',
+      'dossard',
+      'equipe',
+      'équipe',
+      '#',
+      '/',
+      (0..9).to_a,
+    ].flatten
+
+    keywords.map!{|keyword| "%#{keyword}%"}
+
+    self.where("first_name ILIKE ANY (array[:search]) OR last_name ILIKE ANY (array[:search])", search: keywords)
+  end
+
   def results_in_global_challenge
     events = Event.where(global_challenge: true)
     results.select { |r| events.map(&:editions).to_a.flatten.include?(r.edition) }.count
