@@ -3,7 +3,7 @@ namespace :events do
   task geocode: :environment do
     puts "### Beginning of events geocoding ###"
 
-    Event.where.not(place: nil).each do |event|
+    Event.where.not(place: [nil, ""]).each do |event|
       event.geocode
       event.save
       puts "#{event.name}: lat: #{event.latitude}, lng: #{event.longitude}"
