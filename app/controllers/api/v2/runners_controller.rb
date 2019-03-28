@@ -12,9 +12,9 @@ class API::V2::RunnersController < API::V2::ApplicationController
     sex_input                  = search_inputs["sex_input"]
 
     
-    categories = Runner.where.not(category: nil).order(category: :asc).pluck(:category).uniq
-    sexes      = Runner.where.not(sex: nil).order(sex: :asc).pluck(:sex).uniq
-    runners    = Runner.order(last_name: :asc, first_name: :asc)
+    categories = Runner.real.where.not(category: nil).order(category: :asc).pluck(:category).uniq
+    sexes      = Runner.real.where.not(sex: nil).order(sex: :asc).pluck(:sex).uniq
+    runners    = Runner.real.order(last_name: :asc, first_name: :asc)
     
     if runner_name_input
       runners = runners.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{runner_name_input}%", "%#{runner_name_input}%")
@@ -74,7 +74,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
     query_params = params['query_params']||{}
     search_query = query_params['search_query']||""
 
-    response     = Runner.where('last_name ILIKE ?', "#{search_query}%").order(last_name: :asc).limit(10)
+    response     = Runner.real.where('last_name ILIKE ?', "#{search_query}%").order(last_name: :asc).limit(10)
     response     = response.map do |runner|
       {
         id:         runner.id,

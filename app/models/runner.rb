@@ -49,7 +49,7 @@ class Runner < ApplicationRecord
 
     keywords.map!{|keyword| "%#{keyword}%"}
 
-    self.where("first_name ILIKE ANY (array[:search]) OR last_name ILIKE ANY (array[:search])", search: keywords)
+    self.where.not("first_name ILIKE ANY (array[:search]) OR last_name ILIKE ANY (array[:search])", search: keywords)
   end
 
   def results_in_global_challenge
