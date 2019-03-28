@@ -6,11 +6,11 @@ namespace :races do
     Race.all.each do |race|
       if race.date
         date = race.date
-      elsif race.edition.date
+      elsif race.edition && race.edition.date
         date = race.edition.date
       end
       
-      if race.date || race.edition.date
+      if race.date || (race.edition && race.edition.date)
         new_datetime = Time.new(date.year, date.month, date.day) + 9.hours
         race.update(start_at: new_datetime)
         puts "Set #{race.start_at} for #{race.name}"
