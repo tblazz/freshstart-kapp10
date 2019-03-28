@@ -135,16 +135,15 @@ class API::V2::EditionsController < API::V2::ApplicationController
       }
     end
 
-    p edition
-    p event
-
     response = {
       event_name: event.name,
       name:       edition.description,
-      place:      edition.event.place,
+      place:      event.place,
+      latitude:   event.latitude,
+      longitude:  event.longitude,
       date:       edition.date,
-      website:    edition.event.website,
-      phone:      edition.event.phone,
+      website:    event.website,
+      phone:      event.phone,
       races:      races,
     }
     
@@ -196,6 +195,8 @@ class API::V2::EditionsController < API::V2::ApplicationController
       date:                            edition.date,
       name:                            event.name,
       place:                           event.place,
+      latitude:                        event.latitude,
+      longitude:                       event.longitude,
       description:                     edition.description,
       event_id:                        edition.event_id,
       email_sender:                    edition.email_sender,
