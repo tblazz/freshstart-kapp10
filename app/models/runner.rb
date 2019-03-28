@@ -35,6 +35,7 @@ class Runner < ApplicationRecord
   def self.real
     keywords = [
       '?',
+      '!',
       '..',
       ',,',
       'inconnu',
