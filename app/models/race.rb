@@ -48,12 +48,12 @@ class Race < ActiveRecord::Base
     :route,
     :funrace,
     :triathlon, 
-    :cyclisme, 
+    :cycling, 
     :raid, 
     :skimo,
-    :orientation,
-    :vtt,
+    :orienteering,
+    :montain_bike,
   ]
 
-  validates :race_type, inclusion: { in: RACE_TYPES }
+  enumerize :race_type, in: RACE_TYPES
 end

@@ -1,0 +1,13 @@
+fr:
+  enumerize:
+    race:
+      race_type:
+        trail: 'Trail'
+        route: 'Route'
+        funrace: 'Course fun'
+        triathlon: 'Triathlon'
+        cycling: 'Cyclisme'
+        raid: 'Raid'
+        skimo: 'Skimo'
+        orienteering: 'Orientation'
+        montain_bike: 'VTT'
