@@ -33,6 +33,8 @@
 #
 
 class Race < ActiveRecord::Base
+  extend Enumerize
+
   belongs_to :edition
   has_many :scores
   has_many :runners, through: :scores
@@ -42,15 +44,15 @@ class Race < ActiveRecord::Base
   delegate :event, to: :edition, allow_nil: true
 
   RACE_TYPES = [
-    'trail',
-    'route',
-    'funrace',
-    'triathlon', 
-    'cyclisme', 
-    'raid', 
-    'skimo',
-    'orientation',
-    'vtt',
+    :trail,
+    :route,
+    :funrace,
+    :triathlon, 
+    :cyclisme, 
+    :raid, 
+    :skimo,
+    :orientation,
+    :vtt,
   ]
 
   validates :race_type, inclusion: { in: RACE_TYPES }
