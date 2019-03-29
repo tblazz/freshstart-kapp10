@@ -103,6 +103,8 @@ GEM
     dox (1.0.2)
       rails (>= 4.0)
       rspec-core
+    enumerize (2.2.2)
+      activesupport (>= 3.2)
     erubis (2.7.0)
     et-orbi (1.0.3)
       tzinfo
@@ -466,6 +468,7 @@ DEPENDENCIES
   doorkeeper (~> 4.2.6)
   dotenv-rails (~> 2.1.1)
   dox
+  enumerize
   factory_girl_rails
   ffaker
   font-awesome-sass (~> 4.7.0)
