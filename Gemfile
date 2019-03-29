@@ -44,6 +44,7 @@ gem 'money-rails'
 gem 'open_uri_redirections'
 gem 'kaminari'
 gem 'geocoder'
+gem 'enumerize'
 
 gem 'doorkeeper', '~> 4.2.6'
 gem 'active_model_serializers', '~> 0.10.7'

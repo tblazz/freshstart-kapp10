@@ -40,5 +40,18 @@ class Race < ActiveRecord::Base
   has_many :photos
 
   delegate :event, to: :edition, allow_nil: true
-  validates :race_type, inclusion: { in: ['trail', 'route', 'funrace'] }
+
+  RACE_TYPES = [
+    'trail',
+    'route',
+    'funrace',
+    'triathlon', 
+    'cyclisme', 
+    'raid', 
+    'skimo',
+    'orientation',
+    'vtt',
+  ]
+
+  validates :race_type, inclusion: { in: RACE_TYPES }
 end
