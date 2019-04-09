@@ -3,16 +3,12 @@ class API::V2::EditionsController < API::V2::ApplicationController
     query_params = params["query_params"] || {}
     limit        = query_params['limit'] || 16
 
-    number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
-    page_number                = query_params["page_number"]||1
-    offset                     = (page_number - 1) * number_of_elements_by_page
-
     if query_params['with_lastest_results_races_data']
       editions_and_results = Edition.with_lastest_results(limit)
 
       editions = editions_and_results[:editions]
       results  = editions_and_results[:results]
-      
+
       races = results.map do |result|
         Race.find(result.race_id)
       end
@@ -37,58 +33,51 @@ class API::V2::EditionsController < API::V2::ApplicationController
       render json: { editions: editions, races: races, events: events }
 
     else
-      @editions = Edition.order(:date)
-  
+      editions = Edition
+
+      number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
+      page_number                = query_params["page_number"] || 1
+      offset                     = (page_number - 1) * number_of_elements_by_page
+
       if query_params.present?
+
         begin_date = query_params[:begin_date]
         end_date   = query_params[:end_date]
         name       = query_params[:name]  || ""
         place      = query_params[:place] || ""
         types      = query_params[:types] || []
-        
+
         if begin_date && begin_date != ''
-          @editions = @editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date).order(:date)
+          editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
         end
-        
+
         if name.present?
-          @editions = @editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{name.downcase}%").order(:date)
+          editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{name.downcase}%")
         end
 
         if place.present?
-          @editions = @editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%").order(:date)
+          editions = editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%")
         end
 
         if types.any?
-          @editions = @editions.joins(:races).where(races: {race_type: types }).order(:date)
+          editions = editions.joins(:races).where(races: {race_type: types })
         end
       end
 
-      raw_editions = @editions.map do |edition|
+      editions                  = editions.order(date: :desc)
+      theorical_number_of_pages = (editions.count.to_f / number_of_elements_by_page).ceil
+      number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
+      editions_for_page         = editions.offset(offset).limit(number_of_elements_by_page)
+      editions_data_for_page    = editions_for_page.map do |edition|
         edition_hash(edition)
       end
 
-      # theorical_number_of_pages = (runners.count.to_f / number_of_elements_by_page).ceil
-      # number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
-      # runners_for_page          = runners.offset(offset).limit(number_of_elements_by_page)
-      # runners_data_for_page     = runners_for_page.map do |runner|
-      #   {
-      #     id:         runner.id,
-      #     first_name: runner.first_name,
-      #     last_name:  runner.last_name,
-      #     category:   runner.category,
-      #     sex:        runner.sex,
-      #     department: runner.department,
-      #   }
-      # end
+      response = {
+        number_of_pages: number_of_pages,
+        editions:        editions_data_for_page,
+      }
 
-      # response = {
-      #   number_of_pages: number_of_pages,
-      #   runners:         runners_data_for_page,
-      #   categories:      categories,
-      #   sexes:           sexes,
-      # }
-  
-      render json: raw_editions
+      render json: response
     end
   end
 
@@ -171,7 +160,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       phone:      event.phone,
       races:      races,
     }
-    
+
     render json: response
   end
 
