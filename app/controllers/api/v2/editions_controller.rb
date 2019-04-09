@@ -1,7 +1,11 @@
 class API::V2::EditionsController < API::V2::ApplicationController
   def index
     query_params = params["query_params"] || {}
-    limit        = query_params['limit'] || 3
+    limit        = query_params['limit'] || 16
+
+    number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
+    page_number                = query_params["page_number"]||1
+    offset                     = (page_number - 1) * number_of_elements_by_page
 
     if query_params['with_lastest_results_races_data']
       editions_and_results = Edition.with_lastest_results(limit)
@@ -62,6 +66,27 @@ class API::V2::EditionsController < API::V2::ApplicationController
       raw_editions = @editions.map do |edition|
         edition_hash(edition)
       end
+
+      # theorical_number_of_pages = (runners.count.to_f / number_of_elements_by_page).ceil
+      # number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
+      # runners_for_page          = runners.offset(offset).limit(number_of_elements_by_page)
+      # runners_data_for_page     = runners_for_page.map do |runner|
+      #   {
+      #     id:         runner.id,
+      #     first_name: runner.first_name,
+      #     last_name:  runner.last_name,
+      #     category:   runner.category,
+      #     sex:        runner.sex,
+      #     department: runner.department,
+      #   }
+      # end
+
+      # response = {
+      #   number_of_pages: number_of_pages,
+      #   runners:         runners_data_for_page,
+      #   categories:      categories,
+      #   sexes:           sexes,
+      # }
   
       render json: raw_editions
     end

@@ -132,8 +132,18 @@ class API::V2::RunnersController < API::V2::ApplicationController
     results_with_photos.map do |result|
       photo = result.photo
       {
-        url:       ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
-        race_name: result.race.name,
+        url:       Rails.env == 'development' ? photo.direct_image_url : photo.image.url,
+        race: {
+          id:   result.race.id,
+          name: result.race.name,
+        },
+        edition: {
+          id:          result.race.edition.id,
+          description: result.race.edition.description,
+        },
+        event: {
+          name: result.race.edition.event.name,
+        },
       }
     end
   end
@@ -147,6 +157,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
         race_id:             r.race.id,
         race_name:           r.race.name,
         race_date:           r.race.date,
+        race_start_at:       r.race.start_at,
         rank:                r.rank,
         participants_number: r.race.results.count,
         speed:               r.speed,

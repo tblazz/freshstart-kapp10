@@ -69,6 +69,7 @@ end
 group :development do
   gem 'annotate'
   gem "letter_opener_web"
+  gem "rubycritic", require: false
 end
 
 group :test do
