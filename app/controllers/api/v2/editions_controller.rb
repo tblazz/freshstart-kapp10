@@ -33,7 +33,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       render json: { editions: editions, races: races, events: events }
 
     else
-      editions = Edition
+      editions = Edition.all
 
       number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
       page_number                = query_params["page_number"] || 1
@@ -43,7 +43,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
         begin_date = query_params[:search_inputs][:begin_date]
         end_date   = query_params[:search_inputs][:end_date]
-        name       = query_params[:search_inputs][:name]  || ""
+        event_name = query_params[:search_inputs][:event_name] || ""
         place      = query_params[:search_inputs][:place] || ""
         types      = query_params[:search_inputs][:types] || []
 
@@ -52,8 +52,8 @@ class API::V2::EditionsController < API::V2::ApplicationController
           editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
         end
 
-        if name.present?
-          editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{name.downcase}%")
+        if event_name.present?
+          editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{event_name.downcase}%")
         end
 
         if place.present?
@@ -189,11 +189,11 @@ class API::V2::EditionsController < API::V2::ApplicationController
     query_params = params['query_params']||{}
     search_query = query_params['search_query']||""
 
-    response     = Edition.where('description ILIKE ?', "#{search_query}%").order(description: :asc).limit(10)
+    response     = Edition.joins(:event).where('events.name ILIKE ?', "#{search_query}%").order("events.name ASC").limit(10)
     response     = response.map do |edition|
       {
         id:   edition.id,
-        name: edition.description,
+        event_name: edition.event.name
       }
     end
 
@@ -209,6 +209,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       id:                              edition.id,
       date:                            edition.date,
       name:                            event.name,
+      event_name:                      event.name,
       place:                           event.place,
       latitude:                        event.latitude,
       longitude:                       event.longitude,
