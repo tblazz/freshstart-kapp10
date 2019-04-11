@@ -41,11 +41,12 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
       if query_params.present?
 
-        begin_date = query_params[:begin_date]
-        end_date   = query_params[:end_date]
-        name       = query_params[:name]  || ""
-        place      = query_params[:place] || ""
-        types      = query_params[:types] || []
+        begin_date = query_params[:search_inputs][:begin_date]
+        end_date   = query_params[:search_inputs][:end_date]
+        name       = query_params[:search_inputs][:name]  || ""
+        place      = query_params[:search_inputs][:place] || ""
+        types      = query_params[:search_inputs][:types] || []
+
 
         if begin_date && begin_date != ''
           editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
