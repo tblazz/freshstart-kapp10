@@ -25,7 +25,8 @@ class API::V2::RunnersController < API::V2::ApplicationController
     runners_for_page = Runner.select("id, first_name, last_name, category, sex, department").
                               where(sql_query.join(' AND '), *sql_params).
                               offset(offset).
-                              limit(number_of_elements_by_page)
+                              limit(number_of_elements_by_page).
+                              order(last_name: :asc, first_name: :asc)
 
     number_of_runners = Runner.where(sql_query.join(' AND '), *sql_params).count
 

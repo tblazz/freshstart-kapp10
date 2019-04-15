@@ -33,8 +33,6 @@ class API::V2::EditionsController < API::V2::ApplicationController
       render json: { editions: editions, races: races, events: events }
 
     else
-      editions = Edition.all
-
       number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
       page_number                = query_params["page_number"] || 1
       offset                     = (page_number - 1) * number_of_elements_by_page
@@ -47,35 +45,69 @@ class API::V2::EditionsController < API::V2::ApplicationController
         place      = query_params[:search_inputs][:place] || ""
         types      = query_params[:search_inputs][:types] || []
 
+        sql_params = []
+        sql_query  = []
 
-        if begin_date && begin_date != ''
-          editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
+        if begin_date.present?
+          # editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
+          sql_query << <<~SQL
+            DATE(editions.date) >= ? AND DATE(editions.date) <= ?
+          SQL
+
+          sql_params += [begin_date, end_date]
         end
 
         if event_name.present?
-          editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{event_name.downcase}%")
+          # editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{event_name.downcase}%")
+          sql_query << <<~SQL
+            LOWER(events.name) LIKE ?
+          SQL
+
+          sql_params += ["%#{event_name.downcase}%"]
         end
 
         if place.present?
-          editions = editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%")
+          # editions = editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%")
+          sql_query << <<~SQL
+            LOWER(events.place) LIKE ?
+          SQL
+
+          sql_params += ["%#{place.downcase}%"]
         end
 
         if types.any?
-          editions = editions.joins(:races).where(races: {race_type: types })
+          # editions = editions.joins(:races).where(races: {race_type: types })
+          sql_query << <<~SQL
+            races.race_type = ?
+          SQL
+
+          sql_params += types
         end
+
+        editions = Edition.select(selected_attributes).
+                          joins(:event).
+                          left_outer_joins(races: :results).
+                          where(sql_query.join(' AND '), *sql_params).
+                          group('editions.id, events.id').
+                          offset(offset).
+                          limit(number_of_elements_by_page).
+                          order(date: :desc).
+                          as_json(include: :races)
+
+        number_of_editions = Edition.joins(:event).
+                                      where(sql_query.join(' AND '), *sql_params).count
+      else
+        editions = Edition.all
+        number_of_editions = Edition.all.count
       end
 
-      editions                  = editions.order(date: :desc)
-      theorical_number_of_pages = (editions.count.to_f / number_of_elements_by_page).ceil
+
+      theorical_number_of_pages = (number_of_editions.to_f / number_of_elements_by_page).ceil
       number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
-      editions_for_page         = editions.offset(offset).limit(number_of_elements_by_page)
-      editions_data_for_page    = editions_for_page.map do |edition|
-        edition_hash(edition)
-      end
 
       response = {
         number_of_pages: number_of_pages,
-        editions:        editions_data_for_page,
+        editions:        editions,
       }
 
       render json: response
@@ -201,6 +233,30 @@ class API::V2::EditionsController < API::V2::ApplicationController
   end
 
   private
+
+  def selected_attributes
+    [
+      'editions.id',
+      'editions.date',
+      'events.name  AS name',
+      'events.name  AS event_name',
+      'events.id    AS event_id',
+      'events.place AS place',
+      'events.latitude',
+      'events.longitude',
+      'editions.description',
+      'editions.event_id',
+      'editions.email_sender',
+      'editions.email_name',
+      'editions.hashtag',
+      'editions.results_url',
+      'editions.external_link',
+      'editions.created_at',
+      'editions.updated_at',
+      'editions.background_image_file_name',
+      'COUNT(results.id) AS number_of_participants'
+    ]
+  end
 
   def edition_hash(edition)
     event = edition.event
