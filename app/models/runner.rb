@@ -15,6 +15,20 @@
 #
 
 class Runner < ApplicationRecord
+  BANNED_KEYWORDS = [
+    '?',
+    '!',
+    '..',
+    ',,',
+    'inconnu',
+    'dossard',
+    'equipe',
+    'équipe',
+    '#',
+    '/',
+    (0..9).to_a,
+  ].flatten
+
   # Relations
   has_many :results
   has_many :scores
@@ -33,23 +47,8 @@ class Runner < ApplicationRecord
   scope :with_name, -> (q) { where("lower(last_name) LIKE ? OR lower(first_name) LIKE ?", "%#{q.downcase}%", "%#{q.downcase}%") }
 
   def self.real
-    keywords = [
-      '?',
-      '!',
-      '..',
-      ',,',
-      'inconnu',
-      'dossard',
-      'equipe',
-      'équipe',
-      '#',
-      '/',
-      (0..9).to_a,
-    ].flatten
-
-    keywords.map!{|keyword| "%#{keyword}%"}
-
-    self.where.not("first_name ILIKE ANY (array[:search]) OR last_name ILIKE ANY (array[:search])", search: keywords)
+    self.where.not("first_name ILIKE ANY (array[:search]) OR last_name ILIKE ANY (array[:search])",
+                    search: BANNED_KEYWORDS.map{ |keyword| "%#{keyword}%" })
   end
 
   def results_in_global_challenge
