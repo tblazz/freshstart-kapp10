@@ -51,6 +51,11 @@ class Runner < ApplicationRecord
                     search: BANNED_KEYWORDS.map{ |keyword| "%#{keyword}%" })
   end
 
+  def self.not_real
+    self.where.not("first_name NOT ILIKE ALL (array[:search]) AND last_name NOT ILIKE ALL (array[:search])",
+                    search: BANNED_KEYWORDS.map{ |keyword| "%#{keyword}%" })
+  end
+
   def results_in_global_challenge
     events = Event.where(global_challenge: true)
     results.select { |r| events.map(&:editions).to_a.flatten.include?(r.edition) }.count

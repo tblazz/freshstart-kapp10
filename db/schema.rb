@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190415133113) do
+ActiveRecord::Schema.define(version: 20190415152708) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,9 +217,10 @@ ActiveRecord::Schema.define(version: 20190415133113) do
     t.datetime "dob"
     t.string   "department"
     t.string   "sex"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "category"
+    t.boolean  "real",       default: true
     t.index ["id_key"], name: "index_runners_on_id_key", unique: true, using: :btree
     t.index ["last_name", "first_name"], name: "index_runners_on_last_name_and_first_name", using: :btree
   end

@@ -23,7 +23,9 @@ class API::V2::RunnersController < API::V2::ApplicationController
     end
 
     runners_for_page = Runner.select("id, first_name, last_name, category, sex, department").
-                              where(sql_query.join(' AND '), *sql_params).real.
+                              where(sql_query.join(' AND '), *sql_params)
+
+    runners_for_page = runners_for_page.real.
                               offset(offset).
                               limit(number_of_elements_by_page).
                               order(last_name: :asc, first_name: :asc)
