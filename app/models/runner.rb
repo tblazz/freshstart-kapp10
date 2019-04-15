@@ -41,6 +41,8 @@ class Runner < ApplicationRecord
   validates :id_key, uniqueness: true
   validates :sex, inclusion: { in: %w(M F) }, allow_nil: true
 
+  before_save :unflag_fake_runner
+
   after_validation :generate_id_key, on: :create
 
   # Scopes
@@ -57,5 +59,14 @@ class Runner < ApplicationRecord
   
   def generate_id_key
     id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
+  end
+
+  def unflag_fake_runner
+    BANNED_KEYWORDS.each do |word|
+      if first_name.include? word
+        self.real = false
+        break
+      end
+    end
   end
 end
