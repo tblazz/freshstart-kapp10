@@ -77,10 +77,15 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
         if types.any?
           # editions = editions.joins(:races).where(races: {race_type: types })
-          sql_query << <<~SQL
-            races.race_type = ?
-          SQL
+          types_query = []
 
+          types.each do |type|
+            types_query << <<~SQL
+              races.race_type = ?
+            SQL
+          end
+
+          sql_query << "(#{types_query.join(' OR ')})"
           sql_params += types
         end
 
@@ -94,7 +99,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
                           order(date: :desc).
                           as_json(include: :races)
 
-        number_of_editions = Edition.joins(:event).
+        number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).
                                       where(sql_query.join(' AND '), *sql_params).count
       else
         editions = Edition.all
