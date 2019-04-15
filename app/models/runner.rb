@@ -47,7 +47,7 @@ class Runner < ApplicationRecord
   scope :with_name, -> (q) { where("lower(last_name) LIKE ? OR lower(first_name) LIKE ?", "%#{q.downcase}%", "%#{q.downcase}%") }
 
   def self.real
-    self.where("first_name NOT ILIKE ANY (array[:search]) AND last_name NOT ILIKE ANY (array[:search])",
+    self.where("first_name NOT ILIKE ALL (array[:search]) AND last_name NOT ILIKE ALL (array[:search])",
                     search: BANNED_KEYWORDS.map{ |keyword| "%#{keyword}%" })
   end
 
