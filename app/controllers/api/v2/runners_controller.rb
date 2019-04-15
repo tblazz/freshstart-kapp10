@@ -11,42 +11,31 @@ class API::V2::RunnersController < API::V2::ApplicationController
     category_input             = search_inputs["category_input"]
     sex_input                  = search_inputs["sex_input"]
 
+    sql_params = []
+    sql_query  = []
     
-    categories = Runner.real.where.not(category: nil).order(category: :asc).pluck(:category).uniq
-    sexes      = Runner.real.where.not(sex: nil).order(sex: :asc).pluck(:sex).uniq
-    runners    = Runner.real.order(last_name: :asc, first_name: :asc)
-    
-    if runner_name_input
-      runners = runners.where("first_name ILIKE ? OR last_name ILIKE ?", "%#{runner_name_input}%", "%#{runner_name_input}%")
-    end
-    
-    if sex_input && sex_input != ""
-      runners = runners.where(sex: sex_input)
-    end
-    
-    if category_input && category_input != ""
-      runners = runners.where(category: category_input)
+    if runner_name_input.present?
+      sql_query << <<~SQL
+        first_name ILIKE ? OR last_name ILIKE ?
+      SQL
+
+      sql_params += ["%#{runner_name_input}%", "%#{runner_name_input}%"]
     end
 
-    theorical_number_of_pages = (runners.count.to_f / number_of_elements_by_page).ceil
+    runners_for_page = Runner.select("id, first_name, last_name, category, sex, department").
+                              where(sql_query.join(' AND '), *sql_params).
+                              offset(offset).
+                              limit(number_of_elements_by_page)
+
+    number_of_runners = Runner.where(sql_query.join(' AND '), *sql_params).count
+
+    theorical_number_of_pages = (number_of_runners.to_f / number_of_elements_by_page).ceil
     number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
-    runners_for_page          = runners.offset(offset).limit(number_of_elements_by_page)
-    runners_data_for_page     = runners_for_page.map do |runner|
-      {
-        id:         runner.id,
-        first_name: runner.first_name,
-        last_name:  runner.last_name,
-        category:   runner.category,
-        sex:        runner.sex,
-        department: runner.department,
-      }
-    end
-    
+
     response = {
       number_of_pages: number_of_pages,
-      runners:         runners_data_for_page,
-      categories:      categories,
-      sexes:           sexes,
+      runners:         runners_for_page,
+      sexes:           ['M', 'F']
     }
 
     render json: response
