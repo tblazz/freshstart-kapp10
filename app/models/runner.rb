@@ -63,7 +63,7 @@ class Runner < ApplicationRecord
 
   def unflag_fake_runner
     BANNED_KEYWORDS.each do |word|
-      if first_name.include? word
+      if first_name.include? word.to_s
         self.real = false
         break
       end

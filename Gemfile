@@ -49,7 +49,11 @@ gem 'enumerize'
 gem 'doorkeeper', '~> 4.2.6'
 gem 'active_model_serializers', '~> 0.10.7'
 
+gem 'blueprinter'
+gem 'oj'
+
 group :development, :test do
+  gem 'pry-rails'
   gem 'byebug'
   gem 'minitest-rails'
   gem 'dotenv-rails', '~> 2.1.1' # parsing du fichier ENV en dev
@@ -61,7 +65,7 @@ group :development, :test do
   gem 'timecop'
   gem 'ffaker'
   gem 'factory_girl_rails'
-  gem 'rspec-rails', '~> 3.0'
+  gem 'rspec-rails'
   gem 'rspec_api_documentation'
   gem 'shoulda-matchers'
 end
@@ -74,6 +78,5 @@ end
 
 group :test do
   gem 'database_cleaner'
-  gem 'shoulda-matchers'
   gem 'dox', require: false
 end

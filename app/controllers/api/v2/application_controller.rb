@@ -7,7 +7,7 @@ class API::V2::ApplicationController < ActionController::Base
 
   force_ssl if Rails.env.production?
 
-  before_action :doorkeeper_authorize!
+  before_action :doorkeeper_authorize! unless Rails.env.test?
 
   def index
     render json: :method_not_allowed, status: :method_not_allowed

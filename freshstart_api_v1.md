@@ -2793,5 +2793,3 @@ Un coureur possède plusieurs résultats de courses et plusieurs photos.
             Content-Type: application/json; charset=utf-8
 
     + Body
-
-

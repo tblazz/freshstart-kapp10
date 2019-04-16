@@ -1,9 +1,27 @@
 class API::V2::RacesController < API::V2::ApplicationController
   def index
-    query_params = params["query_params"] || {}
-    
-    edition = Edition.find(params[:edition_id])
+    if params[:edition_id]
+      render_edition_races
+    else
+      query = RaceQuery.relation(Race.all)
 
+      if params[:next_races].present?
+        limit = params[:next_races].to_i > 0 ? params[:next_races] : 15
+        races = query.next_races.limit(limit.to_i)
+      else
+        limit = params[:lastest].presence || 15
+        races = query.lastest_with_results.limit(limit.to_i)
+      end
+
+      races_data = API::V2::RaceSerializer.render(races, view: :with_edition, root: :races)
+      render json: races_data
+    end
+  end
+
+  private
+
+  def render_edition_races
+    edition = Edition.find(params[:edition_id])
     raw_races = edition.races.map do |race|
       {
         id:                              race.id,
@@ -26,14 +44,6 @@ class API::V2::RacesController < API::V2::ApplicationController
         category:                        race.category,
         department:                      race.department,
         race_type:                       race.race_type
-        # background_image_file_name:      race.background_image_file_name,
-        # background_image_content_type:   race.background_image_content_type,
-        # background_image_file_size:      race.background_image_file_size,
-        # background_image_updated_at:     race.background_image_updated_at,
-        # template:                        race.template,
-        # widget_generated_at:             race.widget_generated_at,
-        # photos_widget_generated_at:      race.photos_widget_generated_at,
-        # external_link_button:            race.external_link_button,
       }
     end
 

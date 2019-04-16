@@ -40,7 +40,7 @@ if Rails.env.development?
       2.times do
         edi = Edition.new(
           event: event,
-          date: FFaker::Time.between(8.years.ago, 1.day.ago),
+          date: Date.new(rand(2005..2020), rand(1..12), rand(1..28)),
           description: "Edition #{FFaker::Product.brand}",
         )
         edi.save(validate: false)

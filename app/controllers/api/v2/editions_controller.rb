@@ -3,120 +3,54 @@ class API::V2::EditionsController < API::V2::ApplicationController
     query_params = params["query_params"] || {}
     limit        = query_params['limit'] || 16
 
-    if query_params['with_lastest_results_races_data']
-      editions_and_results = Edition.with_lastest_results(limit)
+    number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
+    page_number                = query_params["page_number"] || 1
+    offset                     = (page_number - 1) * number_of_elements_by_page
 
-      editions = editions_and_results[:editions]
-      results  = editions_and_results[:results]
+    if query_params.present?
 
-      races = results.map do |result|
-        Race.find(result.race_id)
-      end
+      @begin_date = query_params[:search_inputs][:begin_date]
+      @end_date   = query_params[:search_inputs][:end_date]
+      @event_name = query_params[:search_inputs][:event_name] || ""
+      @place      = query_params[:search_inputs][:place]      || ""
+      @types      = query_params[:search_inputs][:types]      || []
 
-      events = editions.map do |edition|
-        Event.find(edition.event_id)
-      end
+      construct_sql_query
 
-      render json: { editions: editions, races: races, events: events }
+      editions = Edition.select(selected_attributes).
+                        joins(:event).
+                        left_outer_joins(races: :results).
+                        where(@sql_query.join(' AND '), *@sql_params).
+                        group('editions.id, events.id').
+                        offset(offset).
+                        limit(number_of_elements_by_page).
+                        order(date: :desc).
+                        as_json(include: [:races, :event])
 
-    elsif query_params['with_next_races_data']
-      editions = Edition.next(limit)
-
-      races = editions.map do |edition|
-        edition.races.first
-      end
-
-      events = editions.map do |edition|
-        Event.find(edition.event_id)
-      end
-
-      render json: { editions: editions, races: races, events: events }
-
+      number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).
+                                    where(@sql_query.join(' AND '), *@sql_params).count
     else
-      number_of_elements_by_page = query_params["number_of_elements_by_page"] || 16
-      page_number                = query_params["page_number"] || 1
-      offset                     = (page_number - 1) * number_of_elements_by_page
+      editions = Edition.select(selected_attributes).
+                        joins(:event).
+                        left_outer_joins(races: :results).
+                        group('editions.id, events.id').
+                        offset(offset).
+                        limit(number_of_elements_by_page).
+                        order(date: :desc).
+                        as_json(include: [:races, :event])
 
-      if query_params.present?
-
-        begin_date = query_params[:search_inputs][:begin_date]
-        end_date   = query_params[:search_inputs][:end_date]
-        event_name = query_params[:search_inputs][:event_name] || ""
-        place      = query_params[:search_inputs][:place] || ""
-        types      = query_params[:search_inputs][:types] || []
-
-        sql_params = []
-        sql_query  = []
-
-        if begin_date.present?
-          # editions = editions.where("DATE(editions.date) >= ? AND DATE(editions.date) <= ?", begin_date, end_date)
-          sql_query << <<~SQL
-            DATE(editions.date) >= ? AND DATE(editions.date) <= ?
-          SQL
-
-          sql_params += [begin_date, end_date]
-        end
-
-        if event_name.present?
-          # editions = editions.joins(:event).where("LOWER(events.name) LIKE ?", "%#{event_name.downcase}%")
-          sql_query << <<~SQL
-            LOWER(events.name) LIKE ?
-          SQL
-
-          sql_params += ["%#{event_name.downcase}%"]
-        end
-
-        if place.present?
-          # editions = editions.joins(:event).where("LOWER(events.place) LIKE ?", "%#{place.downcase}%")
-          sql_query << <<~SQL
-            LOWER(events.place) LIKE ?
-          SQL
-
-          sql_params += ["%#{place.downcase}%"]
-        end
-
-        if types.any?
-          # editions = editions.joins(:races).where(races: {race_type: types })
-          types_query = []
-
-          types.each do |type|
-            types_query << <<~SQL
-              races.race_type = ?
-            SQL
-          end
-
-          sql_query << "(#{types_query.join(' OR ')})"
-          sql_params += types
-        end
-
-        editions = Edition.select(selected_attributes).
-                          joins(:event).
-                          left_outer_joins(races: :results).
-                          where(sql_query.join(' AND '), *sql_params).
-                          group('editions.id, events.id').
-                          offset(offset).
-                          limit(number_of_elements_by_page).
-                          order(date: :desc).
-                          as_json(include: :races)
-
-        number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).
-                                      where(sql_query.join(' AND '), *sql_params).count
-      else
-        editions = Edition.all
-        number_of_editions = Edition.all.count
-      end
-
-
-      theorical_number_of_pages = (number_of_editions.to_f / number_of_elements_by_page).ceil
-      number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
-
-      response = {
-        number_of_pages: number_of_pages,
-        editions:        editions,
-      }
-
-      render json: response
+      number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).count
     end
+
+    theorical_number_of_pages = (number_of_editions.to_f / number_of_elements_by_page).ceil
+    number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
+
+    response = {
+      number_of_pages: number_of_pages,
+      editions:        editions,
+    }
+
+    render json: response
   end
 
   def show
@@ -303,5 +237,47 @@ class API::V2::EditionsController < API::V2::ApplicationController
       # download_chargeable:             edition.download_chargeable,
       # download_chargeable_price_cents: edition.download_chargeable_price_cents,
     }
+  end
+
+  def construct_sql_query
+    @sql_query  = []
+    @sql_params = []
+
+    if @begin_date.present?
+      @sql_query << <<~SQL
+        DATE(editions.date) >= ? AND DATE(editions.date) <= ?
+      SQL
+
+      @sql_params += [@begin_date, @end_date]
+    end
+
+    if @event_name.present?
+      @sql_query << <<~SQL
+        LOWER(events.name) LIKE ?
+      SQL
+
+      @sql_params += ["%#{@event_name.downcase}%"]
+    end
+
+    if @place.present?
+      @sql_query << <<~SQL
+        LOWER(events.place) LIKE ?
+      SQL
+
+      @sql_params += ["%#{@place.downcase}%"]
+    end
+
+    if @types.any?
+      types_query = []
+
+      @types.each do |type|
+        types_query << <<~SQL
+          races.race_type = ?
+        SQL
+      end
+
+      @sql_query << "(#{types_query.join(' OR ')})"
+      @sql_params += @types
+    end
   end
 end
