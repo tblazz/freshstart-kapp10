@@ -13,7 +13,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
 
     sql_params = []
     sql_query  = []
-    
+
     if runner_name_input.present?
       sql_query << <<~SQL
         first_name ILIKE ? OR last_name ILIKE ?
@@ -66,7 +66,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
     query_params = params['query_params']||{}
     search_query = query_params['search_query']||""
 
-    response     = Runner.real.where('last_name ILIKE ?', "#{search_query}%").order(last_name: :asc).limit(10)
+    response     = Runner.real.where('last_name ILIKE ?', "%#{search_query}%").order(last_name: :asc).limit(10)
     response     = response.map do |runner|
       {
         id:         runner.id,
@@ -85,7 +85,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
   end
 
   def get_runner_data
-    { 
+    {
       id:         @runner.id,
       first_name: @runner.first_name,
       last_name:  @runner.last_name,
@@ -104,14 +104,14 @@ class API::V2::RunnersController < API::V2::ApplicationController
         favorite_event_name:     nil,
         races_number:            nil,
         this_month_races_number: nil,
-      } 
+      }
     else
       stats = {
         best_rank:               results.order(rank: :asc).first.rank,
         favorite_event_name:     get_favorite_event_name,
         races_number:            results.count,
         this_month_races_number: get_this_month_races_number,
-      } 
+      }
     end
 
     stats
@@ -158,7 +158,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
       }
     end
   end
-  
+
   def get_favorite_event_name
     results         = @runner.results
     cleaned_results = results.select {|result| result.edition}
@@ -172,7 +172,7 @@ class API::V2::RunnersController < API::V2::ApplicationController
     results_dates        = @runner.results.map {|result| result.edition.date}
     results_dates.select{|date| current_year_month == date.strftime("%Y%m")}.count
   end
-  
+
   def occurrences_number(array)
     array.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
   end

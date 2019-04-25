@@ -27,8 +27,13 @@ class API::V2::EditionsController < API::V2::ApplicationController
                         order(date: :desc).
                         as_json(include: [:races, :event])
 
-      number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).
-                                    where(@sql_query.join(' AND '), *@sql_params).count
+      number_of_editions = Edition.select(selected_attributes).
+                                  joins(:event).
+                                  left_outer_joins(races: :results).
+                                  where(@sql_query.join(' AND '), *@sql_params).
+                                  group('editions.id, events.id').
+                                  count('editions.id').
+                                  count
     else
       editions = Edition.select(selected_attributes).
                         joins(:event).
@@ -122,15 +127,16 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     response = {
-      event_name: event.name,
-      name:       edition.description,
-      place:      event.place,
-      latitude:   event.latitude,
-      longitude:  event.longitude,
-      date:       edition.date,
-      website:    event.website,
-      phone:      event.phone,
-      races:      races,
+      event_name:        event.name,
+      name:              edition.description,
+      registration_link: edition.registration_link,
+      place:             event.place,
+      latitude:          event.latitude,
+      longitude:         event.longitude,
+      date:              edition.date,
+      website:           event.website,
+      phone:             event.phone,
+      races:             races,
     }
 
     render json: response
@@ -146,10 +152,14 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
     month_editions  = Edition.where('date >= ? AND date <= ?', start_date, end_date)
     response        = month_editions.map do |edition|
+      event = edition.event
+
       {
-        id:   edition.id,
-        name: edition.description,
-        date: edition.date,
+        id:               edition.id,
+        event_name:       event.name,
+        event_department: event.department,
+        name:             edition.description,
+        date:             edition.date,
       }
     end
 
@@ -160,7 +170,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
     query_params = params['query_params']||{}
     search_query = query_params['search_query']||""
 
-    response     = Edition.joins(:event).where('events.name ILIKE ?', "#{search_query}%").order("events.name ASC").limit(10)
+    response     = Edition.joins(:event).where('events.name ILIKE ?', "%#{search_query}%").order("events.name ASC").limit(10)
     response     = response.map do |edition|
       {
         id:   edition.id,
@@ -193,7 +203,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       'editions.created_at',
       'editions.updated_at',
       'editions.background_image_file_name',
-      'COUNT(results.id) AS number_of_participants'
+      'COUNT(results.id) AS number_of_participants',
     ]
   end
 
@@ -219,23 +229,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       updated_at:                      edition.updated_at,
       background_image_file_name:      edition.background_image_file_name,
       races:                           edition.races,
-      number_of_participants:          edition.runners_count#,
-      # sms_message:                     edition.sms_message,
-      # template:                        edition.template,
-      # widget_generated_at:             edition.widget_generated_at,
-      # photos_widget_generated_at:      edition.photos_widget_generated_at,
-      # external_link_button:            edition.external_link_button,
-      # raw_results_file_name:           edition.raw_results_file_name,
-      # raw_results_content_type:        edition.raw_results_content_type,
-      # raw_results_file_size:           edition.raw_results_file_size,
-      # raw_results_updated_at:          edition.raw_results_updated_at,
-      # background_image_content_type:   edition.background_image_content_type,
-      # background_image_file_size:      edition.background_image_file_size,
-      # background_image_updated_at:     edition.background_image_updated_at,
-      # sendable_at_home:                edition.sendable_at_home,
-      # sendable_at_home_price_cents:    edition.sendable_at_home_price_cents,
-      # download_chargeable:             edition.download_chargeable,
-      # download_chargeable_price_cents: edition.download_chargeable_price_cents,
+      number_of_participants:          edition.runners_count
     }
   end
 
