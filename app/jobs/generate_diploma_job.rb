@@ -1,5 +1,3 @@
-require 'hive_url_shortner'
-
 class GenerateDiplomaJob < ActiveJob::Base
   queue_as :normal
 

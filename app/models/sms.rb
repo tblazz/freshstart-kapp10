@@ -24,8 +24,8 @@ class SMS
       edition_name_mail: edition_name_mail,
       rank: rank,
       edition_detail: edition_detail,
-      results_url: HiveUrlShortner.new.shorten(results_url),
-      url: HiveUrlShortner.new.shorten(url)
+      results_url: UrlShortenerService.new(results_url).call,
+      url: UrlShortenerService.new(url).call
     }
   end
 
