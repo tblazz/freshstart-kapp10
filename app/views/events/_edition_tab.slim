@@ -2,14 +2,20 @@
   .col-md-9
     table.table.table-striped.table-bordered.table-compacted
       tr
-        th Date:
-        td= edition.date.strftime('%d/%m/%Y')
+        th Date
+        td = edition.date.strftime('%d/%m/%Y')
       tr
-        th Courses:
-        td= edition.races.pluck(:name).join(', ')
+        th Description
+        td = edition.description
       tr
-        th Nombre de participants:
-        td= edition.results.count
+        th Courses
+        td = edition.races.pluck(:name).join(', ')
+      tr
+        th Nombre de participants
+        td = edition.results.count
+      tr
+        th Lien d'inscription
+        td = edition.registration_link
 
   .col-md-3
     div= link_to "Voir édition #{edition.date.year}", event_edition_path(edition.event, edition), class: 'btn btn-success'

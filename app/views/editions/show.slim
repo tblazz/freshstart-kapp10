@@ -5,7 +5,7 @@
   .row
     .col-xs-12
       h1 Info édition
-  
+
   .row
     .col-xs-12.text-center
       h2= @edition.event.name
@@ -20,8 +20,11 @@
           th Date
           td= @edition.date.strftime('%d/%m/%Y')
         tr
-          th Descriptif
+          th Description
           td= @edition.description
+        tr
+          th Lien d'inscription
+          td= @edition.registration_link
 
     / .col-xs-3
       /div= link_to 'Générer le widget', generate_widget_race_path(@edition), class: 'btn btn-primary', 'data-method' => :post

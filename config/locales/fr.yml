@@ -183,3 +183,8 @@ fr:
           home: 'Home'
       application:
         title: "Autorisation OAuth requise"
+
+  simple_form:
+    labels:
+      edition:
+        registration_link: "Lien d'inscription"

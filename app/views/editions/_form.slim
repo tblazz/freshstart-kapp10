@@ -1,6 +1,7 @@
 = simple_form_for [@edition.event, @edition], html: { class: 'form-horizontal' }, wrapper: :horizontal_form, wrapper_mappings: { check_boxes: :horizontal_radio_and_checkboxes, radio_buttons: :horizontal_radio_and_checkboxes, file: :horizontal_file_input, boolean: :horizontal_boolean } do |f|
   = f.input :date, as: :date, wrapper: :horizontal_form, html5: true
   = f.input :description
+  = f.input :registration_link
   = f.input :email_sender
   = f.input :email_name
   = f.input :hashtag

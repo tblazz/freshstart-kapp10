@@ -59,7 +59,7 @@ class EditionsController < ApplicationController
     @categories   = @edition.results.pluck(:categ).uniq.sort
     @photos_json  = @edition.get_widget_photos_json
     @generated_at = Time.now
-    
+
     render layout: 'photos_widget_layout'
   end
 
@@ -129,7 +129,8 @@ class EditionsController < ApplicationController
         :sendable_at_home,
         :sendable_at_home_price,
         :download_chargeable,
-        :download_chargeable_price
+        :download_chargeable_price,
+        :registration_link,
     )
   end
 
