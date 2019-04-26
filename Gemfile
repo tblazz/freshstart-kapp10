@@ -74,6 +74,7 @@ end
 group :development do
   gem 'annotate'
   gem "letter_opener_web"
+  gem 'rubocop', require: false
   gem "rubycritic", require: false
 end
 

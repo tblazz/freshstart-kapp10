@@ -210,6 +210,7 @@ GEM
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     imgkit (1.6.2)
+    jaro_winkler (1.5.2)
     jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
@@ -319,6 +320,7 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
       mimemagic (~> 0.3.0)
+    parallel (1.17.0)
     parser (2.6.2.1)
       ast (~> 2.4.0)
     path_expander (1.0.3)
@@ -408,6 +410,15 @@ GEM
       activesupport (>= 3.0.0)
       mustache (~> 1.0, >= 0.99.4)
       rspec (~> 3.0)
+    rubocop (0.67.2)
+      jaro_winkler (~> 1.5.1)
+      parallel (~> 1.10)
+      parser (>= 2.5, != 2.5.1.1)
+      psych (>= 3.1.0)
+      rainbow (>= 2.2.2, < 4.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 1.4.0, < 1.6)
+    ruby-progressbar (1.10.0)
     ruby_dep (1.5.0)
     ruby_parser (3.13.1)
       sexp_processor (~> 4.9)
@@ -502,6 +513,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
+    unicode-display_width (1.5.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -571,6 +583,7 @@ DEPENDENCIES
   rollbar
   rspec-rails
   rspec_api_documentation
+  rubocop
   rubycritic
   s3_direct_upload
   sass-rails (~> 5.0)
