@@ -19,13 +19,13 @@ class SMS
 
   def message
     template % {
-      name: shortable_name,
-      time: time,
+      name:              shortable_name,
+      time:              time,
       edition_name_mail: edition_name_mail,
-      rank: rank,
-      edition_detail: edition_detail,
-      results_url: UrlShortenerService.new(results_url).call,
-      url: UrlShortenerService.new(url).call
+      rank:              rank,
+      edition_detail:    edition_detail,
+      results_url:       !results_url.empty? ? UrlShortenerService.new(results_url).call : "",
+      url:               !url.empty? ? UrlShortenerService.new(url).call : "",
     }
   end
 

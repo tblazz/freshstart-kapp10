@@ -50,7 +50,7 @@ class Result < ActiveRecord::Base
 
   # Scopes
   scope :this_year, -> { where('created_at > ?', Date.current.beginning_of_year) }
-  
+
   def sent_message
     sms.message
   end
