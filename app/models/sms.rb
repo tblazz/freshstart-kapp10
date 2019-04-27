@@ -24,8 +24,8 @@ class SMS
       edition_name_mail: edition_name_mail,
       rank:              rank,
       edition_detail:    edition_detail,
-      results_url:       !results_url.empty? ? UrlShortenerService.new(results_url).call : "",
-      url:               !url.empty? ? UrlShortenerService.new(url).call : "",
+      results_url:       UrlShortenerService.new(results_url).call,
+      url:               UrlShortenerService.new(url).call,
     }
   end
 

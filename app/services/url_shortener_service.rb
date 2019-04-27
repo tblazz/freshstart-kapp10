@@ -5,6 +5,8 @@ class UrlShortenerService
   end
 
   def call
+    return if @destination.empty?
+
     rebrandly_link = @rebrandly_api.shorten(@destination)
 
     rebrandly_link.short_url
