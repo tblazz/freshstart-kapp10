@@ -69,7 +69,10 @@ class API::V2::EditionsController < API::V2::ApplicationController
     else
       race_id = edition.races.order(name: :asc).first.id
     end
-    race = Race.find(race_id)
+    race                 = Race.find(race_id)
+    results_with_photos  = race.results.select{|result| result.photo.class == Photo}
+    edition_photos_count = results_with_photos.count
+
 
     edition_modes = ['description', 'results', 'photos']
     if query_params["edition_mode"] && edition_modes.include?(query_params["edition_mode"])
@@ -101,14 +104,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
         data:       race_results,
       }
     elsif edition_mode == 'photos'
-      results_with_photos = race.results.select{|result| result.photo.class == Photo}
-      photos              = results_with_photos.map do |result|
-        photo = result.photo
-        {
-          url:       ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
-          race_name: result.race.name,
-        }
-      end
+      photos = edition_photos(results_with_photos)
     end
 
     races = edition.races.order(name: :asc).map do |race|
@@ -127,16 +123,17 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     response = {
-      event_name:        event.name,
-      name:              edition.description,
-      registration_link: edition.registration_link,
-      place:             event.place,
-      latitude:          event.latitude,
-      longitude:         event.longitude,
-      date:              edition.date,
-      website:           event.website,
-      phone:             event.phone,
-      races:             races,
+      event_name:           event.name,
+      name:                 edition.description,
+      registration_link:    edition.registration_link,
+      place:                event.place,
+      latitude:             event.latitude,
+      longitude:            event.longitude,
+      date:                 edition.date,
+      website:              event.website,
+      phone:                event.phone,
+      races:                races,
+      edition_photos_count: edition_photos_count,
     }
 
     render json: response
@@ -231,6 +228,16 @@ class API::V2::EditionsController < API::V2::ApplicationController
       races:                           edition.races,
       number_of_participants:          edition.runners_count
     }
+  end
+
+  def edition_photos(results_with_photos)
+    results_with_photos.map do |result|
+      photo = result.photo
+      {
+        url:       ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
+        race_name: result.race ? result.race.name : '',
+      }
+    end
   end
 
   def construct_sql_query

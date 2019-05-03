@@ -47,20 +47,20 @@ module API
       end
 
       def show
-        query_params  = params["query_params"] || {}
-        results_mode  = query_params["results_mode"] || "results"
-        runner_photos = get_runner_photos
+        query_params                = params["query_params"] || {}
+        results_mode                = query_params["results_mode"] || "results"
+        @runner_results_with_photos = runner_results_with_photos
 
         response = {
           runner_data:         runner_data,
           runner_stats:        runner_stats,
-          runner_photos_count: runner_photos.count
+          runner_photos_count: @runner_results_with_photos.count
         }
 
         if results_mode == "results"
           response[:runner_results] = runner_results
         elsif results_mode == "photos"
-          response[:runner_photos]  = runner_photos
+          response[:runner_photos]  = get_runner_photos
         end
 
         render json: response
@@ -122,27 +122,27 @@ module API
       end
 
       def get_runner_photos
-        results = @runner.results
+        @runner_results_with_photos.map do |result|
+          result_infos       = {}
+          photo              = result.photo
+          result_infos[:url] = Rails.env == 'development' ? photo.direct_image_url : photo.image.url
 
-        results_with_photos = results.includes(race: { edition: :event }).
-                                      select{ |result| result.photo.class == Photo }
+          if result.race
+            race                = result.race
+            result_infos[:race] = { id: race.id, name: race.name }
+          end
 
-        results_with_photos.map do |result|
-          photo = result.photo
-          {
-            url:     Rails.env == 'development' ? photo.direct_image_url : photo.image.url,
-            race:    {
-              id:   result.race.id,
-              name: result.race.name,
-            },
-            edition: {
-              id:          result.race.edition.id,
-              description: result.race.edition.description,
-            },
-            event:   {
-              name: result.race.edition.event.name,
-            },
-          }
+          if race && race.edition
+            edition                = race.edition
+            result_infos[:edition] = { id: edition.id, description: edition.description }
+          end
+
+          if edition && edition.event
+            event                = edition.event
+            result_infos[:event] = { name: event.name }
+          end
+
+          result_infos
         end
       end
 
@@ -163,6 +163,11 @@ module API
             categ:               r.categ,
           }
         end
+      end
+
+      def runner_results_with_photos
+        results = @runner.results
+        results.includes(race: { edition: :event }).select{ |result| result.photo.class == Photo }
       end
 
       def get_favorite_event_name
