@@ -48,7 +48,7 @@ module API
 
       def show
         query_params                = params["query_params"] || {}
-        results_mode                = query_params["results_mode"] || "results"
+        mode                        = query_params["mode"] || "results"
         @runner_results_with_photos = runner_results_with_photos
 
         response = {
@@ -57,9 +57,9 @@ module API
           runner_photos_count: @runner_results_with_photos.count
         }
 
-        if results_mode == "results"
+        if mode == "results"
           response[:runner_results] = runner_results
-        elsif results_mode == "photos"
+        elsif mode == "photos"
           response[:runner_photos]  = get_runner_photos
         end
 
