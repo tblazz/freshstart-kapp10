@@ -80,15 +80,15 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
     if edition_mode == 'results'
       race_results = race.results.order(rank: :asc)||[]
-      categories   = race_results.pluck(:categ).uniq.map{|categ| categ.upcase}.sort
-      sexes        = race_results.map{|res| res.runner.sex.upcase}.uniq.sort
+      categories   = race.results.select(:categ).distinct.order(:categ).pluck(:categ).map(&:upcase)
+      sexes        = race.results.joins(:runner).select(:sex).distinct.pluck(:sex).map(&:upcase)
       race_results = race_results.map do |res|
         {
-          runner_id:  res.runner.id,
+          runner_id:  res.runner ? res.runner.id : "",
           rank:       res.rank,
-          first_name: res.runner.first_name,
-          last_name:  res.runner.last_name,
-          sex:        res.runner.sex.upcase,
+          first_name: res.runner ? res.runner.first_name : "",
+          last_name:  res.runner ? res.runner.last_name : "",
+          sex:        res.runner ? res.runner.sex.upcase : "",
           categ:      res.categ.upcase,
           speed:      res.speed,
           time:       res.time,
