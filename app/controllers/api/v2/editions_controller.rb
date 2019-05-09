@@ -84,7 +84,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
     if edition_mode == 'results'
       race_results = race.results.order(rank: :asc)||[]
       categories   = race.results.select(:categ).distinct.order(:categ).pluck(:categ).map(&:upcase)
-      sexes        = race.results.joins(:runner).select(:sex).distinct.pluck(:sex).map(&:upcase)
+      sexes        = race.results.joins(:runner).select(:sex).where.not("runners.sex = ?", nil).distinct.pluck(:sex).map(&:upcase)
       race_results = race_results.map do |res|
         {
           runner_id:  res.runner ? res.runner.id : "",
