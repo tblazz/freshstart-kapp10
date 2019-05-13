@@ -150,11 +150,10 @@ class API::V2::EditionsController < API::V2::ApplicationController
     month_editions  = Edition.where('date >= ? AND date <= ?', start_date, end_date)
     response        = month_editions.map do |edition|
       event = edition.event
-
       {
         id:               edition.id,
-        event_name:       event.name,
-        event_department: event.department,
+        event_name:       event&.name,
+        event_department: event&.department,
         name:             edition.description,
         date:             edition.date,
       }
