@@ -166,8 +166,9 @@ class API::V2::EditionsController < API::V2::ApplicationController
   def search_list
     query_params = params['query_params']||{}
     search_query = query_params['search_query']||""
+    search_query = NormalizeStringService.new(search_query).call
 
-    response     = Edition.joins(:event).where('events.name ILIKE ?', "%#{search_query}%").order("events.name ASC").limit(10)
+    response     = Edition.joins(:event).where('unaccent(events.name) ILIKE ?', "%#{search_query}%").order("events.name ASC").limit(10)
     response     = response.map do |edition|
       {
         id:   edition.id,

@@ -70,8 +70,13 @@ module API
       def search_list
         query_params = params['query_params']||{}
         search_query = query_params['search_query']||""
-
-        response     = Runner.real.where('last_name ILIKE ?', "%#{search_query}%").order(last_name: :asc).limit(10)
+        search_query = NormalizeStringService.new(search_query).call
+        sql_query    = "unaccent(concat_ws(' ', first_name, last_name)) ILIKE ? OR" \
+          "unaccent(concat_ws(' ', last_name, first_name)) ILIKE ?"
+        response     = Runner.real.
+                         where(sql_query, "%#{search_query}%", "%#{search_query}%").
+                         order(last_name: :asc).
+                         limit(10)
         response     = response.map do |runner|
           {
             id:         runner.id,
