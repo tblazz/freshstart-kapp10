@@ -71,7 +71,7 @@ module API
         query_params = params['query_params']||{}
         search_query = query_params['search_query']||""
         search_query = NormalizeStringService.new(search_query).call
-        sql_query    = "unaccent(concat_ws(' ', first_name, last_name)) ILIKE ? OR" \
+        sql_query    = "unaccent(concat_ws(' ', first_name, last_name)) ILIKE ? OR " \
           "unaccent(concat_ws(' ', last_name, first_name)) ILIKE ?"
         response     = Runner.real.
                          where(sql_query, "%#{search_query}%", "%#{search_query}%").
