@@ -18,21 +18,22 @@ module API
 
         if runner_name_input.present?
           sql_query << <<~SQL
-            concat_ws(' ',first_name, last_name) ILIKE ? OR concat_ws(' ', last_name ,first_name) ILIKE ?
+            unaccent(concat_ws(' ',first_name, last_name)) ILIKE ? OR
+            unaccent(concat_ws(' ', last_name ,first_name)) ILIKE ?
           SQL
 
           sql_params += ["%#{runner_name_input}%", "%#{runner_name_input}%"]
         end
 
         runners_for_page = Runner.select("id, first_name, last_name, category, sex, department").
-                                  where(sql_query.join(' AND '), *sql_params)
+                                  where(sql_query, *sql_params)
 
         runners_for_page = runners_for_page.real.
                                   offset(offset).
                                   limit(number_of_elements_by_page).
                                   order(last_name: :asc, first_name: :asc)
 
-        number_of_runners = Runner.where(sql_query.join(' AND '), *sql_params).real.count
+        number_of_runners = Runner.where(sql_query, *sql_params).real.count
 
         theorical_number_of_pages = (number_of_runners.to_f / number_of_elements_by_page).ceil
         number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
