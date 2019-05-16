@@ -254,10 +254,10 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
     if @event_name.present?
       @sql_query << <<~SQL
-        unaccent(LOWER(events.name)) LIKE ?
+        unaccent(events.name) ILIKE ?
       SQL
 
-      @sql_params += ["%#{@event_name.downcase}%"]
+      @sql_params += ["%#{@event_name}%"]
     end
 
     if @place.present?
