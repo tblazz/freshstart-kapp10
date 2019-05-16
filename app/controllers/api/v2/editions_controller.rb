@@ -171,8 +171,9 @@ class API::V2::EditionsController < API::V2::ApplicationController
     response     = Edition.joins(:event).where('unaccent(events.name) ILIKE ?', "%#{search_query}%").order("events.name ASC").limit(10)
     response     = response.map do |edition|
       {
-        id:   edition.id,
-        event_name: edition.event.name
+        id:           edition.id,
+        event_name:   edition.event.name,
+        edition_date: edition.date&.year,
       }
     end
 
