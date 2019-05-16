@@ -9,7 +9,7 @@ module API
         page_number                = query_params["page_number"]||1
         offset                     = (page_number - 1) * number_of_elements_by_page
         search_inputs              = query_params["search_inputs"]||{}
-        runner_name_input          = search_inputs["runner_name_input"]
+        runner_name_input          = normalize_str(search_inputs["runner_name_input"])
         category_input             = search_inputs["category_input"]
         sex_input                  = search_inputs["sex_input"]
 
@@ -85,41 +85,18 @@ module API
 
       private
 
-      def set_runner
-        @runner = Runner.find(params[:id])
+      def get_favorite_event_name
+        results         = @runner.results
+        cleaned_results = results.select {|result| result.edition}
+        events          = cleaned_results.map{|result| result.edition.event}
+        favorite_event  = occurrence_max(events)
+        favorite_event.name
       end
 
-      def runner_data
-        {
-          id:         @runner.id,
-          first_name: @runner.first_name,
-          last_name:  @runner.last_name,
-          department: @runner.department,
-          sex:        @runner.sex,
-          category:   @runner.category,
-        }
-      end
-
-      def runner_stats
-        results = @runner.results
-
-        if results.empty?
-          stats = {
-            best_rank:               nil,
-            favorite_event_name:     nil,
-            races_number:            nil,
-            this_month_races_number: nil,
-          }
-        else
-          stats = {
-            best_rank:               results.order(rank: :asc).first.rank,
-            favorite_event_name:     get_favorite_event_name,
-            races_number:            results.count,
-            this_month_races_number: get_this_month_races_number,
-          }
-        end
-
-        stats
+      def get_this_month_races_number
+        current_year_month   = Time.now.strftime("%Y%m")
+        results_dates        = @runner.results.map {|result| result.edition.date}
+        results_dates.select{|date| current_year_month == date.strftime("%Y%m")}.count
       end
 
       def get_runner_photos
@@ -147,6 +124,31 @@ module API
         end
       end
 
+      def normalize_str(str)
+        str = unaccent_str(str)
+        str.strip.downcase
+      end
+
+      def occurrences_number(array)
+        array.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+      end
+
+      def occurrence_max(array)
+        freq = occurrences_number(array)
+        array.max_by { |v| freq[v] }
+      end
+
+      def runner_data
+        {
+          id:         @runner.id,
+          first_name: @runner.first_name,
+          last_name:  @runner.last_name,
+          department: @runner.department,
+          sex:        @runner.sex,
+          category:   @runner.category,
+        }
+      end
+
       def runner_results
         results = @runner.results.sort_by{|result| result.edition.date}.reverse
         results.map do |r|
@@ -171,27 +173,37 @@ module API
         results.includes(race: { edition: :event }).select{ |result| result.photo.class == Photo }
       end
 
-      def get_favorite_event_name
-        results         = @runner.results
-        cleaned_results = results.select {|result| result.edition}
-        events          = cleaned_results.map{|result| result.edition.event}
-        favorite_event  = occurrence_max(events)
-        favorite_event.name
+      def runner_stats
+        results = @runner.results
+
+        if results.empty?
+          stats = {
+            best_rank:               nil,
+            favorite_event_name:     nil,
+            races_number:            nil,
+            this_month_races_number: nil,
+          }
+        else
+          stats = {
+            best_rank:               results.order(rank: :asc).first.rank,
+            favorite_event_name:     get_favorite_event_name,
+            races_number:            results.count,
+            this_month_races_number: get_this_month_races_number,
+          }
+        end
+
+        stats
       end
 
-      def get_this_month_races_number
-        current_year_month   = Time.now.strftime("%Y%m")
-        results_dates        = @runner.results.map {|result| result.edition.date}
-        results_dates.select{|date| current_year_month == date.strftime("%Y%m")}.count
+      def set_runner
+        @runner = Runner.find(params[:id])
       end
 
-      def occurrences_number(array)
-        array.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
-      end
-
-      def occurrence_max(array)
-        freq = occurrences_number(array)
-        array.max_by { |v| freq[v] }
+      def unaccent_str(str)
+        @str = @str.tr(
+          "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž•\r\n\t", # rubocop:disable Metrics/LineLength
+          "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz    " # rubocop:disable Metrics/LineLength
+        )
       end
     end
   end
