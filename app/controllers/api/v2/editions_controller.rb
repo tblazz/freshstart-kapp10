@@ -173,7 +173,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       {
         id:           edition.id,
         event_name:   edition.event.name,
-        edition_date: edition.date&.year,
+        edition_date: edition.date,
       }
     end
 
