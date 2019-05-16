@@ -18,7 +18,7 @@ module API
 
         if runner_name_input.present?
           sql_query << <<~SQL
-            first_name ILIKE ? OR last_name ILIKE ?
+            concat_ws(' ',first_name, last_name) ILIKE ? OR concat_ws(' ', last_name ,first_name) ILIKE ?
           SQL
 
           sql_params += ["%#{runner_name_input}%", "%#{runner_name_input}%"]
