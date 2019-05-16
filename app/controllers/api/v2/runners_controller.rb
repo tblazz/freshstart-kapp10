@@ -9,7 +9,7 @@ module API
         page_number                = query_params["page_number"]||1
         offset                     = (page_number - 1) * number_of_elements_by_page
         search_inputs              = query_params["search_inputs"]||{}
-        runner_name_input          = normalize_str(search_inputs["runner_name_input"])
+        runner_name_input          = NormalizeStringService.new(search_inputs["runner_name_input"]).call
         category_input             = search_inputs["category_input"]
         sex_input                  = search_inputs["sex_input"]
 
@@ -124,11 +124,6 @@ module API
         end
       end
 
-      def normalize_str(str)
-        str = unaccent_str(str)
-        str.strip.downcase
-      end
-
       def occurrences_number(array)
         array.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
       end
@@ -197,13 +192,6 @@ module API
 
       def set_runner
         @runner = Runner.find(params[:id])
-      end
-
-      def unaccent_str(str)
-        @str = @str.tr(
-          "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž•\r\n\t", # rubocop:disable Metrics/LineLength
-          "AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz    " # rubocop:disable Metrics/LineLength
-        )
       end
     end
   end
