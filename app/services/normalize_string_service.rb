@@ -4,15 +4,10 @@ class NormalizeStringService
   end
 
   def call
-    normalize_str
+    unaccent_str(@str).strip.downcase
   end
 
   private
-
-  def normalize_str
-    @str = unaccent_str(@str)
-    @str.strip.downcase
-  end
 
   def unaccent_str(str)
     @str.tr(
