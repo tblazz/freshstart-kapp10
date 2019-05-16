@@ -12,6 +12,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       @begin_date = query_params[:search_inputs][:begin_date]
       @end_date   = query_params[:search_inputs][:end_date]
       @event_name = query_params[:search_inputs][:event_name] || ""
+      @event_name = NormalizeStringService.new(@event_name).call
       @place      = query_params[:search_inputs][:place]      || ""
       @types      = query_params[:search_inputs][:types]      || []
 
@@ -253,7 +254,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
     if @event_name.present?
       @sql_query << <<~SQL
-        LOWER(events.name) LIKE ?
+        unaccent(LOWER(events.name)) LIKE ?
       SQL
 
       @sql_params += ["%#{@event_name.downcase}%"]
