@@ -299,7 +299,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
     return unless previous_edition&.races && !previous_edition&.races.empty?
 
     previous_edition.races.
-                     where('race.name = ?', race.name.strip).
+                     where('races.name = ?', race.name.strip).
                      first
   end
 
