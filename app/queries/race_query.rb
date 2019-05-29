@@ -13,7 +13,7 @@ class RaceQuery < BaseQuery
   def next_races
     select('races.*, editions.date').
       joins(:edition).
-      where('editions.date >= ?', Date.today).
+      where('editions.date > ?', Date.today).
       order('editions.date ASC')
   end
 

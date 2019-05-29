@@ -117,7 +117,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
         id:                  race.id,
         name:                race.name,
         race_type:           race.race_type,
-        participants_number: race.results.count,
+        participants_number: race_participants_number(race),
         results:             race_results,
         photos:              race_photos,
       }
@@ -282,5 +282,32 @@ class API::V2::EditionsController < API::V2::ApplicationController
       @sql_query << "(#{types_query.join(' OR ')})"
       @sql_params += @types
     end
+  end
+
+  def build_previous_edition(race)
+    return unless race&.edition&.event
+
+    race.edition.
+         event.
+         editions.
+         where.not('editions.id = ?', race.edition.id).
+         order(date: :desc).
+         first
+  end
+
+  def build_previous_race(previous_edition, race)
+    return unless previous_edition&.races && !previous_edition&.races.empty?
+
+    previous_edition.races.
+                     where('race.name = ?', race.name.strip).
+                     first
+  end
+
+  def race_participants_number(race)
+    previous_edition = build_previous_edition(race)
+    previous_race    = build_previous_race(previous_edition, race)
+    return 0 unless previous_race&.results
+
+    previous_race.results.count
   end
 end
