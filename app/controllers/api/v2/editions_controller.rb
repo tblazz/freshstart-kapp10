@@ -15,6 +15,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
       @event_name = NormalizeStringService.new(@event_name).call
       @place      = query_params[:search_inputs][:place]      || ""
       @types      = query_params[:search_inputs][:types]      || []
+      order_direction = query_params[:search_inputs][:order] == 'asc' ? :asc : :desc
 
       construct_sql_query
 
@@ -25,7 +26,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
                         group('editions.id, events.id').
                         offset(offset).
                         limit(number_of_elements_by_page).
-                        order(date: :desc).
+                        order(date: order_direction).
                         as_json(include: [:races, :event])
 
       number_of_editions = Edition.select(selected_attributes).
