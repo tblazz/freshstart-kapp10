@@ -7,12 +7,11 @@
           .input-group-addon bib
           = f.input :bib, label: false, value: photo.bib
         - unless [:not_paired, :invalid_bib].include? photo.runner
-          .input-group
-            p = photo.runner.runner.first_name
-            p = photo.runner.runner.last_name
+          p.text-success
+            = photo.runner.runner.first_name
+            =< photo.runner.runner.last_name
         - else
-          .input-group
-            p Dossard introuvable pour cette course
+          p.text-muted Dossard introuvable pour cette course
       = f.submit "Enregistrer", class: 'btn-default btn-group-justified', data: { disable_with: "Enregistrement..." }
     .caption
       = link_to 'Supprimer', photo, method: :delete, data: { confirm: 'Êtes-vous sûr(e)' }
