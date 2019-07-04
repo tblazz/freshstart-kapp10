@@ -10,6 +10,9 @@
           .input-group
             p = photo.runner.first_name
             p = photo.runner.last_name
+        - else
+          .input-group
+            p Dossard introuvable pour cette course
       = f.submit "Enregistrer", class: 'btn-default btn-group-justified', data: { disable_with: "Enregistrement..." }
     .caption
       = link_to 'Supprimer', photo, method: :delete, data: { confirm: 'Êtes-vous sûr(e)' }
