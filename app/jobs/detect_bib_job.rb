@@ -10,16 +10,16 @@ class DetectBibJob < ActiveJob::Base
 
     return unless annotation.text.present?
     text = annotation.text
-    results = photo.edition.results
-    words = text.words
-    matching_word = words.find { |w| w.text.in? results.pluck(:bib) }
+    # results = photo.edition.results
+    # words = text.words
+    # matching_word = words.find { |w| w.text.in? results.pluck(:bib) }
 
-    return unless matching_word.present?
+    # return unless matching_word.present?
 
-    bib = matching_word.text
-    result = results.find_by(bib: bib)
-    photo.race = result.race
-    photo.bib = bib
+    # bib = matching_word.text
+    # result = results.find_by(bib: bib)
+    # photo.race = result.race
+    photo.bib = text.to_s.match(/\d+/)[0]
     photo.save!
   end
 end
