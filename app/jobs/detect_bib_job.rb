@@ -13,11 +13,7 @@ class DetectBibJob < ActiveJob::Base
     photo.bib = bib
     
     result = photo.edition.results.find_by(bib: bib)
-    
-    if result
-      photo.race = result.race 
-      photo.runner = result.runner
-    end
+    photo.race = result.race if result
 
     photo.save!
   end

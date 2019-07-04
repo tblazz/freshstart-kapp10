@@ -6,10 +6,10 @@
         .input-group
           .input-group-addon bib
           = f.input :bib, label: false, value: photo.bib
-        - if photo.runner
+        - unless [:not_paired, :invalid_bib].include? photo.runner
           .input-group
-            p = photo.runner.first_name
-            p = photo.runner.last_name
+            p = photo.runner.runner.first_name
+            p = photo.runner.runner.last_name
         - else
           .input-group
             p Dossard introuvable pour cette course
