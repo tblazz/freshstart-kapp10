@@ -9,7 +9,7 @@ class DetectBibJob < ActiveJob::Base
     annotation = vision.annotate image, text: true
 
     return unless annotation.text.present?
-    bib = annotation.text.to_s.match(/\d+/)[0]
+    bib = annotation.text.words.select { |w| w.text.match(/^\d+$/) }.last.text
     photo.bib = bib
     
     result = photo.edition.results.find_by(bib: bib)
