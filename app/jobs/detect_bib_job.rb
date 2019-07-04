@@ -9,17 +9,16 @@ class DetectBibJob < ActiveJob::Base
     annotation = vision.annotate image, text: true
 
     return unless annotation.text.present?
-    text = annotation.text
-    # results = photo.edition.results
-    # words = text.words
-    # matching_word = words.find { |w| w.text.in? results.pluck(:bib) }
+    bib = annotation.text.to_s.match(/\d+/)[0]
+    photo.bib = bib
+    
+    result = photo.edition.results.find_by(bib: bib)
+    
+    if result
+      photo.race = result.race 
+      photo.runner = result.runner
+    end
 
-    # return unless matching_word.present?
-
-    # bib = matching_word.text
-    # result = results.find_by(bib: bib)
-    # photo.race = result.race
-    photo.bib = text.to_s.match(/\d+/)[0]
     photo.save!
   end
 end
