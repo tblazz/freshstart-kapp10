@@ -4,7 +4,7 @@ class DetectBibJob < ActiveJob::Base
   def perform(photo_id)
     photo = Photo.find(photo_id)
 
-    vision = ::Google::Cloud::Vision.new
+    vision = ::Google::Cloud::Vision.new project: "kapp10-freshstart-ocr"
     image = vision.image photo.image.url
     annotation = vision.annotate image, text: true
 
