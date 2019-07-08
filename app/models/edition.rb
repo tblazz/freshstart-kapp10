@@ -136,7 +136,7 @@ class Edition < ApplicationRecord
         race:  result ? result.race_detail.parameterize : '',
         sex:   result ? result.sex.parameterize : '',
         categ: result ? result.categ.parameterize : '',
-        name:  name,
+        name:  "",
       }
     end
 
