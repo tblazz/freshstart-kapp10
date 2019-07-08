@@ -50,7 +50,7 @@ class EditionsController < ApplicationController
   end
 
   def generate_photos_widget
-    GeneratePhotosWidgetJob.perform_now(@edition.id)
+    GeneratePhotosWidgetJob.perform_later(@edition.id)
     redirect_to results_event_edition_path(@edition.event, @edition), notice: "Le Widget Photos est en cours de génération."
   end
 
