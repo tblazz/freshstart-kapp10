@@ -18,9 +18,10 @@ class RunnersController < ApplicationController
   end
 
   def update
-    return unless [true, false].include?(params[:sportagora_visible])
+    return unless ["true", "false"].include?(params[:sportagora_visible])
 
-    @runner.update(sportagora_visible: params[:sportagora_visible])
+    sportagora_visible = params[:sportagora_visible] == "true"
+    @runner.update(sportagora_visible: sportagora_visible)
 
     redirect_to runner_path(@runner)
   end
