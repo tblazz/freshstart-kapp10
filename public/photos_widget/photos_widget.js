@@ -53,8 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('resize', () => {
   resizePhotoContainers()
 
-  const pageNumber = Number.parseInt(document.querySelector('.page-number.active').dataset.pageNumber)
-  filterPhotos(pageNumber)
+  const activePageNumber = document.querySelector('.page-number.active')
+  if ( activePageNumber) {
+    const pageNumber = Number.parseInt( activePageNumber.dataset.pageNumber)
+    filterPhotos(pageNumber)
+  }
 })
 
 function getNumberOfPhotos(){
