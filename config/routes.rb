@@ -64,7 +64,7 @@ Rails.application.routes.draw do
   resources :results, only: :show do
     resource :payment, only: [:show, :create]
   end
-  resources :runners, only: [:index, :show]
+  resources :runners, only: [:index, :show, :update]
   resources :clients do
     member do
       get 'generate_widget'
@@ -123,7 +123,7 @@ Rails.application.routes.draw do
       resources :races,            only: [:index]
       get 'calendar',              to: 'editions#calendar'
       get 'editions_search_list',  to: 'editions#search_list'
-      
+
       resources :events,           only: [:index]
       resources :runners,          only: [:index, :show]
       get 'runners_search_list',   to: 'runners#search_list'

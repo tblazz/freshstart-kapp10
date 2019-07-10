@@ -9,6 +9,7 @@
           th.text-center Date de naissance
           th.text-center Sexe
           th.text-center Clé
+          th.text-center Visible sur SPORTAGORA
           th.text-center Actions
       tbody
         - runners.each do |runner|
@@ -16,11 +17,12 @@
             td= runner.id
             td= runner.first_name
             td= runner.last_name
-            td= runner.dob.strftime('%m/%d/%Y')
-            td
+            td.text-center = runner.dob.strftime('%m/%d/%Y')
+            td.text-center
               span.label.label-primary= runner.sex
             td= runner.id_key
-            td= link_to 'Voir', runner_path(runner)
+            td.text-center = runner.sportagora_visible ? "Oui" : "Non"
+            td.text-center = link_to 'Voir', runner_path(runner)
 
 .row.events
   .col-xs-12

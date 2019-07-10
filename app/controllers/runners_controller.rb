@@ -1,4 +1,5 @@
 class RunnersController < ApplicationController
+  before_action :set_runner, only: [:show, :update]
   protect_from_forgery with: :exception
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD']
 
@@ -12,9 +13,16 @@ class RunnersController < ApplicationController
   end
 
   def show
-    @runner = Runner.find(params[:id])
     @results = @runner.results
     @scores = @runner.scores
+  end
+
+  def update
+    return unless params[:sportagora_visible]
+
+    @runner.update(sportagora_visible: params[:sportagora_visible])
+
+    redirect_to runner_path(@runner)
   end
 
   private

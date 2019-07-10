@@ -28,12 +28,12 @@ module API
         runners_for_page = Runner.select("id, first_name, last_name, category, sex, department").
                                   where(sql_query.join(' AND '), *sql_params)
 
-        runners_for_page = runners_for_page.real.
+        runners_for_page = runners_for_page.available.
                                   offset(offset).
                                   limit(number_of_elements_by_page).
                                   order(last_name: :asc, first_name: :asc)
 
-        number_of_runners = Runner.where(sql_query.join(' AND '), *sql_params).real.count
+        number_of_runners = Runner.where(sql_query.join(' AND '), *sql_params).available.count
 
         theorical_number_of_pages = (number_of_runners.to_f / number_of_elements_by_page).ceil
         number_of_pages           = theorical_number_of_pages.zero? ? 1 : theorical_number_of_pages
@@ -73,7 +73,7 @@ module API
         search_query = NormalizeStringService.new(search_query).call
         sql_query    = "unaccent(concat_ws(' ', first_name, last_name)) ILIKE ? OR " \
           "unaccent(concat_ws(' ', last_name, first_name)) ILIKE ?"
-        response     = Runner.real.
+        response     = Runner.available.
                          where(sql_query, "%#{search_query}%", "%#{search_query}%").
                          order(last_name: :asc).
                          limit(10)
@@ -196,7 +196,7 @@ module API
       end
 
       def set_runner
-        @runner = Runner.find(params[:id])
+        @runner = Runner.available.find_by(id: params[:id])
       end
     end
   end

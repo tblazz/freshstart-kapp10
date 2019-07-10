@@ -10,19 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190424132755) do
+ActiveRecord::Schema.define(version: 20190710152328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "unaccent"
+  enable_extension "uuid-ossp"
 
   create_table "challenges", force: :cascade do |t|
     t.string   "name"
     t.string   "widget"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chatfuel_bot_subscribers", force: :cascade do |t|
+    t.string   "fb_messenger_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  create_table "chatfuel_bot_subscriptions", force: :cascade do |t|
+    t.integer  "chatfuel_bot_subscriber_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "subscribed_bib_id"
+    t.index ["chatfuel_bot_subscriber_id"], name: "index_chatfuel_bot_subscriptions_on_chatfuel_bot_subscriber_id", using: :btree
+    t.index ["subscribed_bib_id"], name: "index_chatfuel_bot_subscriptions_on_subscribed_bib_id", using: :btree
   end
 
   create_table "clients", force: :cascade do |t|
@@ -60,7 +75,22 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.integer  "sendable_at_home_price_cents"
     t.boolean  "download_chargeable",             default: false
     t.integer  "download_chargeable_price_cents"
+    t.string   "facebook_twitter_message"
+    t.string   "facebook_page_id"
+    t.boolean  "live_mode_on",                    default: false
+    t.boolean  "facebook_live_on",                default: false
+    t.boolean  "twitter_live_on",                 default: false
+    t.integer  "user_id"
+    t.string   "elite_runner_bibs"
+    t.string   "livetrail_url"
+    t.string   "finish_message"
+    t.string   "chatfuel_bot_id"
+    t.string   "chatfuel_bot_token"
     t.string   "registration_link"
+    t.string   "dropbox_token"
+    t.string   "dropbox_path"
+    t.index ["chatfuel_bot_id"], name: "index_editions_on_chatfuel_bot_id", using: :btree
+    t.index ["user_id"], name: "index_editions_on_user_id", using: :btree
   end
 
   create_table "events", force: :cascade do |t|
@@ -134,7 +164,7 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "edition_id"
-    t.string   "direct_image_url",                   null: false
+    t.string   "direct_image_url"
     t.boolean  "processed",          default: false
     t.index ["race_id"], name: "index_photos_on_race_id", using: :btree
   end
@@ -167,6 +197,7 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.string   "category"
     t.string   "department"
     t.string   "race_type"
+    t.string   "elite_runners"
     t.datetime "start_at"
     t.float    "distance"
     t.index ["edition_id"], name: "index_races_on_edition_id", using: :btree
@@ -195,7 +226,6 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.datetime "email_sent_at"
     t.datetime "sms_sent_at"
     t.string   "diploma_url"
-    t.integer  "edition_id"
     t.integer  "runner_id"
     t.integer  "points"
     t.string   "first_name"
@@ -208,6 +238,11 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.datetime "diploma_updated_at"
     t.datetime "purchased_at"
     t.string   "stripe_charge_id"
+    t.integer  "edition_id"
+    t.string   "race_name"
+    t.string   "race_code"
+    t.boolean  "finish"
+    t.index ["edition_id"], name: "index_results_on_edition_id", using: :btree
     t.index ["race_id"], name: "index_results_on_race_id", using: :btree
   end
 
@@ -218,10 +253,11 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.datetime "dob"
     t.string   "department"
     t.string   "sex"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.string   "category"
-    t.boolean  "real",       default: true
+    t.boolean  "real",               default: true
+    t.boolean  "sportagora_visible", default: true
     t.index ["id_key"], name: "index_runners_on_id_key", unique: true, using: :btree
     t.index ["last_name", "first_name"], name: "index_runners_on_last_name_and_first_name", using: :btree
     t.index ["real"], name: "index_runners_on_real", using: :btree
@@ -237,8 +273,80 @@ ActiveRecord::Schema.define(version: 20190424132755) do
     t.index ["runner_id"], name: "index_scores_on_runner_id", using: :btree
   end
 
+  create_table "stages", force: :cascade do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "time"
+    t.integer  "rank"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "photo"
+    t.string   "bib"
+    t.string   "category"
+    t.string   "idpt_num"
+    t.string   "idpt_name"
+    t.boolean  "posted_on_facebook", default: false
+    t.boolean  "posted_on_twitter",  default: false
+    t.uuid     "race_id"
+    t.integer  "edition_id"
+    t.string   "sex"
+    t.string   "cat_rank"
+    t.string   "km"
+    t.boolean  "finish"
+    t.string   "race_name"
+    t.string   "race_code"
+    t.index ["edition_id"], name: "index_stages_on_edition_id", using: :btree
+    t.index ["race_id"], name: "index_stages_on_race_id", using: :btree
+  end
+
+  create_table "subscribed_bibs", force: :cascade do |t|
+    t.integer  "edition_id"
+    t.string   "bib"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "sex"
+    t.string   "message_position_block_id"
+    t.string   "race_name"
+    t.index ["bib"], name: "index_subscribed_bibs_on_bib", using: :btree
+    t.index ["edition_id"], name: "index_subscribed_bibs_on_edition_id", using: :btree
+  end
+
+  create_table "user_providers", force: :cascade do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "facebook_token"
+    t.string   "name"
+    t.index ["user_id"], name: "index_user_providers_on_user_id", using: :btree
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "twitter_nickname"
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  add_foreign_key "chatfuel_bot_subscriptions", "chatfuel_bot_subscribers"
+  add_foreign_key "chatfuel_bot_subscriptions", "subscribed_bibs"
+  add_foreign_key "editions", "users"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "photos", "races"
+  add_foreign_key "results", "editions"
   add_foreign_key "results", "races"
+  add_foreign_key "stages", "editions"
+  add_foreign_key "stages", "races"
+  add_foreign_key "subscribed_bibs", "editions"
+  add_foreign_key "user_providers", "users"
 end

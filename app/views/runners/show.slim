@@ -2,6 +2,17 @@ h1= "#{@runner.first_name} #{@runner.last_name}"
 
 .row.events
   .col-xs-12
+    h2 Visibilité sur SPORTAGORA
+    p
+      strong Statut :
+      span< = @runner.sportagora_visible ? 'Visible' : 'Non visible'
+    - if @runner.sportagora_visible
+      = link_to "Rendre non visible", runner_path(@runner, sportagora_visible: false), method: :patch, class:"btn btn-warning btn-sportagora-visible"
+    - else
+      = link_to "Rendre visible", runner_path(@runner, sportagora_visible: true), method: :patch, class:"btn btn-success btn-sportagora-visible"
+
+.row.events
+  .col-xs-12
     h2 Résultats
     table.table.table-bordered.table-default.table-striped
       thead

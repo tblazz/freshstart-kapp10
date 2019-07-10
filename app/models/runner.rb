@@ -48,7 +48,7 @@ class Runner < ApplicationRecord
   # Scopes
   scope :with_name, -> (q) { where("lower(last_name) LIKE ? OR lower(first_name) LIKE ?", "%#{q.downcase}%", "%#{q.downcase}%") }
 
-  scope :real, -> { where(real: true) }
+  scope :available, -> { where(real: true, sportagora_visible: true) }
 
   def results_in_global_challenge
     events = Event.where(global_challenge: true)
@@ -56,7 +56,7 @@ class Runner < ApplicationRecord
   end
 
   private
-  
+
   def generate_id_key
     id_key = "#{I18n.transliterate(first_name).downcase}-#{I18n.transliterate(last_name).downcase}-#{dob.strftime('%d-%m-%Y')}"
   end
