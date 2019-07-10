@@ -130,12 +130,12 @@ class Edition < ApplicationRecord
 
       {
         url:   ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
-        bib:   photo.bib,
+        bib:   photo.bib || "",
         rank:  (result && result.rank) ? result.rank : results.size + 1,
         race:  result ? result.race_detail.parameterize : '',
         sex:   result ? result.sex.parameterize : '',
         categ: result ? result.categ.parameterize : '',
-        name:  name,
+        name:  name.gsub(/'/, " "), # fix problem with `'` in names 🤷
       }
     end
 
