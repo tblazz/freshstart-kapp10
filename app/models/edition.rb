@@ -53,7 +53,7 @@ class Edition < ApplicationRecord
   def self.available
     Edition.where(
       id: [
-        Edition.joins(:results).
+        Edition.joins(races: :results).
           group("editions.id").
           where("editions.date < ?", Date.today).
           having("COUNT(*) > 1").
