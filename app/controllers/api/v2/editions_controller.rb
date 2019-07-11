@@ -19,34 +19,40 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
       construct_sql_query
 
-      editions = Edition.select(selected_attributes).
-                        joins(:event).
-                        left_outer_joins(races: :results).
-                        where(@sql_query.join(' AND '), *@sql_params).
-                        group('editions.id, events.id').
-                        offset(offset).
-                        limit(number_of_elements_by_page).
-                        order(date: order_direction).
-                        as_json(include: [:races, :event])
+      editions = Edition.available.
+                         select(selected_attributes).
+                         joins(:event).
+                         left_outer_joins(races: :results).
+                         where(@sql_query.join(' AND '), *@sql_params).
+                         group('editions.id, events.id').
+                         offset(offset).
+                         limit(number_of_elements_by_page).
+                         order(date: order_direction).
+                         as_json(include: [:races, :event])
 
-      number_of_editions = Edition.select(selected_attributes).
-                                  joins(:event).
-                                  left_outer_joins(races: :results).
-                                  where(@sql_query.join(' AND '), *@sql_params).
-                                  group('editions.id, events.id').
-                                  count('editions.id').
-                                  count
+      number_of_editions = Edition.available.
+                                   select(selected_attributes).
+                                   joins(:event).
+                                   left_outer_joins(races: :results).
+                                   where(@sql_query.join(' AND '), *@sql_params).
+                                   group('editions.id, events.id').
+                                   count('editions.id').
+                                   count
     else
-      editions = Edition.select(selected_attributes).
-                        joins(:event).
-                        left_outer_joins(races: :results).
-                        group('editions.id, events.id').
-                        offset(offset).
-                        limit(number_of_elements_by_page).
-                        order(date: :desc).
-                        as_json(include: [:races, :event])
+      editions = Edition.available.
+                         select(selected_attributes).
+                         joins(:event).
+                         left_outer_joins(races: :results).
+                         group('editions.id, events.id').
+                         offset(offset).
+                         limit(number_of_elements_by_page).
+                         order(date: :desc).
+                         as_json(include: [:races, :event])
 
-      number_of_editions = Edition.joins(:event).left_outer_joins(races: :results).count
+      number_of_editions = Edition.available.
+                                   joins(:event).
+                                   left_outer_joins(races: :results).
+                                   count
     end
 
     theorical_number_of_pages = (number_of_editions.to_f / number_of_elements_by_page).ceil
@@ -62,7 +68,9 @@ class API::V2::EditionsController < API::V2::ApplicationController
 
   def show
     edition_id = params[:id]
-    edition    = Edition.find(edition_id)
+    edition    = Edition.available.find_by(id: edition_id)
+    return unless edition
+
     event      = edition.event
 
     query_params = params["query_params"]||{}
@@ -149,7 +157,8 @@ class API::V2::EditionsController < API::V2::ApplicationController
     start_date      = month_beginning - 7.days
     end_date        = Date.new(current_date.year, current_date.month, 1) + 1.month + 7.days
 
-    month_editions  = Edition.where('date >= ? AND date <= ?', start_date, end_date)
+    month_editions  = Edition.available.
+                              where('date >= ? AND date <= ?', start_date, end_date)
     response        = month_editions.map do |edition|
       event = edition.event
       {
@@ -169,7 +178,11 @@ class API::V2::EditionsController < API::V2::ApplicationController
     search_query = query_params['search_query']||""
     search_query = NormalizeStringService.new(search_query).call
 
-    response     = Edition.joins(:event).where('unaccent(events.name) ILIKE ?', "%#{search_query}%").order("events.name ASC").limit(10)
+    response     = Edition.available.
+                           joins(:event).
+                           where('unaccent(events.name) ILIKE ?', "%#{search_query}%").
+                           order("events.name ASC").
+                           limit(10)
     response     = response.map do |edition|
       {
         id:           edition.id,

@@ -1,37 +1,3 @@
-# == Schema Information
-#
-# Table name: editions
-#
-#  id                              :integer          not null, primary key
-#  date                            :date
-#  description                     :string
-#  event_id                        :integer
-#  email_sender                    :string
-#  email_name                      :string
-#  hashtag                         :string
-#  results_url                     :string
-#  sms_message                     :string
-#  template                        :string
-#  widget_generated_at             :datetime
-#  photos_widget_generated_at      :datetime
-#  external_link                   :string
-#  external_link_button            :string
-#  created_at                      :datetime         not null
-#  updated_at                      :datetime         not null
-#  raw_results_file_name           :string
-#  raw_results_content_type        :string
-#  raw_results_file_size           :integer
-#  raw_results_updated_at          :datetime
-#  background_image_file_name      :string
-#  background_image_content_type   :string
-#  background_image_file_size      :integer
-#  background_image_updated_at     :datetime
-#  sendable_at_home                :boolean          default(FALSE)
-#  sendable_at_home_price_cents    :integer
-#  download_chargeable             :boolean          default(FALSE)
-#  download_chargeable_price_cents :integer
-#
-
 class Edition < ApplicationRecord
   # Relations
   belongs_to :event
@@ -58,7 +24,7 @@ class Edition < ApplicationRecord
 
   def self.with_lastest_results(limit = 3)
     return [] unless limit > 0
-    
+
     last_result = Result.order(created_at: :desc).first
 
     return [] if last_result.nil?
@@ -66,7 +32,7 @@ class Edition < ApplicationRecord
     results  = [last_result]
     editions = [Edition.find(last_result.edition_id)]
 
-    
+
     (limit-1).times do
       matching_results = Result.where.not(edition_id: editions.map { |edition| edition.id }).order(created_at: :desc)
       if matching_results.any?
@@ -74,14 +40,28 @@ class Edition < ApplicationRecord
         editions << Edition.find(matching_results.first.edition_id)
       end
     end
-    
+
     { editions: editions, results: results }
   end
 
   def self.next(limit = 3)
     return [] unless limit > 0
-    
+
     where("date >= ?", Date.today).limit(limit)
+  end
+
+  def self.available
+    Edition.where(
+      id: [
+        Edition.joins(:results).
+          group("editions.id").
+          where("editions.date < ?", Date.today).
+          having("COUNT(*) > 1").
+          pluck("editions.id"),
+        Edition.where("editions.date >= ?", Date.today).
+          pluck(:id)
+      ].flatten
+    )
   end
 
   TEMPLATES = Dir.glob("#{Rails.root}/app/views/diploma/*.html.erb").map{|template| template.split('/').last}.map{|template| template.gsub('.html.erb','')}
