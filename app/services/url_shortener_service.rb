@@ -10,7 +10,7 @@ class UrlShortenerService
 
     rebrandly_link = @rebrandly_api.shorten(@destination, domain: @domain.to_h)
 
-    rebrandly_link.short_url
+    "http://#{rebrandly_link.short_url}"
   end
 
   private
