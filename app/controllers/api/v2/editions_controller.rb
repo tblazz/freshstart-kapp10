@@ -83,7 +83,6 @@ class API::V2::EditionsController < API::V2::ApplicationController
     results_with_photos  = race.results.select{|result| result.photo.class == Photo}
     edition_photos_count = results_with_photos.count
 
-
     edition_modes = ['description', 'results', 'photos']
     if query_params["edition_mode"] && edition_modes.include?(query_params["edition_mode"])
       edition_mode  = query_params["edition_mode"]
