@@ -55,7 +55,7 @@ class Edition < ApplicationRecord
       id: [
         Edition.joins(races: :results).
           group("editions.id").
-          where("editions.date < ?", Date.today).
+          where("editions.date < ? AND editions.event_id IS NOT NULL", Date.today).
           having("COUNT(*) > 1").
           pluck("editions.id"),
         Edition.where("editions.date >= ?", Date.today).

@@ -1,6 +1,6 @@
 class RaceQuery < BaseQuery
   def self.relation(base_relation = nil)
-    super(base_relation, Race)
+    super(base_relation, Race.available)
   end
 
   def lastest

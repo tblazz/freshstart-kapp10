@@ -56,4 +56,8 @@ class Race < ActiveRecord::Base
   ]
 
   enumerize :race_type, in: RACE_TYPES
+
+  def self.available
+    Race.joins(:edition).where("editions.event_id IS NOT NULL")
+  end
 end
