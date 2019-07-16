@@ -21,7 +21,8 @@ class API::V2::RacesController < API::V2::ApplicationController
   private
 
   def render_edition_races
-    edition = Edition.find(params[:edition_id])
+    edition = Edition.available.find_by(id: params[:edition_id])
+    return [] unless edition
     raw_races = edition.races.map do |race|
       {
         id:                              race.id,
