@@ -3,7 +3,7 @@ class API::V2::RacesController < API::V2::ApplicationController
     if params[:edition_id]
       render_edition_races
     else
-      query = RaceQuery.relation(Race.all)
+      query = RaceQuery.relation(Race.available)
 
       if params[:next_races].present?
         limit = params[:next_races].to_i > 0 ? params[:next_races] : 15
