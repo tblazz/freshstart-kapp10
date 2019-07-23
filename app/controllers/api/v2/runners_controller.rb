@@ -95,7 +95,8 @@ module API
         cleaned_results = results.select {|result| result.edition}
         events          = cleaned_results.map{|result| result.edition.event}
         favorite_event  = occurrence_max(events)
-        favorite_event.name
+
+        favorite_event ? favorite_event.name : ''
       end
 
       def get_this_month_races_number
