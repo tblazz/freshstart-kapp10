@@ -154,7 +154,7 @@ module API
         results = @runner.results.sort_by{|result| result.edition.date}.reverse
         results.map do |r|
           {
-            event_name:          r.race.edition.event.name,
+            event_name:          r.race.edition.event&.name,
             edition_id:          r.race.edition.id,
             race_id:             r.race.id,
             race_name:           r.race.name,
