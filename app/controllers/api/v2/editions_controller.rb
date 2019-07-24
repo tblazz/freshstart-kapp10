@@ -123,15 +123,15 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     races = edition.races.order(name: :asc).map do |race|
-      if @race.id == race_id
+      if race.id == race_id
         race_results = results
         race_photos  = photos
       end
       {
-        id:                  @race.id,
-        name:                @race.name,
-        race_type:           @race.race_type,
-        participants_number: race_participants_number(@race),
+        id:                  race.id,
+        name:                race.name,
+        race_type:           race.race_type,
+        participants_number: race_participants_number(race),
         results:             race_results,
         photos:              race_photos,
       }
