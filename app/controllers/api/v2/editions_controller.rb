@@ -79,6 +79,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
     else
       race_id = edition.races.order(name: :asc).first.id
     end
+    
     @race                 = Race.available.find_by(id: race_id)
     return unless @race
 
