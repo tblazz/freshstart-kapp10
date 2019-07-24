@@ -79,11 +79,13 @@ class API::V2::EditionsController < API::V2::ApplicationController
     else
       race_id = edition.races.order(name: :asc).first.id
     end
-    race                 = Race.available.find_by(id: race_id)
-    return unless race
+    @race                 = Race.available.find_by(id: race_id)
+    return unless @race
 
-    results_with_photos  = race.results.select{|result| result.photo.class == Photo}
-    edition_photos_count = results_with_photos.count
+    @bibs = Result.includes(:race).where("races.id = ?", @race.id).pluck(:bib)
+    @photos_with_results = Photo.where(bib: @bibs, edition_id: @race.edition_id)
+
+    edition_photos_count = @photos_with_results.count
 
     edition_modes = ['description', 'results', 'photos']
     if query_params["edition_mode"] && edition_modes.include?(query_params["edition_mode"])
@@ -93,21 +95,22 @@ class API::V2::EditionsController < API::V2::ApplicationController
     end
 
     if edition_mode == 'results'
-      race_results = race.results.order(rank: :asc)||[]
-      categories   = race.results.select(:categ).distinct.order(:categ).pluck(:categ).map(&:upcase)
-      sexes        = race.results.joins(:runner).select(:sex).where.not("runners.sex IS ?", nil).distinct.pluck(:sex).map(&:upcase)
-      race_results = race_results.map do |res|
-        {
-          runner_id:  res.runner ? res.runner.id : "",
-          rank:       res.rank,
-          first_name: res.runner ? res.runner.first_name : "",
-          last_name:  res.runner ? res.runner.last_name : "",
-          sex:        res.runner ? res.runner.sex.upcase : "",
-          categ:      res.categ.upcase,
-          speed:      res.speed,
-          time:       res.time,
-        }
-      end
+      categories   = @race.results.select(:categ).distinct.order(:categ).pluck(:categ).map(&:upcase)
+      sexes        = @race.results.joins(:runner).where.not("runners.sex IS ?", nil).distinct.pluck('runners.sex').map(&:upcase)
+
+      selection = <<~SQL
+        runners.id AS runner_id,
+        results.rank AS rank,
+        runners.first_name AS first_name,
+        runners.last_name AS last_name,
+        UPPER(runners.sex) AS sex,
+        UPPER(results.categ) AS categ,
+        results.speed AS speed,
+        results.time AS time,
+        races.id
+      SQL
+
+      race_results = Result.joins(:race, :runner).select(selection).where("races.id= ?", @race.id)
 
       results = {
         categories: categories,
@@ -115,19 +118,19 @@ class API::V2::EditionsController < API::V2::ApplicationController
         data:       race_results,
       }
     elsif edition_mode == 'photos'
-      photos = edition_photos(results_with_photos)
+      photos = edition_photos
     end
 
     races = edition.races.order(name: :asc).map do |race|
-      if race.id == race_id
+      if @race.id == race_id
         race_results = results
         race_photos  = photos
       end
       {
-        id:                  race.id,
-        name:                race.name,
-        race_type:           race.race_type,
-        participants_number: race_participants_number(race),
+        id:                  @race.id,
+        name:                @race.name,
+        race_type:           @race.race_type,
+        participants_number: race_participants_number(@race),
         results:             race_results,
         photos:              race_photos,
       }
@@ -247,12 +250,11 @@ class API::V2::EditionsController < API::V2::ApplicationController
     }
   end
 
-  def edition_photos(results_with_photos)
-    results_with_photos.map do |result|
-      photo = result.photo
+  def edition_photos
+    @photos_with_results.map do |photo|
       {
         url:       ENV['RAILS_ENV'] == 'development' ? photo.direct_image_url : photo.image.url,
-        race_name: result.race ? result.race.name : '',
+        race_name: @race&.name,
       }
     end
   end

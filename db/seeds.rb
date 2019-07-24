@@ -131,11 +131,13 @@ if Rails.env.development?
 
     Result.all.each_with_index do |result, index|
       random_bib = rand(1..999)
-      Photo.create(
+      photo = Photo.new(
         bib:              random_bib,
         edition:          result.edition,
         direct_image_url: fifty_photos.sample,
       )
+
+      photo.save(validate: false)
 
       result.update(
         bib: random_bib,
