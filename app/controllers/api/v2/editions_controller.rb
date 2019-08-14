@@ -111,7 +111,7 @@ class API::V2::EditionsController < API::V2::ApplicationController
         races.id
       SQL
 
-      race_results = Result.joins(:race, :runner).select(selection).where("races.id= ?", @race.id)
+      race_results = Result.joins(:race, :runner).select(selection).where("races.id= ?", @race.id).order(:rank)
 
       results = {
         categories: categories,
