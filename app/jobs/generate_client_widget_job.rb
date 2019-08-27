@@ -11,7 +11,7 @@ class GenerateClientWidgetJob < ActiveJob::Base
     @event_array = []
     @event_lines = []
     @events.each do |event|
-      @event_array << {'name' => event.name, 'department' => event.department, 'type' => event.races.map { |r| r.race_type.capitalize }.uniq.join(' '), 'widget_url' => event.editions.last.widget_url}
+      @event_array << {'name' => event.name, 'department' => event.department, 'type' => event.races.map { |r| r.race_type&.capitalize }.uniq.join(' '), 'widget_url' => event.editions.last.widget_url}
       @event_lines << generate_event_line(event)
     end
 
