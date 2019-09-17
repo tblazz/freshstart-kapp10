@@ -151,7 +151,7 @@ function filterPhotos(pageNumber = 1) {
     // Filter on Search
     if (searchInputValue !== "") {
       if (Number.isInteger(Number.parseInt(searchInputValue))) {
-        photoToKeep = photoToKeep && (data.bib === Number.parseInt(searchInputValue))
+        photoToKeep = photoToKeep && (Number.parseInt(data.bib) === Number.parseInt(searchInputValue))
       } else {
         const matchValue = data.lastname.toLowerCase().match(searchInputValue.toLowerCase())
         photoToKeep = photoToKeep && (matchValue && matchValue[0])
