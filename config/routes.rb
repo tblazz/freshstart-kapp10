@@ -26,6 +26,7 @@ Rails.application.routes.draw do
       get 'diploma'
       get 'widget'
       get 'photos_widget'
+      get 'diplomas_widget'
       delete 'delete_results'
       get 'pairing', to: 'photos#index'
     end
