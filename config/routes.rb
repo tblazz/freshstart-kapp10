@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'result/:id/diploma', to: 'results#diploma', as: 'result_diploma'
   get 'results/:id/download', to: 'results#download', as: 'download_diploma'
   get 'results_stand_by', to: 'results#stand_by', as: 'stand_by'
-  get 'results/emaildiploma', to: 'results#email_diploma'
+  get 'results/:id/emaildiploma', to: 'results#email_diploma'
   post 'results/process_diploma_email', to: 'results#process_diploma_email'
   get 'mail_viewers/result/:id', to: 'mail_viewers#result', as: 'result_mail_viewer'
 
