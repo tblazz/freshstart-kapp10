@@ -28,17 +28,22 @@ class ResultMailer < ApplicationMailer
   end
 
   
-  def mail_diploma(result_id, email, params = {})
+  def mail_diploma(result_id, email, name, params = {})
     @result = Result.find(result_id)
     @send_diploma_by_email = true
     @email = email
-    return unless @result.diploma.url # && @result.purchased_at?
+    @name = name
+    @url = @result.diploma.url
+
+    p @url
+
+    return unless @url # && @result.purchased_at?
 
     attachments['diploma.jpg'] = {
       mime_type: 'image/jpeg',
       encoding: 'base64',
-      content: open(@result.diploma.url).read
-    } if @send_diploma_by_email
+      content: open(@url).read
+    } 
 
     subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
 

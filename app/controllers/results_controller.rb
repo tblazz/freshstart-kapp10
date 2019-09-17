@@ -49,7 +49,7 @@ class ResultsController < ApplicationController
     @result = Result.find(params[:id])
     if @result
       EmailRequest.create(id: Time.now.to_i, result_id: @result.id, name: @name, email: @email)
-      ResultMailer.mail_diploma(@result.id, @email).deliver_now
+      ResultMailer.mail_diploma(@result.id, @email, @name).deliver_now
       flash[:success]="Le diplôme vous a bien été envoyé!"
       return
     end 
