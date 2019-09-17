@@ -39,10 +39,11 @@ class ResultMailer < ApplicationMailer
 
     return unless @url # && @result.purchased_at?
 
+    image_data  = open(@url) {|f| f.read }
     attachments['diploma.jpg'] = {
       mime_type: 'image/jpeg',
       encoding: 'base64',
-      content: open(@url).read
+      content: image_data
     } 
 
     subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
