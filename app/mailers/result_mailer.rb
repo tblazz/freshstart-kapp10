@@ -41,6 +41,9 @@ class ResultMailer < ApplicationMailer
     return unless @url # && @result.purchased_at?
 
     image_data  = open(@url) {|f| f.read }
+
+    p image_data
+    
     attachments['diploma.jpg'] = {
       mime_type: 'image/jpeg',
       encoding: 'base64',
