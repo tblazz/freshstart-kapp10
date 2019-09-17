@@ -42,12 +42,12 @@ class ResultMailer < ApplicationMailer
 
     image_data  = open(@url) {|f| f.read }
 
-    p image_data
-    
+    # p image_data
+
     attachments['diploma.jpg'] = {
       mime_type: 'image/jpeg',
       encoding: 'base64',
-      content: image_data
+      content: Base64.encode64(image_data)
     } 
 
     subject = I18n.t('mail_original_diploma_subject', edition_name_mail: @result.edition.event.name)
