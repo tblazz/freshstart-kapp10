@@ -4,6 +4,7 @@ class Edition < ApplicationRecord
   has_many :races
   has_many :results, dependent: :destroy
   has_many :photos
+  has_many :diplomas
   has_many :runners, through: :results
 
   has_attached_file :raw_results
@@ -93,6 +94,27 @@ class Edition < ApplicationRecord
     @phones_count ||= results.pluck(:phone).select{|phone| phone =~ PHONE_REGEX}.length
   end
 
+  def get_widget_diplomas_json
+    results     = self.results
+    diplomas = []
+    results.each do |r|
+      if r.diploma.url
+        diplomas << {
+          result_id: r.id,
+          url: r.diploma.url,
+          rank:  (r.rank) ? r.rank : r.size + 1,
+          race:  r.race_detail.parameterize,
+          sex:   r.sex.parameterize,
+          categ: r.categ.parameterize,
+          firstname: (r.first_name)? r.first_name.gsub(/'/, " ") : "",
+          lastname: (r.last_name) ? r.last_name.gsub(/'/, " ") : "",
+          name:  (r.name) ? r.name.gsub(/'/, " "): "" # fix problem with `'` in names 
+          }
+      end
+    end
+    diplomas.to_json
+  end
+
   def get_widget_photos_json
     results     = self.results
     photos      = self.photos.map do |photo|
@@ -132,12 +154,21 @@ class Edition < ApplicationRecord
     "photos/#{self.date.year}/#{self.date.month}/photos_#{self.id}"
   end
 
+  def diplomas_widget_storage_name
+    "diplomas/#{self.date.year}/#{self.date.month}/diplomas_#{self.id}"
+  end
+
   def widget_url
     "#{S3_BASE_URL}/#{widget_storage_name}"
   end
 
   def photos_widget_url
     "#{S3_BASE_URL}/#{photos_widget_storage_name}"
+  end
+
+  def diplomas_widget_url
+    p diplomas_widget_storage_name
+    "#{S3_BASE_URL}/#{diplomas_widget_storage_name}"
   end
 
   def widget_gist
@@ -148,6 +179,11 @@ class Edition < ApplicationRecord
   def photos_widget_gist
     %(
 			<iframe class='kapp10-embed' src="#{photos_widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1400px;" scrolling="no"></iframe>)
+  end
+
+  def diplomas_widget_gist
+    %(
+			<iframe class='kapp10-embed' src="#{diplomas_widget_url}" frameborder="0" scrolling="no" frameborder="0" allowfullscreen="" style="border: none; width: 1px; min-width: 100%; *width: 100%; height: 100%; min-height: 1400px;" scrolling="no"></iframe>)
   end
 
   def generate_diplomas

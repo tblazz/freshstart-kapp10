@@ -1,0 +1,13 @@
+<p>Bonjour <%= @result.first_name %> <%= @result.last_name %>,</p>
+
+<p>Merci d'avoir fait confiance à Kapp10 !</p>
+
+<% if attachments.any? %>
+  <p>Vous trouverez votre diplôme en haute qualité en pièce jointe.</p>
+<% else %>
+  <p>Nous avons bien reçu votre commande et allons vous envoyer votre diplôme par voie postale aux coordonnées que vous avez indiquées lors du paiement.</p>
+<% end %>
+
+<p> Bien à vous,</p>
+
+<p>L'équipe Kapp10</p>

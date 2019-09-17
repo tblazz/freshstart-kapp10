@@ -1,6 +1,8 @@
 development:
   adapter: postgresql
   encoding: utf8
+  #url: <%= ENV["DATABASE_URL"] %>
+  #database: freshstart_production
   database: freshstart-dev2
   pool: 20
 

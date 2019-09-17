@@ -1,0 +1,2 @@
+class EmailRequest < ApplicationRecord
+end

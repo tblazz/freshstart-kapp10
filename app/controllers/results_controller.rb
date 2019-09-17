@@ -36,6 +36,25 @@ class ResultsController < ApplicationController
     end
   end
 
+  def email_diploma
+    @result = Result.find(params[:id])
+    if !@result
+      redirect_to :back and return
+    end
+  end
+
+  def process_diploma_email
+    @name = params[:name]
+    @email = params[:email]
+    @result = Result.find(params[:id])
+    if @result
+      EmailRequest.create(id: Time.now.to_i, result_id: @result.id, name: @name, email: @email)
+      ResultMailer.mail_diploma(@result.id, @email).deliver_now
+      flash[:success]="Le diplôme vous a bien été envoyé!"
+      return
+    end 
+  end
+
   def stand_by
     @results = Result.where(runner_id: nil)
   end
