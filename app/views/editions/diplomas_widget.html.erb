@@ -188,7 +188,7 @@ function filterPhotos(pageNumber = 1) {
     }
 
     const photoHTML = `<div class="col-xs-6 col-sm-6 col-md-3 col-lg-2 photo-container">` +
-      `<a href="/results/${diplomasData.result_id}/email_diploma" target="_blank">` +
+      `<a href="${results_emaildiploma_path}?id=${diplomasData.result_id}" target="_blank">` +
       `<div class="photo-front-hover-container">` +
       '<div class="photo-front">' +
       `<img src="${diplomasData.url}">` +
