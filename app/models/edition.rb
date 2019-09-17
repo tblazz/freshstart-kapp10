@@ -100,6 +100,7 @@ class Edition < ApplicationRecord
     results.each do |r|
       if r.diploma.url
         diplomas << {
+          bib: (r.bib) ? r.bib : "",
           result_id: r.id,
           url: r.diploma.url,
           rank:  (r.rank) ? r.rank : r.size + 1,
