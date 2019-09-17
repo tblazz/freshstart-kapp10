@@ -35,7 +35,8 @@ class ResultMailer < ApplicationMailer
     @name = name
     @url = @result.diploma.url
 
-    # p @url
+    p @url
+    p @name
 
     return unless @url # && @result.purchased_at?
 
