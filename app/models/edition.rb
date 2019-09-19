@@ -94,12 +94,13 @@ class Edition < ApplicationRecord
     @phones_count ||= results.pluck(:phone).select{|phone| phone =~ PHONE_REGEX}.length
   end
 
-  def get_widget_diplomas_json
+  def get_widget_diplomas_json(edition_id)
     results     = self.results
     diplomas = []
     results.each do |r|
       if r.diploma.url
         diplomas << {
+          edition_id: edition_id,
           bib: (r.bib) ? r.bib : "",
           result_id: r.id,
           url: r.diploma.url,

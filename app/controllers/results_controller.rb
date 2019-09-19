@@ -38,6 +38,9 @@ class ResultsController < ApplicationController
 
   def email_diploma
     @result = Result.find(params[:id])
+    @url = @result.diploma.url
+    p @url
+    @edition = params[:edition]
     if !@result
       redirect_to :back and return
     end
@@ -46,12 +49,13 @@ class ResultsController < ApplicationController
   def process_diploma_email
     @name = params[:name]
     @email = params[:email]
+    edition_id = params[:edition]
     @result = Result.find(params[:id])
     if @result
       EmailRequest.create(id: Time.now.to_i, result_id: @result.id, name: @name, email: @email)
       ResultMailer.mail_diploma(@result.id, @email, @name).deliver_now
-      flash[:success]="Le diplôme vous a bien été envoyé!"
-      return
+      @edition = Edition.find(edition_id)
+      redirect_to event_edition_path(@edition.event, @edition), notice: "Votre diplôme vous attend dans votre boite email. :)"
     end 
   end
 
