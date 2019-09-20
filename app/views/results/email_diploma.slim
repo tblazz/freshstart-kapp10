@@ -1,3 +1,50 @@
+
+javascript:
+    function validateEmail() 
+    {
+        em = document.getElementById("email")
+        error = document.getElementById('error');
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(String(em.value).toLowerCase())) {
+            em.style.color="red";
+            error.style.color="red";
+            error.style.visibility="visible";
+            error.innerHTML = "Merci de vérifier votre adresse email";
+            bu = document.getElementById('commit');
+            bu.disabled  =true;
+            return 0;
+        }
+        else {
+            em.style.color="green";
+            error.style.visibility="hidden";
+            if (validateName() == 1) {
+                bu = document.getElementById('commit');
+                bu.disabled = false;
+            }
+        }
+    }
+
+    function validateName() 
+    {
+        em = document.getElementById("name")
+        error = document.getElementById('error');
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (String(em.value).toLowerCase().length < 3) {
+            em.style.color="red";
+            error.style.color="red";
+            error.style.visibility="visible";
+            error.innerHTML = "Merci de renseigner votre nom complet.";
+            bu = document.getElementById('commit');
+            bu.disabled = true;
+            return 0;
+        }
+        else {
+            em.style.color="green";
+            error.style.visibility="hidden";
+            return 1;
+        }
+    }
+    
 .div
     img.small_diploma src=@url
 
@@ -12,15 +59,16 @@
 
 .email_form
     h1 Recevoir le diplôme en HD par email
+    div#error
     =form_tag "/results/process_diploma_email" do |f|
         .email_form_field
             = label_tag 'Votre nom'
-            = text_field_tag :name, nil, placeholder: "Mon nom"
+            = text_field_tag :name, nil, placeholder: "Mon nom", onkeyup: "javascript: validateName()"
         .email_form_field
             = label_tag 'Votre adresse email'
-            = text_field_tag :email, nil, placeholder: "me@email.com"
+            = text_field_tag :email, nil, placeholder: "me@email.com", onkeyup: "javascript: validateEmail()"
             = hidden_field_tag  :id, @result.id 
             = hidden_field_tag  :edition, @edition
             br
         .email_form_field 
-            = submit_tag 'Recevoir le diplôme'
+            = submit_tag 'Recevoir le diplôme' , disabled: true, id: "commit"
