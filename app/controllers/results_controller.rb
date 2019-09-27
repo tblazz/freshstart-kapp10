@@ -55,7 +55,8 @@ class ResultsController < ApplicationController
       EmailRequest.create(id: Time.now.to_i, result_id: @result.id, name: @name, email: @email)
       ResultMailer.mail_diploma(@result.id, @email, @name).deliver_now
       @edition = Edition.find(edition_id)
-      redirect_to event_edition_path(@edition.event, @edition), notice: "Votre diplôme vous attend dans votre boite email. :)"
+      flash[:notice] = "Votre diplôme vous attend dans votre boite email. :)"
+      # redirect_to event_edition_path(@edition.event, @edition), notice: "Votre diplôme vous attend dans votre boite email. :)"
     end 
   end
 
