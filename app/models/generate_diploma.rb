@@ -25,7 +25,7 @@ class GenerateDiploma
 
   def html
     return @html if @html
-    #on génère le HTML contenant ces informations
+    #on génère le HTML contenant ces informationsv
     erb_file = "#{Rails.root}/app/views/diploma/#{@template}.html.erb"
     erb_str = File.read(erb_file)
     renderer = ERB.new(erb_str)

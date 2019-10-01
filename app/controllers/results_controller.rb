@@ -1,7 +1,8 @@
 class ResultsController < ApplicationController
+
   layout 'nude', only: [:show, :download]
   protect_from_forgery with: :exception
-  http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: [:show, :download]
+  http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: [:show, :download, :email_diploma, :process_diploma_email, :diploma_thumbnail]
 
   def diploma
     diploma = GenerateDiploma.new(params[:id])
@@ -36,9 +37,30 @@ class ResultsController < ApplicationController
     end
   end
 
+  def diploma_thumbnail
+    @result = Result.find(params[:id])
+    @url = ""
+    @content = ""
+    if @result
+      @url = @result.diploma.url
+      p @url
+      renderer = ERB.new <<-EOF
+      <html>
+      <body>
+      <img src='#{@url}.jpg' width='120' style='padding:none;'>"
+      </body>
+      </html>
+      EOF
+      p renderer
+      @content = renderer.result()
+      @image = IMGKit.new(@content, :width => 120, height: 80).to_img(:jpeg)
+    end
+    send_data @image, type: "image/jpeg", disposition: 'inline' and return
+  end
+
   def email_diploma
     @result = Result.find(params[:id])
-    @url = @result.diploma.url
+    @url = diploma_thumbnail_path(id: @result.id)
     p @url
     @edition = params[:edition]
     if !@result
@@ -55,6 +77,7 @@ class ResultsController < ApplicationController
       EmailRequest.create(id: Time.now.to_i, result_id: @result.id, name: @name, email: @email)
       ResultMailer.mail_diploma(@result.id, @email, @name).deliver_now
       @edition = Edition.find(edition_id)
+      @return_link = @edition.external_link || 'https://kapp10.com'
       flash[:notice] = "Votre diplôme vous attend dans votre boite email. :)"
       # redirect_to event_edition_path(@edition.event, @edition), notice: "Votre diplôme vous attend dans votre boite email. :)"
     end 
