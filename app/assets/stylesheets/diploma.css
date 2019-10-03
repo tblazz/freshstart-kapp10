@@ -324,6 +324,11 @@ input+label {
     padding-top: 20px;
 }
 
+form  {
+    display: table-caption;
+}
+
+
 label {
     font-weight: 900 !important;
     font-family: 'Oswald', sans-serif;
