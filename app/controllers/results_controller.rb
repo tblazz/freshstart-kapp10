@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
-
   layout 'nude', only: [:show, :download]
+  layout 'diploma_form', only: [:email_diploma]
   protect_from_forgery with: :exception
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: [:show, :download, :email_diploma, :process_diploma_email, :diploma_thumbnail]
 
@@ -62,7 +62,7 @@ class ResultsController < ApplicationController
     @result = Result.find(params[:id])
     @url = diploma_thumbnail_path(id: @result.id)
     p @url
-    @edition = params[:edition]
+    @edition = Edition.find(params[:edition])
     if !@result
       redirect_to :back and return
     end

@@ -44,31 +44,33 @@ javascript:
             return 1;
         }
     }
-    
-.div
+
+.generalInfoBox
+    h2
+        = @edition.description
+
+#courseInfoList
     img.small_diploma src=@url style="width:120px" 
+    h3
+        = @result.first_name
+        = " "
+        = @result.last_name
+    h3
+        = "Dossard: "
+        = @result.bib
 
-.name
-    = @result.first_name
-    = " "
-    = @result.last_name
-
-.bib
-    = "Dossard: "
-    = @result.bib
-
-.email_form
-    h1 Recevoir le diplôme en HD par email
-    div#error
-    =form_tag "/results/process_diploma_email" do |f|
-        .email_form_field
-            = label_tag 'Votre nom'
-            = text_field_tag :name, nil, placeholder: "Mon nom", onkeyup: "javascript: validateName()"
-        .email_form_field
-            = label_tag 'Votre adresse email'
-            = text_field_tag :email, nil, placeholder: "me@email.com", onkeyup: "javascript: validateEmail()"
-            = hidden_field_tag  :id, @result.id 
-            = hidden_field_tag  :edition, @edition
-            br
-        .email_form_field 
-            = submit_tag 'Recevoir le diplôme' , disabled: true, id: "commit"
+    .email_form
+        .checked-label Recevoir le diplôme en HD par email
+        div#error
+        =form_tag "/results/process_diploma_email" do |f|
+            .email_form_field
+                = label_tag 'Votre nom'
+                = text_field_tag :name, nil, placeholder: "Mon nom", onkeyup: "javascript: validateName()"
+            .email_form_field
+                = label_tag 'Votre adresse email'
+                = text_field_tag :email, nil, placeholder: "me@email.com", onkeyup: "javascript: validateEmail()"
+                = hidden_field_tag  :id, @result.id 
+                = hidden_field_tag  :edition, @edition.id
+                br
+            .email_form_field 
+                = submit_tag 'Recevoir le diplôme' , disabled: true, id: "commit"
