@@ -1,6 +1,6 @@
 class ResultsController < ApplicationController
   layout 'nude', only: [:show, :download]
-  layout 'diploma_form', only: [:email_diploma]
+  layout 'diploma_form', only: [:email_diploma, :process_diploma_email]
   protect_from_forgery with: :exception
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: [:show, :download, :email_diploma, :process_diploma_email, :diploma_thumbnail]
 
