@@ -28,7 +28,7 @@ h1= "#{@runner.first_name} #{@runner.last_name}"
         - @results.each do |result|
           tr
             td= result.id
-            td= "#{result.race.edition.event.name} #{result.race.edition.description}"
+            td= "#{result.race&.edition&.event&.name} #{result.race&.edition&.description}"
             td= result.rank
             td= result.bib
             td= result.points
