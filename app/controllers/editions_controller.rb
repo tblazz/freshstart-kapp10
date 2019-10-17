@@ -1,5 +1,6 @@
 class EditionsController < ApplicationController
-  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget, :generate_photos_widget, :generate_diplomas, :delete_diplomas, :send_results]
+  before_action :set_edition, only: [:show, :edit, :update, :destroy, :results, :delete_results, :generate_widget, :generate_photos_widget,
+  :generate_diplomas_widget, :generate_diplomas, :delete_diplomas, :send_results]
   helper_method :sort_column, :sort_direction
   http_basic_authenticate_with name: ENV['ADMIN_LOGIN'], password: ENV['ADMIN_PASSWORD'], except: :widget
 
@@ -50,8 +51,16 @@ class EditionsController < ApplicationController
   end
 
   def generate_photos_widget
+    p 'launching photos widget generation'
     GeneratePhotosWidgetJob.perform_later(@edition.id)
     redirect_to results_event_edition_path(@edition.event, @edition), notice: "Le Widget Photos est en cours de génération."
+  end
+
+  def generate_diplomas_widget
+    # p params
+    p 'launching diploma widget generation'
+    GenerateDiplomasWidgetJob.perform_later(@edition.id)
+    redirect_to results_event_edition_path(@edition.event, @edition), notice: "Le Widget Diplômes est en cours de génération."
   end
 
   def photos_widget
@@ -61,11 +70,32 @@ class EditionsController < ApplicationController
     @generated_at = Time.now
 
     render layout: 'photos_widget_layout'
+  end  
+
+  def diplomas_widget
+    @edition      = Edition.find(params[:id])
+    @categories   = @edition.results.pluck(:categ).uniq.sort
+    @diplomas_json  = @edition.get_widget_diplomas_json
+    @generated_at = Time.now
+
+    render layout: 'diplomas_widget_layout'
   end
+
 
   def results
     @runner = @edition.results.empty? ? Result.last : @edition.results.order("RANDOM()").limit(1).first
     @results = @edition.results.search(params[:search]).order(sort_column + ' ' + sort_direction).paginate(:per_page => 50, :page => params[:page])
+    @diplomas = []
+    @results.each do |r|
+      if r.diploma.url
+        @diplomas << {
+          # diploma: r.diploma,
+          id: r.id,
+          url: r.diploma.url
+        }
+      end
+    end
+    # p @diplomas
   end
 
   def delete_results

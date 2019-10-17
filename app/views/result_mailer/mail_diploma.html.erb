@@ -1,0 +1,261 @@
+<% url = @result.diploma.url(:freemium) %>
+<% result_url = Rails.application.routes.url_helpers.result_url(@result.id, host: DOMAIN_URL) %>
+<% body_font_color = @result.edition.template == 'template_raid' ? '#fff' : '000' %>
+<% body_background = @result.edition.template == 'template_raid' ? sanitize("url(\"/templates/template_raid/images/SFR_Fond_A3paysage_Bleu.png\")") : '#fff' %>
+<% body_style = "font-family: Lato; background: #{body_background}; color: #{body_font_color}" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="fr">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta content="width=device-width" name="viewport"/>
+    <meta property="og:url"           content='<%= result_url %>' />
+    <meta property="og:type"          content='fitness.achievement' />
+    <meta property="og:site_name"     content='Kappsports' />
+    <meta property="og:title"         content='<%= "#{@result.first_name} a fini la course #{@result.race_detail} !" %>' />
+    <meta property="og:description"   content='<%= "Voir le diplôme de #{@result.first_name} !" %>' />
+    <meta property="og:image"         content='<%= @result.diploma.url(:freemium) %>' />
+    <% if ENV['FB_APP_ID'].present? %>
+      <meta property="fb:app_id" content='<%= ENV['FB_APP_ID'] %>' />
+    <% end %>
+    <meta name="twitter:card" content="summary_large_image">
+    <style>
+      .result-message {
+        margin: auto;
+        width: 80%;
+      }
+
+      .result-message > .result-message-text {
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+
+      .result-message > .result-message-text > .result-rank {
+        font-size: 90px;
+      }
+
+      .result-message > .result-message-text > .result-rank > .result-rank-ordinal {
+        font-size: 16px;
+        position: relative;
+        top: -50px;
+      }
+
+      .result-image {
+        width: 100%;
+      }
+
+      .result-share-links {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 40px 0 20px 0;
+      }
+
+      .result-share-links > .result-share-links-left, .result-share-links > .result-share-links-right {
+        margin: 0 40px 20px;
+        text-align: center;
+        width: 250px;
+      }
+
+      .result-share-links .result-share-link {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .result-share-links .result-share-link > .result-share-link-text {
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+
+      .result-ctas {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .result-ctas > .result-ctas-left, .result-ctas > .result-ctas-right {
+        background-color: #000;
+        margin: 0 40px 20px;
+        text-align: center;
+        width: 250px;
+      }
+
+      .result-ctas .result-cta-link {
+        display: inline-block;
+        padding: 15px;
+        text-decoration: none;
+        width: 80%;
+      }
+
+      .result-ctas .result-cta-link > .result-cta-text {
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .result-footer {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: : center;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .result-footer > .result-footer-link {
+        color: inherit;
+        margin: 0 40px 20px;
+        text-align: center;
+        text-decoration: none;
+        width: 250px;
+      }
+
+      .result-footer > .result-footer-link > .result-footer-link-text {
+        font-size: 16px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+
+  <body style="background-image: <%= body_background %>; color: <%= body_font_color %>; font-family: Lato;">
+    <script>
+      const share = (url, name, race, downloadUrl) => {
+        if (navigator.share) {
+          navigator.share({
+            title: '%{name} a terminé la course %{race} !',
+            url: url,
+          }).then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+        } else {
+          location.href = downloadUrl;
+        }
+      };
+    </script>
+
+    <div class="result-message" style="margin: auto; width: 80%;">
+      <p class="result-message-text" style="font-size: 16px; text-transform: uppercase;">
+        <% if @result.edition.template == 'template_raid' %>
+          <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
+          Vous êtes
+        <% else %>
+          Bravo <strong><%= @result.first_name %> <%= @result.last_name %></strong>,
+          Tu es
+        <% end %>
+        <%= @result.sex == 'M' ? 'arrivé' : 'arrivée' %>
+        <br/>
+        <span class="result-rank" style="font-size: 90px;">
+          <%= @result.rank %><span class="result-rank-ordinal" style="font-size: 16px; position: relative; top: -50px;">
+            <% if @result.rank == 1 %>
+              <%= @result.sex == 'M' ? 'er' : 'ère' %>
+            <% else %>
+              ème
+            <% end %>
+          </span>
+        </span>
+        <br/>
+        de la course
+        <strong><%= @result.race_detail %></strong>
+        en <strong><%= @result.time %></strong>.
+      </p>
+    </div>
+
+    <img src="<%= url %>" class="result-image" style="width: 100%;">
+
+    <div class="result-share-links" style = "display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin: 40px 0 20px 0;">
+      <div class="result-share-links-left" style="margin: 0 40px 20px; text-align: center; width: 250px;">
+        <% quote = URI.encode("#{@result.first_name} a fini la course #{@result.race_detail} !") %>
+        <% if ENV['FB_APP_ID'].present? %>
+          <% facebook_link = "https://www.facebook.com/dialog/share?app_id=#{ENV['FB_APP_ID']}&display=popup&href=#{result_url}&redirect_uri=#{result_url}" %>
+        <% else %>
+          <% facebook_link = "https://www.facebook.com/sharer/sharer.php?u=#{result_url}&quote=#{quote}&hashtag=%23Kapp10" %>
+        <% end %>
+        <a href="<%= facebook_link %>" class="result-share-link" style= "color: inherit; text-decoration: none;">
+          <span class="result-share-link-text" style="font-size: 16px; text-transform: uppercase;">
+            Partager sur Facebook
+          </span>
+        </a>
+        |
+        <% twitter_link = "https://twitter.com/intent/tweet?url=#{result_url}&hashtags=#{@result.race_detail}%2CKapp10&text=#{quote}"%>
+        <a href="<%= twitter_link %>" class="result-share-link" style="color: inherit; text-decoration: none;">
+          <span class="result-share-link-text" style="font-size: 16px; text-transform: uppercase;">
+            Twitter
+          </span>
+        </a>
+      </div>
+
+      <% if @result.edition.download_chargeable? %>
+        <div class="result-share-links-right" style="margin: 0 40px 20px; text-align: center; width: 250px;">
+          <a href="" class="result-share-link" style="text-decoration: none;" onclick="share('<%= url %>', '<%= @result.first_name %>', '<%= @result.race_detail %>', '<%= download_diploma_url(@result.id, format: :jpg) %>');return false;">
+            <span class="result-share-link-text" style="color: #000; font-size: 16px;
+  text-transform: uppercase;">
+              Autre partage
+            </span>
+          </a>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="result-ctas" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin: 20px 0;">
+      <div class="result-ctas-left" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 260px;">
+        <% if @result.edition.download_chargeable? %>
+          <a href="<%= result_payment_url(result_id: @result.id, sending_type: 'email') %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
+            <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
+              Télécharger le diplôme (version imprimable : <%= number_to_currency(@result.edition.download_chargeable_price, precision: 2) %>)
+            </span>
+          </a>
+        <% else %>
+          <a href="<%= download_diploma_url(@result.id, format: :jpg) %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
+            <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
+              Télécharger le diplôme en haute qualité
+            </span>
+          </a>
+        <% end %>
+      </div>
+      <% if @result.edition.sendable_at_home? %>
+        <div class="result-ctas-right" style="background-color: #000; margin: 0 40px 20px; text-align: center; width: 260px;">
+          <a href="<%= result_payment_url(result_id: @result.id) %>" class="result-cta-link" style="display: inline-block; padding: 15px; text-decoration: none; width: 80%;">
+            <span class="result-cta-text" style="font-size: 16px; color: #fff; font-weight: bold; text-decoration: none; text-transform: uppercase;">
+              Recevoir le diplôme à domicile (<%= number_to_currency(@result.edition.sendable_at_home_price, precision: 2) %>)
+            </span>
+          </a>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="result-footer" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin: 20px 0;">
+      <a href="http://kapp10.com/cgu-photoperformance/" class="result-footer-link" style="color: inherit; margin: 0 40px 20px; text-align: center; text-decoration: none; width: 250px;">
+        <span class="result-footer-link-text" style="font-size: 16px; text-transform: uppercase;">
+          Mentions légales
+        </span>
+      </a>
+
+      <a href="http://kapp10.com" class="result-footer-link" style="color: inherit; margin: 0 40px 20px; text-align: center; text-decoration: none; width: 250px;">
+        <span class="result-footer-link-text" style="font-size: 16px; text-transform: uppercase;">
+          Powered by Kapp10
+        </span>
+      </a>
+    </div>
+  </body>
+</html>
+
+<%
+=begin%>
+ <p>Bonjour <%= @name %>,</p>
+
+<p>Merci d'avoir fait confiance à Kapp10 !</p>
+
+<% if attachments.any? %>
+  <p>Vous trouverez le diplôme demandé en haute qualité en pièce jointe.</p>
+<% else %>
+  <p>Nous avons bien reçu votre commande et allons vous envoyer votre diplôme par voie postale aux coordonnées que vous avez indiquées lors du paiement.</p>
+<% end %>
+
+<p> Bien à vous,</p>
+
+<p>L'équipe Kapp10</p> 
+<%
+=end%>

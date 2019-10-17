@@ -66,6 +66,8 @@
           a aria-controls="widget" data-toggle="tab" href="#widget" role="tab"  Widget
         li role="presentation"
           a aria-controls="photos-widget" data-toggle="tab" href="#photos-widget" role="tab"  Widget Photos
+        li role="presentation"
+          a aria-controls="diplomas-widget" data-toggle="tab" href="#diplomas-widget" role="tab"  Widget Diplômes
       /! Tab panes
       .tab-content
         #results.tab-pane.active role="tabpanel"
@@ -115,4 +117,25 @@
             .col-sm-12.top-buffer
               h4 Widget Photos
               = @edition.photos_widget_gist.html_safe
+        
+        #diplomas-widget.tab-pane role="tabpanel"
+          .col-sm-12.top-buffer.text-center
+            p
+              - if @edition.diplomas_widget_generated_at.nil?
+                | Le Widget Diplômes n'a pas encore été généré.
+              - else
+                | Widget Diplômes généré le #{I18n.l @edition.diplomas_widget_generated_at}.
+            = link_to "Générer le Widget Diplômes", generate_diplomas_widget_event_edition_path(@edition.event, @edition), class: "btn btn-primary", "data-method" => :post
+            = link_to "Afficher le Widget Diplômes", @edition.diplomas_widget_url, class: "btn btn-default", target: "_widget" unless @edition.diplomas_widget_generated_at.nil?
+          - unless @edition.diplomas_widget_generated_at.nil?
+            .col-sm-12
+              h4 Code pour afficher le Widget Diplômes
+              textarea.form-control rows="5" = @edition.diplomas_widget_gist
+            .col-sm-12.top-buffer
+              h4 Widget Dipômes
+              = @edition.diplomas_widget_gist.html_safe
+              - @diplomas.each do |d|
+                .col-sm-12
+                  =link_to "#email/#{d[:id]}" do 
+                    =image_tag d[:url], class: "thumbnail"
         

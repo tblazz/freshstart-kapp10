@@ -40,6 +40,7 @@ class Race < ActiveRecord::Base
   has_many :runners, through: :scores
   has_many :results
   has_many :photos
+  has_many :diplomas
 
   delegate :event, to: :edition, allow_nil: true
 

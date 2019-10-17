@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190710152328) do
+ActiveRecord::Schema.define(version: 20190917132722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "unaccent"
+  enable_extension "uuid-ossp"
 
   create_table "challenges", force: :cascade do |t|
     t.string   "name"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 20190710152328) do
     t.boolean  "download_chargeable",             default: false
     t.integer  "download_chargeable_price_cents"
     t.string   "registration_link"
+    t.datetime "diplomas_widget_generated_at"
+  end
+
+  create_table "email_requests", id: :bigint, force: :cascade do |t|
+    t.string   "email"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid     "result_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -134,7 +143,7 @@ ActiveRecord::Schema.define(version: 20190710152328) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "edition_id"
-    t.string   "direct_image_url",                   null: false
+    t.string   "direct_image_url"
     t.boolean  "processed",          default: false
     t.index ["race_id"], name: "index_photos_on_race_id", using: :btree
   end
