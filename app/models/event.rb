@@ -23,6 +23,8 @@
 #
 
 class Event < ApplicationRecord
+  extend Enumerize
+
   geocoded_by :place
   after_validation :geocode, if: :place_changed?
 
@@ -34,6 +36,13 @@ class Event < ApplicationRecord
   validates :name, presence: true, length: { in: 2..50 }
 
   scope :with_client, ->(client_id) { where('client_1=? OR client_2=? OR client_3=?', client_id, client_id, client_id) }
+
+  DEPARTMENTS = ['01', '02', '03', '04', '05', '06', '07', '08', '09'] + (10..99).to_a + ["2A", "2B",
+    "Albacete", "Alicante", "Almería", "Araba", "Asturias", "Ávila", "Badajoz", "Barcelona", "Bizkaia", "Burgos", "Cáceres", "Cadix", "Cantabria",
+    "Castellón", "Ciudad Real", "Córdoba", "Cuenca", "Gerona", "Gipuzkoa", "Granada", "Guadalajara", "Huelva", "Huesca", "Islas Baleares", "Jaén",
+    "La Coruña", "La Rioja", "Las Palmas", "León", "Lleida", "Lugo", "Madrid", "Málaga", "Murcia", "Nafarroa", "Orense", "Palencia", "Pontevedra",
+    "Salamanca", "Santa Cruz de Tenerife", "Segovia", "Sevilla", "Soria", "Tarragona", "Teruel", "Toledo", "Valencia", "Valladolid", "Zamora", "Zaragoza"
+  ]
 
   def self.import(file)
     CSV.foreach(file.path, col_sep: ';', row_sep: :auto, headers: true) do |row|
