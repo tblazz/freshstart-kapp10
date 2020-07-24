@@ -24,8 +24,8 @@ class SMS
       edition_name_mail: edition_name_mail,
       rank:              rank,
       edition_detail:    edition_detail,
-      results_url:       UrlShortenerService.new(results_url).call,
-      url:               UrlShortenerService.new(url).call,
+      results_url:       UrlShorteners::CreateUrlShortenerService.new(results_url).call,
+      url:               UrlShorteners::CreateUrlShortenerService.new(url).call,
     }
   end
 

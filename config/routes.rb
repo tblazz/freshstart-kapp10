@@ -83,6 +83,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :url_shorteners, only: [:index] do
+    collection do
+      delete 'delete_all'
+    end
+  end
+
   #############################
   # Routes pour l'API
   #############################
