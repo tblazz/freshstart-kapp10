@@ -21,7 +21,7 @@ module UrlShorteners
         sleep waiting_time
       end
 
-      DeleteBatchUrlShortenersJob.perform_now(@csv_filename, @batch_index + 1)
+      DeleteBatchUrlShortenersJob.perform_later(@csv_filename, @batch_index + 1)
     end
 
     private

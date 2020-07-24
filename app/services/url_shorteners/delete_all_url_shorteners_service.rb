@@ -5,7 +5,7 @@ module UrlShorteners
       BuildAllUrlShortenersService.new(csv_filename).call
 
       puts "### Delete all url shorteners ###"
-      DeleteBatchUrlShortenersJob.perform_now(csv_filename)
+      DeleteBatchUrlShortenersJob.perform_later(csv_filename)
     end
 
     private
