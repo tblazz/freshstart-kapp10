@@ -2,7 +2,11 @@ h1 URL raccourcies
 .row
   .col-xs-12
     p
-      strong.text-orange = @rebrandly_link_count
+      strong style="color: orange;" = @rebrandly_link_count
       =< "#{fr_pluralize("lien", @rebrandly_link_count)} URL Rebrandly"
     p
-      = link_to 'Supprimer toutes les URL Rebrandly', delete_all_url_shorteners_path, method: :delete, class: 'btn btn-danger'
+      = link_to 'Supprimer toutes les URL Rebrandly',
+                delete_all_url_shorteners_path,
+                method: :delete,
+                confirm: "Êtes-vous de supprimer toutes les URL Rebrandly ?",
+                class: 'btn btn-danger'
