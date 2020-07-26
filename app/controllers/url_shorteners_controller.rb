@@ -3,6 +3,8 @@ class UrlShortenersController < ApplicationController
   end
 
   def delete_all
-    UrlShorteners::DeleteAllUrlShortenersService.new.call
+    UrlShorteners::DeleteAllUrlShortenersJob.perform_later
+
+    redirect_to root_path, notice: "Lancement de la suppression des URL raccourcies."
   end
 end

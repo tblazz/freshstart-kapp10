@@ -21,7 +21,7 @@ module UrlShorteners
         sleep waiting_time
       end
 
-      DeleteBatchUrlShortenersJob.perform_later(@link_ids, @batch_index + 1)
+      UrlShorteners::DeleteBatchUrlShortenersJob.perform_later(@link_ids, @batch_index + 1)
     end
 
     private
