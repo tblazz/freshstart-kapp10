@@ -1,1 +1,8 @@
-= link_to 'Supprimer tous les URL raccourcies Rebrandly', delete_all_url_shorteners_path, method: :delete, class: 'btn btn-danger'
+h1 URL raccourcies
+.row
+  .col-xs-12
+    p
+      strong.text-orange = @rebrandly_link_count
+      =< "#{fr_pluralize("lien", @rebrandly_link_count)} URL Rebrandly"
+    p
+      = link_to 'Supprimer toutes les URL Rebrandly', delete_all_url_shorteners_path, method: :delete, class: 'btn btn-danger'
