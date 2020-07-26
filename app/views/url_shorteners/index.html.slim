@@ -8,5 +8,5 @@ h1 URL raccourcies
       = link_to 'Supprimer toutes les URL Rebrandly',
                 delete_all_url_shorteners_path,
                 method: :delete,
-                confirm: "Êtes-vous de supprimer toutes les URL Rebrandly ?",
+                'data-confirm': "Êtes-vous sûr de vouloir supprimer toutes les URL Rebrandly ?",
                 class: 'btn btn-danger'
