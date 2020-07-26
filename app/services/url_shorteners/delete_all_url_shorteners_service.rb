@@ -1,21 +1,22 @@
 module UrlShorteners
   class DeleteAllUrlShortenersService
     def call
-      puts "### Build all url shorteners ###"
-      BuildAllUrlShortenersService.new(csv_filename).call
-
-      puts "### Delete all url shorteners ###"
-      DeleteBatchUrlShortenersJob.perform_later(csv_filename)
+      build_all_url_shortener_link_ids
+      launch_delete_of_url_shorteners_first_batch
     end
 
     private
 
-    def csv_filename
-      @csv_filename ||= "#{timestamp}_rebrandly_link_ids.csv"
+    def build_all_url_shortener_link_ids
+      puts "### Build all url shorteners ###"
+
+      @link_ids = BuildAllUrlShortenerLinkIdsService.new.call
     end
 
-    def timestamp
-      @timestamp ||= Time.now.to_i
+    def launch_delete_of_url_shorteners_first_batch
+      puts "### Delete all url shorteners ###"
+
+      DeleteBatchUrlShortenersJob.perform_later(@link_ids)
     end
   end
 end

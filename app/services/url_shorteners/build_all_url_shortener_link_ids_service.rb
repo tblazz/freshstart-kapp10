@@ -1,9 +1,8 @@
 require 'csv'
 
 module UrlShorteners
-  class BuildAllUrlShortenersService
+  class BuildAllUrlShortenerLinkIdsService
     def initialize(csv_filename = nil)
-      @csv_filename    = csv_filename || "rebrandly_link_ids.csv"
       @link_ids        = []
       @api_rate        = 10
       @number_by_batch = 25
@@ -19,19 +18,11 @@ module UrlShorteners
     end
 
     def add_batch_link_ids
-      batch_links.each { |link| add_link(link.id) }
-
-      sleep waiting_time
-    end
-
-    def add_link(link_id)
-      csv_options = { col_sep: ',', force_quotes: true, quote_char: '"' }
-
-      CSV.open(csv_filepath, 'ab', csv_options) do |csv|
-        csv << [link_id]
+      batch_links.each do |link|
+        @link_ids << link.id
       end
 
-      @link_ids << link_id
+      sleep waiting_time
     end
 
     def batch_links
@@ -48,10 +39,6 @@ module UrlShorteners
 
     def rebrandly_api
       @rebrandly_api ||= Rebrandly::Api.new
-    end
-
-    def csv_filepath
-      @csv_filepath ||= "tmp/#{@csv_filename}"
     end
   end
 end

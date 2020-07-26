@@ -2,11 +2,11 @@ require 'csv'
 
 module UrlShorteners
   class DeleteBatchUrlShortenersService
-    def initialize(csv_filename, batch_index = 0)
-      @batch_index  = batch_index
-      @api_rate     = 10
-      @batch_size   = 500
-      @csv_filename = csv_filename
+    def initialize(link_ids, batch_index = 0)
+      @link_ids    = link_ids
+      @batch_index = batch_index
+      @api_rate    = 10
+      @batch_size  = 500
     end
 
     def call
@@ -21,7 +21,7 @@ module UrlShorteners
         sleep waiting_time
       end
 
-      DeleteBatchUrlShortenersJob.perform_later(@csv_filename, @batch_index + 1)
+      DeleteBatchUrlShortenersJob.perform_later(@link_ids, @batch_index + 1)
     end
 
     private
@@ -33,11 +33,7 @@ module UrlShorteners
     def batch_link_ids
       batch_end = (batch_start + @batch_size) - 1
 
-      @batch_link_ids ||= link_ids[batch_start..batch_end]
-    end
-
-    def link_ids
-      CSV.foreach(csv_filepath).to_a.flatten
+      @batch_link_ids ||= @link_ids[batch_start..batch_end]
     end
 
     def waiting_time
@@ -46,10 +42,6 @@ module UrlShorteners
 
     def rebrandly_api
       @rebrandly_api ||= Rebrandly::Api.new
-    end
-
-    def csv_filepath
-      @csv_filepath ||= "tmp/#{@csv_filename}"
     end
   end
 end
