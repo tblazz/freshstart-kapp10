@@ -8,8 +8,8 @@
           = f.input :bib, label: false, value: photo.bib
         - unless [:not_paired, :invalid_bib].include? photo.runner
           p.text-success
-            = photo.runner.runner.first_name
-            =< photo.runner.runner.last_name
+            = photo.runner.first_name
+            =< photo.runner.last_name
         - else
           p.text-muted Dossard introuvable pour cette course
       = f.submit "Enregistrer", class: 'btn-default btn-group-justified', data: { disable_with: "Enregistrement..." }
