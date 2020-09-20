@@ -124,7 +124,7 @@
               <select name="filterCategory" id="filterCategory" class="search-input filtersSearch filtersCategory filterCategoryBg">
                 <option value="all">Toutes les cat&eacute;gories</option>
                 <% @categories.each do |category| %>
-                  <option value="<%= category.parameterize %>"><%= category %></option>
+                  <option value="<%= category %>"><%= category %></option>
                 <% end %>
               </select>
             <% end %>
