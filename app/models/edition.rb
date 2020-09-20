@@ -107,7 +107,7 @@ class Edition < ApplicationRecord
           rank:  (r.rank) ? r.rank : r.size + 1,
           race:  r.race_detail.parameterize,
           sex:   r.sex.parameterize,
-          categ: r.categ.parameterize,
+          categ: r.categ,
           firstname: (r.first_name)? r.first_name.gsub(/'/, " ") : "",
           lastname: (r.last_name) ? r.last_name.gsub(/'/, " ") : "",
           name:  (r.name) ? r.name.gsub(/'/, " "): "" # fix problem with `'` in names 
