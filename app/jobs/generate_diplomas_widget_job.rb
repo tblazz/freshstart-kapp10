@@ -8,7 +8,7 @@ class GenerateDiplomasWidgetJob < ActiveJob::Base
     # p "Edition id: " 
     # p edition_id
     @edition      = Edition.find(edition_id)
-    @categories   = @edition.results.pluck(:categ).uniq.sort
+    @categories   = @edition.results.pluck(:categ).uniq
     @diplomas  = @edition.get_widget_diplomas_json(@edition.id)
     @generated_at = Time.now
 
