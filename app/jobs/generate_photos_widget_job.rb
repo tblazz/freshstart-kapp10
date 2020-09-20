@@ -6,14 +6,13 @@ class GeneratePhotosWidgetJob < ActiveJob::Base
 
   def perform(edition_id)
     @edition      = Edition.find(edition_id)
-    @categories   = @edition.results.pluck(:categ).uniq.sort
-    @photos_json  = @edition.get_widget_photos_json
+    #@categories   = @edition.results.pluck(:categ).uniq.sort
+    #@photos_json  = @edition.get_widget_photos_json
     @generated_at = Time.now
 
     erb_file = "#{Rails.root}/app/views/editions/photos_widget.html.erb"
     erb_str  = File.read(erb_file)
     renderer = ERB.new(erb_str)
-    binding.pry
 
     if renderer
       html       = renderer.result(binding)
