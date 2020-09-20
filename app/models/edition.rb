@@ -138,7 +138,7 @@ class Edition < ApplicationRecord
         rank:  (result && result.rank) ? result.rank : results.size + 1,
         race:  result ? result.race_detail.parameterize : '',
         sex:   result ? result.sex.parameterize : '',
-        categ: result ? result.categ.parameterize : '',
+        categ: result ? result.categ : '',
         name:  name.gsub(/'/, " "), # fix problem with `'` in names 🤷
       }
     end
