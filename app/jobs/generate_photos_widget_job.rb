@@ -6,7 +6,7 @@ class GeneratePhotosWidgetJob < ActiveJob::Base
 
   def perform(edition_id)
     @edition      = Edition.find(edition_id)
-    #@categories   = @edition.results.pluck(:categ).uniq.sort
+    @categories   = @edition.results.pluck(:categ).uniq.sort
     @photos_json  = @edition.get_widget_photos_json
     @generated_at = Time.now
 
