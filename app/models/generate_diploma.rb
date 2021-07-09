@@ -28,7 +28,6 @@ class GenerateDiploma
   def html(for_image_kit: false)
     return @html if @html
 
-    @for_image_kit = for_image_kit
     @prefix_path = for_image_kit ? "#{Rails.root}/public" : DOMAIN_URL
 
     #on génère le HTML contenant ces informationsv
