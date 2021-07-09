@@ -14,17 +14,22 @@ class GenerateDiploma
     @race_name = "#{@result.edition.event.name}"
     @race_date = I18n.l @result.edition.date
     @race_detail = @result.race_detail
+
     if @result.photo == :no_photo
       @background_image_url = @result.edition.background_image.url(photo_format)
     else
       @background_image_url = @result.photo.image.url
     end
+
     Rails.logger.debug "width = #{IMAGE_WIDTH[@template]}"
     Rails.logger.debug "height = #{IMAGE_HEIGHT[@template]}"
   end
 
-  def html
+  def html(for_image_kit: false)
     return @html if @html
+
+    @prefix_path = for_image_kit ? "#{Rails.root}/public" : DOMAIN_URL
+
     #on génère le HTML contenant ces informationsv
     erb_file = "#{Rails.root}/app/views/diploma/#{@template}.html.erb"
     erb_str = File.read(erb_file)
@@ -34,7 +39,6 @@ class GenerateDiploma
   end
 
   def image_kit(height, width)
-    IMGKit.new html, height: IMAGE_HEIGHT[@template],
-                     width: IMAGE_WIDTH[@template]
+    IMGKit.new html(for_image_kit: true), height: IMAGE_HEIGHT[@template], width: IMAGE_WIDTH[@template]
   end
 end
