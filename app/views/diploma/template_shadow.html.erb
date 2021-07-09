@@ -19,28 +19,28 @@
 
 		@font-face {
 		    font-family: 'HelveticaNeueLTStd-ThCn';
-		    src: url("<%= @prefix_path %>/templates/template_base1000x666/fonts/HelveticaNeueLTStd-ThCn.ttf")  format('truetype');
+		    src: url("<%= @prefix_path %>/templates/template_shadow/fonts/HelveticaNeueLTStd-ThCn.ttf")  format('truetype');
 		    font-weight: normal;
 		    font-style: normal;
 		}
 
 		@font-face {
 		    font-family: 'Antonio-Bold';
-				src: url("<%= @prefix_path %>/templates/template_base1000x666/fonts/Antonio-Bold.ttf")  format('truetype');
+				src: url("<%= @prefix_path %>/templates/template_shadow/fonts/Antonio-Bold.ttf")  format('truetype');
 		    font-weight: normal;
 		    font-style: normal;
 		}
 
 		@font-face {
 		    font-family: 'Helvetica-Roman';
-		    src: url("<%= @prefix_path %>/templates/template_base1000x666/fonts/Helvetica-Roman.ttf")  format('truetype');
+		    src: url("<%= @prefix_path %>/templates/template_shadow/fonts/Helvetica-Roman.ttf")  format('truetype');
 		    font-weight: normal;
 		    font-style: normal;
 		}
 
 		@font-face {
 			font-family: 'HelveticaLTStd-BlkCond';
-			src: url("<%= @prefix_path %>/templates/template_base1000x666/fonts/HelveticaLTStd-BlkCond.ttf")  format('truetype');
+			src: url("<%= @prefix_path %>/templates/template_shadow/fonts/HelveticaLTStd-BlkCond.ttf")  format('truetype');
 			font-weight: normal;
 			font-style: normal;
 		}
@@ -72,7 +72,7 @@
 		  height: 666px;
 			position: absolute;
 			top: 0px;
-      background-image: url("<%= @prefix_path %>/templates/template_base1000x666/images/shadow_v3.png");
+      background-image: url("<%= @prefix_path %>/templates/template_shadow/images/shadow_v3.png");
 			opacity: 0.98;
 		  z-index: 1;
 		}
@@ -248,10 +248,10 @@
 					<div class="number">Dossard n° <%= @number %></div>
 				</div>
 			</div>
-			<img src="<%= @prefix_path %>/templates/template_base1000x666/images/chrono.png" alt="chrono" class="chrono_logo">
+			<img src="<%= @prefix_path %>/templates/template_shadow/images/chrono.png" alt="chrono" class="chrono_logo">
 			<div class="chrono_caption">Temps réalisé</div>
 			<div class="chrono"><%= @time %></div>
-			<img src="<%= @prefix_path %>/templates/template_base1000x666/images/horloge.png" alt="horloge" class="speed_logo">
+			<img src="<%= @prefix_path %>/templates/template_shadow/images/horloge.png" alt="horloge" class="speed_logo">
 			<div class="speed_caption">Vitesse moyenne</div>
 			<div class="speed"><%= @speed %><span>km/h</span></div>
 		</div>
